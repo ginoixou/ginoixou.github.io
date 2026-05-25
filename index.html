@@ -1565,6 +1565,17 @@ window.addEventListener('DOMContentLoaded', () => {
 
 /* Portal init */
 function initPortal() {
+  /* Re-expose functions globally so HTML onclick handlers can reach them */
+  window.showSec      = showSec;
+  window.openModal    = openModal;
+  window.closeModal   = closeModal;
+  window.closeMBg     = closeMBg;
+  window.renderProj   = renderProj;
+  window.filterBlog   = filterBlog;
+  window.toggleForm   = toggleForm;
+  window.publishPost  = publishPost;
+  window.filterProjects = typeof filterProjects !== 'undefined' ? filterProjects : null;
+
 
 }
 </script>
