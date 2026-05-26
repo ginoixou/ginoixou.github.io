@@ -447,12 +447,36 @@ function showSec(n,btn){
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
   if(btn)btn.classList.add('active');window.scrollTo(0,0);
 }
+/* All functions are global — initPortal just triggers the first render */
 function initPortal(){
   document.getElementById('hdr-name').textContent='IXOU';
   document.getElementById('hdr-tag').textContent='Ciudad Consciente';
   document.getElementById('hdr-right').textContent=PROYECTOS.length+' PROYECTOS · '+livePosts.length+' NOVEDADES';
   renderDash();renderProj();renderBlog();
+  /* Make sure nav buttons work */
+  window.showSec=showSec;
+  window.openModal=openModal;
+  window.closeModal=closeModal;
+  window.closeMBg=closeMBg;
+  window.renderProj=renderProj;
+  window.filterBlog=filterBlog;
+  window.toggleForm=toggleForm;
+  window.publishPost=publishPost;
 }
+/* Pre-expose before login so header buttons work immediately */
+window.showSec=function(n,btn){
+  ['dashboard','proyectos','blog'].forEach(s=>document.getElementById('sec-'+s).style.display='none');
+  document.getElementById('sec-'+n).style.display='block';
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  if(btn)btn.classList.add('active');window.scrollTo(0,0);
+};
+window.openModal=function(id){openModal(id)};
+window.closeModal=function(){closeModal()};
+window.closeMBg=function(e){closeMBg(e)};
+window.renderProj=function(){renderProj()};
+window.filterBlog=function(c,b){filterBlog(c,b)};
+window.toggleForm=function(){toggleForm()};
+window.publishPost=function(){publishPost()};
 function renderDash(){
   const eo=PROYECTOS.filter(p=>p.obra==='obra').length,ep=PROYECTOS.filter(p=>p.obra==='pozo').length,et=PROYECTOS.filter(p=>p.obra==='terminado').length;
   document.getElementById('stats-row').innerHTML=`<div class="stat-cell"><div class="stat-n">${PROYECTOS.length}</div><div class="stat-l">Proyectos</div></div><div class="stat-cell"><div class="stat-n">${et}</div><div class="stat-l">Terminados</div><div class="stat-sub">${eo} en obra · ${ep} en pozo</div></div><div class="stat-cell"><div class="stat-n">${eo+ep}</div><div class="stat-l">En desarrollo</div></div><div class="stat-cell"><div class="stat-n">${livePosts.length}</div><div class="stat-l">Novedades</div></div>`;
