@@ -49,7 +49,7 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
 .dash-hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,8vw,7rem);letter-spacing:.04em;line-height:.92;color:var(--white);margin-bottom:1.5rem;position:relative}
 .dash-hero h1 em{color:var(--accent);font-style:normal}
 /* ── STATS ── */
-.stats-row{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--gray1);border-bottom:1px solid var(--gray1)}
+.stats-row{display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--gray1);border-bottom:1px solid var(--gray1)}
 .stat-cell{padding:2rem 2.5rem;border-right:1px solid var(--gray1);position:relative}
 .stat-cell:last-child{border-right:none}
 .stat-cell::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:var(--accent);transition:width .4s}
@@ -242,10 +242,23 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
 <!-- DASHBOARD -->
 <section id="sec-dashboard">
   <div class="dash-hero">
-    <div class="dash-hero-eyebrow">Portal de inmobiliarias</div>
-    <h1><em>IXOU</em><br>Ciudad Consciente</h1>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(1.8rem,4vw,3rem);letter-spacing:.08em;color:var(--white);margin-bottom:.5rem;">Portal de inmobiliarias</div>
+    <div style="font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--gray4);">Ciudad Consciente &nbsp;◇&nbsp; IXOU</div>
   </div>
   <div class="stats-row" id="stats-row"></div>
+  <!-- MAP: ubicación de proyectos -->
+  <div style="max-width:1200px;margin:0 auto;padding:2rem 2rem 0;">
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:.9rem;letter-spacing:3px;text-transform:uppercase;color:var(--gray4);margin-bottom:1rem;padding-bottom:8px;border-bottom:1px solid var(--gray1);">Ubicación de proyectos — Montevideo, Uruguay</div>
+    <div style="position:relative;width:100%;height:380px;border:1px solid var(--gray1);overflow:hidden;background:var(--black2);">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m56!1m8!1m3!1d26428.04!2d-56.172!3d-34.910!3m2!1i1024!2i768!4f13.1!4m45!3e2!4m5!1s0x959f80e4e0db0e57%3A0x1!2sAndes+1165%2C+Barrio+Sur%2C+Montevideo!3m2!1d-34.9065!2d-56.1871!4m5!1s0x959f80e4e0db0e57%3A0x2!2sCanelones+896%2C+Barrio+Sur%2C+Montevideo!3m2!1d-34.9058!2d-56.1865!4m5!1s0x959f80f3a2b0!2sCiudadela+1278%2C+Ciudad+Vieja%2C+Montevideo!3m2!1d-34.9051!2d-56.1952!4m5!1s0x959f80d7!2sAquiles+Lanza+1270%2C+Centro%2C+Montevideo!3m2!1d-34.9038!2d-56.1842!4m5!1s0x959f7e!2sRambla+Armenia+3669%2C+Buceo%2C+Montevideo!3m2!1d-34.8978!2d-56.1412!4m5!1s0x959f7d!2sH%C3%A9ctor+Miranda+2437%2C+Punta+Carretas%2C+Montevideo!3m2!1d-34.9178!2d-56.1512!4m5!1s0x959f7c!2sV%C3%A1zquez+Ledesma+3000%2C+Punta+Carretas%2C+Montevideo!3m2!1d-34.9195!2d-56.1498!5e0!3m2!1ses!2suy!4v1700000000000!5m2!1ses!2suy"
+        width="100%" height="100%" style="border:0;filter:invert(90%) hue-rotate(180deg);"
+        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+      <div style="position:absolute;bottom:8px;right:8px;background:rgba(10,10,10,.8);padding:4px 10px;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray4);">16 proyectos · Montevideo, Uruguay</div>
+    </div>
+  </div>
+
   <div class="dash-grid">
     <div>
       <div class="section-head">Proyectos destacados <a onclick="showSec('proyectos',document.querySelectorAll('.nav-btn')[1])">Ver todos →</a></div>
@@ -418,23 +431,36 @@ window.showSec=showSec;
 
 /* ══ DASHBOARD ══ */
 function renderDash(){
-  const eo=PROYECTOS.filter(p=>p.obra==='obra').length,ep=PROYECTOS.filter(p=>p.obra==='Pozo'||p.obra==='Proyecto').length,et=PROYECTOS.filter(p=>p.obra==='Terminado').length;
+  const eo=PROYECTOS.filter(p=>p.obra==='obra').length;
+  const ep=PROYECTOS.filter(p=>p.obra==='Pozo').length;
+  const epr=PROYECTOS.filter(p=>p.obra==='Proyecto').length;
+  const et=PROYECTOS.filter(p=>p.obra==='Terminado').length;
   document.getElementById('stats-row').innerHTML=`
     <div class="stat-cell"><div class="stat-n">${PROYECTOS.length}</div><div class="stat-l">Proyectos</div></div>
     <div class="stat-cell"><div class="stat-n">${et}</div><div class="stat-l">Terminados</div></div>
-    <div class="stat-cell"><div class="stat-n">${eo}</div><div class="stat-l">En obra</div><div class="stat-sub">${ep} en pozo/proyecto</div></div>
-    <div class="stat-cell"><div class="stat-n">${livePosts.length}</div><div class="stat-l">Novedades</div></div>`;
+    <div class="stat-cell"><div class="stat-n">${eo}</div><div class="stat-l">En obra</div></div>
+    <div class="stat-cell"><div class="stat-n">${ep}</div><div class="stat-l">En pozo</div></div>
+    <div class="stat-cell"><div class="stat-n">${epr}</div><div class="stat-l">En proyecto</div></div>`;
   document.getElementById('dash-feat').innerHTML=PROYECTOS.filter(p=>p.destacado).slice(0,4).map(p=>`
-    <div class="feat-card" onclick="openModal(${p.id})">
-      <div class="feat-card-name">${p.nombre}${p.destacado?' ⭐':''}</div>
-      <div class="feat-card-arq" style="font-size:10px;color:var(--gray4)">${p.barrio}, ${p.ciudad}</div>
-      <span class="obra-tag ${OBRA_CLS[p.obra]||'ob-pozo'}">${p.obra} · ${p.avance}%</span>
-      <div class="feat-card-desc">◇ ${p.slogan}</div>
-      <div class="feat-card-foot">
-        <span class="feat-card-units">${p.unidades} uds · ${Object.values(p.unidadesDetalle).filter(v=>v&&v!=='Consultar')[0]||'Consultar'}</span>
-        <div style="display:flex;gap:8px">
-          <a class="drive-link" href="${p.driveUrl}" target="_blank" onclick="event.stopPropagation()">${DI} Drive</a>
-          <a class="drive-link" href="${p.webUrl}" target="_blank" onclick="event.stopPropagation()" style="color:var(--accent)">🌐 Web</a>
+    <div class="feat-card" onclick="openModal(${p.id})" style="padding:0;overflow:hidden;">
+      <div style="height:160px;position:relative;overflow:hidden;background:var(--black3);display:flex;align-items:center;justify-content:center;">
+        ${p.imgUrl
+          ? `<img src="${p.imgUrl}" alt="${p.nombre}" style="width:100%;height:100%;object-fit:cover;object-position:center 20%;opacity:.9;transition:all .4s" onerror="this.style.display='none'">`
+          : '<span style="font-size:2.5rem;color:var(--gray2)">🏗</span>'
+        }
+        <div style="position:absolute;top:8px;right:8px;font-size:14px;">⭐</div>
+        <div style="position:absolute;bottom:8px;left:8px;"><span class="obra-tag ${OBRA_CLS[p.obra]||'ob-pozo'}" style="margin:0">${p.obra} · ${p.avance}%</span></div>
+      </div>
+      <div style="padding:14px 16px;">
+        <div class="feat-card-name">${p.nombre}</div>
+        <div class="feat-card-arq" style="font-size:10px;color:var(--gray4);margin-bottom:6px">${p.barrio}, ${p.ciudad}</div>
+        <div class="feat-card-desc">◇ ${p.slogan}</div>
+        <div class="feat-card-foot" style="padding:10px 0 0;margin-top:8px;">
+          <span class="feat-card-units">${p.unidades} uds · ${Object.values(p.unidadesDetalle).filter(v=>v&&v!=='Consultar')[0]||'Consultar'}</span>
+          <div style="display:flex;gap:8px">
+            <a class="drive-link" href="${p.driveUrl}" target="_blank" onclick="event.stopPropagation()">${DI} Drive</a>
+            <a class="drive-link" href="${p.webUrl}" target="_blank" onclick="event.stopPropagation()" style="color:var(--accent)">🌐 Web</a>
+          </div>
         </div>
       </div>
     </div>`).join('');
