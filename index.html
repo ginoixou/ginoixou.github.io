@@ -9,44 +9,46 @@
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-:root{--black:#0A0A0A;--black2:#111111;--black3:#1A1A1A;--gray1:#222222;--gray2:#333333;--gray3:#555555;--gray4:#888888;--gray5:#AAAAAA;--white:#F5F5F0;--white2:#E8E8E2;--accent:#C8D5B0;--accent2:#8FA870;--r:2px;--r2:4px;--sh:0 1px 4px rgba(0,0,0,.07),0 4px 16px rgba(0,0,0,.05);--sh2:0 2px 8px rgba(0,0,0,.1),0 8px 32px rgba(0,0,0,.08)}
-html,body{margin:0;padding:0;background:var(--black);overflow-x:hidden;-webkit-font-smoothing:antialiased}
-body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white);font-size:14px;line-height:1.55}
+:root{--black:#0A0A0A;--black2:#111;--black3:#1A1A1A;--gray1:#222;--gray2:#333;--gray3:#555;--gray4:#888;--gray5:#AAA;--white:#F5F5F0;--accent:#C8D5B0;--accent2:#8FA870;--r:2px;--r2:4px}
+html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-family:'DM Sans',sans-serif;font-size:14px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--black2)}::-webkit-scrollbar-thumb{background:var(--gray2);border-radius:2px}
-/* LOGIN */
+/* ── LOGIN ── */
 #login-screen{position:fixed;inset:0;background:#0A0A0A;display:flex;align-items:center;justify-content:center;z-index:9999}
 .login-box{text-align:center;padding:3rem 2.5rem;border:1px solid #222;max-width:380px;width:90%}
 .login-logo{font-family:'Bebas Neue',sans-serif;font-size:3.5rem;letter-spacing:.12em;color:#F5F5F0;line-height:1;margin-bottom:4px}
-.login-tagline{font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#555;margin-bottom:2.5rem}
+.login-tagline{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#555;margin-bottom:2.5rem}
 .login-divider{width:40px;height:1px;background:#C8D5B0;margin:0 auto 2rem}
-.login-desc{font-family:'DM Sans',sans-serif;font-size:12px;color:#555;margin-bottom:2rem;line-height:1.7;letter-spacing:.5px}
-#login-error{display:none;margin-top:1.25rem;font-family:'DM Sans',sans-serif;font-size:11px;color:#E88;line-height:1.55}
-.login-footer{margin-top:2rem;font-family:'DM Sans',sans-serif;font-size:10px;color:#2A2A2A;letter-spacing:1.5px;text-transform:uppercase}
+.login-desc{font-size:12px;color:#555;margin-bottom:2rem;line-height:1.7}
+#login-error{display:none;margin-top:1.25rem;font-size:11px;color:#E88;line-height:1.55}
+.login-footer{margin-top:2rem;font-size:10px;color:#2A2A2A;letter-spacing:1.5px;text-transform:uppercase}
 #google-btn-wrap{display:flex;justify-content:center;margin-bottom:4px;min-height:44px;align-items:center}
-/* HEADER */
+/* ── PORTAL ── */
 #portal-screen{display:none}
+/* ── HEADER ── */
 #header{position:sticky;top:0;z-index:100;height:52px;background:var(--black);border-bottom:1px solid var(--gray1);display:flex;align-items:center;padding:0 2rem;gap:2rem}
 .hdr-logo{display:flex;align-items:baseline;gap:8px;flex-shrink:0}
 .hdr-logo-name{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:.12em;color:var(--white)}
 .hdr-logo-sep{width:1px;height:14px;background:var(--gray2);align-self:center}
 .hdr-logo-tag{font-size:11px;color:var(--gray4);letter-spacing:1.5px;text-transform:uppercase}
-.hdr-nav{display:flex;gap:0;flex:1}
-.nav-btn{padding:6px 14px;border:none;background:none;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:400;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray4);cursor:pointer;border-bottom:1px solid transparent;transition:all .2s}
+.hdr-nav{display:flex;flex:1}
+.nav-btn{padding:6px 14px;border:none;background:none;font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray4);cursor:pointer;border-bottom:1px solid transparent;transition:all .2s}
 .nav-btn:hover{color:var(--white)}.nav-btn.active{color:var(--white);border-bottom-color:var(--accent)}
-.hdr-right{margin-left:auto;font-size:10px;letter-spacing:1px;color:var(--gray3);text-transform:uppercase;white-space:nowrap}
+.hdr-right{font-size:10px;letter-spacing:1px;color:var(--gray3);text-transform:uppercase;white-space:nowrap}
 .user-chip{display:flex;align-items:center;gap:7px;padding:3px 10px 3px 5px;border:1px solid #222;cursor:pointer;transition:border-color .2s;flex-shrink:0}
 .user-chip:hover{border-color:#C8D5B0}
 #user-avatar{width:22px;height:22px;border-radius:50%;object-fit:cover;display:none}
 #user-display-name{font-size:11px;color:#666;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .logout-lbl{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#444}
-/* HERO */
+/* ── HERO ── */
+.sec-hero{padding:3.5rem 2.5rem 2.5rem;border-bottom:1px solid var(--gray1)}
+.sec-hero h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,5vw,4rem);letter-spacing:.05em;color:var(--white);margin-bottom:6px}
+.sec-hero p{font-size:12px;color:var(--gray4);letter-spacing:1px}
 .dash-hero{padding:5rem 2.5rem 4rem;border-bottom:1px solid var(--gray1);position:relative;overflow:hidden}
 .dash-hero::before{content:'◇';position:absolute;right:3rem;top:50%;transform:translateY(-50%);font-size:18rem;color:var(--gray1);line-height:1;pointer-events:none;font-family:'Bebas Neue',sans-serif}
 .dash-hero-eyebrow{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:1rem}
 .dash-hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,8vw,7rem);letter-spacing:.04em;line-height:.92;color:var(--white);margin-bottom:1.5rem;position:relative}
 .dash-hero h1 em{color:var(--accent);font-style:normal}
-.dash-hero-sub{font-size:13px;color:var(--gray4);letter-spacing:.5px}
-/* STATS */
+/* ── STATS ── */
 .stats-row{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--gray1);border-bottom:1px solid var(--gray1)}
 .stat-cell{padding:2rem 2.5rem;border-right:1px solid var(--gray1);position:relative}
 .stat-cell:last-child{border-right:none}
@@ -55,76 +57,90 @@ body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white)
 .stat-n{font-family:'Bebas Neue',sans-serif;font-size:3.5rem;letter-spacing:.04em;color:var(--white);line-height:1}
 .stat-l{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);margin-top:6px}
 .stat-sub{font-size:11px;color:var(--accent2);margin-top:3px}
-/* DASH GRID */
+/* ── DASH LAYOUT ── */
 .dash-grid{max-width:1200px;margin:0 auto;padding:3rem 2rem;display:grid;grid-template-columns:1fr 280px;gap:3rem}
 .section-head{font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:3px;text-transform:uppercase;color:var(--gray4);margin-bottom:1.5rem;padding-bottom:10px;border-bottom:1px solid var(--gray1);display:flex;align-items:center;justify-content:space-between}
-.section-head a{font-family:'DM Sans',sans-serif;font-size:10px;letter-spacing:1.5px;color:var(--accent);cursor:pointer;text-decoration:none;transition:color .2s}
+.section-head a{font-family:'DM Sans',sans-serif;font-size:10px;letter-spacing:1.5px;color:var(--accent);cursor:pointer;text-decoration:none}
 .section-head a:hover{color:var(--white)}
-/* FEAT CARDS */
+/* ── FEAT CARDS ── */
 .feat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--gray1);border:1px solid var(--gray1)}
 .feat-card{background:var(--black2);padding:1.5rem;cursor:pointer;transition:background .2s;position:relative}
 .feat-card:hover{background:var(--black3)}
 .feat-card::before{content:'◇';position:absolute;top:1rem;right:1.25rem;font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--gray2);transition:color .2s}
 .feat-card:hover::before{color:var(--accent)}
 .feat-card-name{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:.06em;color:var(--white);margin-bottom:4px}
-.feat-card-arq{font-size:11px;color:var(--gray4);margin-bottom:8px;letter-spacing:.5px}
+.feat-card-arq{font-size:11px;color:var(--gray4);margin-bottom:8px}
 .feat-card-desc{font-size:11px;color:var(--gray5);line-height:1.5;margin-bottom:12px}
 .feat-card-foot{display:flex;align-items:center;justify-content:space-between;padding-top:10px;border-top:1px solid var(--gray2)}
 .feat-card-units{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--gray4)}
-.drive-link{display:inline-flex;align-items:center;gap:5px;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#4285f4;text-decoration:none;transition:color .2s}
-.drive-link:hover{color:#90BBFF}
-.drive-link svg{width:12px;height:12px}
-/* OBRA TAGS */
-.obra-tag{display:inline-block;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;padding:3px 9px;border-radius:1px;font-weight:500;margin-bottom:10px}
+.drive-link{display:inline-flex;align-items:center;gap:5px;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#4285f4;text-decoration:none}
+/* ── OBRA TAGS ── */
+.obra-tag{display:inline-block;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;padding:3px 9px;border-radius:1px;font-weight:500;margin-bottom:8px}
 .ob-pozo{background:rgba(200,160,60,.12);color:#C8A03C;border:1px solid rgba(200,160,60,.25)}
 .ob-obra{background:rgba(60,100,200,.12);color:#6B9EE8;border:1px solid rgba(60,100,200,.25)}
 .ob-terminado{background:rgba(120,180,100,.12);color:var(--accent);border:1px solid rgba(120,180,100,.25)}
-/* SIDEBAR */
+.ob-proyecto{background:rgba(180,100,200,.12);color:#C888D8;border:1px solid rgba(180,100,200,.25)}
+/* ── SIDEBAR ── */
 .sidebar-block{background:var(--black2);border:1px solid var(--gray1);padding:1.25rem;margin-bottom:1px}
 .sidebar-title{font-family:'Bebas Neue',sans-serif;font-size:.85rem;letter-spacing:3px;text-transform:uppercase;color:var(--gray4);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--gray1)}
 .news-row{padding:10px 0;border-bottom:1px solid var(--gray1);cursor:pointer}
 .news-row:last-child{border-bottom:none;padding-bottom:0}
-.news-date{font-size:10px;color:var(--accent2);letter-spacing:.5px;margin-bottom:4px}
-.news-ttl{font-size:12px;font-weight:400;color:var(--gray5);line-height:1.45;transition:color .2s}
+.news-date{font-size:10px;color:var(--accent2);margin-bottom:4px}
+.news-ttl{font-size:12px;color:var(--gray5);line-height:1.45;transition:color .2s}
 .news-row:hover .news-ttl{color:var(--white)}
-.qlink{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--gray1);text-decoration:none;cursor:pointer;transition:all .15s}
+.qlink{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--gray1);text-decoration:none;cursor:pointer}
 .qlink:last-child{border-bottom:none}
-.qlink:hover .qlink-name{color:var(--white)}
 .qlink-dot{width:6px;height:6px;border-radius:50%;background:var(--gray3);flex-shrink:0;transition:background .2s}
 .qlink:hover .qlink-dot{background:var(--accent)}
-.qlink-name{font-size:11px;color:var(--gray5);letter-spacing:.3px;transition:color .2s}
+.qlink-name{font-size:11px;color:var(--gray5);transition:color .2s}
+.qlink:hover .qlink-name{color:var(--white)}
 .qlink-sub{font-size:10px;color:var(--gray3)}
-/* PROJECTS SECTION */
-.sec-hero{padding:3.5rem 2.5rem 2.5rem;border-bottom:1px solid var(--gray1)}
-.sec-hero h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,5vw,4rem);letter-spacing:.05em;color:var(--white);margin-bottom:6px}
-.sec-hero p{font-size:12px;color:var(--gray4);letter-spacing:1px}
+/* ── PROJECT GRID ── */
 .proj-controls{max-width:1200px;margin:0 auto;padding:1.5rem 2rem .5rem;display:flex;gap:10px;flex-wrap:wrap;align-items:center;border-bottom:1px solid var(--gray1)}
-.ctrl-in{flex:1;min-width:200px;padding:8px 14px;background:var(--black2);border:1px solid var(--gray2);border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:12px;color:var(--white);outline:none;transition:border-color .2s;letter-spacing:.3px}
+.ctrl-in{flex:1;min-width:200px;padding:8px 14px;background:var(--black2);border:1px solid var(--gray2);border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:12px;color:var(--white);outline:none;transition:border-color .2s}
 .ctrl-in::placeholder{color:var(--gray3)}.ctrl-in:focus{border-color:var(--accent)}
 .ctrl-sel{padding:8px 12px;background:var(--black2);border:1px solid var(--gray2);border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:12px;color:var(--gray4);cursor:pointer;outline:none}
 .ctrl-sel option{background:var(--black2)}
-.proj-list{max-width:1200px;margin:0 auto;padding:0 2rem 3rem}
-.proj-row{display:grid;grid-template-columns:220px 1fr auto;gap:0;border-bottom:1px solid var(--gray1);transition:background .15s;cursor:pointer}
-.proj-row:first-child{border-top:1px solid var(--gray1);margin-top:1px}
-.proj-row:hover{background:var(--black2)}
-.proj-row-left{padding:1.75rem 2rem 1.75rem 0;border-right:1px solid var(--gray1)}
-.proj-row-name{font-family:'Bebas Neue',sans-serif;font-size:1.9rem;letter-spacing:.06em;color:var(--white);line-height:1;margin-bottom:4px}
-.proj-row-arq{font-size:11px;color:var(--gray4);letter-spacing:.5px;margin-bottom:8px}
-.proj-row-mid{padding:1.75rem 2rem;display:grid;grid-template-columns:1fr 1fr;gap:1rem;align-content:start}
-.proj-row-loc{font-size:11px;color:var(--gray4);letter-spacing:.5px;margin-bottom:6px;grid-column:1/-1}
-.proj-row-desc{font-size:12px;color:var(--gray5);line-height:1.5;grid-column:1/-1;margin-bottom:10px}
-.price-block-title{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray3);margin-bottom:6px}
-.price-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--gray1);font-size:12px}
-.price-row:last-child{border-bottom:none}
-.price-row-tipo{color:var(--gray5)}.price-row-val{color:var(--accent);font-weight:500;letter-spacing:.3px}
-.proj-row-right{padding:1.75rem 0 1.75rem 2rem;border-left:1px solid var(--gray1);display:flex;flex-direction:column;align-items:flex-end;justify-content:space-between;min-width:160px}
-.btn-gdrive{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:transparent;border:1px solid #4285f4;border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#4285f4;text-decoration:none;transition:all .2s;white-space:nowrap}
-.btn-gdrive:hover{background:#4285f4;color:white}
-.btn-gdrive svg{width:13px;height:13px}
-.btn-ver{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray3);background:none;border:none;cursor:pointer;transition:color .2s;padding:4px 0}
-.btn-ver:hover{color:var(--white)}
-.no-res{text-align:center;padding:4rem;color:var(--gray3);font-size:12px;letter-spacing:1px;text-transform:uppercase;display:none}
-/* BLOG */
+/* Project CARDS grid */
+.proj-cards-wrap{max-width:1200px;margin:0 auto;padding:2rem}
+.proj-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.proj-card{background:var(--black2);border:1px solid var(--gray1);border-radius:var(--r2);overflow:hidden;transition:all .22s;display:flex;flex-direction:column}
+.proj-card:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:0 8px 32px rgba(0,0,0,.3)}
+/* Card image area */
+.card-img{height:160px;background:var(--black3);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.card-img img{width:100%;height:100%;object-fit:cover;opacity:.85;transition:opacity .3s}
+.proj-card:hover .card-img img{opacity:1}
+.card-img-placeholder{font-size:3rem;color:var(--gray2)}
+.card-star{position:absolute;top:10px;right:10px;color:#FFD700;font-size:16px;text-shadow:0 1px 3px rgba(0,0,0,.5)}
+.card-obra-badge{position:absolute;bottom:10px;left:10px}
+/* Card body */
+.card-body{padding:14px 16px;flex:1;display:flex;flex-direction:column;gap:8px}
+.card-name{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:.06em;color:var(--white);line-height:1}
+.card-slogan{font-size:11px;color:var(--accent);font-style:italic;line-height:1.4}
+.card-loc{font-size:11px;color:var(--gray4);display:flex;align-items:center;gap:5px}
+.card-loc a{color:var(--gray4);text-decoration:none;transition:color .2s}
+.card-loc a:hover{color:var(--accent)}
+/* Progress bar */
+.card-progress{margin-top:2px}
+.card-progress-bar{height:2px;background:var(--gray2);border-radius:1px;overflow:hidden;margin-top:4px}
+.card-progress-fill{height:100%;transition:width .4s}
+.card-progress-label{display:flex;justify-content:space-between;font-size:10px;color:var(--gray4);letter-spacing:.5px}
+/* Unit types */
+.card-units-title{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray3);margin-bottom:4px}
+.card-units-grid{display:flex;flex-wrap:wrap;gap:4px}
+.unit-chip{font-size:10px;padding:3px 8px;background:var(--black3);border:1px solid var(--gray2);border-radius:1px;color:var(--gray5);line-height:1.3}
+.unit-chip strong{display:block;color:var(--white);font-size:11px;font-weight:500}
+/* Card footer */
+.card-foot{padding:10px 16px;border-top:1px solid var(--gray1);background:var(--black);display:flex;gap:6px;flex-wrap:wrap}
+.btn-sm{display:inline-flex;align-items:center;gap:5px;padding:6px 12px;border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:10px;letter-spacing:1px;text-transform:uppercase;text-decoration:none;transition:all .2s;cursor:pointer;border:1px solid}
+.btn-drive{color:#4285f4;border-color:#4285f4;background:transparent}
+.btn-drive:hover{background:#4285f4;color:white}
+.btn-web{color:var(--accent);border-color:var(--accent);background:transparent}
+.btn-web:hover{background:var(--accent);color:var(--black)}
+.btn-map{color:var(--gray4);border-color:var(--gray2);background:transparent}
+.btn-map:hover{border-color:var(--gray4);color:var(--white)}
+.no-res{text-align:center;padding:4rem;color:var(--gray3);font-size:12px;letter-spacing:1px;text-transform:uppercase;display:none;grid-column:1/-1}
+/* ── BLOG ── */
 .blog-wrap{max-width:1200px;margin:0 auto;padding:2.5rem 2rem;display:grid;grid-template-columns:1fr 260px;gap:3rem}
 .cat-row{display:flex;gap:0;border:1px solid var(--gray1);margin-bottom:2rem;overflow:hidden}
 .cat-btn2{flex:1;padding:8px 4px;border:none;background:none;font-family:'DM Sans',sans-serif;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray4);cursor:pointer;border-right:1px solid var(--gray1);transition:all .2s;white-space:nowrap}
@@ -133,25 +149,26 @@ body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white)
 .post-feat:hover{background:var(--black2)}
 .post-feat-tag-row{padding:1.25rem 1.5rem .75rem;border-bottom:1px solid var(--gray1);display:flex;align-items:center;gap:12px}
 .post-feat-sticker{font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:4px 10px;border:1px solid var(--accent);color:var(--accent);border-radius:1px}
-.post-feat-date{font-size:10px;color:var(--gray4);letter-spacing:.5px}
+.post-feat-date{font-size:10px;color:var(--gray4)}
 .post-feat-body{padding:1.5rem}
 .post-feat-ttl{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:.04em;color:var(--white);line-height:1.05;margin-bottom:12px}
 .post-feat-txt{font-size:13px;color:var(--gray4);line-height:1.65}
 .post-feat-proj{margin-top:12px;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--accent2)}
-.post-list-item{border-bottom:1px solid var(--gray1);padding:1.2rem 0;cursor:pointer;display:grid;grid-template-columns:1fr auto;gap:1rem;align-items:start;transition:all .15s}
+.post-list-item{border-bottom:1px solid var(--gray1);padding:1.2rem 0;cursor:pointer;display:grid;grid-template-columns:1fr auto;gap:1rem;align-items:start}
 .post-list-item:hover .pli-ttl{color:var(--white)}
 .pli-top{display:flex;align-items:center;gap:8px;margin-bottom:5px}
-.pli-date{font-size:10px;color:var(--gray4);letter-spacing:.5px}
+.pli-date{font-size:10px;color:var(--gray4)}
 .pli-cat{font-size:9px;letter-spacing:1.5px;text-transform:uppercase}
 .pli-ttl{font-size:13px;font-weight:400;color:var(--gray5);line-height:1.45;transition:color .2s}
-.pli-proj{font-size:10px;color:var(--gray3);margin-top:4px;letter-spacing:.5px}
-.pli-arrow{font-size:16px;color:var(--gray3);padding-top:2px;transition:color .2s}
+.pli-proj{font-size:10px;color:var(--gray3);margin-top:4px}
+.pli-arrow{font-size:16px;color:var(--gray3);transition:color .2s}
 .post-list-item:hover .pli-arrow{color:var(--white)}
 .blog-side-block{border:1px solid var(--gray1);padding:1.25rem;margin-bottom:1px}
 .blog-side-title{font-family:'Bebas Neue',sans-serif;font-size:.8rem;letter-spacing:3px;text-transform:uppercase;color:var(--gray4);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--gray1)}
-.cat-stat-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--gray1);font-size:11px;letter-spacing:.3px}
+.cat-stat-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--gray1);font-size:11px}
 .cat-stat-row:last-child{border-bottom:none}
-.cat-stat-lbl{color:var(--gray5)}.cat-stat-n{font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:.05em;color:var(--gray4)}
+.cat-stat-lbl{color:var(--gray5)}.cat-stat-n{font-family:'Bebas Neue',sans-serif;font-size:1rem;color:var(--gray4)}
+/* ── NEW POST FORM ── */
 .new-post-btn{width:100%;padding:10px;background:none;border:1px solid var(--gray2);font-family:'DM Sans',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;margin-bottom:1px;transition:all .2s}
 .new-post-btn:hover{border-color:var(--accent);color:var(--accent)}
 .new-post-form{border:1px solid var(--gray1);padding:1.25rem;margin-bottom:1px;display:none}
@@ -163,27 +180,25 @@ body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white)
 .nf-ta{resize:vertical;min-height:70px}.nf-sel option{background:var(--black2)}
 .nf-submit{width:100%;margin-top:12px;padding:9px;background:var(--white);color:var(--black);border:none;font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;font-weight:500;cursor:pointer;transition:background .2s}
 .nf-submit:hover{background:var(--accent)}
-/* MODAL */
+/* ── MODAL ── */
 .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:200;display:none;align-items:center;justify-content:center;padding:2rem}
 .modal-bg.open{display:flex}
-.modal-box{background:var(--black2);border:1px solid var(--gray2);max-width:600px;width:100%;max-height:88vh;overflow-y:auto;box-shadow:var(--sh2)}
+.modal-box{background:var(--black2);border:1px solid var(--gray2);max-width:620px;width:100%;max-height:88vh;overflow-y:auto}
 .modal-hd{padding:1.5rem;border-bottom:1px solid var(--gray1);display:flex;justify-content:space-between;align-items:flex-start;position:sticky;top:0;background:var(--black2);z-index:1}
 .modal-hd-name{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;letter-spacing:.06em;color:var(--white);line-height:1}
-.modal-hd-arq{font-size:11px;color:var(--gray4);margin-top:4px}
-.modal-close{background:none;border:none;font-size:22px;color:var(--gray4);cursor:pointer;transition:color .2s;line-height:1;padding:2px 4px}
+.modal-hd-sub{font-size:11px;color:var(--gray4);margin-top:4px}
+.modal-close{background:none;border:none;font-size:22px;color:var(--gray4);cursor:pointer;line-height:1;padding:2px 4px}
 .modal-close:hover{color:var(--white)}
 .modal-body{padding:1.5rem}.modal-sec{margin-bottom:1.5rem}
 .modal-sec-title{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent2);margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--gray1)}
-.modal-info-row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--gray1);font-size:12px}
-.modal-info-row:last-child{border-bottom:none}
-.modal-info-lbl{color:var(--gray4)}.modal-info-val{color:var(--white);font-weight:500}
-.modal-price-row{display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--black3);border:1px solid var(--gray1);margin-bottom:2px;font-size:12px}
-.modal-price-tipo{color:var(--gray5)}.modal-price-val{color:var(--accent);font-weight:500}
+.modal-row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--gray1);font-size:12px}
+.modal-row:last-child{border-bottom:none}
+.modal-lbl{color:var(--gray4)}.modal-val{color:var(--white);font-weight:500;text-align:right;max-width:65%}
 /* CAT COLORS */
 .cc-launch{color:#E8C870}.cc-avance{color:#6B9EE8}.cc-comer{color:var(--accent)}.cc-legal{color:#C888D8}.cc-general{color:var(--gray4)}
 /* RESPONSIVE */
-@media(max-width:1000px){.dash-grid{grid-template-columns:1fr}.blog-wrap{grid-template-columns:1fr}.stats-row{grid-template-columns:repeat(2,1fr)}.proj-row{grid-template-columns:1fr}.proj-row-left{border-right:none;border-bottom:1px solid var(--gray1)}.proj-row-right{border-left:none;border-top:1px solid var(--gray1);flex-direction:row;padding:1rem 0;min-width:auto}}
-@media(max-width:650px){.feat-grid{grid-template-columns:1fr}.hdr-logo-tag,.hdr-logo-sep{display:none}.dash-hero::before{display:none}.cat-row{flex-wrap:wrap}.cat-btn2{flex:none}}
+@media(max-width:1000px){.dash-grid{grid-template-columns:1fr}.blog-wrap{grid-template-columns:1fr}.stats-row{grid-template-columns:repeat(2,1fr)}.proj-cards{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:650px){.feat-grid{grid-template-columns:1fr}.hdr-logo-tag,.hdr-logo-sep{display:none}.dash-hero::before{display:none}.proj-cards{grid-template-columns:1fr}.cat-row{flex-wrap:wrap}.cat-btn2{flex:none}}
 </style>
 </head>
 <body>
@@ -205,16 +220,16 @@ body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white)
 <div id="portal-screen">
 <header id="header">
   <div class="hdr-logo">
-    <span class="hdr-logo-name" id="hdr-name"></span>
+    <span class="hdr-logo-name">IXOU</span>
     <div class="hdr-logo-sep"></div>
-    <span class="hdr-logo-tag" id="hdr-tag"></span>
+    <span class="hdr-logo-tag">Ciudad Consciente</span>
   </div>
   <nav class="hdr-nav">
     <button class="nav-btn active" onclick="showSec('dashboard',this)">Inicio</button>
     <button class="nav-btn" onclick="showSec('proyectos',this)">Proyectos</button>
     <button class="nav-btn" onclick="showSec('blog',this)">Novedades</button>
   </nav>
-  <div style="margin-left:auto;display:flex;align-items:center;gap:12px;">
+  <div style="margin-left:auto;display:flex;align-items:center;gap:12px">
     <div class="hdr-right" id="hdr-right"></div>
     <div class="user-chip" onclick="logoutUser()" title="Cerrar sesión">
       <img id="user-avatar" src="" alt="">
@@ -241,11 +256,11 @@ body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white)
         <div class="sidebar-title">Últimas novedades</div>
         <div id="dash-news"></div>
         <div style="padding-top:10px;border-top:1px solid var(--gray1);margin-top:2px">
-          <a style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);cursor:pointer;" onclick="showSec('blog',document.querySelectorAll('.nav-btn')[2])">Ver todas →</a>
+          <a style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);cursor:pointer" onclick="showSec('blog',document.querySelectorAll('.nav-btn')[2])">Ver todas →</a>
         </div>
       </div>
       <div class="sidebar-block" style="margin-top:1px">
-        <div class="sidebar-title">Acceso directo a Drive</div>
+        <div class="sidebar-title">Acceso a Drive</div>
         <div id="dash-drive"></div>
       </div>
     </div>
@@ -254,17 +269,21 @@ body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white)
 
 <!-- PROYECTOS -->
 <section id="sec-proyectos" style="display:none">
-  <div class="sec-hero"><h2>PROYECTOS</h2><p>◇ Datos, precios y acceso a documentación en Google Drive</p></div>
+  <div class="sec-hero"><h2>PROYECTOS</h2><p>◇ 16 desarrollos · Información comercial y acceso a documentación</p></div>
   <div class="proj-controls">
-    <input class="ctrl-in" id="ctrl-q" placeholder="Buscar por nombre o ubicación…" oninput="renderProj()">
+    <input class="ctrl-in" id="ctrl-q" placeholder="Buscar por nombre, barrio o arquitecto…" oninput="renderProj()">
     <select class="ctrl-sel" id="ctrl-obra" onchange="renderProj()">
-      <option value="">Todos los estados de obra</option>
-      <option value="pozo">En pozo</option>
+      <option value="">Todos los estados</option>
+      <option value="Terminado">Terminado</option>
       <option value="obra">En obra</option>
-      <option value="terminado">Terminado</option>
+      <option value="Pozo">En pozo</option>
+      <option value="Proyecto">En proyecto</option>
     </select>
   </div>
-  <div class="proj-list" id="proj-list"><div class="no-res" id="no-res">Sin resultados</div></div>
+  <div class="proj-cards-wrap">
+    <div class="proj-cards" id="proj-cards"></div>
+    <div class="no-res" id="no-res">Sin resultados para esa búsqueda.</div>
+  </div>
 </section>
 
 <!-- BLOG -->
@@ -272,7 +291,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white)
   <div class="sec-hero"><h2>NOVEDADES</h2><p>◇ Actualizaciones, lanzamientos y comunicados</p></div>
   <div class="blog-wrap">
     <div>
-      <div class="cat-row" id="cat-row">
+      <div class="cat-row">
         <button class="cat-btn2 active" onclick="filterBlog('all',this)">Todos</button>
         <button class="cat-btn2" onclick="filterBlog('lanzamiento',this)">Lanzamientos</button>
         <button class="cat-btn2" onclick="filterBlog('avance',this)">Avance</button>
@@ -283,9 +302,10 @@ body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white)
       <div id="blog-main"></div>
     </div>
     <div>
-      <button class="new-post-btn" onclick="toggleForm()">+ Publicar novedad</button>
+      <button class="new-post-btn" id="toggle-form-btn" onclick="toggleForm()">+ Publicar novedad</button>
       <div class="new-post-form" id="nf">
-        <label class="nf-lbl">Título</label><input class="nf-in" id="nf-t" placeholder="Título…">
+        <label class="nf-lbl">Título</label>
+        <input class="nf-in" id="nf-t" placeholder="Título de la novedad…">
         <label class="nf-lbl">Categoría</label>
         <select class="nf-sel" id="nf-c">
           <option value="lanzamiento">Lanzamiento</option>
@@ -297,132 +317,49 @@ body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white)
         <label class="nf-lbl">Proyecto</label>
         <select class="nf-sel" id="nf-p"><option value="">— General —</option></select>
         <label class="nf-lbl">Resumen</label>
-        <textarea class="nf-ta" id="nf-r" placeholder="Texto…"></textarea>
+        <textarea class="nf-ta" id="nf-r" placeholder="Texto de la novedad…"></textarea>
         <button class="nf-submit" onclick="publishPost()">Publicar</button>
       </div>
       <div class="blog-side-block" style="margin-top:1px">
-        <div class="blog-side-title">Por categoría</div><div id="blog-cats"></div>
+        <div class="blog-side-title">Por categoría</div>
+        <div id="blog-cats"></div>
       </div>
       <div class="blog-side-block" style="margin-top:1px">
-        <div class="blog-side-title">Proyectos mencionados</div><div id="blog-projs"></div>
+        <div class="blog-side-title">Proyectos mencionados</div>
+        <div id="blog-projs"></div>
       </div>
     </div>
   </div>
 </section>
 </div><!-- /portal-screen -->
 
-<div class="modal-bg" id="modal" onclick="closeMBg(event)"><div class="modal-box" id="modal-box"></div></div>
+<div class="modal-bg" id="modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal-box" id="modal-box"></div>
+</div>
 
 <script>
-/* ══ EMAILS AUTORIZADOS ══ */
-const EMAILS_AUTORIZADOS = [
-  "a.symonds@prop.com.uy","a.urti@prop.com.uy","adrianalavecchia@kwuruguay.com",
-  "agnatelli@gmail.com","alejandra@caldeyro.com","alejandrasgolf@gmail.com",
-  "aleladeiralucas@gmail.com","aliciarubio2023@gmail.com","andrea.angeriz@entorno.com.uy",
-  "andrea.varela@entorno.com.uy","angerizadc@gmail.com","antonella.malvasio@justoaca.com",
-  "aranza.vidal@hauzen.com.uy","ariel@ixou.la","arq.mvillarb@gmail.com",
-  "arqvalentinapidutti@gmail.com","arquibrokers@gmail.com","barsukovilyaaa@gmail.com",
-  "belen.bogadjian@engelvoelkers.com","benjarrascaeta14@gmail.com","brimaryglobal@gmail.com",
-  "brunoar888@gmail.com","bycaroytiti@gmail.com","c.alvarez@ixou.la",
-  "camila.freire@justoaca.com","camila.gonzalez.mella@gmail.com","camilescas97@gmail.com",
-  "camioyhe@gmail.com","cantunez@abate.com.uy","caromontoro987@gmail.com",
-  "cecilia.pais@spot.uy","clauinmobiliariagolf@gmail.com","contacto.anaf@gmail.com",
-  "d93946675@gmail.com","danielmontero2011@gmail.com","desarrollos@planorbe.com",
-  "diego.carricaburu@justoaca.com","diego.goldaracena@justoaca.com","e.lacuesta@prop.com.uy",
-  "egrobert@etxe.com.uy","erikasolari2909@gmail.com","eugeniaperezsellanes@gmail.com",
-  "federicocapretti0@gmail.com","felixd.v@hotmail.com","fernanda.castro@justoaca.com",
-  "fernando.gonzalez.pointer@gmail.com","ferreiravalen822@gmail.com","florencia@polouy.com",
-  "fredmamash@gmail.com","frodriguez@soldati.com","g.larrosa@prop.com.uy",
-  "g.sosa@prop.com.uy","gali@entorno.com.uy","germanetchebarne@gmail.com",
-  "gianfrancofagnoni@gmail.com","ginodistasio@gmail.com","gino@ixou.la",
-  "goyenmariana@gmail.com","guillermina@ap.com.uy","hdelcorro@polouy.com",
-  "hernanadlib@gmail.com","hmsapriza@gmail.com","i.ramirez@prop.com.uy",
-  "ignacio@caldeyro.com","ignacio.sorhuet@fineandcountry.com","ignaciogimenez242@gmail.com",
-  "inmobiliariagolf1@gmail.com","info@aixarealestate.com","info@arquibrokers.com",
-  "info@polouy.com","info@vizcaya.uy","javier.garaza@justoaca.com",
-  "jfolle@planorbe.com","jlnayavarela@remax.com.uy","jponcedeleon@etxe.com.uy",
-  "jrebellato@acsa.uy","juan.palacios@engelvoelkers.com","ksnberkov@gmail.com",
-  "l.caraballo@prop.com.uy","lard.comex@gmail.com","laura@caldeyro.com",
-  "lcoitino@abate.com.uy","lfrancolino@etxe.com.uy","lizberkova@gmail.com",
-  "lorechiribao@gmail.com","luxinmobiliariauy@gmail.com","m.gonzalez@ixou.la",
-  "m.torres@prop.com.uy","m.zunino@prop.com.uy","macarinegociosinmobiliarios1@gmail.com",
-  "magdalenaacerenza@remax.com.uy","majotomas5@gmail.com","marcelo.saracho@coldwellbanker.com.uy",
-  "mariacabrera@remax.com.uy","mariano.monymar@gmail.com","marinabajuk@kwuruguay.com",
-  "marketing@justoaca.com","massimiglianodimauro@gmail.com","mateo.garcia@engelvoelkers.com",
-  "matiasrodfer@gmail.com","mb@blk.uy","mcgerfauo@gmail.com",
-  "mdavyt@metrocuadrado.uy","mealvarez@acsa.uy","micaela.hayd@engelvoelkers.com",
-  "micaela.lopez@justoaca.com","michi@entorno.com.uy","monicasegoviayic@gmail.com",
-  "msokol.pointer@gmail.com","mujicadiazmartin.pointer@gmail.com","natalia.silveira@justoaca.com",
-  "nataliamonymar@gmail.com","ncastro@acsa.uy","neorealestate.uy@gmail.com",
-  "nicolas@ixou.la","noeliablanco@kwuruguay.com","p.buela@ixou.la",
-  "p.correa@prop.com.uy","p.garcia@prop.com.uy","pablo.hontou@engelvoelkers.com",
-  "pcassi@acsa.uy","pia.barrabino@gmail.com","piainmobiliariagolf@gmail.com",
-  "piamagalhaes@gmail.com","piaoyenard@gmail.com","rafael.estudioflom@gmail.com",
-  "rafael@ap.com.uy","rafael@entorno.com.uy","rfalero@metrocuadrado.uy",
-  "rivadaviajohana2@gmail.com","rmarialaura48@gmail.com","rominamartinez.f98@gmail.com",
-  "rossiellonicolas@gmail.com","rossinaval17@gmail.com","s.vazquez@prop.com.uy",
-  "sales@uruestate.com","scheinowitzjackie@gmail.com","sheylacarballo@kwuruguay.com",
-  "soledad.uria@justoaca.com","szarza@metrocuadrado.uy","ta-macla@hotmail.com",
-  "tabare@entorno.com.uy","tatianaribeiro@kwuruguay.com","uru@neodom.es",
-  "v.dupont@prop.com.uy","ventas@inmobiliariafocus.com","ventas@treehouse.com.uy",
-  "victorica@caldeyro.com","viviana@arpro.com.uy","yura.sazonov@gmail.com"
-];
-
-/* ══ PROYECTOS ══ */
-const PROYECTOS = [
-  {id:1,nombre:"ALMA SUR",arq:"Carlos Ott (Uruguay) + HOA (Argentina)",direccion:"Andes 1165, Barrio Sur, MVD",tipologia:"Viviendas + Locales Comerciales",proyecto:"ANV / Ley 18.795",descripcion:"Unidades de 1, 2, 3 y 4 Dormitorios",avanceObra:100,obra:"terminado",precios:{"Desde":"U$S 168.000"},amenities:"Living Sum, Salón de Niños, Terraza y Parrilleros",driveUrl:"https://drive.google.com/drive/folders/1-KLZB8kcDkYkcT6b8cdBtyhZlZ4LI9rG?usp=drive_link",webUrl:"https://www.almas.com.uy/",destacado:true},
-  {id:2,nombre:"ALMA BRAVA",arq:"Mathias Klotz (Chile) + Edgardo Minond (Argentina) + HOA (Argentina)",direccion:"Andes 1256, Barrio Sur, MVD",tipologia:"Viviendas + Locales Comerciales",proyecto:"ANV / Ley 18.795",descripcion:"Unidades de 1, 2 y 3 Dormitorios",avanceObra:100,obra:"terminado",precios:{"Desde":"U$S 180.000"},amenities:"Living Sum, Terraza y Parrilleros",driveUrl:"https://drive.google.com/drive/folders/1vXO7WLT-cCI_VT_jKq8U6hc5NQmU44QN?usp=drive_link",webUrl:"https://www.almas.com.uy/",destacado:true},
-  {id:3,nombre:"ALMA CORSO",arq:"Carlos Ott (Uruguay) + HOA (Argentina)",direccion:"Canelones 896, Barrio Sur, MVD",tipologia:"Viviendas + Locales Comerciales",proyecto:"ANV / Ley 18.795",descripcion:"Unidades de 1, 2 y 4 Dormitorios",avanceObra:100,obra:"terminado",precios:{"Desde":"U$S 150.000"},amenities:"Living Sum, Terraza y Parrilleros",driveUrl:"https://drive.google.com/drive/folders/1iaF9VCRO0tyeluHdr8JIJ6Y_8wx41Ynp?usp=drive_link",webUrl:"https://www.almas.com.uy/",destacado:false},
-  {id:4,nombre:"ALMA DUÇ",arq:"Carlos Ferrater / OAB (España) + HOA (Argentina)",direccion:"Ciudadela 1278, Ciudad Vieja, MVD",tipologia:"Viviendas + Locales Comerciales + Oficinas Premium A+",proyecto:"COMAP",descripcion:"Unidades de 1, 2 y 3 Dormitorios + Oficinas Premium A+",avanceObra:100,obra:"terminado",precios:{"Viviendas desde":"U$S 207.000"},amenities:"Co-Work, Jardín, Gimnasio, Canal de Nado, Sauna, Sala de Masajes, Piscina exterior climatizada, Terraza y Parrilleros",driveUrl:"https://drive.google.com/drive/folders/1MNXKS6tmMDrMZfgFFRuX4YgLGbW4bZnZ?usp=drive_link",webUrl:"https://www.almas.com.uy/",destacado:true},
-  {id:5,nombre:"ALMA ET",arq:"Miguel Saraiva (Portugal) + Monoblock (Argentina)",direccion:"Ciudadela 1250, Barrio Sur, MVD",tipologia:"Oficinas AAA",proyecto:"COMAP",descripcion:"Oficinas AAA con Certificación LEED PLATINO",avanceObra:100,obra:"terminado",precios:{"Consultar":"ventas@ixou.la"},amenities:"Co-Work, Salas de Reuniones, Sala Maternal, Seguridad 24hs",driveUrl:"https://drive.google.com/drive/folders/1op7fEdvDoxKWPss7pC37sv9TwT-9wVUN?usp=drive_link",webUrl:"https://www.almas.com.uy/",destacado:false},
-  {id:6,nombre:"BRUSCO",arq:"Mathias Klotz (Chile) + Edgardo Minond (Argentina) + HOA (Argentina)",direccion:"Aquiles Lanza 1270 / Ejido 1250, Centro, MVD",tipologia:"Viviendas + Locales Comerciales + Oficinas AAA",proyecto:"ANV / Ley 18.795 + COMAP",descripcion:"Unidades de 1 y 2 Dormitorios + Oficinas AAA LEED PLATINO",avanceObra:80,obra:"obra",precios:{"Viviendas desde":"U$S 141.000"},amenities:"Living Sum, Salón de Juegos, Co-Work, Jardín, Gimnasio, Laundry, Piscina exterior climatizada, Terraza y Parrilleros",driveUrl:"https://drive.google.com/drive/folders/1lM_CerME_IdR4B1Rz_8NHYHMMg0NHmHW?usp=drive_link",webUrl:"https://brusco.com.uy/",destacado:true},
-  {id:7,nombre:"ÂME",arq:"Architecture Studio (Francia)",direccion:"Rambla Armenia 3669, Buceo, MVD",tipologia:"12 Mansiones en Altura · Viviendas Exclusivas",proyecto:"—",descripcion:"Unidades de 3 y 4 Dormitorios",avanceObra:70,obra:"obra",precios:{"Desde":"U$S 2.120.000"},amenities:"ClubHouse, Área Wellness, Jardín, Parrillero, Gimnasio, Piscina exterior climatizada, Laundry",driveUrl:"https://drive.google.com/drive/folders/1pnSwcQDlPE2IoWeD78WyD_qEl0fluwLw?usp=drive_link",webUrl:"https://ameixou.com.uy/",destacado:true},
-  {id:8,nombre:"MINI",arq:"Monoblock (Argentina)",direccion:"Mini 839, Barrio Sur, MVD",tipologia:"Viviendas",proyecto:"ANV / Ley 18.795",descripcion:"Unidades de 1 y 2 Dormitorios",avanceObra:30,obra:"obra",precios:{"Desde":"U$S 155.000"},amenities:"Living Sum, Jardín, Gimnasio, Piscina climatizada",driveUrl:"https://drive.google.com/drive/folders/1hGsM45OHiq1JS58iBgJ7sl6A6o9CtF6i?usp=drive_link",webUrl:"https://miniixou.com.uy/",destacado:false},
-  {id:9,nombre:"RISCO",arq:"Monoblock (Argentina)",direccion:"Héctor Miranda 2400, Punta Carretas, MVD",tipologia:"Viviendas + Locales Comerciales + Oficinas",proyecto:"—",descripcion:"Unidades de 1, 2 y 3 Dormitorios",avanceObra:30,obra:"obra",precios:{"Desde":"U$S 225.000"},amenities:"Living Sum, Terraza con Parrillero, Gimnasio, Piscina interior climatizada y Sauna",driveUrl:"https://drive.google.com/drive/folders/1ZIQQDqSgzMCOx7w_zsFu34b8GPJAN6T8?usp=drive_link",webUrl:"https://riscoixou.com.uy/",destacado:false},
-  {id:10,nombre:"ZIEL",arq:"MVRDV (Holanda)",direccion:"Vázquez Ledesma 3000, Punta Carretas, MVD",tipologia:"Viviendas Exclusivas + Locales Comerciales",proyecto:"—",descripcion:"Unidades de 3 y 4 Dormitorios",avanceObra:20,obra:"obra",precios:{"Desde":"U$S 690.000"},amenities:"Sky Gardens, Terraza Jardín con Parrilleros y fogonero, ClubHouse, Gimnasio, Piscina interior climatizada y Sauna",driveUrl:"https://drive.google.com/drive/folders/1GkRN8OxLikb8hIMNd6oklna8Bsk4d1lJ?usp=drive_link",webUrl:"https://zielixou.com.uy/",destacado:true},
-  {id:11,nombre:"CUMBRE",arq:"Elemental (Chile)",direccion:"Rambla M. Gandhi 600, Punta Carretas, MVD",tipologia:"Viviendas Exclusivas · Pisos completos",proyecto:"—",descripcion:"Unidades de 2 y 3 Dormitorios",avanceObra:40,obra:"obra",precios:{"Desde":"U$S 725.000"},amenities:"Terraza con Parrillero, Gimnasio, Piscina interior climatizada y Sauna",driveUrl:"https://drive.google.com/drive/folders/1HZWKIvJ5ybgPI57K67b3c7JsQJLKJVPF?usp=drive_link",webUrl:"https://cumbreixou.com.uy/",destacado:false},
-  {id:12,nombre:"RAMÓN",arq:"Estudio Seis (Uruguay)",direccion:"Ramón Fernández 270, Punta Carretas, MVD",tipologia:"Locales Comerciales + Oficinas AAA",proyecto:"—",descripcion:"Oficinas AAA",avanceObra:10,obra:"pozo",precios:{"Consultar":"ventas@ixou.la"},amenities:"—",driveUrl:"https://drive.google.com/drive/folders/1N6E2803k0SBKjIBuzI06h4a4fyONC1oX?usp=drive_link",webUrl:"https://ramonixou.com.uy/",destacado:false},
-  {id:13,nombre:"MIRLO",arq:"Monoblock (Argentina)",direccion:"Andes 1162, Barrio Sur, MVD",tipologia:"Vivienda + Local Comercial + Oficinas",proyecto:"ANV / Ley 18.795",descripcion:"Unidades Loft y 1 Dormitorio Dúplex",avanceObra:10,obra:"pozo",precios:{"Desde":"U$S 130.000"},amenities:"—",driveUrl:"https://drive.google.com/drive/folders/1s5EKnuwyLU9EpCGUzMqXNFq7XpIFiPHV?usp=drive_link",webUrl:"https://mirloixou.com.uy/",destacado:false},
-  {id:14,nombre:"VARDØ",arq:"Dark Arkitekter (Noruega) + Rudolph (Uruguay)",direccion:"21 de Setiembre 2992, Punta Carretas, MVD",tipologia:"Vivienda + Local Comercial + Rooftop",proyecto:"—",descripcion:"Unidades de 1, 2 Dormitorios y Apart",avanceObra:10,obra:"pozo",precios:{"Desde":"U$S 146.000"},amenities:"Terraza con Parrillero, Gimnasio, Piscina exterior climatizada",driveUrl:"https://drive.google.com/drive/folders/1d-ngG1XiDUmHaAoeJ-3QCVkDPStG8prI?usp=drive_link",webUrl:"http://vardoixou.uy/",destacado:false},
-  {id:15,nombre:"HALO",arq:"Monoblock (Argentina)",direccion:"Av. Julio Herrera y Reissig 510, Punta Carretas, MVD",tipologia:"Viviendas Exclusivas + Local Comercial",proyecto:"—",descripcion:"Unidades de 3 Dormitorios",avanceObra:10,obra:"pozo",precios:{"Desde":"U$S 810.000"},amenities:"Terraza con Parrillero, Gimnasio, Piscina interior climatizada y Sauna",driveUrl:"https://drive.google.com/drive/folders/1EWnmKKc8B7ZHSIeM_MvTCSd9nT8mQZXz?usp=drive_link",webUrl:"https://haloixou.com.uy/",destacado:false},
-  {id:16,nombre:"CÉFIRO",arq:"Estudio Seis (Uruguay)",direccion:"Iturriaga 3530, Buceo, MVD",tipologia:"Viviendas Exclusivas",proyecto:"—",descripcion:"Unidades de 1 y 3 Dormitorios",avanceObra:10,obra:"pozo",precios:{"Desde":"U$S 750.000"},amenities:"—",driveUrl:"https://drive.google.com/drive/folders/1k-KEijI0ZYOiC372jJmP2LFTUdsJujgR?usp=drive_link",webUrl:"https://cefiroixou.uy/",destacado:false}
-];
-
-/* ══ BLOG POSTS ══ */
-const BLOG_POSTS = [
-  {id:1,titulo:"ALMA ET y BRUSCO certifican LEED PLATINO — IXOU lidera la sustentabilidad en Uruguay",resumen:"Con dos proyectos certificados LEED Platino, IXOU se consolida como la desarrolladora más sustentable de Uruguay. ALMA ET fue el primer edificio de oficinas y BRUSCO el primer mixto en alcanzar esta distinción en el país.",fecha:"18 mayo 2025",cat:"general",proyecto:"BRUSCO",destacado:true},
-  {id:2,titulo:"ÂME avanza al 70% — Architecture Studio confirma entregas para fines de 2025",resumen:"Las 12 mansiones en altura sobre la Rambla Armenia en Buceo superan el 70% de avance de obra. El estudio francés Architecture Studio confirma que las entregas comenzarán en el último trimestre del año.",fecha:"15 mayo 2025",cat:"avance",proyecto:"ÂME",destacado:false},
-  {id:3,titulo:"ZIEL supera el 60% de unidades reservadas en Punta Carretas",resumen:"El proyecto del estudio holandés MVRDV continúa captando inversores locales e internacionales. Con Sky Gardens y piscina interior climatizada, ZIEL redefine el lujo residencial en Montevideo.",fecha:"10 mayo 2025",cat:"comercial",proyecto:"ZIEL",destacado:false},
-  {id:4,titulo:"VARDØ presenta renders definitivos — Dark Arkitekter define materialidad final",resumen:"El estudio noruego Dark Arkitekter presentó los renders finales de VARDØ con fachada en vidrio y paneles blancos, reforzando la integración del edificio con el entorno arbolado de Punta Carretas.",fecha:"7 mayo 2025",cat:"avance",proyecto:"VARDØ",destacado:false},
-  {id:5,titulo:"Nuevas condiciones de financiación para agentes comerciales — mayo 2025",resumen:"El equipo comercial de IXOU actualiza las condiciones de reserva y financiación disponibles para todos los proyectos en comercialización activa. Contactarse con ventas@ixou.la para recibir el detalle completo.",fecha:"3 mayo 2025",cat:"comercial",proyecto:null,destacado:false},
-  {id:6,titulo:"RISCO inicia proceso de escrituración del primer bloque de compradores",resumen:"Con el 30% de avance de obra en Héctor Miranda 2400, se coordina con escribanía el proceso de escrituración para los compradores del primer bloque.",fecha:"28 abril 2025",cat:"legal",proyecto:"RISCO",destacado:false},
-  {id:7,titulo:"CUMBRE — Elemental presenta nuevos renders de las vistas a la Rambla Gandhi",resumen:"El estudio chileno Elemental liberó imágenes definitivas de los pisos completos de CUMBRE con vistas panorámicas a la Rambla Mahatma Gandhi y el Río de la Plata.",fecha:"20 abril 2025",cat:"avance",proyecto:"CUMBRE",destacado:false},
-  {id:8,titulo:"MINI avanza al 30% — Monoblock actualiza planos de amenities",resumen:"El proyecto residencial de Monoblock en Barrio Sur confirma el diseño definitivo de la piscina climatizada y el jardín interior. Precios desde U$S 155.000 con financiación disponible.",fecha:"14 abril 2025",cat:"avance",proyecto:"MINI",destacado:false}
-];
-
 /* ══ AUTH ══ */
-const GOOGLE_CLIENT_ID = "309421220352-pmk9r2oua7sqn84hbjogsd0s524q5a5d.apps.googleusercontent.com";
-
-function isAuthorized(email){return EMAILS_AUTORIZADOS.includes(email.toLowerCase().trim())}
-function parseJwt(token){
-  try{const b=token.split('.')[1].replace(/-/g,'+').replace(/_/g,'/');
-  return JSON.parse(decodeURIComponent(atob(b).split('').map(c=>'%'+('00'+c.charCodeAt(0).toString(16)).slice(-2)).join('')))}
-  catch(e){return null}
-}
-window.handleCredentialResponse=function(response){
-  const p=parseJwt(response.credential);
+const EMAILS_AUTORIZADOS=["a.symonds@prop.com.uy","a.urti@prop.com.uy","adrianalavecchia@kwuruguay.com","agnatelli@gmail.com","alejandra@caldeyro.com","alejandrasgolf@gmail.com","aleladeiralucas@gmail.com","aliciarubio2023@gmail.com","andrea.angeriz@entorno.com.uy","andrea.varela@entorno.com.uy","angerizadc@gmail.com","antonella.malvasio@justoaca.com","aranza.vidal@hauzen.com.uy","ariel@ixou.la","arq.mvillarb@gmail.com","arqvalentinapidutti@gmail.com","arquibrokers@gmail.com","barsukovilyaaa@gmail.com","belen.bogadjian@engelvoelkers.com","benjarrascaeta14@gmail.com","brimaryglobal@gmail.com","brunoar888@gmail.com","bycaroytiti@gmail.com","c.alvarez@ixou.la","camila.freire@justoaca.com","camila.gonzalez.mella@gmail.com","camilescas97@gmail.com","camioyhe@gmail.com","cantunez@abate.com.uy","caromontoro987@gmail.com","cecilia.pais@spot.uy","clauinmobiliariagolf@gmail.com","contacto.anaf@gmail.com","d93946675@gmail.com","danielmontero2011@gmail.com","desarrollos@planorbe.com","diego.carricaburu@justoaca.com","diego.goldaracena@justoaca.com","e.lacuesta@prop.com.uy","egrobert@etxe.com.uy","erikasolari2909@gmail.com","eugeniaperezsellanes@gmail.com","federicocapretti0@gmail.com","felixd.v@hotmail.com","fernanda.castro@justoaca.com","fernando.gonzalez.pointer@gmail.com","ferreiravalen822@gmail.com","florencia@polouy.com","fredmamash@gmail.com","frodriguez@soldati.com","g.larrosa@prop.com.uy","g.sosa@prop.com.uy","gali@entorno.com.uy","germanetchebarne@gmail.com","gianfrancofagnoni@gmail.com","ginodistasio@gmail.com","gino@ixou.la","goyenmariana@gmail.com","guillermina@ap.com.uy","hdelcorro@polouy.com","hernanadlib@gmail.com","hmsapriza@gmail.com","i.ramirez@prop.com.uy","ignacio@caldeyro.com","ignacio.sorhuet@fineandcountry.com","ignaciogimenez242@gmail.com","inmobiliariagolf1@gmail.com","info@aixarealestate.com","info@arquibrokers.com","info@polouy.com","info@vizcaya.uy","javier.garaza@justoaca.com","jfolle@planorbe.com","jlnayavarela@remax.com.uy","jponcedeleon@etxe.com.uy","jrebellato@acsa.uy","juan.palacios@engelvoelkers.com","ksnberkov@gmail.com","l.caraballo@prop.com.uy","lard.comex@gmail.com","laura@caldeyro.com","lcoitino@abate.com.uy","lfrancolino@etxe.com.uy","lizberkova@gmail.com","lorechiribao@gmail.com","luxinmobiliariauy@gmail.com","m.gonzalez@ixou.la","m.torres@prop.com.uy","m.zunino@prop.com.uy","macarinegociosinmobiliarios1@gmail.com","magdalenaacerenza@remax.com.uy","majotomas5@gmail.com","marcelo.saracho@coldwellbanker.com.uy","mariacabrera@remax.com.uy","mariano.monymar@gmail.com","marinabajuk@kwuruguay.com","marketing@justoaca.com","massimiglianodimauro@gmail.com","mateo.garcia@engelvoelkers.com","matiasrodfer@gmail.com","mb@blk.uy","mcgerfauo@gmail.com","mdavyt@metrocuadrado.uy","mealvarez@acsa.uy","micaela.hayd@engelvoelkers.com","micaela.lopez@justoaca.com","michi@entorno.com.uy","monicasegoviayic@gmail.com","msokol.pointer@gmail.com","mujicadiazmartin.pointer@gmail.com","natalia.silveira@justoaca.com","nataliamonymar@gmail.com","ncastro@acsa.uy","neorealestate.uy@gmail.com","nicolas@ixou.la","noeliablanco@kwuruguay.com","p.buela@ixou.la","p.correa@prop.com.uy","p.garcia@prop.com.uy","pablo.hontou@engelvoelkers.com","pcassi@acsa.uy","pia.barrabino@gmail.com","piainmobiliariagolf@gmail.com","piamagalhaes@gmail.com","piaoyenard@gmail.com","rafael.estudioflom@gmail.com","rafael@ap.com.uy","rafael@entorno.com.uy","rfalero@metrocuadrado.uy","rivadaviajohana2@gmail.com","rmarialaura48@gmail.com","rominamartinez.f98@gmail.com","rossiellonicolas@gmail.com","rossinaval17@gmail.com","s.vazquez@prop.com.uy","sales@uruestate.com","scheinowitzjackie@gmail.com","sheylacarballo@kwuruguay.com","soledad.uria@justoaca.com","szarza@metrocuadrado.uy","ta-macla@hotmail.com","tabare@entorno.com.uy","tatianaribeiro@kwuruguay.com","uru@neodom.es","v.dupont@prop.com.uy","ventas@inmobiliariafocus.com","ventas@treehouse.com.uy","victorica@caldeyro.com","viviana@arpro.com.uy","yura.sazonov@gmail.com"];
+const GOOGLE_CLIENT_ID="309421220352-pmk9r2oua7sqn84hbjogsd0s524q5a5d.apps.googleusercontent.com";
+function isAuthorized(e){return EMAILS_AUTORIZADOS.includes(e.toLowerCase().trim())}
+function parseJwt(t){try{const b=t.split('.')[1].replace(/-/g,'+').replace(/_/g,'/');return JSON.parse(decodeURIComponent(atob(b).split('').map(c=>'%'+('00'+c.charCodeAt(0).toString(16)).slice(-2)).join('')))}catch(e){return null}}
+window.handleCredentialResponse=function(r){
+  const p=parseJwt(r.credential);
   if(!p){showLoginError('Error al verificar la cuenta.');return}
   if(!isAuthorized(p.email)){showLoginError('Tu cuenta ('+p.email+') no tiene acceso. Contactá a ventas@ixou.la');return}
   sessionStorage.setItem('ixou_user',JSON.stringify({email:p.email,name:p.name,pic:p.picture}));
   showPortal({email:p.email,name:p.name,pic:p.picture});
 };
-function showLoginError(msg){const el=document.getElementById('login-error');if(el){el.textContent=msg;el.style.display='block'}}
-function showPortal(user){
+function showLoginError(m){const el=document.getElementById('login-error');if(el){el.textContent=m;el.style.display='block'}}
+function showPortal(u){
   document.getElementById('login-screen').style.display='none';
   document.getElementById('portal-screen').style.display='block';
-  const n=document.getElementById('user-display-name');if(n)n.textContent=user.name||user.email;
-  const a=document.getElementById('user-avatar');if(a&&user.pic){a.src=user.pic;a.style.display='block';a.onerror=()=>a.style.display='none'}
-  if(!window._pi){window._pi=true;initPortal()}
+  const n=document.getElementById('user-display-name');if(n)n.textContent=u.name||u.email;
+  const a=document.getElementById('user-avatar');if(a&&u.pic){a.src=u.pic;a.style.display='block';a.onerror=()=>a.style.display='none'}
+  if(!window._pi){window._pi=true;
+    document.getElementById('hdr-right').textContent=PROYECTOS.length+' PROYECTOS · '+livePosts.length+' NOVEDADES';
+    renderDash();renderProj();renderBlog();
+  }
 }
 window.logoutUser=function(){if(confirm('¿Cerrar sesión?')){sessionStorage.removeItem('ixou_user');location.reload()}};
 window.addEventListener('DOMContentLoaded',()=>{
@@ -434,83 +371,210 @@ window.addEventListener('DOMContentLoaded',()=>{
   };
 });
 
-/* ══ PORTAL ══ */
-const OBRA_LBL={pozo:'En pozo',obra:'En obra',terminado:'Terminado'};
-const OBRA_CLS={pozo:'ob-pozo',obra:'ob-obra',terminado:'ob-terminado'};
+/* ══ DATA ══ */
+const OBRA_LBL={Terminado:'Terminado',obra:'En obra',Pozo:'En pozo',Proyecto:'En proyecto'};
+const OBRA_CLS={Terminado:'ob-terminado',obra:'ob-obra',Pozo:'ob-pozo',Proyecto:'ob-proyecto'};
 const CAT={lanzamiento:{lbl:'Lanzamiento',cls:'cc-launch'},avance:{lbl:'Avance de obra',cls:'cc-avance'},comercial:{lbl:'Comercial',cls:'cc-comer'},legal:{lbl:'Legal',cls:'cc-legal'},general:{lbl:'General',cls:'cc-general'}};
-const DI=`<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 15l5-8.5 5.5 9.5M10.5 6.5L14 12l5 3M2.5 17h19"/></svg>`;
-let livePosts=[...BLOG_POSTS],bFilter='all';
+const DI=`<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 15l5-8.5 5.5 9.5M10.5 6.5L14 12l5 3M2.5 17h19"/></svg>`;
 
+const PROYECTOS=[
+  {id:1,nombre:"ALMA SUR",destacado:false,slogan:"Una forma nueva de estar en el centro, con ALMA",arq:"Carlos Ott + HOA",calle:"José Germán Araujo 1165",barrio:"Barrio Sur",ciudad:"Montevideo",obra:"Terminado",avance:100,unidades:78,ocupacion:"Entregado",unidadesDetalle:{"-":null,"1D":"USD 169.000","2D":"USD 227.000","3D":"USD 412.000","4D":"USD 370.000"},cert:"No",amenities:"Living SUM, Playroom, Terraza y Parrilleros",driveUrl:"https://drive.google.com/drive/folders/1-KLZB8kcDkYkcT6b8cdBtyhZlZ4LI9rG?usp=drive_link",webUrl:"https://www.almas.com.uy/",mapsQ:"José+Germán+Araujo+1165+Barrio+Sur+Montevideo"},
+  {id:2,nombre:"ALMA BRAVA",destacado:false,slogan:"Una forma nueva de estar en el centro, con ALMA",arq:"Mathías Klotz + Edgardo Minond + HOA",calle:"José Germán Araujo 1256",barrio:"Barrio Sur",ciudad:"Montevideo",obra:"Terminado",avance:100,unidades:76,ocupacion:"Entregado",unidadesDetalle:{"-":null,"1D":"USD 142.000","2D":"USD 190.000"},cert:"No",amenities:"Living SUM, Terraza y Parrilleros",driveUrl:"https://drive.google.com/drive/folders/1vXO7WLT-cCI_VT_jKq8U6hc5NQmU44QN?usp=drive_link",webUrl:"https://www.almas.com.uy/",mapsQ:"José+Germán+Araujo+1256+Barrio+Sur+Montevideo"},
+  {id:3,nombre:"ALMA CORSO",destacado:false,slogan:"Una forma nueva de estar en el centro, con ALMA",arq:"Carlos Ott + HOA",calle:"Canelones 896",barrio:"Barrio Sur",ciudad:"Montevideo",obra:"Terminado",avance:100,unidades:57,ocupacion:"Entregado",unidadesDetalle:{"4D":"USD 567.231"},cert:"No",amenities:"Living SUM, Terraza, Parrilleros",driveUrl:"https://drive.google.com/drive/folders/1iaF9VCRO0tyeluHdr8JIJ6Y_8wx41Ynp?usp=drive_link",webUrl:"https://www.almas.com.uy/",mapsQ:"Canelones+896+Barrio+Sur+Montevideo"},
+  {id:4,nombre:"ALMA DUÇ",destacado:true,slogan:"El mejor edificio del Centro de Montevideo",arq:"Carlos Ferrater (España) + HOA",calle:"Ciudadela 1278",barrio:"Barrio Sur",ciudad:"Montevideo",obra:"Terminado",avance:100,unidades:72,ocupacion:"Entregado",unidadesDetalle:{"1D":"USD 214.885","2D":"USD 288.191","3D":"USD 307.899"},cert:"No",amenities:"Co-Work, Jardín, Gimnasio, Canal de nado climatizado, Sauna, Sala de Masajes, Piscina exterior climatizada, Terraza, Parrillero",driveUrl:"https://drive.google.com/drive/folders/1MNXKS6tmMDrMZfgFFRuX4YgLGbW4bZnZ?usp=drive_link",webUrl:"https://www.almas.com.uy/",mapsQ:"Ciudadela+1278+Montevideo"},
+  {id:5,nombre:"ALMA ET",destacado:false,slogan:"Torre corporativa AAA con certificación LEED Platino",arq:"Miguel Saravia (Portugal) + Monoblock (Argentina)",calle:"Ciudadela 1250",barrio:"Barrio Sur",ciudad:"Montevideo",obra:"Terminado",avance:100,unidades:20,ocupacion:"Entregado",unidadesDetalle:{"Oficinas AAA":"Consultar"},cert:"LEED PLATINO",amenities:"Co-Work, Salas de reuniones, Sala maternal, Seguridad 24hs",driveUrl:"https://drive.google.com/drive/folders/1op7fEdvDoxKWPss7pC37sv9TwT-9wVUN?usp=drive_link",webUrl:"https://www.almas.com.uy/",mapsQ:"Ciudadela+1250+Montevideo"},
+  {id:6,nombre:"BRUSCO",destacado:true,slogan:"SOÑÁ BRUSCO. Habitá. Trabajá. Disfrutá.",arq:"Mathías Klotz (Chile) + Edgardo Minond (Argentina) + HOA",calle:"Aquiles Lanza 1270",barrio:"Centro",ciudad:"Montevideo",obra:"Terminado",avance:95,unidades:113,ocupacion:"Entregado",unidadesDetalle:{"Studio":"USD 146.500","1D":"USD 189.420","2D":"USD 246.804"},cert:"LEED ORO",amenities:"Living SUM, Salón de Juegos, Co-Work, Jardín, Gimnasio, Laundry, Piscina exterior climatizada, Terraza, Parrilleros",driveUrl:"https://drive.google.com/drive/folders/1lM_CerME_IdR4B1Rz_8NHYHMMg0NHmHW?usp=drive_link",webUrl:"https://brusco.com.uy/",mapsQ:"Aquiles+Lanza+1270+Centro+Montevideo"},
+  {id:7,nombre:"MINI",destacado:true,slogan:"UN ALMA MÍNIMA. UNA VIDA MÁXIMA.",arq:"Monoblock (Argentina)",calle:"Mini 839",barrio:"Barrio Sur",ciudad:"Montevideo",obra:"obra",avance:50,unidades:33,ocupacion:"8 meses",unidadesDetalle:{"Studio":"USD 155.162","1D":"USD 211.165","2D":"USD 553.184"},cert:"No",amenities:"Living SUM, Jardín, Gimnasio, Canal de nado interior climatizado, Lavadero",driveUrl:"https://drive.google.com/drive/folders/1hGsM45OHiq1JS58iBgJ7sl6A6o9CtF6i?usp=drive_link",webUrl:"https://miniixou.com.uy/",mapsQ:"Mini+839+Barrio+Sur+Montevideo"},
+  {id:8,nombre:"ÂME",destacado:true,slogan:"12 CASAS EN PRIMERA LÍNEA",arq:"Architecture Studio (Francia)",calle:"Rambla Armenia 3669",barrio:"Buceo",ciudad:"Montevideo",obra:"obra",avance:70,unidades:12,ocupacion:"7 meses",unidadesDetalle:{"3D":"USD 2.116.200","4D":"USD 3.071.350"},cert:"LEED PLATINO",amenities:"ClubHouse, Wellness area, Sauna infrarrojo, Jardín con fogón, Gimnasio, Piscina exterior climatizada, Laundry, Huerta",driveUrl:"https://drive.google.com/drive/folders/1pnSwcQDlPE2IoWeD78WyD_qEl0fluwLw?usp=drive_link",webUrl:"https://ameixou.com.uy/",mapsQ:"Rambla+Armenia+3669+Buceo+Montevideo"},
+  {id:9,nombre:"RISCO",destacado:true,slogan:"Mirar desde lo alto, subir al Risco",arq:"Monoblock (Argentina)",calle:"Héctor Miranda 2437",barrio:"Punta Carretas",ciudad:"Montevideo",obra:"obra",avance:50,unidades:35,ocupacion:"13 meses",unidadesDetalle:{"3D":"USD 469.263","4D":"USD 1.019.601"},cert:"LEED ORO",amenities:"Living SUM, Terraza con Parrillero, Gimnasio, Piscina interior climatizada, Sauna",driveUrl:"https://drive.google.com/drive/folders/1ZIQQDqSgzMCOx7w_zsFu34b8GPJAN6T8?usp=drive_link",webUrl:"https://riscoixou.com.uy/",mapsQ:"Héctor+Miranda+2437+Punta+Carretas+Montevideo"},
+  {id:10,nombre:"ZIEL",destacado:true,slogan:"Un parque en las alturas",arq:"MVRDV (Países Bajos)",calle:"José Vázquez Ledesma 3000",barrio:"Punta Carretas",ciudad:"Montevideo",obra:"obra",avance:30,unidades:40,ocupacion:"13 meses",unidadesDetalle:{"3D":"USD 730.621","4D":"USD 1.749.677"},cert:"LEED PLATINO",amenities:"Sky Gardens, Terraza jardín con Parrilleros y fogón, ClubHouse, Micro cine, Gimnasio, Canal de nado climatizado, Sauna, Piscina exterior climatizada",driveUrl:"https://drive.google.com/drive/folders/1GkRN8OxLikb8hIMNd6oklna8Bsk4d1lJ?usp=drive_link",webUrl:"https://zielixou.com.uy/",mapsQ:"José+Vázquez+Ledesma+3000+Punta+Carretas+Montevideo"},
+  {id:11,nombre:"CUMBRE",destacado:true,slogan:"Cumbre, el mar y vos",arq:"ELEMENTAL (Chile)",calle:"Rambla Gandhi 609",barrio:"Punta Carretas",ciudad:"Montevideo",obra:"obra",avance:70,unidades:11,ocupacion:"3 meses",unidadesDetalle:{"Studio":"USD 875.560","2D":"USD 722.380","3D":"USD 1.825.675"},cert:"LEED ORO",amenities:"Terraza con Parrillero, Gimnasio, Canal de nado interior climatizado, Sauna",driveUrl:"https://drive.google.com/drive/folders/1HZWKIvJ5ybgPI57K67b3c7JsQJLKJVPF?usp=drive_link",webUrl:"https://cumbreixou.com.uy/",mapsQ:"Rambla+Gandhi+609+Punta+Carretas+Montevideo"},
+  {id:12,nombre:"RAMÓN",destacado:false,slogan:"Oficinas AAA en el corazón de Punta Carretas",arq:"Estudio Seis (Uruguay)",calle:"Ramón Fernández 270",barrio:"Punta Carretas",ciudad:"Montevideo",obra:"Pozo",avance:0,unidades:0,ocupacion:"A confirmar",unidadesDetalle:{"Oficinas AAA":"Consultar"},cert:"A confirmar",amenities:"Oficinas AAA",driveUrl:"https://drive.google.com/drive/folders/1N6E2803k0SBKjIBuzI06h4a4fyONC1oX?usp=drive_link",webUrl:"https://ramonixou.com.uy/",mapsQ:"Ramón+Fernández+270+Punta+Carretas+Montevideo"},
+  {id:13,nombre:"MIRLO",destacado:true,slogan:"Sobre una casa con valor patrimonial MIRLO vuelve a cantar en Barrio Sur",arq:"Monoblock (Argentina)",calle:"José Germán Araujo 1162",barrio:"Barrio Sur",ciudad:"Montevideo",obra:"Pozo",avance:10,unidades:40,ocupacion:"24 meses",unidadesDetalle:{"Studio":"USD 126.700","1D":"USD 174.555","1D Dúplex":"USD 169.375"},cert:"No",amenities:"Living SUM, Terraza, Parrilleros",driveUrl:"https://drive.google.com/drive/folders/1s5EKnuwyLU9EpCGUzMqXNFq7XpIFiPHV?usp=drive_link",webUrl:"https://mirloixou.com.uy/",mapsQ:"José+Germán+Araujo+1162+Barrio+Sur+Montevideo"},
+  {id:14,nombre:"VARDØ",destacado:false,slogan:"Colaborativo, social y seguro",arq:"Dark Arkitekter (Noruega) + Rudolph (Uruguay)",calle:"21 de Setiembre 2992",barrio:"Punta Carretas",ciudad:"Montevideo",obra:"Proyecto",avance:0,unidades:54,ocupacion:"30 meses",unidadesDetalle:{"Studio":"USD 146.062","1D":"USD 232.687","2D":"USD 349.505"},cert:"EDGE",amenities:"Terraza con Parrillero, Gimnasio, Piscina exterior climatizada",driveUrl:"https://drive.google.com/drive/folders/1d-ngG1XiDUmHaAoeJ-3QCVkDPStG8prI?usp=drive_link",webUrl:"http://vardoixou.uy/",mapsQ:"21+de+Setiembre+2992+Punta+Carretas+Montevideo"},
+  {id:15,nombre:"CÉFIRO",destacado:false,slogan:"Donde el viento hace silencio",arq:"Estudio Seis (Uruguay)",calle:"Iturriaga 3530",barrio:"Buceo",ciudad:"Montevideo",obra:"Proyecto",avance:0,unidades:11,ocupacion:"30 meses",unidadesDetalle:{"2D":"USD 1.071.330","3D":"USD 1.489.324","4D":"USD 2.113.524","3D Dúplex":"USD 2.059.920"},cert:"A confirmar",amenities:"—",driveUrl:"https://drive.google.com/drive/folders/1k-KEijI0ZYOiC372jJmP2LFTUdsJujgR?usp=drive_link",webUrl:"https://cefiroixou.uy/",mapsQ:"Iturriaga+3530+Buceo+Montevideo"},
+  {id:16,nombre:"HALO",destacado:false,slogan:"Un proyecto emblemático en un entorno privilegiado",arq:"Monoblock (Argentina)",calle:"Julio Herrera y Reissig 510",barrio:"Punta Carretas",ciudad:"Montevideo",obra:"Pozo",avance:0,unidades:10,ocupacion:"30 meses",unidadesDetalle:{"3D":"USD 807.621","4D":"USD 1.221.148"},cert:"EDGE",amenities:"Terraza con Parrillero, Gimnasio, Canal de nado interior climatizado, Sauna",driveUrl:"https://drive.google.com/drive/folders/1EWnmKKc8B7ZHSIeM_MvTCSd9nT8mQZXz?usp=drive_link",webUrl:"https://haloixou.com.uy/",mapsQ:"Julio+Herrera+y+Reissig+510+Punta+Carretas+Montevideo"}
+];
+
+let livePosts=[
+  {id:1,titulo:"ALMA ET y BRUSCO certifican LEED PLATINO — IXOU lidera la sustentabilidad en Uruguay",resumen:"Con dos proyectos certificados LEED Platino, IXOU se consolida como la desarrolladora más sustentable de Uruguay.",fecha:"18 mayo 2025",cat:"general",proyecto:"BRUSCO",destacado:true},
+  {id:2,titulo:"ÂME avanza al 70% — Architecture Studio confirma entregas para fines de 2025",resumen:"Las 12 mansiones en altura sobre la Rambla Armenia en Buceo superan el 70% de avance.",fecha:"15 mayo 2025",cat:"avance",proyecto:"ÂME",destacado:false},
+  {id:3,titulo:"ZIEL supera el 60% de unidades reservadas en Punta Carretas",resumen:"El proyecto del estudio holandés MVRDV continúa captando inversores locales e internacionales.",fecha:"10 mayo 2025",cat:"comercial",proyecto:"ZIEL",destacado:false},
+  {id:4,titulo:"VARDØ presenta renders definitivos — Dark Arkitekter define materialidad final",resumen:"El estudio noruego presentó los renders finales con fachada en vidrio y paneles blancos.",fecha:"7 mayo 2025",cat:"avance",proyecto:"VARDØ",destacado:false},
+  {id:5,titulo:"Nuevas condiciones de financiación para agentes — mayo 2025",resumen:"El equipo comercial de IXOU actualiza las condiciones de reserva y financiación. Contactar ventas@ixou.la",fecha:"3 mayo 2025",cat:"comercial",proyecto:null,destacado:false},
+  {id:6,titulo:"RISCO inicia proceso de escrituración del primer bloque",resumen:"Con el 50% de avance, se coordina con escribanía el proceso para los compradores del primer bloque.",fecha:"28 abril 2025",cat:"legal",proyecto:"RISCO",destacado:false}
+];
+let bFilter='all';
+
+/* ══ NAV ══ */
 function showSec(n,btn){
   ['dashboard','proyectos','blog'].forEach(s=>document.getElementById('sec-'+s).style.display='none');
   document.getElementById('sec-'+n).style.display='block';
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
-  if(btn)btn.classList.add('active');window.scrollTo(0,0);
+  if(btn)btn.classList.add('active');
+  window.scrollTo(0,0);
 }
-/* All functions are global — initPortal just triggers the first render */
-function initPortal(){
-  document.getElementById('hdr-name').textContent='IXOU';
-  document.getElementById('hdr-tag').textContent='Ciudad Consciente';
-  document.getElementById('hdr-right').textContent=PROYECTOS.length+' PROYECTOS · '+livePosts.length+' NOVEDADES';
-  renderDash();renderProj();renderBlog();
-  /* Make sure nav buttons work */
-  window.showSec=showSec;
-  window.openModal=openModal;
-  window.closeModal=closeModal;
-  window.closeMBg=closeMBg;
-  window.renderProj=renderProj;
-  window.filterBlog=filterBlog;
-  window.toggleForm=toggleForm;
-  window.publishPost=publishPost;
-}
-/* Pre-expose before login so header buttons work immediately */
-window.showSec=function(n,btn){
-  ['dashboard','proyectos','blog'].forEach(s=>document.getElementById('sec-'+s).style.display='none');
-  document.getElementById('sec-'+n).style.display='block';
-  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
-  if(btn)btn.classList.add('active');window.scrollTo(0,0);
-};
-window.openModal=function(id){openModal(id)};
-window.closeModal=function(){closeModal()};
-window.closeMBg=function(e){closeMBg(e)};
-window.renderProj=function(){renderProj()};
-window.filterBlog=function(c,b){filterBlog(c,b)};
-window.toggleForm=function(){toggleForm()};
-window.publishPost=function(){publishPost()};
+window.showSec=showSec;
+
+/* ══ DASHBOARD ══ */
 function renderDash(){
-  const eo=PROYECTOS.filter(p=>p.obra==='obra').length,ep=PROYECTOS.filter(p=>p.obra==='pozo').length,et=PROYECTOS.filter(p=>p.obra==='terminado').length;
-  document.getElementById('stats-row').innerHTML=`<div class="stat-cell"><div class="stat-n">${PROYECTOS.length}</div><div class="stat-l">Proyectos</div></div><div class="stat-cell"><div class="stat-n">${et}</div><div class="stat-l">Terminados</div><div class="stat-sub">${eo} en obra · ${ep} en pozo</div></div><div class="stat-cell"><div class="stat-n">${eo+ep}</div><div class="stat-l">En desarrollo</div></div><div class="stat-cell"><div class="stat-n">${livePosts.length}</div><div class="stat-l">Novedades</div></div>`;
-  document.getElementById('dash-feat').innerHTML=PROYECTOS.filter(p=>p.destacado).slice(0,4).map(p=>`<div class="feat-card" onclick="openModal(${p.id})"><div class="feat-card-name">${p.nombre}</div><div class="feat-card-arq">by ${p.arq}</div><span class="obra-tag ${OBRA_CLS[p.obra]}">${OBRA_LBL[p.obra]} · ${p.avanceObra}%</span><div class="feat-card-desc">◇ ${p.tipologia}</div><div class="feat-card-foot"><span class="feat-card-units">${Object.values(p.precios)[0]}</span><div style="display:flex;gap:8px"><a class="drive-link" href="${p.driveUrl}" target="_blank" onclick="event.stopPropagation()">${DI} Drive</a><a class="drive-link" href="${p.webUrl}" target="_blank" onclick="event.stopPropagation()" style="color:var(--accent);">🌐 Web</a></div></div></div>`).join('');
-  document.getElementById('dash-news').innerHTML=livePosts.slice(0,5).map(p=>`<div class="news-row" onclick="showSec('blog',document.querySelectorAll('.nav-btn')[2])"><div class="news-date">${p.fecha} · <span class="${CAT[p.cat].cls}">${CAT[p.cat].lbl}</span></div><div class="news-ttl">${p.titulo}</div></div>`).join('');
-  document.getElementById('dash-drive').innerHTML=PROYECTOS.map(p=>`<a class="qlink" href="${p.driveUrl}" target="_blank"><div class="qlink-dot"></div><div><div class="qlink-name">${p.nombre}</div><div class="qlink-sub">${p.direccion}</div></div></a>`).join('');
+  const eo=PROYECTOS.filter(p=>p.obra==='obra').length,ep=PROYECTOS.filter(p=>p.obra==='Pozo'||p.obra==='Proyecto').length,et=PROYECTOS.filter(p=>p.obra==='Terminado').length;
+  document.getElementById('stats-row').innerHTML=`
+    <div class="stat-cell"><div class="stat-n">${PROYECTOS.length}</div><div class="stat-l">Proyectos</div></div>
+    <div class="stat-cell"><div class="stat-n">${et}</div><div class="stat-l">Terminados</div></div>
+    <div class="stat-cell"><div class="stat-n">${eo}</div><div class="stat-l">En obra</div><div class="stat-sub">${ep} en pozo/proyecto</div></div>
+    <div class="stat-cell"><div class="stat-n">${livePosts.length}</div><div class="stat-l">Novedades</div></div>`;
+  document.getElementById('dash-feat').innerHTML=PROYECTOS.filter(p=>p.destacado).slice(0,4).map(p=>`
+    <div class="feat-card" onclick="openModal(${p.id})">
+      <div class="feat-card-name">${p.nombre}${p.destacado?' ⭐':''}</div>
+      <div class="feat-card-arq" style="font-size:10px;color:var(--gray4)">${p.barrio}, ${p.ciudad}</div>
+      <span class="obra-tag ${OBRA_CLS[p.obra]||'ob-pozo'}">${p.obra} · ${p.avance}%</span>
+      <div class="feat-card-desc">◇ ${p.slogan}</div>
+      <div class="feat-card-foot">
+        <span class="feat-card-units">${p.unidades} uds · ${Object.values(p.unidadesDetalle).filter(v=>v&&v!=='Consultar')[0]||'Consultar'}</span>
+        <div style="display:flex;gap:8px">
+          <a class="drive-link" href="${p.driveUrl}" target="_blank" onclick="event.stopPropagation()">${DI} Drive</a>
+          <a class="drive-link" href="${p.webUrl}" target="_blank" onclick="event.stopPropagation()" style="color:var(--accent)">🌐 Web</a>
+        </div>
+      </div>
+    </div>`).join('');
+  document.getElementById('dash-news').innerHTML=livePosts.slice(0,5).map(p=>`
+    <div class="news-row" onclick="showSec('blog',document.querySelectorAll('.nav-btn')[2])">
+      <div class="news-date">${p.fecha} · <span class="${CAT[p.cat].cls}">${CAT[p.cat].lbl}</span></div>
+      <div class="news-ttl">${p.titulo}</div>
+    </div>`).join('');
+  document.getElementById('dash-drive').innerHTML=PROYECTOS.map(p=>`
+    <a class="qlink" href="${p.driveUrl}" target="_blank">
+      <div class="qlink-dot"></div>
+      <div><div class="qlink-name">${p.nombre}</div><div class="qlink-sub">${p.calle}</div></div>
+    </a>`).join('');
 }
+
+/* ══ PROJECT CARDS ══ */
+function obraClass(o){return OBRA_CLS[o]||'ob-proyecto'}
+function obraLabel(o){return OBRA_LBL[o]||o}
+
 function renderProj(){
-  const q=(document.getElementById('ctrl-q').value||'').toLowerCase(),obra=document.getElementById('ctrl-obra').value;
-  const list=PROYECTOS.filter(p=>(!q||p.nombre.toLowerCase().includes(q)||p.direccion.toLowerCase().includes(q))&&(!obra||p.obra===obra));
-  const cont=document.getElementById('proj-list');
-  document.getElementById('no-res').style.display=list.length?'none':'block';
-  [...cont.querySelectorAll('.proj-row')].forEach(r=>r.remove());
+  const q=(document.getElementById('ctrl-q').value||'').toLowerCase();
+  const obra=document.getElementById('ctrl-obra').value;
+  const list=PROYECTOS.filter(p=>{
+    const mq=!q||p.nombre.toLowerCase().includes(q)||p.barrio.toLowerCase().includes(q)||p.arq.toLowerCase().includes(q)||p.calle.toLowerCase().includes(q);
+    const mo=!obra||p.obra===obra||(obra==='obra'&&p.obra==='obra');
+    return mq&&mo;
+  });
+  const grid=document.getElementById('proj-cards');
+  const noRes=document.getElementById('no-res');
+  grid.innerHTML='';
+  noRes.style.display=list.length?'none':'block';
+
   list.forEach(p=>{
-    const ph=Object.entries(p.precios).map(([t,v])=>`<div class="price-row"><span class="price-row-tipo">${t}</span><span class="price-row-val">${v}</span></div>`).join('');
-    const bw=p.avanceObra,pb=`<div style="margin-top:12px"><div style="display:flex;justify-content:space-between;margin-bottom:5px"><span style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray3)">Avance</span><span style="font-size:11px;color:var(--gray5)">${bw}%</span></div><div style="height:2px;background:var(--gray2);border-radius:1px;overflow:hidden"><div style="height:100%;width:${bw}%;background:${bw===100?'var(--accent)':bw>=50?'var(--accent2)':'var(--gray4)'}"></div></div></div>`;
-    const r=document.createElement('div');r.className='proj-row';
-    r.innerHTML=`<div class="proj-row-left"><div class="proj-row-name">${p.nombre}</div><div class="proj-row-arq">by ${p.arq}</div><span class="obra-tag ${OBRA_CLS[p.obra]}">${OBRA_LBL[p.obra]}</span>${pb}<div style="margin-top:12px;font-size:10px;color:var(--gray3)">Proyecto: ${p.proyecto}</div></div><div class="proj-row-mid"><div class="proj-row-loc">📍 ${p.direccion}</div><div class="proj-row-desc" style="font-weight:500;color:var(--gray5)">◇ ${p.tipologia}</div><div class="proj-row-desc">◇ ${p.descripcion}</div><div style="margin-top:10px"><div class="price-block-title">Precio de venta</div>${ph}<div style="font-size:10px;color:var(--gray3);margin-top:5px">* Orientativos, sujetos a disponibilidad</div></div>${p.amenities&&p.amenities!=='—'?`<div style="margin-top:12px"><div class="price-block-title">Amenities</div><div style="font-size:11px;color:var(--gray4);line-height:1.6;margin-top:4px">${p.amenities}</div></div>`:''}</div><div class="proj-row-right"><a class="btn-gdrive" href="${p.driveUrl}" target="_blank">${DI} Google Drive</a><a class="btn-gdrive" href="${p.webUrl}" target="_blank" style="background:transparent;border-color:var(--accent);color:var(--accent)">🌐 Sitio web</a><button class="btn-ver" onclick="openModal(${p.id})">Ver detalle →</button></div>`;
-    cont.appendChild(r);
+    const mapsUrl=`https://www.google.com/maps/search/?api=1&query=${p.mapsQ}`;
+    const bw=p.avance;
+    const fillColor=bw===100?'var(--accent)':bw>=50?'var(--accent2)':'var(--gray4)';
+
+    // Unit chips
+    const unitChips=Object.entries(p.unidadesDetalle)
+      .filter(([t,v])=>t&&t!=='-'&&v)
+      .map(([t,v])=>`<div class="unit-chip"><strong>${t}</strong>${v}</div>`).join('');
+
+    // Cert badge
+    const certBadge=p.cert&&p.cert!=='No'&&p.cert!=='—'
+      ?`<span style="font-size:9px;padding:2px 7px;background:rgba(120,180,100,.12);color:var(--accent);border:1px solid rgba(120,180,100,.25);border-radius:1px;letter-spacing:.5px">${p.cert}</span>`:'';
+
+    const card=document.createElement('div');
+    card.className='proj-card';
+    card.innerHTML=`
+      <div class="card-img">
+        <div class="card-img-placeholder">🏗</div>
+        ${p.destacado?'<div class="card-star" title="Proyecto destacado">⭐</div>':''}
+        <div class="card-obra-badge"><span class="obra-tag ${obraClass(p.obra)}" style="margin:0">${obraLabel(p.obra)}</span></div>
+      </div>
+      <div class="card-body">
+        <div>
+          <div class="card-name">${p.nombre}</div>
+          ${p.slogan?`<div class="card-slogan">"${p.slogan}"</div>`:''}
+        </div>
+        <div class="card-loc">
+          📍 <a href="${mapsUrl}" target="_blank" title="Ver en Google Maps">${p.calle}, ${p.barrio}</a>
+        </div>
+        <div class="card-progress">
+          <div class="card-progress-label">
+            <span style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray3)">Avance de obra</span>
+            <span style="color:var(--gray5)">${bw}%</span>
+          </div>
+          <div class="card-progress-bar"><div class="card-progress-fill" style="width:${bw}%;background:${fillColor}"></div></div>
+        </div>
+        <div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+            <div class="card-units-title">Tipos y precios desde</div>
+            ${certBadge}
+          </div>
+          <div class="card-units-grid">${unitChips||'<span style="font-size:11px;color:var(--gray3)">Consultar</span>'}</div>
+        </div>
+        <div style="display:flex;gap:12px;font-size:11px;color:var(--gray4);padding-top:4px;border-top:1px solid var(--gray1)">
+          <span>📦 ${p.unidades} unidades</span>
+          <span>🗓 Ocupación: ${p.ocupacion}</span>
+        </div>
+        ${p.amenities&&p.amenities!=='—'?`<div style="font-size:10px;color:var(--gray3);line-height:1.5">◇ ${p.amenities}</div>`:''}
+      </div>
+      <div class="card-foot">
+        <a class="btn-sm btn-drive" href="${p.driveUrl}" target="_blank">${DI} Drive</a>
+        <a class="btn-sm btn-web" href="${p.webUrl}" target="_blank">🌐 Sitio</a>
+        <a class="btn-sm btn-map" href="${mapsUrl}" target="_blank">📍 Mapa</a>
+      </div>`;
+    grid.appendChild(card);
   });
 }
+window.renderProj=renderProj;
+
+/* ══ MODAL ══ */
 function openModal(id){
-  const p=PROYECTOS.find(x=>x.id===id),rel=livePosts.filter(b=>b.proyecto===p.nombre).slice(0,3);
-  const pr=Object.entries(p.precios).map(([t,v])=>`<div class="modal-price-row"><span class="modal-price-tipo">${t}</span><span class="modal-price-val">${v}</span></div>`).join('');
-  const bw=p.avanceObra,pb=`<div style="height:2px;background:var(--gray2);border-radius:1px;overflow:hidden;margin-top:4px"><div style="height:100%;width:${bw}%;background:${bw===100?'var(--accent)':'var(--accent2)'}"></div></div>`;
-  const ph=rel.length?rel.map(b=>`<div class="modal-info-row"><span class="modal-info-lbl ${CAT[b.cat].cls}">${CAT[b.cat].lbl}</span><span class="modal-info-val" style="font-size:11px;font-weight:400;color:var(--gray5);text-align:right;max-width:70%">${b.titulo.substring(0,60)}…</span></div>`).join(''):'<p style="font-size:11px;color:var(--gray3)">Sin novedades recientes.</p>';
-  document.getElementById('modal-box').innerHTML=`<div class="modal-hd"><div><div class="modal-hd-name">${p.nombre}</div><div class="modal-hd-arq">by ${p.arq} · <span class="${OBRA_CLS[p.obra]}" style="font-size:10px">${OBRA_LBL[p.obra]}</span></div></div><button class="modal-close" onclick="closeModal()">✕</button></div><div class="modal-body"><div class="modal-sec"><div class="modal-sec-title">Tipología</div><p style="font-size:13px;color:var(--gray4);line-height:1.65;margin-bottom:4px">◇ ${p.tipologia}</p><p style="font-size:12px;color:var(--gray5);line-height:1.65">◇ ${p.descripcion}</p></div><div class="modal-sec"><div class="modal-sec-title">Datos generales</div><div class="modal-info-row"><span class="modal-info-lbl">Dirección</span><span class="modal-info-val" style="font-size:11px">📍 ${p.direccion}</span></div><div class="modal-info-row"><span class="modal-info-lbl">Marco legal</span><span class="modal-info-val" style="font-size:11px">${p.proyecto}</span></div><div class="modal-info-row"><span class="modal-info-lbl">Estado</span><span class="obra-tag ${OBRA_CLS[p.obra]}" style="position:static">${OBRA_LBL[p.obra]}</span></div><div class="modal-info-row" style="flex-direction:column;align-items:flex-start;gap:6px"><span class="modal-info-lbl">Avance: ${bw}%</span>${pb}</div></div><div class="modal-sec"><div class="modal-sec-title">Precio de venta</div>${pr}<p style="font-size:10px;color:var(--gray3);margin-top:6px">* Orientativos, sujetos a disponibilidad</p></div>${p.amenities&&p.amenities!=='—'?`<div class="modal-sec"><div class="modal-sec-title">Amenities</div><p style="font-size:12px;color:var(--gray4);line-height:1.7">${p.amenities}</p></div>`:''}<div class="modal-sec"><div class="modal-sec-title">Documentación</div><div class="modal-info-row"><span class="modal-info-lbl">Google Drive</span><a class="btn-gdrive" href="${p.driveUrl}" target="_blank" style="padding:5px 12px;font-size:10px">${DI} Abrir Drive</a></div><div class="modal-info-row"><span class="modal-info-lbl">Sitio web</span><a class="btn-gdrive" href="${p.webUrl}" target="_blank" style="padding:5px 12px;font-size:10px;background:transparent;border-color:var(--accent);color:var(--accent)">🌐 Ver sitio</a></div></div><div class="modal-sec"><div class="modal-sec-title">Novedades relacionadas</div>${ph}</div></div>`;
+  const p=PROYECTOS.find(x=>x.id===id);
+  const mapsUrl=`https://www.google.com/maps/search/?api=1&query=${p.mapsQ}`;
+  const units=Object.entries(p.unidadesDetalle).filter(([t,v])=>t&&t!=='-'&&v).map(([t,v])=>`<div class="modal-row"><span class="modal-lbl">${t}</span><span class="modal-val" style="color:var(--accent)">${v}</span></div>`).join('');
+  const bw=p.avance;
+  const rel=livePosts.filter(b=>b.proyecto===p.nombre).slice(0,3);
+  const postsHtml=rel.length?rel.map(b=>`<div class="modal-row"><span class="modal-lbl ${CAT[b.cat].cls}">${CAT[b.cat].lbl}</span><span class="modal-val" style="font-size:11px;font-weight:400;color:var(--gray5)">${b.titulo.substring(0,55)}…</span></div>`).join(''):'<p style="font-size:11px;color:var(--gray3)">Sin novedades recientes.</p>';
+  document.getElementById('modal-box').innerHTML=`
+    <div class="modal-hd">
+      <div>
+        <div class="modal-hd-name">${p.nombre}${p.destacado?' ⭐':''}</div>
+        <div class="modal-hd-sub">${p.arq}</div>
+        <div class="modal-hd-sub" style="margin-top:2px"><span class="obra-tag ${obraClass(p.obra)}" style="position:static;margin:0">${obraLabel(p.obra)} · ${bw}%</span>${p.cert&&p.cert!=='No'?` &nbsp;<span style="font-size:9px;padding:2px 7px;background:rgba(120,180,100,.12);color:var(--accent);border:1px solid rgba(120,180,100,.25);border-radius:1px">${p.cert}</span>`:''}</div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-sec"><div class="modal-sec-title">Ubicación</div>
+        <div class="modal-row"><span class="modal-lbl">Dirección</span><span class="modal-val"><a href="${mapsUrl}" target="_blank" style="color:var(--accent);text-decoration:none">📍 ${p.calle}</a></span></div>
+        <div class="modal-row"><span class="modal-lbl">Barrio</span><span class="modal-val">${p.barrio}, ${p.ciudad}</span></div>
+        <div class="modal-row"><span class="modal-lbl">Slogan</span><span class="modal-val" style="font-style:italic;font-size:11px;color:var(--gray4)">${p.slogan}</span></div>
+      </div>
+      <div class="modal-sec"><div class="modal-sec-title">Datos del proyecto</div>
+        <div class="modal-row"><span class="modal-lbl">Unidades</span><span class="modal-val">${p.unidades}</span></div>
+        <div class="modal-row"><span class="modal-lbl">Ocupación estimada</span><span class="modal-val">${p.ocupacion}</span></div>
+        <div class="modal-row"><span class="modal-lbl">Avance de obra</span><span class="modal-val">${bw}%</span></div>
+        ${p.amenities&&p.amenities!=='—'?`<div class="modal-row" style="flex-direction:column;gap:4px"><span class="modal-lbl">Amenities</span><span style="font-size:11px;color:var(--gray5);line-height:1.6">${p.amenities}</span></div>`:''}
+      </div>
+      <div class="modal-sec"><div class="modal-sec-title">Tipos de unidad y precios desde</div>${units}</div>
+      <div class="modal-sec"><div class="modal-sec-title">Documentación y links</div>
+        <div class="modal-row"><span class="modal-lbl">Google Drive</span><a href="${p.driveUrl}" target="_blank" style="color:#4285f4;font-size:11px;text-decoration:none">${DI} Abrir carpeta</a></div>
+        <div class="modal-row"><span class="modal-lbl">Sitio web</span><a href="${p.webUrl}" target="_blank" style="color:var(--accent);font-size:11px;text-decoration:none">🌐 Ver sitio</a></div>
+        <div class="modal-row"><span class="modal-lbl">Google Maps</span><a href="${mapsUrl}" target="_blank" style="color:var(--gray4);font-size:11px;text-decoration:none">📍 Ver ubicación</a></div>
+      </div>
+      <div class="modal-sec"><div class="modal-sec-title">Novedades relacionadas</div>${postsHtml}</div>
+    </div>`;
   document.getElementById('modal').classList.add('open');
 }
 function closeModal(){document.getElementById('modal').classList.remove('open')}
-function closeMBg(e){if(e.target===document.getElementById('modal'))closeModal()}
+window.openModal=openModal;
+window.closeModal=closeModal;
+
+/* ══ BLOG ══ */
 function renderBlog(){
   const list=bFilter==='all'?livePosts:livePosts.filter(p=>p.cat===bFilter);
-  const feat=list.find(p=>p.destacado)||list[0],rest=list.filter(p=>p!==feat);
+  const feat=list.find(p=>p.destacado)||list[0];
+  const rest=list.filter(p=>p!==feat);
   let html='';
   if(feat){const m=CAT[feat.cat];html+=`<div class="post-feat"><div class="post-feat-tag-row"><span class="post-feat-sticker">Destacado</span><span class="post-feat-date">${feat.fecha}</span><span class="${m.cls}" style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase">${m.lbl}</span></div><div class="post-feat-body"><div class="post-feat-ttl">${feat.titulo}</div><div class="post-feat-txt">${feat.resumen}</div>${feat.proyecto?`<div class="post-feat-proj">◇ ${feat.proyecto}</div>`:''}</div></div>`}
   html+=rest.slice(0,8).map(p=>{const m=CAT[p.cat];return`<div class="post-list-item"><div><div class="pli-top"><span class="pli-date">${p.fecha}</span><span class="pli-cat ${m.cls}">${m.lbl}</span></div><div class="pli-ttl">${p.titulo}</div>${p.proyecto?`<div class="pli-proj">◇ ${p.proyecto}</div>`:''}</div><div class="pli-arrow">→</div></div>`}).join('');
@@ -519,21 +583,37 @@ function renderBlog(){
   document.getElementById('blog-cats').innerHTML=Object.entries(CAT).map(([k,v])=>`<div class="cat-stat-row"><span class="cat-stat-lbl ${v.cls}">${v.lbl}</span><span class="cat-stat-n">${counts[k]||0}</span></div>`).join('');
   const projs=[...new Set(livePosts.map(p=>p.proyecto).filter(Boolean))];
   document.getElementById('blog-projs').innerHTML=projs.map(n=>`<div class="cat-stat-row" style="cursor:pointer" onclick="showSec('proyectos',document.querySelectorAll('.nav-btn')[1])"><span class="cat-stat-lbl">${n}</span><span style="font-size:10px;color:var(--gray3)">→</span></div>`).join('');
+  // populate project select
   document.getElementById('nf-p').innerHTML='<option value="">— General —</option>'+PROYECTOS.map(p=>`<option value="${p.nombre}">${p.nombre}</option>`).join('');
 }
 function filterBlog(cat,btn){bFilter=cat;document.querySelectorAll('.cat-btn2').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderBlog()}
-function toggleForm(){document.getElementById('nf').classList.toggle('open')}
+window.filterBlog=filterBlog;
+
+function toggleForm(){
+  const f=document.getElementById('nf');
+  f.classList.toggle('open');
+}
+window.toggleForm=toggleForm;
+
 function publishPost(){
-  const t=document.getElementById('nf-t').value.trim(),r=document.getElementById('nf-r').value.trim(),c=document.getElementById('nf-c').value,p=document.getElementById('nf-p').value;
+  const t=document.getElementById('nf-t').value.trim();
+  const r=document.getElementById('nf-r').value.trim();
+  const c=document.getElementById('nf-c').value;
+  const p=document.getElementById('nf-p').value;
   if(!t||!r){alert('Completá el título y el resumen.');return}
-  const m=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'],d=new Date();
+  const m=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  const d=new Date();
   livePosts.unshift({id:Date.now(),titulo:t,resumen:r,fecha:`${d.getDate()} ${m[d.getMonth()]} ${d.getFullYear()}`,cat:c,proyecto:p||null,destacado:false});
-  document.getElementById('nf-t').value='';document.getElementById('nf-r').value='';
+  document.getElementById('nf-t').value='';
+  document.getElementById('nf-r').value='';
   document.getElementById('nf').classList.remove('open');
-  bFilter='all';document.querySelectorAll('.cat-btn2').forEach((b,i)=>b.classList.toggle('active',i===0));
-  renderBlog();renderDash();
+  bFilter='all';
+  document.querySelectorAll('.cat-btn2').forEach((b,i)=>b.classList.toggle('active',i===0));
+  renderBlog();
+  renderDash();
   document.getElementById('hdr-right').textContent=PROYECTOS.length+' PROYECTOS · '+livePosts.length+' NOVEDADES';
 }
+window.publishPost=publishPost;
 </script>
 </body>
 </html>
