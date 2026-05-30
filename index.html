@@ -44,7 +44,6 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
 .sec-hero h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,5vw,4rem);letter-spacing:.05em;color:var(--white);margin-bottom:6px}
 .sec-hero p{font-size:12px;color:var(--gray4);letter-spacing:1px}
 .dash-hero{padding:5rem 2.5rem 4rem;border-bottom:1px solid var(--gray1);position:relative;overflow:hidden}
-.dash-hero::before{content:'◇';position:absolute;right:3rem;top:50%;transform:translateY(-50%);font-size:18rem;color:var(--gray1);line-height:1;pointer-events:none;font-family:'Bebas Neue',sans-serif}
 .dash-hero-eyebrow{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:1rem}
 .dash-hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,8vw,7rem);letter-spacing:.04em;line-height:.92;color:var(--white);margin-bottom:1.5rem;position:relative}
 .dash-hero h1 em{color:var(--accent);font-style:normal}
@@ -289,8 +288,8 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
         <div style="font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--gray4);">IXOU &nbsp;◇&nbsp; Ciudad Consciente</div>
       </div>
       <img src="https://lh3.googleusercontent.com/d/11gP-znM7q-9-IAsG-azHVucN8j4AIgwq"
-           alt="IXOU" style="height:clamp(3rem,6vw,5.5rem);width:auto;object-fit:contain;filter:brightness(0) invert(1);opacity:.9;flex-shrink:0"
-           onerror="this.style.display='none'">
+           alt="IXOU" style="height:clamp(3.5rem,7vw,6.5rem);width:auto;object-fit:contain;filter:brightness(0) invert(1);opacity:.9;flex-shrink:0"
+           crossorigin="anonymous" referrerpolicy="no-referrer" onerror="this.style.display='none'">
     </div>
   </div>
   <div class="stats-row" id="stats-row"></div>
@@ -487,7 +486,7 @@ const PROYECTOS=[
   {id:9,nombre:"RISCO",imgUrl:"https://lh3.googleusercontent.com/d/13lm_DYXqhuEYBA6GPdih7b9uKmaYeRIp",destacado:true,slogan:"Mirar desde lo alto, subir al Risco",arq:"Monoblock (Argentina)",calle:"Héctor Miranda 2437",barrio:"Punta Carretas",ciudad:"Montevideo",obra:"obra",avance:50,unidades:35,ocupacion:"13 meses",pago:"60% al compromiso · 30% en obra · 10% a la ocupación",unidadesDetalle:{"3D":"USD 469.263","4D":"USD 1.019.601"},cert:"LEED ORO",amenities:"Living SUM, Terraza con Parrillero, Gimnasio, Piscina interior climatizada, Sauna",driveUrl:"https://drive.google.com/drive/folders/1ZIQQDqSgzMCOx7w_zsFu34b8GPJAN6T8?usp=drive_link",webUrl:"https://riscoixou.com.uy/",mapsQ:"Héctor+Miranda+2437+Punta+Carretas+Montevideo"},
   {id:10,nombre:"ZIEL",imgUrl:"https://lh3.googleusercontent.com/d/1D7rWiqKuy4qm07Ksv-S3Rv_mHQ0-7jXV",destacado:true,slogan:"Un parque en las alturas",arq:"MVRDV (Países Bajos)",calle:"José Vázquez Ledesma 3000",barrio:"Punta Carretas",ciudad:"Montevideo",obra:"obra",avance:30,unidades:40,ocupacion:"13 meses",pago:"40% al compromiso · 50% en obra · 10% a la ocupación",unidadesDetalle:{"3D":"USD 730.621","4D":"USD 1.749.677"},cert:"LEED PLATINO",amenities:"Sky Gardens, Terraza jardín con Parrilleros y fogón, ClubHouse, Micro cine, Gimnasio, Canal de nado climatizado, Sauna, Piscina exterior climatizada",driveUrl:"https://drive.google.com/drive/folders/1GkRN8OxLikb8hIMNd6oklna8Bsk4d1lJ?usp=drive_link",webUrl:"https://zielixou.com.uy/",mapsQ:"José+Vázquez+Ledesma+3000+Punta+Carretas+Montevideo"},
   {id:11,nombre:"CUMBRE",imgUrl:"https://lh3.googleusercontent.com/d/1hDzo0mlCNreb6_zgyjmuUUvWp8dPzOca",destacado:true,slogan:"Cumbre, el mar y vos",arq:"ELEMENTAL (Chile)",calle:"Rambla Gandhi 609",barrio:"Punta Carretas",ciudad:"Montevideo",obra:"obra",avance:70,unidades:11,ocupacion:"3 meses",pago:"70% al compromiso · 20% en obra · 10% a la ocupación",unidadesDetalle:{"Studio":"USD 875.560","2D":"USD 722.380","3D":"USD 1.825.675"},cert:"LEED ORO",amenities:"Terraza con Parrillero, Gimnasio, Canal de nado interior climatizado, Sauna",driveUrl:"https://drive.google.com/drive/folders/1HZWKIvJ5ybgPI57K67b3c7JsQJLKJVPF?usp=drive_link",webUrl:"https://cumbreixou.com.uy/",mapsQ:"Rambla+Gandhi+609+Punta+Carretas+Montevideo"},
-  {id:12,nombre:"RAMÓN",imgUrl:"https://lh3.googleusercontent.com/d/1ZbFaG-DclfaJftf6O_nU_ti0FtFpiJn3",destacado:false,slogan:"Oficinas AAA en el corazón de Punta Carretas",arq:"Estudio Seis (Uruguay)",calle:"Ramón Fernández 270",barrio:"Punta Carretas",ciudad:"Montevideo",obra:"Pozo",avance:0,unidades:0,ocupacion:"A confirmar",pago:"Consultar",unidadesDetalle:{"Oficinas AAA":"Consultar"},cert:"A confirmar",amenities:"Oficinas AAA",driveUrl:"https://drive.google.com/drive/folders/1N6E2803k0SBKjIBuzI06h4a4fyONC1oX?usp=drive_link",webUrl:"https://ramonixou.com.uy/",mapsQ:"Ramón+Fernández+270+Punta+Carretas+Montevideo"},
+  {id:12,nombre:"RAMÓN",imgUrl:"https://drive.google.com/thumbnail?id=1ZbFaG-DclfaJftf6O_nU_ti0FtFpiJn3&sz=w800",destacado:false,slogan:"Oficinas AAA en el corazón de Punta Carretas",arq:"Estudio Seis (Uruguay)",calle:"Ramón Fernández 270",barrio:"Punta Carretas",ciudad:"Montevideo",obra:"Pozo",avance:0,unidades:0,ocupacion:"A confirmar",pago:"Consultar",unidadesDetalle:{"Oficinas AAA":"Consultar"},cert:"A confirmar",amenities:"Oficinas AAA",driveUrl:"https://drive.google.com/drive/folders/1N6E2803k0SBKjIBuzI06h4a4fyONC1oX?usp=drive_link",webUrl:"https://ramonixou.com.uy/",mapsQ:"Ramón+Fernández+270+Punta+Carretas+Montevideo"},
   {id:13,nombre:"MIRLO",taxFree:true,imgUrl:"https://lh3.googleusercontent.com/d/1XnO50EYwbfIXUMSvVSlfElF4vNX-wgUM",destacado:true,slogan:"Sobre una casa con valor patrimonial MIRLO vuelve a cantar en Barrio Sur",arq:"Monoblock (Argentina)",calle:"José Germán Araujo 1162",barrio:"Barrio Sur",ciudad:"Montevideo",obra:"Pozo",avance:10,unidades:40,ocupacion:"24 meses",pago:"30% al compromiso · 60% en obra · 10% a la ocupación",unidadesDetalle:{"Studio":"USD 126.700","1D":"USD 174.555","1D Dúplex":"USD 169.375"},cert:"No",amenities:"Living SUM, Terraza, Parrilleros",driveUrl:"https://drive.google.com/drive/folders/1s5EKnuwyLU9EpCGUzMqXNFq7XpIFiPHV?usp=drive_link",webUrl:"https://mirloixou.com.uy/",mapsQ:"José+Germán+Araujo+1162+Barrio+Sur+Montevideo"},
   {id:14,nombre:"VARDØ",imgUrl:"https://lh3.googleusercontent.com/d/1qjYKWMN8Lk9T-gWtxTAhqbP8B03vmd5U",destacado:false,slogan:"Colaborativo, social y seguro",arq:"Dark Arkitekter (Noruega) + Rudolph (Uruguay)",calle:"21 de Setiembre 2992",barrio:"Punta Carretas",ciudad:"Montevideo",obra:"Proyecto",avance:0,unidades:54,ocupacion:"30 meses",pago:"30% al compromiso · 60% en obra · 10% a la ocupación",unidadesDetalle:{"Studio":"USD 146.062","1D":"USD 232.687","2D":"USD 349.505"},cert:"EDGE",amenities:"Terraza con Parrillero, Gimnasio, Piscina exterior climatizada",driveUrl:"https://drive.google.com/drive/folders/1d-ngG1XiDUmHaAoeJ-3QCVkDPStG8prI?usp=drive_link",webUrl:"http://vardoixou.uy/",mapsQ:"21+de+Setiembre+2992+Punta+Carretas+Montevideo"},
   {id:15,nombre:"CÉFIRO",imgUrl:"https://lh3.googleusercontent.com/d/1ooIyZlYpCmmvIR3VJ9ihKhosWv6oAguT",destacado:false,slogan:"Donde el viento hace silencio",arq:"Estudio Seis (Uruguay)",calle:"Iturriaga 3530",barrio:"Buceo",ciudad:"Montevideo",obra:"Proyecto",avance:0,unidades:11,ocupacion:"30 meses",pago:"30% al compromiso · 60% en obra · 10% a la ocupación",unidadesDetalle:{"2D":"USD 1.071.330","3D":"USD 1.489.324","4D":"USD 2.113.524","3D Dúplex":"USD 2.059.920"},cert:"A confirmar",amenities:"—",driveUrl:"https://drive.google.com/drive/folders/1k-KEijI0ZYOiC372jJmP2LFTUdsJujgR?usp=drive_link",webUrl:"https://cefiroixou.uy/",mapsQ:"Iturriaga+3530+Buceo+Montevideo"},
@@ -511,6 +510,8 @@ function showSec(n,btn){
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
   if(btn)btn.classList.add('active');
   window.scrollTo(0,0);
+  if(n==='proyectos') renderProj();
+  if(n==='blog') renderBlog();
 }
 window.showSec=showSec;
 
@@ -748,7 +749,7 @@ function renderSlider() {
     <div class="slide" onclick="openModal(${p.id})">
       <div class="slide-img">
         ${p.imgUrl
-          ? `<img src="${p.imgUrl}" alt="${p.nombre}" onerror="this.style.display='none'">`
+          ? `<img src="${p.imgUrl}" alt="${p.nombre}" crossorigin="anonymous" referrerpolicy="no-referrer" onerror="this.style.display='none'">`
           : '<div style="width:100%;height:100%;background:var(--black3)"></div>'}
         <div class="slide-overlay"></div>
       </div>
