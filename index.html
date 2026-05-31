@@ -652,6 +652,8 @@ function renderProj(){
 
     const card=document.createElement('div');
     card.className='proj-card';
+    card.style.cursor='pointer';
+    card.onclick=function(e){if(!e.target.closest('a')&&!e.target.closest('button'))openModal(p.id)};
     card.innerHTML=`
       <div class="card-img">
         ${p.imgUrl
