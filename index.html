@@ -558,6 +558,7 @@ function renderDash(){
   const ep=PROYECTOS.filter(p=>p.obra==='Pozo').length;
   const epr=PROYECTOS.filter(p=>p.obra==='Proyecto').length;
   const et=PROYECTOS.filter(p=>p.obra==='Terminado').length;
+  if(!document.getElementById('stats-row')) return;
   document.getElementById('stats-row').innerHTML=`
     <div class="stat-cell" style="cursor:pointer" onclick="window.open('https://ixou.la/#ixou','_blank')">
       <div class="stat-n">+13</div><div class="stat-l">Años en el mercado</div>
@@ -991,7 +992,7 @@ window.openPost = openPost;
 window.closePostModal = closePostModal;
 
 /* ══ BUSCADOR DE UNIDADES ══ */
-const SHEET_API = 'https://script.google.com/macros/s/AKfycbwiq3l--o4Vz7bAHkwsWDbn_09LMeGA2vSbMx3bKMH-H5KZSniEgtTRAH3tQH52kSXt/exec?key=ixou2026portal';
+const SHEET_API = 'https://script.google.com/macros/s/AKfycbzUqaSQVTataFLZAgJjEplQ7QSEy_JLnIm4-SiiaTTLtiPE6pQ8zMW7q7HDHK6tSMXn/exec?key=ixou2026portal';
 let buData = [];
 let buLoaded = false;
 let buSortKey = 'proyecto';
@@ -1014,192 +1015,43 @@ function parseCSV(text) {
   return rows;
 }
 
-async function loadBuscador() {
+function loadBuscador() {
   if (buLoaded) { renderBuscador(); return; }
-  try {
-    const r = await fetch(SHEET_API, {redirect: 'follow'});
-    if (!r.ok) throw new Error('HTTP ' + r.status);
-    const text = await r.text();
-    const json = JSON.parse(text);
-    if (json.error) throw new Error(json.error);
-    if (!json.length) throw new Error('Sin datos');
-
-    // JSON already has named keys from the sheet headers
-    // Normalize keys to find the right columns flexibly
-    const findKey = (obj, names) => {
-      const keys = Object.keys(obj);
-      for (let n of names) {
-        const k = keys.find(k => k.toLowerCase().includes(n));
-        if (k) return k;
-      }
-      return null;
-    };
-
-    const sample = json[0];
-    const kProj   = findKey(sample, ['proyecto','emprendimiento','obra']);
-    const kUnidad = findKey(sample, ['unidad','apto','apartamento','nro','número','num']);
-    const kTipo   = findKey(sample, ['tipo','tipolog','dormitorio','dorm']);
-    const kPiso   = findKey(sample, ['piso','nivel','planta']);
-    const kSup    = findKey(sample, ['sup','m2','superficie','área','area']);
-    const kPrecio = findKey(sample, ['precio','usd','valor','importe']);
-    const kEstado = findKey(sample, ['estado','situación','situacion','disponib']);
-
-    console.log('Keys found:', {kProj,kUnidad,kTipo,kPiso,kSup,kPrecio,kEstado});
-
-    buData = json
-      .filter(r => kProj ? r[kProj] : true)
-      .map(r => ({
-        proyecto: kProj   ? String(r[kProj]   || '') : '',
-        unidad:   kUnidad ? String(r[kUnidad]  || '') : '',
-        tipo:     kTipo   ? String(r[kTipo]    || '') : '',
-        piso:     kPiso   ? String(r[kPiso]    || '') : '',
-        sup:      kSup    ? String(r[kSup]     || '') : '',
-        precio:   kPrecio ? String(r[kPrecio]  || '') : '',
-        estado:   kEstado ? String(r[kEstado]  || '') : 'Disponible',
-      }))
-      .filter(r => r.proyecto || r.unidad);
-
-    buLoaded = true;
-
-    // Populate project filter
-    const projs = [...new Set(buData.map(r => r.proyecto).filter(Boolean))].sort();
-    const psel = document.getElementById('bu-proj');
-    if (psel) {
-      psel.innerHTML = '<option value="">Todos los proyectos</option>' +
-        projs.map(p => `<option value="${p}">${p}</option>`).join('');
+  document.getElementById('bu-loading').style.display='block';
+  document.getElementById('bu-results').style.display='none';
+  document.getElementById('bu-error').style.display='none';
+  // JSONP to bypass CORS
+  window._jsonpBuscador = function(json) {
+    try {
+      if (json.error) throw new Error(json.error);
+      if (!Array.isArray(json) || !json.length) throw new Error('Sin datos');
+      processBuscadorData(json);
+    } catch(e) {
+      document.getElementById('bu-loading').style.display='none';
+      const err=document.getElementById('bu-error');
+      err.style.display='block';
+      err.textContent='Error al cargar los datos: '+e.message;
     }
-
-    // Populate tipo filter
-    const tipos = [...new Set(buData.map(r => r.tipo).filter(Boolean))].sort();
-    const tsel = document.getElementById('bu-tipo');
-    if (tsel) {
-      tsel.innerHTML = '<option value="">Todos los tipos</option>' +
-        tipos.map(t => `<option value="${t}">${t}</option>`).join('');
-    }
-
-    document.getElementById('bu-loading').style.display = 'none';
-    document.getElementById('bu-results').style.display = 'block';
-    renderBuscador();
-  } catch(e) {
-    document.getElementById('bu-loading').style.display = 'none';
-    const err = document.getElementById('bu-error');
-    err.style.display = 'block';
-    err.textContent = 'Error al cargar los datos: ' + e.message;
-    console.error(e);
-  }
-}
-
-function parsePrecio(s) {
-  if (!s) return 0;
-  return parseFloat(String(s).replace(/[^0-9.]/g, '')) || 0;
-}
-
-function renderBuscador() {
-  if (!buLoaded) { loadBuscador(); return; }
-  const q      = (document.getElementById('bu-q')?.value || '').toLowerCase();
-  const proj   = document.getElementById('bu-proj')?.value   || '';
-  const tipo   = document.getElementById('bu-tipo')?.value   || '';
-  const estado = document.getElementById('bu-estado')?.value || '';
-  const minP   = parseFloat(document.getElementById('bu-min')?.value) || 0;
-  const maxP   = parseFloat(document.getElementById('bu-max')?.value) || Infinity;
-
-  let list = buData.filter(r => {
-    const price = parsePrecio(r.precio);
-    return (!q      || Object.values(r).join(' ').toLowerCase().includes(q))
-        && (!proj   || r.proyecto === proj)
-        && (!tipo   || r.tipo === tipo)
-        && (!estado || r.estado.toLowerCase().includes(estado.toLowerCase()))
-        && (!minP   || price >= minP)
-        && (maxP === Infinity || !maxP || price <= maxP);
-  });
-
-  // Sort
-  list.sort((a, b) => {
-    let va = a[buSortKey] || '', vb = b[buSortKey] || '';
-    if (buSortKey === 'precio') { va = parsePrecio(va); vb = parsePrecio(vb); }
-    else if (buSortKey === 'sup') { va = parseFloat(va) || 0; vb = parseFloat(vb) || 0; }
-    else if (buSortKey === 'piso') { va = parseInt(va) || 0; vb = parseInt(vb) || 0; }
-    if (va < vb) return buSortAsc ? -1 : 1;
-    if (va > vb) return buSortAsc ?  1 : -1;
-    return 0;
-  });
-
-  // Stats
-  const disp = list.filter(r => r.estado.toLowerCase().includes('disp')).length;
-  const statsEl = document.getElementById('bu-stats');
-  if (statsEl) statsEl.textContent =
-    `${list.length} unidades encontradas · ${disp} disponibles`;
-
-  // Render table
-  const tbody = document.getElementById('bu-tbody');
-  const empty = document.getElementById('bu-empty');
-  if (!tbody) return;
-
-  if (!list.length) {
-    tbody.innerHTML = '';
-    empty.style.display = 'block';
-    return;
-  }
-  empty.style.display = 'none';
-
-  const estadoColor = (e) => {
-    const el = (e||'').toLowerCase();
-    if (el.includes('disp'))  return 'background:rgba(120,180,100,.12);color:#8FA870;border:1px solid rgba(120,180,100,.3)';
-    if (el.includes('reserv')) return 'background:rgba(200,160,60,.12);color:#C8A03C;border:1px solid rgba(200,160,60,.3)';
-    if (el.includes('vend'))  return 'background:rgba(200,60,60,.12);color:#E87070;border:1px solid rgba(200,60,60,.3)';
-    return 'background:var(--black3);color:var(--gray4);border:1px solid var(--gray2)';
+    // cleanup
+    const s=document.getElementById('_jsonp_script');
+    if(s) s.remove();
   };
-
-  tbody.innerHTML = list.map((r,i) => `
-    <tr style="border-bottom:1px solid var(--gray1);background:${i%2===0?'var(--black2)':'var(--black3)'};transition:background .15s"
-        onmouseover="this.style.background='var(--black3)'" onmouseout="this.style.background='${i%2===0?'var(--black2)':'var(--black3)'}'">
-      <td style="padding:10px 12px;color:var(--white);font-weight:500">${r.proyecto}</td>
-      <td style="padding:10px 12px;color:var(--gray5)">${r.unidad}</td>
-      <td style="padding:10px 12px;color:var(--gray5)">${r.tipo}</td>
-      <td style="padding:10px 12px;color:var(--gray4);text-align:center">${r.piso}</td>
-      <td style="padding:10px 12px;color:var(--gray4);text-align:right">${r.sup}</td>
-      <td style="padding:10px 12px;color:var(--accent);text-align:right;font-weight:500">${r.precio}</td>
-      <td style="padding:10px 12px;text-align:center">
-        <span style="font-size:9px;padding:2px 8px;border-radius:1px;letter-spacing:.5px;${estadoColor(r.estado)}">${r.estado}</span>
-      </td>
-    </tr>`).join('');
+  const script=document.createElement('script');
+  script.id='_jsonp_script';
+  script.src=SHEET_API+'&callback=_jsonpBuscador';
+  script.onerror=function(){
+    document.getElementById('bu-loading').style.display='none';
+    const err=document.getElementById('bu-error');
+    err.style.display='block';
+    err.textContent='Error al conectar con la API. Verificá tu conexión.';
+    this.remove();
+  };
+  document.head.appendChild(script);
 }
-
-function sortBuscador(key) {
-  if (buSortKey === key) buSortAsc = !buSortAsc;
-  else { buSortKey = key; buSortAsc = true; }
-  renderBuscador();
-}
-
-function resetBuscador() {
-  ['bu-q','bu-min','bu-max'].forEach(id => { const el=document.getElementById(id); if(el) el.value=''; });
-  ['bu-proj','bu-tipo','bu-estado'].forEach(id => { const el=document.getElementById(id); if(el) el.selectedIndex=0; });
-  renderBuscador();
-}
-
 window.renderBuscador = renderBuscador;
 window.sortBuscador   = sortBuscador;
 window.resetBuscador  = resetBuscador;
 window.loadBuscador   = loadBuscador;
-window.markAllRead=markAllRead;
-window.clickNotif=clickNotif;
 </script>
-
-<!-- WhatsApp floating button -->
-<a href="https://wa.me/59894647581" target="_blank" id="wa-btn"
-   title="Escribinos por WhatsApp"
-   style="position:fixed;bottom:24px;right:24px;z-index:500;width:52px;height:52px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(37,211,102,.4);transition:all .2s;text-decoration:none"
-   onmouseover="this.style.transform='scale(1.1)';this.style.boxShadow='0 6px 24px rgba(37,211,102,.6)'"
-   onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 4px 16px rgba(37,211,102,.4)'">
-  <svg viewBox="0 0 24 24" width="28" height="28" fill="white">
-    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
-    <path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.554 4.122 1.523 5.856L.043 23.486a.5.5 0 00.625.607l5.768-1.511A11.95 11.95 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.65-.52-5.16-1.426l-.36-.214-3.424.897.913-3.335-.234-.374A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
-  </svg>
-</a>
-
-<!-- POST DETAIL MODAL -->
-<div class="modal-bg" id="post-modal" onclick="if(event.target===this)closePostModal()">
-  <div class="modal-box" id="post-modal-box" style="max-width:680px"></div>
-</div>
 </body>
 </html>
