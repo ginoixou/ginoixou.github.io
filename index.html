@@ -991,7 +991,7 @@ window.openPost = openPost;
 window.closePostModal = closePostModal;
 
 /* ══ BUSCADOR DE UNIDADES ══ */
-const SHEET_API = 'https://script.google.com/macros/s/AKfycbzu_EpbvBMnZcwSnVCFiZTyy68s9ggwCft4wA_jv4QR-eFh1YJENJR2zrtg76mgHVQI/exec?key=ixou2026portal';
+const SHEET_API = 'https://script.google.com/macros/s/AKfycbwiq3l--o4Vz7bAHkwsWDbn_09LMeGA2vSbMx3bKMH-H5KZSniEgtTRAH3tQH52kSXt/exec?key=ixou2026portal';
 let buData = [];
 let buLoaded = false;
 let buSortKey = 'proyecto';
@@ -1017,9 +1017,10 @@ function parseCSV(text) {
 async function loadBuscador() {
   if (buLoaded) { renderBuscador(); return; }
   try {
-    const r = await fetch(SHEET_API);
+    const r = await fetch(SHEET_API, {redirect: 'follow'});
     if (!r.ok) throw new Error('HTTP ' + r.status);
-    const json = await r.json();
+    const text = await r.text();
+    const json = JSON.parse(text);
     if (json.error) throw new Error(json.error);
     if (!json.length) throw new Error('Sin datos');
 
