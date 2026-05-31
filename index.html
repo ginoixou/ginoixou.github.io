@@ -983,9 +983,7 @@ let buSortAsc = true;
 
 function parseCSV(text) {
   const rows = [];
-  const lines = text.split(/
-?
-/);
+  const lines = text.split("\n");
   for (let i = 0; i < lines.length; i++) {
     const row = [];
     let cur = '', inQ = false;
