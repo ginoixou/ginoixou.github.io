@@ -440,6 +440,7 @@ const EMAILS_AUTORIZADOS=["a.symonds@prop.com.uy","a.urti@prop.com.uy","adrianal
 const GOOGLE_CLIENT_ID="309421220352-pmk9r2oua7sqn84hbjogsd0s524q5a5d.apps.googleusercontent.com";
 /* ══ ADMIN ROLES ══ */
 const ADMIN_EMAILS = ["gino@ixou.la","ginodistasio@gmail.com"];
+function isAuthorized(e){ return EMAILS_AUTORIZADOS.includes(e.toLowerCase().trim()); }
 function isAdmin(email){ return ADMIN_EMAILS.includes((email||'').toLowerCase().trim()); }
 window.isAdmin = isAdmin;
 function parseJwt(t){try{const b=t.split('.')[1].replace(/-/g,'+').replace(/_/g,'/');return JSON.parse(decodeURIComponent(atob(b).split('').map(c=>'%'+('00'+c.charCodeAt(0).toString(16)).slice(-2)).join('')))}catch(e){return null}}
