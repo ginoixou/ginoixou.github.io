@@ -694,6 +694,7 @@ function renderProj(){
         <a class="btn-sm btn-drive" href="${p.driveUrl}" target="_blank">${DI} Drive</a>
         <a class="btn-sm btn-web" href="${p.webUrl}" target="_blank">🌐 Sitio</a>
         <a class="btn-sm btn-map" href="${mapsUrl}" target="_blank">📍 Mapa</a>
+        <button class="btn-sm" onclick="openModal(${p.id})" style="border-color:var(--accent);color:var(--accent);background:transparent">+ Info</button>
       </div>`;
     grid.appendChild(card);
   });
