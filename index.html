@@ -421,7 +421,12 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
       <select class="ctrl-sel" id="bu-tipo"     onchange="renderBuscador()"><option value="">Todos los tipos</option></select>
       <select class="ctrl-sel" id="bu-tipologia" onchange="renderBuscador()"><option value="">Todas las tipologías</option></select>
       <select class="ctrl-sel" id="bu-dorm"     onchange="renderBuscador()"><option value="">Todos los dorm.</option></select>
-      <select class="ctrl-sel" id="bu-estado"   onchange="renderBuscador()"><option value="">Todos los estados</option></select>
+      <select class="ctrl-sel" id="bu-estado" onchange="renderBuscador()">
+        <option value="">Todos los estados</option>
+        <option value="DISPONIBLE">Disponible</option>
+        <option value="RESERVADO">Reservado</option>
+        <option value="VENDIDO">Vendido</option>
+      </select>
       <input class="ctrl-in" id="bu-min" placeholder="Precio mín USD" type="number" oninput="renderBuscador()" style="width:130px;flex:none">
       <input class="ctrl-in" id="bu-max" placeholder="Precio máx USD" type="number" oninput="renderBuscador()" style="width:130px;flex:none">
       <button onclick="resetBuscador()" style="padding:8px 14px;background:none;border:1px solid var(--gray2);color:var(--gray4);font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:all .2s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--gray2)'">Limpiar</button>
@@ -439,6 +444,7 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
           <thead>
             <tr style="background:var(--black2);border-bottom:1px solid var(--gray1)">
               <th onclick="sortBuscador('proyecto')" style="padding:10px 12px;text-align:left;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">Proyecto ↕</th>
+              <th onclick="sortBuscador('torre')" style="padding:10px 12px;text-align:center;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">Torre ↕</th>
               <th onclick="sortBuscador('tipo')" style="padding:10px 12px;text-align:left;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">Tipo ↕</th>
               <th onclick="sortBuscador('unidad')" style="padding:10px 12px;text-align:center;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">Unidad ↕</th>
               <th onclick="sortBuscador('tipologia')" style="padding:10px 12px;text-align:left;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">Tipología ↕</th>
@@ -1150,7 +1156,7 @@ window.prevPost = prevPost;
 window.nextPost = nextPost;
 
 /* ══ BUSCADOR DE UNIDADES ══ */
-const SHEET_API = 'https://script.google.com/macros/s/AKfycbzmZxzm7XD1OBdfCEiylv9z40iZZPKLk3zeh7osCp4zwrGQNLcdZ-icmfn97ydWzIaL/exec?key=ixou2026portal';
+const SHEET_API = 'https://script.google.com/macros/s/AKfycbyb7OE298DryuqqnWGsq1agVA2mJYnx7T_ivBCwIOi2EYW4B7cl4ItADM645ezQ__WF/exec?key=ixou2026portal';
 let buData = [];
 let buLoaded = false;
 let buSortKey = 'proyecto';
@@ -1166,20 +1172,22 @@ function processBuscadorData(json) {
   buData = json
     .filter(r => r['PROYECTO'] && r['PROYECTO'].trim())
     .map(r => ({
-      tipo:      (r['TIPO']           || '').trim(),
-      proyecto:  (r['PROYECTO']       || '').trim(),
-      unidad:    (r['UNIDAD']         || '').trim(),
-      dorm:      (r['DORM']           || '').trim(),
-      estado:    (r['ESTADO VENTA']   || '').trim(),
-      precio:    (r['PRECIO']         || '').trim(),
-      piso:      (r['PISO']           || '').trim(),
-      tipologia: (r['TIPOLOGIA']      || '').trim(),
-      orient:    (r['ORIENTACION']    || '').trim(),
-      m2int:     (r['M2 INT.']        || '').trim(),
-      m2extcub:  (r['M2 EXT. Cub.']  || '').trim(),
-      m2extdes:  (r['M2 EXT. Desc.'] || '').trim(),
-      m2com:     (r['M2 COMUNES']     || '').trim(),
-      m2tot:     (r['M2 TOTALES']     || '').trim(),
+      tipo:      (r['TIPO']                       || '').trim(),
+      proyecto:  (r['PROYECTO']                   || '').trim(),
+      unidad:    (r['UNIDAD']                     || '').trim(),
+      dorm:      (r['DORM']                       || '').trim(),
+      estado:    (r['ESTADO VENTA']               || '').trim(),
+      precio:    (r['PRECIO']                     || '').trim(),
+      torre:     (r['TORRE']                      || '').trim(),
+      piso:      (r['PISO']                       || '').trim(),
+      tipologia: (r['TIPOLOGIA']                  || '').trim(),
+      orient:    (r['ORIENTACION']                || '').trim(),
+      m2int:     (r['M2 INT.']                    || '').trim(),
+      m2extcub:  (r['M2 EXT. Cub.']              || '').trim(),
+      m2extdes:  (r['M2 EXT. Desc.']             || '').trim(),
+      m2com:     (r['M2 COMUNES']                 || '').trim(),
+      m2tot:     (r['M2 TOTALES']                 || '').trim(),
+      ocupacion: (r['Fecha estimada ocupación']   || '').trim(),
     }));
 
   buLoaded = true;
@@ -1298,16 +1306,17 @@ function renderBuscador() {
   if (empty) empty.style.display = 'none';
 
   const estadoStyle = (e) => {
-    const el = (e||'').toLowerCase();
-    if (el.includes('disp'))   return 'background:rgba(120,180,100,.12);color:#8FA870;border:1px solid rgba(120,180,100,.3)';
-    if (el.includes('reserv')) return 'background:rgba(200,160,60,.12);color:#C8A03C;border:1px solid rgba(200,160,60,.3)';
-    if (el.includes('vend'))   return 'background:rgba(200,60,60,.12);color:#E87070;border:1px solid rgba(200,60,60,.3)';
+    const el = (e||'').toUpperCase();
+    if (el.includes('DISP'))   return 'background:rgba(120,180,100,.12);color:#8FA870;border:1px solid rgba(120,180,100,.3)';
+    if (el.includes('RESERV')) return 'background:rgba(200,160,60,.12);color:#C8A03C;border:1px solid rgba(200,160,60,.3)';
+    if (el.includes('VEND'))   return 'background:rgba(200,60,60,.12);color:#E87070;border:1px solid rgba(200,60,60,.3)';
     return 'background:var(--black3);color:var(--gray4);border:1px solid var(--gray2)';
   };
 
   tbody.innerHTML = list.map((r,i) => `
     <tr style="border-bottom:1px solid var(--gray1);background:${i%2===0?'var(--black2)':'var(--black3)'}">
       <td style="padding:9px 12px;color:var(--white);font-weight:500;white-space:nowrap">${r.proyecto}</td>
+      <td style="padding:9px 12px;color:var(--gray5);text-align:center">${r.torre}</td>
       <td style="padding:9px 12px;color:var(--gray5)">${r.tipo}</td>
       <td style="padding:9px 12px;color:var(--gray5);text-align:center">${r.unidad}</td>
       <td style="padding:9px 12px;color:var(--gray5)">${r.tipologia}</td>
@@ -1891,10 +1900,10 @@ function renderBuscador() {
   empty.style.display = 'none';
 
   const estadoColor = (e) => {
-    const el = (e||'').toLowerCase();
-    if (el.includes('disp'))   return 'background:rgba(120,180,100,.12);color:#8FA870;border:1px solid rgba(120,180,100,.3)';
-    if (el.includes('reserv')) return 'background:rgba(200,160,60,.12);color:#C8A03C;border:1px solid rgba(200,160,60,.3)';
-    if (el.includes('vend'))   return 'background:rgba(200,60,60,.12);color:#E87070;border:1px solid rgba(200,60,60,.3)';
+    const el = (e||'').toUpperCase();
+    if (el.includes('DISP'))   return 'background:rgba(120,180,100,.12);color:#8FA870;border:1px solid rgba(120,180,100,.3)';
+    if (el.includes('RESERV')) return 'background:rgba(200,160,60,.12);color:#C8A03C;border:1px solid rgba(200,160,60,.3)';
+    if (el.includes('VEND'))   return 'background:rgba(200,60,60,.12);color:#E87070;border:1px solid rgba(200,60,60,.3)';
     return 'background:var(--black3);color:var(--gray4);border:1px solid var(--gray2)';
   };
 
