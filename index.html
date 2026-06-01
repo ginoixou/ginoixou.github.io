@@ -629,6 +629,7 @@ function obraClass(o){return OBRA_CLS[o]||'ob-proyecto'}
 function obraLabel(o){return OBRA_LBL[o]||o}
 
 function renderProj(){
+  try {
   const q=(document.getElementById('ctrl-q').value||'').toLowerCase();
   const obra=document.getElementById('ctrl-obra').value;
   const barrio=document.getElementById('ctrl-barrio').value;
@@ -712,6 +713,11 @@ function renderProj(){
       </div>`;
     grid.appendChild(card);
   });
+  } catch(err) {
+    console.error('renderProj error:', err);
+    document.getElementById('proj-cards').innerHTML =
+      `<div style="padding:2rem;color:#E88;grid-column:1/-1">Error al cargar proyectos: ${err.message}</div>`;
+  }
 }
 window.renderProj=renderProj;
 
