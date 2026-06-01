@@ -254,7 +254,6 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
     <button class="nav-btn" onclick="showSec('proyectos',this)">Proyectos</button>
     <button class="nav-btn" onclick="showSec('blog',this)">Novedades</button>
     <button class="nav-btn" onclick="showSec('buscador',this)">Buscador</button>
-    <button class="nav-btn" onclick="showSec('sobre',this)">Sobre IXOU</button>
   </nav>
   <div style="margin-left:auto;display:flex;align-items:center;gap:12px">
     <div class="hdr-right" id="hdr-right"></div>
@@ -315,32 +314,17 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
       </div>
   </div><!-- /mapa full width -->
 
-  <!-- MAIN CONTENT: featured + sidebar -->
-  <div style="max-width:1200px;margin:0 auto;padding:0 2rem 2rem;display:grid;grid-template-columns:1fr 300px;gap:2rem">
-    <!-- LEFT: featured projects list -->
-    <div>
-      <div class="section-head">Proyectos destacados <a onclick="showSec('proyectos',document.querySelectorAll('.nav-btn')[1])">Ver todos →</a></div>
-      <div id="dash-feat"></div>
-    </div>
-    <!-- RIGHT: news sidebar -->
-    <div>
-      <div class="section-head" style="font-size:.75rem">Últimas novedades <a onclick="showSec('blog',document.querySelectorAll('.nav-btn')[2])">Ver todas →</a></div>
-      <div id="dash-news"></div>
-      <div class="sidebar-block" style="margin-top:1px">
-        <div class="sidebar-title">Acceso a Drive</div>
-        <div id="dash-drive"></div>
-      </div>
-    </div>
+  <!-- NOVEDADES sidebar (full width single col below map) -->
+  <div style="max-width:1200px;margin:0 auto;padding:0 2rem 2rem">
+    <div class="section-head">Últimas novedades <a onclick="showSec('blog',document.querySelectorAll('.nav-btn')[2])">Ver todas →</a></div>
+    <div id="dash-news" style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--gray1);border:1px solid var(--gray1)"></div>
   </div>
   <div style="height:1rem"></div>
 </section>
 
 <!-- PROYECTOS -->
 <section id="sec-proyectos" style="display:none">
-  <div class="sec-hero" style="display:flex;align-items:center;justify-content:space-between">
-    <div><h2>PROYECTOS</h2><p>◇ 16 desarrollos · Información comercial y acceso a documentación</p></div>
-    <img src="https://ginoixou.github.io/imgs/logo-ixou.png" alt="IXOU" style="height:clamp(2.5rem,5vw,4.5rem);width:auto;filter:brightness(0) invert(1);opacity:.7;flex-shrink:0">
-  </div>
+  <div class="sec-hero"><h2>PROYECTOS</h2><p>◇ 16 desarrollos · Información comercial y acceso a documentación</p></div>
   <div class="proj-controls">
     <input class="ctrl-in" id="ctrl-q" placeholder="Buscar por nombre, barrio o arquitecto…" oninput="renderProj()">
     <select class="ctrl-sel" id="ctrl-obra" onchange="renderProj()">
@@ -370,10 +354,7 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
 
 <!-- BLOG -->
 <section id="sec-blog" style="display:none">
-  <div class="sec-hero" style="display:flex;align-items:center;justify-content:space-between">
-    <div><h2>NOVEDADES</h2><p>◇ Actualizaciones, lanzamientos y comunicados</p></div>
-    <img src="https://ginoixou.github.io/imgs/logo-ixou.png" alt="IXOU" style="height:clamp(2.5rem,5vw,4.5rem);width:auto;filter:brightness(0) invert(1);opacity:.7;flex-shrink:0">
-  </div>
+  <div class="sec-hero"><h2>NOVEDADES</h2><p>◇ Actualizaciones, lanzamientos y comunicados</p></div>
   <div class="blog-wrap">
     <div>
       <div class="cat-row">
@@ -421,26 +402,24 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
 </section>
 <!-- BUSCADOR DE UNIDADES -->
 <section id="sec-buscador" style="display:none">
-  <div class="sec-hero" style="display:flex;align-items:center;justify-content:space-between">
-    <div><h2>BUSCADOR DE UNIDADES</h2><p>◇ Filtrá por proyecto, tipología, precio y estado · datos en tiempo real</p></div>
-    <img src="https://ginoixou.github.io/imgs/logo-ixou.png" alt="IXOU" style="height:clamp(2.5rem,5vw,4.5rem);width:auto;filter:brightness(0) invert(1);opacity:.7;flex-shrink:0">
+  <div class="sec-hero">
+    <h2>BUSCADOR DE UNIDADES</h2>
+    <p>◇ Filtrá por proyecto, tipología, precio y estado · datos en tiempo real</p>
   </div>
   <div style="max-width:1200px;margin:0 auto;padding:2rem">
     <!-- FILTERS -->
     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:1rem;padding-bottom:1rem;border-bottom:1px solid var(--gray1)">
-      <input class="ctrl-in" id="bu-q" placeholder="Buscar por proyecto, unidad, orientación…" oninput="renderBuscador()" style="flex:2;min-width:180px">
-      <select class="ctrl-sel" id="bu-proj"     onchange="renderBuscador()"><option value="">Todos los proyectos</option></select>
-      <select class="ctrl-sel" id="bu-tipo"     onchange="renderBuscador()"><option value="">Todos los tipos</option></select>
-      <select class="ctrl-sel" id="bu-tipologia" onchange="renderBuscador()"><option value="">Todas las tipologías</option></select>
-
+      <input class="ctrl-in" id="bu-q" placeholder="Buscar por proyecto, tipo, piso…" oninput="renderBuscador()" style="flex:2;min-width:180px">
+      <select class="ctrl-sel" id="bu-proj"   onchange="renderBuscador()"><option value="">Todos los proyectos</option></select>
+      <select class="ctrl-sel" id="bu-tipo"   onchange="renderBuscador()"><option value="">Todos los tipos</option></select>
       <select class="ctrl-sel" id="bu-estado" onchange="renderBuscador()">
         <option value="">Todos los estados</option>
-        <option value="DISPONIBLE">Disponible</option>
-        <option value="RESERVADO">Reservado</option>
-        <option value="VENDIDO">Vendido</option>
+        <option value="Disponible">Disponible</option>
+        <option value="Reservada">Reservada</option>
+        <option value="Vendida">Vendida</option>
       </select>
-      <input class="ctrl-in" id="bu-min" placeholder="Precio mín USD" type="number" oninput="renderBuscador()" style="width:130px;flex:none">
-      <input class="ctrl-in" id="bu-max" placeholder="Precio máx USD" type="number" oninput="renderBuscador()" style="width:130px;flex:none">
+      <input class="ctrl-in" id="bu-min" placeholder="Precio mín USD" type="number" oninput="renderBuscador()" style="width:140px;flex:none">
+      <input class="ctrl-in" id="bu-max" placeholder="Precio máx USD" type="number" oninput="renderBuscador()" style="width:140px;flex:none">
       <button onclick="resetBuscador()" style="padding:8px 14px;background:none;border:1px solid var(--gray2);color:var(--gray4);font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:all .2s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--gray2)'">Limpiar</button>
     </div>
     <div id="bu-stats" style="font-size:11px;color:var(--gray4);margin-bottom:1rem;letter-spacing:.5px;min-height:20px"></div>
@@ -455,16 +434,16 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
         <table id="bu-table" style="width:100%;border-collapse:collapse;font-size:12px">
           <thead>
             <tr style="background:var(--black2);border-bottom:1px solid var(--gray1)">
-              <th onclick="sortBuscador('proyecto')" style="padding:10px 12px;text-align:left;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">Proyecto ↕</th>
-              <th onclick="sortBuscador('tipo')"     style="padding:10px 12px;text-align:left;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">Tipo ↕</th>
-              <th onclick="sortBuscador('unidad')"   style="padding:10px 12px;text-align:center;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">Unidad ↕</th>
+              <th onclick="sortBuscador('proyecto')"  style="padding:10px 12px;text-align:left;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">Proyecto ↕</th>
+              <th onclick="sortBuscador('tipo')"      style="padding:10px 12px;text-align:left;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">Tipo ↕</th>
+              <th onclick="sortBuscador('unidad')"    style="padding:10px 12px;text-align:center;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">Unidad ↕</th>
               <th onclick="sortBuscador('tipologia')" style="padding:10px 12px;text-align:left;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">Tipología ↕</th>
-              <th onclick="sortBuscador('m2int')"    style="padding:10px 12px;text-align:right;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">M² Int ↕</th>
-              <th onclick="sortBuscador('m2extcub')" style="padding:10px 12px;text-align:right;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">M² Ext Cub ↕</th>
-              <th onclick="sortBuscador('m2extdes')" style="padding:10px 12px;text-align:right;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">M² Ext Desc ↕</th>
-              <th onclick="sortBuscador('m2com')"    style="padding:10px 12px;text-align:right;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">M² Comunes ↕</th>
-              <th onclick="sortBuscador('m2tot')"    style="padding:10px 12px;text-align:right;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">M² Totales ↕</th>
-              <th onclick="sortBuscador('precio')"   style="padding:10px 12px;text-align:right;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">Precio USD ↕</th>
+              <th onclick="sortBuscador('m2int')"     style="padding:10px 12px;text-align:right;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">M² Int ↕</th>
+              <th onclick="sortBuscador('m2extcub')"  style="padding:10px 12px;text-align:right;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">M² Ext Cub ↕</th>
+              <th onclick="sortBuscador('m2extdes')"  style="padding:10px 12px;text-align:right;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">M² Ext Desc ↕</th>
+              <th onclick="sortBuscador('m2com')"     style="padding:10px 12px;text-align:right;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">M² Comunes ↕</th>
+              <th onclick="sortBuscador('m2tot')"     style="padding:10px 12px;text-align:right;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">M² Totales ↕</th>
+              <th onclick="sortBuscador('precio')"    style="padding:10px 12px;text-align:right;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">Precio USD ↕</th>
               <th style="padding:10px 12px;text-align:center;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);white-space:nowrap">Estado</th>
             </tr>
           </thead>
@@ -474,114 +453,6 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
       <div id="bu-empty" style="display:none;text-align:center;padding:2rem;color:var(--gray3);font-size:12px;letter-spacing:.5px">Sin resultados para esa búsqueda.</div>
     </div>
     <div id="bu-error" style="display:none;text-align:center;padding:2rem;color:#E88;font-size:12px"></div>
-  </div>
-</section>
-
-<!-- SOBRE IXOU -->
-<section id="sec-sobre" style="display:none">
-  <div class="sec-hero" style="display:flex;align-items:center;justify-content:space-between">
-    <div><h2>SOBRE IXOU</h2><p>◇ Ciudad Consciente · 13 años transformando Montevideo</p></div>
-    <img src="https://ginoixou.github.io/imgs/logo-ixou.png" alt="IXOU" style="height:clamp(2.5rem,5vw,4.5rem);width:auto;filter:brightness(0) invert(1);opacity:.7;flex-shrink:0">
-  </div>
-  <div style="max-width:900px;margin:0 auto;padding:3rem 2rem">
-
-    <!-- INTRO -->
-    <div style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid var(--gray1)">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:.06em;color:var(--white);margin-bottom:1rem">Ciudad Consciente</div>
-      <p style="font-size:14px;color:var(--gray4);line-height:1.8;margin-bottom:1rem">
-        IXOU es una desarrolladora líder en Uruguay de edificios exclusivos y sustentables, con diseños vanguardistas realizados por estudios de arquitectura internacionales de primer nivel. Nos encargamos del diseño, construcción y comercialización de cada proyecto, llevado a cabo por un equipo multidisciplinario formado por personas de distintos países.
-      </p>
-      <p style="font-size:14px;color:var(--gray4);line-height:1.8">
-        Con más de 13 años en el mercado y 16 obras entre terminadas, en construcción y proyectadas en Uruguay, nos preocupamos por un futuro sustentable trabajando con certificaciones de construcción sostenible y eficiente tales como <strong style="color:var(--accent)">LEED</strong> (Leadership in Energy and Environmental Design) y <strong style="color:var(--accent)">EDGE</strong> (Excellence in Design for Greater Efficiencies).
-      </p>
-    </div>
-
-    <!-- PILARES -->
-    <div style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid var(--gray1)">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:.06em;color:var(--white);margin-bottom:1.5rem">Nuestra filosofía</div>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--gray1);border:1px solid var(--gray1);margin-bottom:1.5rem">
-        <div style="background:var(--black2);padding:1.5rem">
-          <div style="font-size:1.5rem;margin-bottom:8px">🏗</div>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:2px;color:var(--white);margin-bottom:6px">Diseño internacional</div>
-          <p style="font-size:12px;color:var(--gray4);line-height:1.6">Trabajamos con los estudios de arquitectura más reconocidos del mundo — Carlos Ott, MVRDV, Elemental, Architecture Studio, Monoblock y más.</p>
-        </div>
-        <div style="background:var(--black2);padding:1.5rem">
-          <div style="font-size:1.5rem;margin-bottom:8px">🌿</div>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:2px;color:var(--white);margin-bottom:6px">Sustentabilidad</div>
-          <p style="font-size:12px;color:var(--gray4);line-height:1.6">Líderes en certificaciones LEED y EDGE en Uruguay. ALMA ET y BRUSCO son los primeros edificios certificados LEED Platino del país.</p>
-        </div>
-        <div style="background:var(--black2);padding:1.5rem">
-          <div style="font-size:1.5rem;margin-bottom:8px">🏙</div>
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:2px;color:var(--white);margin-bottom:6px">Ciudad Consciente</div>
-          <p style="font-size:12px;color:var(--gray4);line-height:1.6">Cada proyecto regenera el espacio urbano, integrando arquitectura de calidad con amenities únicos que transforman la experiencia de vida en Montevideo.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- HITOS -->
-    <div style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid var(--gray1)">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:.06em;color:var(--white);margin-bottom:1.5rem">Hitos</div>
-      <div style="display:flex;flex-direction:column;gap:0">
-        <div style="display:grid;grid-template-columns:80px 1fr;gap:1.5rem;padding:1rem 0;border-bottom:1px solid var(--gray1);align-items:start">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--accent);letter-spacing:.04em">2012</div>
-          <div style="font-size:13px;color:var(--gray4);line-height:1.6">Fundación de IXOU. Inicio del desarrollo de los primeros proyectos en Barrio Sur, Montevideo.</div>
-        </div> <div style="display:grid;grid-template-columns:80px 1fr;gap:1.5rem;padding:1rem 0;border-bottom:1px solid var(--gray1);align-items:start">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--accent);letter-spacing:.04em">2016</div>
-          <div style="font-size:13px;color:var(--gray4);line-height:1.6">Entrega de ALMA SUR — primer proyecto de la serie ALMA, con arquitectura de Carlos Ott y HOA.</div>
-        </div> <div style="display:grid;grid-template-columns:80px 1fr;gap:1.5rem;padding:1rem 0;border-bottom:1px solid var(--gray1);align-items:start">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--accent);letter-spacing:.04em">2018</div>
-          <div style="font-size:13px;color:var(--gray4);line-height:1.6">Entrega de ALMA BRAVA y ALMA CORSO. Premio SCA-CPAU de Arquitectura Argentina para ALMA BRAVA.</div>
-        </div> <div style="display:grid;grid-template-columns:80px 1fr;gap:1.5rem;padding:1rem 0;border-bottom:1px solid var(--gray1);align-items:start">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--accent);letter-spacing:.04em">2020</div>
-          <div style="font-size:13px;color:var(--gray4);line-height:1.6">Inicio de obra de ALMA DUÇ en Ciudad Vieja con el arquitecto español Carlos Ferrater.</div>
-        </div> <div style="display:grid;grid-template-columns:80px 1fr;gap:1.5rem;padding:1rem 0;border-bottom:1px solid var(--gray1);align-items:start">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--accent);letter-spacing:.04em">2022</div>
-          <div style="font-size:13px;color:var(--gray4);line-height:1.6">ALMA ET certifica LEED Platino — primer edificio de oficinas en Uruguay con esa distinción.</div>
-        </div> <div style="display:grid;grid-template-columns:80px 1fr;gap:1.5rem;padding:1rem 0;border-bottom:1px solid var(--gray1);align-items:start">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--accent);letter-spacing:.04em">2023</div>
-          <div style="font-size:13px;color:var(--gray4);line-height:1.6">BRUSCO certifica LEED Platino. Lanzamiento de ÂME, RISCO, ZIEL y CUMBRE.</div>
-        </div> <div style="display:grid;grid-template-columns:80px 1fr;gap:1.5rem;padding:1rem 0;border-bottom:1px solid var(--gray1);align-items:start">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--accent);letter-spacing:.04em">2024</div>
-          <div style="font-size:13px;color:var(--gray4);line-height:1.6">Lanzamiento de MIRLO, VARDØ, CÉFIRO y HALO. 16 proyectos en cartera.</div>
-        </div> <div style="display:grid;grid-template-columns:80px 1fr;gap:1.5rem;padding:1rem 0;border-bottom:1px solid var(--gray1);align-items:start">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--accent);letter-spacing:.04em">2025</div>
-          <div style="font-size:13px;color:var(--gray4);line-height:1.6">Publicación de la Memoria Anual 2025. IXOU consolida su posición como desarrolladora líder en Uruguay.</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- MEMORIA ANUAL -->
-    <div style="margin-bottom:2rem">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:.06em;color:var(--white);margin-bottom:1rem">Memoria Anual 2025</div>
-      <p style="font-size:13px;color:var(--gray4);line-height:1.7;margin-bottom:1.5rem">
-        La Memoria Anual 2025 recopila el desempeño, los proyectos y los hitos más importantes del año. Disponible para descarga exclusiva para agentes autorizados.
-      </p>
-      <div style="display:flex;gap:12px;flex-wrap:wrap">
-        <a href="https://drive.google.com/file/d/1UGhpaxtFn7V9XMAyY5mbAJYfi0UH0mjz/view?usp=drive_link" target="_blank"
-           style="display:inline-flex;align-items:center;gap:8px;padding:12px 24px;background:rgba(200,213,176,.15);border:1px solid rgba(200,213,176,.35);color:var(--accent);border-radius:2px;font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:1px;text-transform:uppercase;text-decoration:none;transition:all .2s"
-           onmouseover="this.style.background='rgba(200,213,176,.25)'" onmouseout="this.style.background='rgba(200,213,176,.15)'">
-          👁 Ver en Drive
-        </a>
-        <a href="https://drive.google.com/uc?export=download&id=1UGhpaxtFn7V9XMAyY5mbAJYfi0UH0mjz" target="_blank"
-           style="display:inline-flex;align-items:center;gap:8px;padding:12px 24px;background:transparent;border:1px solid var(--gray2);color:var(--gray4);border-radius:2px;font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:1px;text-transform:uppercase;text-decoration:none;transition:all .2s"
-           onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--gray2)';this.style.color='var(--gray4)'">
-          ⬇ Descargar PDF
-        </a>
-      </div>
-    </div>
-
-    <!-- CONTACTO -->
-    <div style="padding:1.5rem;background:var(--black2);border:1px solid var(--gray1);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem">
-      <div>
-        <div style="font-size:12px;color:var(--gray4);letter-spacing:.5px;margin-bottom:4px">¿Querés saber más?</div>
-        <div style="font-size:13px;color:var(--white)">ventas@ixou.la &nbsp;·&nbsp; <a href="https://ixou.la" target="_blank" style="color:var(--accent);text-decoration:none">ixou.la</a></div>
-      </div>
-      <a href="https://wa.me/59894647581" target="_blank"
-         style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:#25D366;color:white;border-radius:2px;font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:1px;text-transform:uppercase;text-decoration:none">
-        💬 WhatsApp
-      </a>
-    </div>
-
   </div>
 </section>
 </div><!-- /portal-screen -->
@@ -674,7 +545,7 @@ let bFilter='all';
 
 /* ══ NAV ══ */
 function showSec(n,btn){
-  ['dashboard','proyectos','blog','buscador','sobre'].forEach(s=>document.getElementById('sec-'+s).style.display='none');
+  ['dashboard','proyectos','blog','buscador'].forEach(s=>document.getElementById('sec-'+s).style.display='none');
   document.getElementById('sec-'+n).style.display='block';
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
   if(btn)btn.classList.add('active');
@@ -711,7 +582,7 @@ function renderDash(){
   const epr=PROYECTOS.filter(p=>p.obra==='Proyecto').length;
   const et=PROYECTOS.filter(p=>p.obra==='Terminado').length;
   if(!document.getElementById('stats-row')) return;
-  const _sr=document.getElementById('stats-row'); if(_sr) _sr.innerHTML=`
+  document.getElementById('stats-row').innerHTML=`
     <div class="stat-cell" style="cursor:pointer" onclick="window.open('https://ixou.la/#ixou','_blank')">
       <div class="stat-n">+13</div><div class="stat-l">Años en el mercado</div>
       <div style="font-size:9px;color:var(--accent);letter-spacing:1px;margin-top:4px">ixou.la ↗</div>
@@ -738,7 +609,7 @@ function renderDash(){
     </div>`;
   /* slider rendered separately */
   renderSlider();
-  const _dn=document.getElementById('dash-news'); if(_dn) _dn.innerHTML=livePosts.slice(0,8).map(p=>`
+  document.getElementById('dash-news').innerHTML=livePosts.slice(0,8).map(p=>`
     <div style="padding:14px;background:var(--black2);cursor:pointer;transition:background .15s"
          onmouseover="this.style.background='var(--black3)'" onmouseout="this.style.background='var(--black2)'"
          onclick="openPost(${p.id})">
@@ -750,7 +621,7 @@ function renderDash(){
       <div style="font-size:12px;font-weight:500;color:var(--gray5);line-height:1.4">${p.titulo}</div>
       ${p.proyecto?`<div style="font-size:10px;color:var(--gray3);margin-top:3px">◇ ${p.proyecto}</div>`:''}
     </div>`).join('');
-  const _dd=document.getElementById('dash-drive'); if(_dd) _dd.innerHTML=PROYECTOS.map(p=>`
+  document.getElementById('dash-drive').innerHTML=PROYECTOS.map(p=>`
     <a class="qlink" href="${p.driveUrl}" target="_blank">
       <div class="qlink-dot"></div>
       <div><div class="qlink-name">${p.nombre}</div><div class="qlink-sub">${p.calle}</div></div>
@@ -1170,59 +1041,45 @@ let buLoaded = false;
 let buSortKey = 'proyecto';
 let buSortAsc = true;
 
-/* Column names from sheet row 3:
-   Proyecto, N° unidad, Tipología, Dormitorios, Piso,
-   Orientación, Superficie total, Superficie terraza, Precio en USD, Estado */
+/* Exact column names from sheet row 3:
+   TIPO, PROYECTO, UNIDAD, DORM, ESTADO VENTA, PRECIO, Comentario ventas,
+   Fecha estimada ocupación, ..., TORRE, PISO, TIPOLOGIA, ORIENTACION,
+   M2 INT., M2 EXT. Cub., M2 EXT. Desc., M2 COMUNES, M2 TOTALES */
 
 function processBuscadorData(json) {
   if (!Array.isArray(json) || !json.length) return;
-
   buData = json
-    .filter(r => r['PROYECTO'] && r['PROYECTO'].trim())
+    .filter(r => r['PROYECTO'] && String(r['PROYECTO']).trim())
     .map(r => ({
-      tipo:      (r['TIPO']                       || '').trim(),
-      proyecto:  (r['PROYECTO']                   || '').trim(),
-      unidad:    (r['UNIDAD']                     || '').trim(),
-      dorm:      (r['DORM']                       || '').trim(),
-      estado:    (r['ESTADO VENTA']               || '').trim(),
-      precio:    (r['PRECIO']                     || '').trim(),
-      torre:     (r['TORRE']                      || '').trim(),
-      piso:      (r['PISO']                       || '').trim(),
-      tipologia: (r['TIPOLOGIA']                  || '').trim(),
-      orient:    (r['ORIENTACION']                || '').trim(),
-      m2int:     (r['M2 INT.']                    || '').trim(),
-      m2extcub:  (r['M2 EXT. Cub.']              || '').trim(),
-      m2extdes:  (r['M2 EXT. Desc.']             || '').trim(),
-      m2com:     (r['M2 COMUNES']                 || '').trim(),
-      m2tot:     (r['M2 TOTALES']                 || '').trim(),
-      ocupacion: (r['Fecha estimada ocupación']   || '').trim(),
+      tipo:      String(r['TIPO']               || '').trim(),
+      proyecto:  String(r['PROYECTO']           || '').trim(),
+      unidad:    String(r['UNIDAD']             || '').trim(),
+      tipologia: String(r['TIPOLOGIA']          || '').trim(),
+      m2int:     String(r['M2 INT.']            || '').trim(),
+      m2extcub:  String(r['M2 EXT. Cub.']      || '').trim(),
+      m2extdes:  String(r['M2 EXT. Desc.']     || '').trim(),
+      m2com:     String(r['M2 COMUNES']         || '').trim(),
+      m2tot:     String(r['M2 TOTALES']         || '').trim(),
+      precio:    String(r['PRECIO']             || '').trim(),
+      estado:    String(r['ESTADO VENTA']       || '').trim(),
     }));
 
   buLoaded = true;
 
-  // Populate project filter
   const projs = [...new Set(buData.map(r => r.proyecto).filter(Boolean))].sort();
   const psel = document.getElementById('bu-proj');
   if (psel) psel.innerHTML = '<option value="">Todos los proyectos</option>' +
     projs.map(p => `<option value="${p}">${p}</option>`).join('');
 
-  // Populate tipo filter (TIPO column: vivienda, oficina, etc)
   const tipos = [...new Set(buData.map(r => r.tipo).filter(Boolean))].sort();
   const tsel = document.getElementById('bu-tipo');
   if (tsel) tsel.innerHTML = '<option value="">Todos los tipos</option>' +
     tipos.map(t => `<option value="${t}">${t}</option>`).join('');
 
-  // Populate tipologia filter
   const tipols = [...new Set(buData.map(r => r.tipologia).filter(Boolean))].sort();
   const tlsel = document.getElementById('bu-tipologia');
   if (tlsel) tlsel.innerHTML = '<option value="">Todas las tipologías</option>' +
     tipols.map(t => `<option value="${t}">${t}</option>`).join('');
-
-  // Populate dorm filter
-  const dorms = [...new Set(buData.map(r => r.dorm).filter(Boolean))].sort();
-  const dsel = document.getElementById('bu-dorm');
-  if (dsel) dsel.innerHTML = '<option value="">Todos</option>' +
-    dorms.map(d => `<option value="${d}">${d}</option>`).join('');
 
   document.getElementById('bu-loading').style.display = 'none';
   document.getElementById('bu-results').style.display = 'block';
@@ -1268,23 +1125,22 @@ function loadBuscador() {
 
 function renderBuscador() {
   if (!buLoaded) { loadBuscador(); return; }
-
-  const q        = (document.getElementById('bu-q')?.value         || '').toLowerCase();
-  const proj     = document.getElementById('bu-proj')?.value       || '';
-  const tipo     = document.getElementById('bu-tipo')?.value       || '';
-  const tipologia= document.getElementById('bu-tipologia')?.value  || '';
-  const estado   = document.getElementById('bu-estado')?.value     || '';
+  const q        = (document.getElementById('bu-q')?.value        || '').toLowerCase();
+  const proj     = document.getElementById('bu-proj')?.value      || '';
+  const tipo     = document.getElementById('bu-tipo')?.value      || '';
+  const tipologia= document.getElementById('bu-tipologia')?.value || '';
+  const estado   = document.getElementById('bu-estado')?.value    || '';
   const minP     = parsePrecio(document.getElementById('bu-min')?.value);
   const maxP     = parsePrecio(document.getElementById('bu-max')?.value) || Infinity;
 
   let list = buData.filter(r => {
     const price = parsePrecio(r.precio);
-    return (!q        || Object.values(r).join(' ').toLowerCase().includes(q))
-        && (!proj     || r.proyecto === proj)
-        && (!tipo     || r.tipo === tipo)
-        && (!tipologia|| r.tipologia === tipologia)
-        && (!estado   || r.estado.toLowerCase().includes(estado.toLowerCase()))
-        && (!minP     || price >= minP)
+    return (!q         || Object.values(r).join(' ').toLowerCase().includes(q))
+        && (!proj      || r.proyecto === proj)
+        && (!tipo      || r.tipo === tipo)
+        && (!tipologia || r.tipologia === tipologia)
+        && (!estado    || r.estado.toUpperCase().includes(estado.toUpperCase()))
+        && (!minP      || price >= minP)
         && (maxP === Infinity || !maxP || price <= maxP);
   });
 
@@ -1293,21 +1149,19 @@ function renderBuscador() {
     if (['precio','m2int','m2extcub','m2extdes','m2com','m2tot'].includes(buSortKey)) {
       va = parseFloat(String(va).replace(/[^0-9.]/g,''))||0;
       vb = parseFloat(String(vb).replace(/[^0-9.]/g,''))||0;
-    } else if (buSortKey === 'piso') { va = parseInt(va)||0; vb = parseInt(vb)||0; }
+    }
     if (va < vb) return buSortAsc ? -1 : 1;
     if (va > vb) return buSortAsc ?  1 : -1;
     return 0;
   });
 
-  const disp = list.filter(r => r.estado.toLowerCase().includes('disp')).length;
+  const disp = list.filter(r => r.estado.toUpperCase().includes('DISP')).length;
   const statsEl = document.getElementById('bu-stats');
-  if (statsEl) statsEl.textContent =
-    `${list.length} unidades · ${disp} disponibles`;
+  if (statsEl) statsEl.textContent = `${list.length} unidades · ${disp} disponibles`;
 
   const tbody = document.getElementById('bu-tbody');
   const empty = document.getElementById('bu-empty');
   if (!tbody) return;
-
   if (!list.length) { tbody.innerHTML = ''; if(empty) empty.style.display='block'; return; }
   if (empty) empty.style.display = 'none';
 
@@ -1902,10 +1756,10 @@ function renderBuscador() {
   empty.style.display = 'none';
 
   const estadoColor = (e) => {
-    const el = (e||'').toUpperCase();
-    if (el.includes('DISP'))   return 'background:rgba(120,180,100,.12);color:#8FA870;border:1px solid rgba(120,180,100,.3)';
-    if (el.includes('RESERV')) return 'background:rgba(200,160,60,.12);color:#C8A03C;border:1px solid rgba(200,160,60,.3)';
-    if (el.includes('VEND'))   return 'background:rgba(200,60,60,.12);color:#E87070;border:1px solid rgba(200,60,60,.3)';
+    const el = (e||'').toLowerCase();
+    if (el.includes('disp'))   return 'background:rgba(120,180,100,.12);color:#8FA870;border:1px solid rgba(120,180,100,.3)';
+    if (el.includes('reserv')) return 'background:rgba(200,160,60,.12);color:#C8A03C;border:1px solid rgba(200,160,60,.3)';
+    if (el.includes('vend'))   return 'background:rgba(200,60,60,.12);color:#E87070;border:1px solid rgba(200,60,60,.3)';
     return 'background:var(--black3);color:var(--gray4);border:1px solid var(--gray2)';
   };
 
