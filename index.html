@@ -551,13 +551,25 @@ function showSec(n,btn){
   if(n==='buscador') loadBuscador();
 }
 window.showSec=showSec;
-/* Pre-assign all global functions immediately so dynamic HTML onclicks work */
-window.openPost=function(id){openPost(id);};
-window.closePostModal=function(){closePostModal();};
-window.openModal=function(id){openModal(id);};
-window.closeModal=function(){closeModal();};
-window.prevPost=function(id){prevPost(id);};
-window.nextPost=function(id){nextPost(id);};
+/* Pre-assign globals — lazy wrappers so they work even before function definitions */
+window.openModal      = function(id){ return openModal(id); };
+window.closeModal     = function(){ return closeModal(); };
+window.openPost       = function(id){ return openPost(id); };
+window.closePostModal = function(){ return closePostModal(); };
+window.prevPost       = function(id){ return prevPost(id); };
+window.nextPost       = function(id){ return nextPost(id); };
+window.filterBlog     = function(c,b){ return filterBlog(c,b); };
+window.toggleForm     = function(){ return toggleForm(); };
+window.publishPost    = function(){ return publishPost(); };
+window.toggleNotif    = function(){ return toggleNotif(); };
+window.markAllRead    = function(){ return markAllRead(); };
+window.clickNotif     = function(id){ return clickNotif(id); };
+window.renderProj     = function(){ return renderProj(); };
+window.renderBuscador = function(){ return renderBuscador(); };
+window.sortBuscador   = function(k){ return sortBuscador(k); };
+window.resetBuscador  = function(){ return resetBuscador(); };
+window.loadBuscador   = function(){ return loadBuscador(); };
+window.logoutUser     = function(){ return logoutUser(); };
 
 /* ══ DASHBOARD ══ */
 function renderDash(){
