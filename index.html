@@ -409,17 +409,18 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
   <div style="max-width:1200px;margin:0 auto;padding:2rem">
     <!-- FILTERS -->
     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:1rem;padding-bottom:1rem;border-bottom:1px solid var(--gray1)">
-      <input class="ctrl-in" id="bu-q" placeholder="Buscar por proyecto, tipo, piso…" oninput="renderBuscador()" style="flex:2;min-width:180px">
+      <input class="ctrl-in" id="bu-q" placeholder="Buscar por proyecto, unidad, orientación…" oninput="renderBuscador()" style="flex:2;min-width:180px">
       <select class="ctrl-sel" id="bu-proj"   onchange="renderBuscador()"><option value="">Todos los proyectos</option></select>
-      <select class="ctrl-sel" id="bu-tipo"   onchange="renderBuscador()"><option value="">Todos los tipos</option></select>
+      <select class="ctrl-sel" id="bu-tipo"   onchange="renderBuscador()"><option value="">Todas las tipologías</option></select>
+      <select class="ctrl-sel" id="bu-dorm"   onchange="renderBuscador()"><option value="">Todos los dormitorios</option></select>
       <select class="ctrl-sel" id="bu-estado" onchange="renderBuscador()">
         <option value="">Todos los estados</option>
         <option value="Disponible">Disponible</option>
         <option value="Reservada">Reservada</option>
         <option value="Vendida">Vendida</option>
       </select>
-      <input class="ctrl-in" id="bu-min" placeholder="Precio mín USD" type="number" oninput="renderBuscador()" style="width:140px;flex:none">
-      <input class="ctrl-in" id="bu-max" placeholder="Precio máx USD" type="number" oninput="renderBuscador()" style="width:140px;flex:none">
+      <input class="ctrl-in" id="bu-min" placeholder="Precio mín USD" type="number" oninput="renderBuscador()" style="width:130px;flex:none">
+      <input class="ctrl-in" id="bu-max" placeholder="Precio máx USD" type="number" oninput="renderBuscador()" style="width:130px;flex:none">
       <button onclick="resetBuscador()" style="padding:8px 14px;background:none;border:1px solid var(--gray2);color:var(--gray4);font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:all .2s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--gray2)'">Limpiar</button>
     </div>
     <div id="bu-stats" style="font-size:11px;color:var(--gray4);margin-bottom:1rem;letter-spacing:.5px;min-height:20px"></div>
@@ -435,11 +436,17 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
           <thead>
             <tr style="background:var(--black2);border-bottom:1px solid var(--gray1)">
               <th onclick="sortBuscador('proyecto')" style="padding:10px 12px;text-align:left;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">Proyecto ↕</th>
-              <th onclick="sortBuscador('unidad')" style="padding:10px 12px;text-align:left;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">Unidad ↕</th>
-              <th onclick="sortBuscador('tipo')" style="padding:10px 12px;text-align:left;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">Tipo ↕</th>
-              <th onclick="sortBuscador('piso')" style="padding:10px 12px;text-align:left;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">Piso ↕</th>
-              <th onclick="sortBuscador('sup')" style="padding:10px 12px;text-align:right;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">Sup. m² ↕</th>
-              <th onclick="sortBuscador('precio')" style="padding:10px 12px;text-align:right;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">Precio USD ↕</th>
+              <th onclick="sortBuscador('unidad')"   style="padding:10px 12px;text-align:center;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">Unidad ↕</th>
+              <th onclick="sortBuscador('tipo')"     style="padding:10px 12px;text-align:left;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">Tipología ↕</th>
+              <th onclick="sortBuscador('dorm')"     style="padding:10px 12px;text-align:center;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">Dorm ↕</th>
+              <th onclick="sortBuscador('piso')"     style="padding:10px 12px;text-align:center;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">Piso ↕</th>
+              <th onclick="sortBuscador('orient')"   style="padding:10px 12px;text-align:center;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">Orient ↕</th>
+              <th onclick="sortBuscador('m2int')"    style="padding:10px 12px;text-align:right;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">M² Int ↕</th>
+              <th onclick="sortBuscador('m2extcub')" style="padding:10px 12px;text-align:right;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">M² Ext Cub ↕</th>
+              <th onclick="sortBuscador('m2extdes')" style="padding:10px 12px;text-align:right;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">M² Ext Desc ↕</th>
+              <th onclick="sortBuscador('m2com')"    style="padding:10px 12px;text-align:right;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">M² Comunes ↕</th>
+              <th onclick="sortBuscador('m2tot')"    style="padding:10px 12px;text-align:right;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">M² Totales ↕</th>
+              <th onclick="sortBuscador('precio')"   style="padding:10px 12px;text-align:right;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">Precio USD ↕</th>
               <th style="padding:10px 12px;text-align:center;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);white-space:nowrap">Estado</th>
             </tr>
           </thead>
@@ -1031,11 +1038,642 @@ window.prevPost = prevPost;
 window.nextPost = nextPost;
 
 /* ══ BUSCADOR DE UNIDADES ══ */
-const SHEET_API = 'https://script.google.com/macros/s/AKfycbzHVG9Z1t3A6ymAwB7nV2_VopSAHhx_0TGeMFfwA5vUx6lNocFZpTvNFvBnQZbHHGyQ/exec?key=ixou2026portal';
+const SHEET_API = 'https://script.google.com/macros/s/AKfycbzmZxzm7XD1OBdfCEiylv9z40iZZPKLk3zeh7osCp4zwrGQNLcdZ-icmfn97ydWzIaL/exec?key=ixou2026portal';
 let buData = [];
 let buLoaded = false;
 let buSortKey = 'proyecto';
 let buSortAsc = true;
+
+/* Column names from sheet row 3:
+   Proyecto, N° unidad, Tipología, Dormitorios, Piso,
+   Orientación, Superficie total, Superficie terraza, Precio en USD, Estado */
+
+function processBuscadorData(json) {
+  if (!Array.isArray(json) || !json.length) return;
+
+  buData = json
+    .filter(r => r['Proyecto'] && r['Proyecto'].trim())
+    .map(r => ({
+      proyecto:  (r['Proyecto']       || '').trim(),
+      unidad:    (r['N° unidad']      || '').trim(),
+      tipo:      (r['Tipología']      || '').trim(),
+      dorm:      (r['Dormitorios']    || '').trim(),
+      piso:      (r['Piso']          || '').trim(),
+      orient:    (r['Orientación']    || '').trim(),
+      m2int:     (r['M2 INT.']       || '').trim(),
+      m2extcub:  (r['M2 EXT. Cub.'] || '').trim(),
+      m2extdes:  (r['M2 EXT. Desc.']|| '').trim(),
+      m2com:     (r['M2 COMUNES']    || '').trim(),
+      m2tot:     (r['M2 TOTALES']    || '').trim(),
+      precio:    (r['Precio en USD'] || '').trim(),
+      estado:    (r['Estado']        || 'Disponible').trim(),
+    }));
+
+  buLoaded = true;
+
+  // Populate project filter
+  const projs = [...new Set(buData.map(r => r.proyecto).filter(Boolean))].sort();
+  const psel = document.getElementById('bu-proj');
+  if (psel) psel.innerHTML = '<option value="">Todos los proyectos</option>' +
+    projs.map(p => `<option value="${p}">${p}</option>`).join('');
+
+  // Populate tipo filter
+  const tipos = [...new Set(buData.map(r => r.tipo).filter(Boolean))].sort();
+  const tsel = document.getElementById('bu-tipo');
+  if (tsel) tsel.innerHTML = '<option value="">Todas las tipologías</option>' +
+    tipos.map(t => `<option value="${t}">${t}</option>`).join('');
+
+  // Populate dorm filter
+  const dorms = [...new Set(buData.map(r => r.dorm).filter(Boolean))].sort();
+  const dsel = document.getElementById('bu-dorm');
+  if (dsel) dsel.innerHTML = '<option value="">Todos</option>' +
+    dorms.map(d => `<option value="${d}">${d}</option>`).join('');
+
+  document.getElementById('bu-loading').style.display = 'none';
+  document.getElementById('bu-results').style.display = 'block';
+  renderBuscador();
+}
+
+function parsePrecio(s) {
+  if (!s) return 0;
+  return parseFloat(String(s).replace(/[^0-9.]/g, '')) || 0;
+}
+
+function loadBuscador() {
+  if (buLoaded) { renderBuscador(); return; }
+  const loadEl = document.getElementById('bu-loading');
+  const errEl  = document.getElementById('bu-error');
+  const resEl  = document.getElementById('bu-results');
+  if (loadEl) loadEl.style.display = 'block';
+  if (errEl)  errEl.style.display  = 'none';
+  if (resEl)  resEl.style.display  = 'none';
+
+  window._jsonpBuscador = function(json) {
+    try {
+      if (json && json.error) throw new Error(json.error);
+      processBuscadorData(json);
+    } catch(e) {
+      if (loadEl) loadEl.style.display = 'none';
+      if (errEl)  { errEl.style.display = 'block'; errEl.textContent = 'Error: ' + e.message; }
+    }
+    const s = document.getElementById('_jsonp_s');
+    if (s) s.remove();
+  };
+
+  const script = document.createElement('script');
+  script.id  = '_jsonp_s';
+  script.src = SHEET_API + '&callback=_jsonpBuscador';
+  script.onerror = function() {
+    if (loadEl) loadEl.style.display = 'none';
+    if (errEl)  { errEl.style.display = 'block'; errEl.textContent = 'Error al conectar con la API.'; }
+    this.remove();
+  };
+  document.head.appendChild(script);
+}
+
+function renderBuscador() {
+  if (!buLoaded) { loadBuscador(); return; }
+
+  const q      = (document.getElementById('bu-q')?.value      || '').toLowerCase();
+  const proj   = document.getElementById('bu-proj')?.value    || '';
+  const tipo   = document.getElementById('bu-tipo')?.value    || '';
+  const dorm   = document.getElementById('bu-dorm')?.value    || '';
+  const estado = document.getElementById('bu-estado')?.value  || '';
+  const minP   = parsePrecio(document.getElementById('bu-min')?.value);
+  const maxP   = parsePrecio(document.getElementById('bu-max')?.value) || Infinity;
+
+  let list = buData.filter(r => {
+    const price = parsePrecio(r.precio);
+    return (!q      || Object.values(r).join(' ').toLowerCase().includes(q))
+        && (!proj   || r.proyecto === proj)
+        && (!tipo   || r.tipo === tipo)
+        && (!dorm   || r.dorm === dorm)
+        && (!estado || r.estado.toLowerCase().includes(estado.toLowerCase()))
+        && (!minP   || price >= minP)
+        && (maxP === Infinity || !maxP || price <= maxP);
+  });
+
+  list.sort((a, b) => {
+    let va = a[buSortKey] || '', vb = b[buSortKey] || '';
+    if (['precio','m2int','m2extcub','m2extdes','m2com','m2tot'].includes(buSortKey)) {
+      va = parseFloat(String(va).replace(/[^0-9.]/g,''))||0;
+      vb = parseFloat(String(vb).replace(/[^0-9.]/g,''))||0;
+    } else if (buSortKey === 'piso') { va = parseInt(va)||0; vb = parseInt(vb)||0; }
+    if (va < vb) return buSortAsc ? -1 : 1;
+    if (va > vb) return buSortAsc ?  1 : -1;
+    return 0;
+  });
+
+  const disp = list.filter(r => r.estado.toLowerCase().includes('disp')).length;
+  const statsEl = document.getElementById('bu-stats');
+  if (statsEl) statsEl.textContent =
+    `${list.length} unidades · ${disp} disponibles`;
+
+  const tbody = document.getElementById('bu-tbody');
+  const empty = document.getElementById('bu-empty');
+  if (!tbody) return;
+
+  if (!list.length) { tbody.innerHTML = ''; if(empty) empty.style.display='block'; return; }
+  if (empty) empty.style.display = 'none';
+
+  const estadoStyle = (e) => {
+    const el = (e||'').toLowerCase();
+    if (el.includes('disp'))   return 'background:rgba(120,180,100,.12);color:#8FA870;border:1px solid rgba(120,180,100,.3)';
+    if (el.includes('reserv')) return 'background:rgba(200,160,60,.12);color:#C8A03C;border:1px solid rgba(200,160,60,.3)';
+    if (el.includes('vend'))   return 'background:rgba(200,60,60,.12);color:#E87070;border:1px solid rgba(200,60,60,.3)';
+    return 'background:var(--black3);color:var(--gray4);border:1px solid var(--gray2)';
+  };
+
+  tbody.innerHTML = list.map((r,i) => `
+    <tr style="border-bottom:1px solid var(--gray1);background:${i%2===0?'var(--black2)':'var(--black3)'}">
+      <td style="padding:9px 12px;color:var(--white);font-weight:500;white-space:nowrap">${r.proyecto}</td>
+      <td style="padding:9px 12px;color:var(--gray5);text-align:center">${r.unidad}</td>
+      <td style="padding:9px 12px;color:var(--gray5)">${r.tipo}</td>
+      <td style="padding:9px 12px;color:var(--gray4);text-align:center">${r.dorm}</td>
+      <td style="padding:9px 12px;color:var(--gray4);text-align:center">${r.piso}</td>
+      <td style="padding:9px 12px;color:var(--gray4);text-align:center">${r.orient}</td>
+      <td style="padding:9px 12px;color:var(--gray4);text-align:right">${r.m2int}</td>
+      <td style="padding:9px 12px;color:var(--gray4);text-align:right">${r.m2extcub}</td>
+      <td style="padding:9px 12px;color:var(--gray4);text-align:right">${r.m2extdes}</td>
+      <td style="padding:9px 12px;color:var(--gray4);text-align:right">${r.m2com}</td>
+      <td style="padding:9px 12px;color:var(--gray4);text-align:right">${r.m2tot}</td>
+      <td style="padding:9px 12px;color:var(--accent);text-align:right;font-weight:500">${r.precio}</td>
+      <td style="padding:9px 12px;text-align:center">
+        <span style="font-size:9px;padding:2px 8px;border-radius:1px;white-space:nowrap;${estadoStyle(r.estado)}">${r.estado}</span>
+      </td>
+    </tr>`).join('');
+}
+
+function sortBuscador(key) {
+  if (buSortKey === key) buSortAsc = !buSortAsc;
+  else { buSortKey = key; buSortAsc = true; }
+  renderBuscador();
+}
+
+function resetBuscador() {
+  ['bu-q','bu-min','bu-max'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  ['bu-proj','bu-tipo','bu-dorm','bu-estado'].forEach(id=>{const el=document.getElementById(id);if(el)el.selectedIndex=0;});
+  renderBuscador();
+}
+
+window.loadBuscador   = loadBuscador;
+window.logoutUser     = logoutUser;
+
+/* ══ DASHBOARD ══ */
+function renderDash(){
+  const eo=PROYECTOS.filter(p=>p.obra==='obra').length;
+  const ep=PROYECTOS.filter(p=>p.obra==='Pozo').length;
+  const epr=PROYECTOS.filter(p=>p.obra==='Proyecto').length;
+  const et=PROYECTOS.filter(p=>p.obra==='Terminado').length;
+  if(!document.getElementById('stats-row')) return;
+  document.getElementById('stats-row').innerHTML=`
+    <div class="stat-cell" style="cursor:pointer" onclick="window.open('https://ixou.la/#ixou','_blank')">
+      <div class="stat-n">+13</div><div class="stat-l">Años en el mercado</div>
+      <div style="font-size:9px;color:var(--accent);letter-spacing:1px;margin-top:4px">ixou.la ↗</div>
+    </div>
+    <div class="stat-cell" style="cursor:pointer" onclick="showSec('proyectos',document.querySelectorAll('.nav-btn')[1]);document.getElementById('ctrl-obra').value='';renderProj()">
+      <div class="stat-n">${PROYECTOS.length}</div><div class="stat-l">Proyectos</div>
+      <div style="font-size:9px;color:var(--accent);letter-spacing:1px;margin-top:4px">Ver todos ↗</div>
+    </div>
+    <div class="stat-cell" style="cursor:pointer" onclick="showSec('proyectos',document.querySelectorAll('.nav-btn')[1]);document.getElementById('ctrl-obra').value='Terminado';renderProj()">
+      <div class="stat-n">${et}</div><div class="stat-l">Terminados</div>
+      <div style="font-size:9px;color:var(--accent);letter-spacing:1px;margin-top:4px">+info ↗</div>
+    </div>
+    <div class="stat-cell" style="cursor:pointer" onclick="showSec('proyectos',document.querySelectorAll('.nav-btn')[1]);document.getElementById('ctrl-obra').value='obra';renderProj()">
+      <div class="stat-n">${eo}</div><div class="stat-l">En obra</div>
+      <div style="font-size:9px;color:var(--accent);letter-spacing:1px;margin-top:4px">+info ↗</div>
+    </div>
+    <div class="stat-cell" style="cursor:pointer" onclick="showSec('proyectos',document.querySelectorAll('.nav-btn')[1]);document.getElementById('ctrl-obra').value='Pozo';renderProj()">
+      <div class="stat-n">${ep}</div><div class="stat-l">En pozo</div>
+      <div style="font-size:9px;color:var(--accent);letter-spacing:1px;margin-top:4px">+info ↗</div>
+    </div>
+    <div class="stat-cell" style="cursor:pointer" onclick="showSec('proyectos',document.querySelectorAll('.nav-btn')[1]);document.getElementById('ctrl-obra').value='Proyecto';renderProj()">
+      <div class="stat-n">${epr}</div><div class="stat-l">En proyecto</div>
+      <div style="font-size:9px;color:var(--accent);letter-spacing:1px;margin-top:4px">+info ↗</div>
+    </div>`;
+  /* slider rendered separately */
+  renderSlider();
+  document.getElementById('dash-news').innerHTML=livePosts.slice(0,8).map(p=>`
+    <div style="padding:14px;background:var(--black2);cursor:pointer;transition:background .15s"
+         onmouseover="this.style.background='var(--black3)'" onmouseout="this.style.background='var(--black2)'"
+         onclick="openPost(${p.id})">
+      ${p.imgUrl?`<img src="${p.imgUrl}" style="width:100%;height:90px;object-fit:cover;margin-bottom:8px;opacity:.85">`:''} 
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
+        <span class="${CAT[p.cat].cls}" style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase">${CAT[p.cat].lbl}</span>
+        <span style="font-size:10px;color:var(--gray4)">${p.fecha}</span>
+      </div>
+      <div style="font-size:12px;font-weight:500;color:var(--gray5);line-height:1.4">${p.titulo}</div>
+      ${p.proyecto?`<div style="font-size:10px;color:var(--gray3);margin-top:3px">◇ ${p.proyecto}</div>`:''}
+    </div>`).join('');
+  document.getElementById('dash-drive').innerHTML=PROYECTOS.map(p=>`
+    <a class="qlink" href="${p.driveUrl}" target="_blank">
+      <div class="qlink-dot"></div>
+      <div><div class="qlink-name">${p.nombre}</div><div class="qlink-sub">${p.calle}</div></div>
+    </a>`).join('');
+}
+
+/* ══ PROJECT CARDS ══ */
+function obraClass(o){return OBRA_CLS[o]||'ob-proyecto'}
+function obraLabel(o){return OBRA_LBL[o]||o}
+
+function renderProj(){
+  try {
+  const q=((document.getElementById('ctrl-q')?.value)||'').toLowerCase();
+  const obra=(document.getElementById('ctrl-obra')?.value)||'';
+  const barrio=(document.getElementById('ctrl-barrio')?.value)||'';
+  const tax=(document.getElementById('ctrl-tax')?.value)||'';
+  const list=PROYECTOS.filter(p=>{
+    const mq=!q||p.nombre.toLowerCase().includes(q)||p.barrio.toLowerCase().includes(q)||p.arq.toLowerCase().includes(q)||p.calle.toLowerCase().includes(q);
+    const mo=!obra||p.obra===obra;
+    const mb=!barrio||p.barrio===barrio;
+    const mt=!tax||(tax==='tax'&&p.taxFree);
+    return mq&&mo&&mb&&mt;
+  });
+  const grid=document.getElementById('proj-cards');
+  const noRes=document.getElementById('no-res');
+  if(!grid) return;
+  grid.innerHTML='';
+  noRes.style.display=list.length?'none':'block';
+
+  list.forEach(p=>{
+    const mapsUrl=`https://www.google.com/maps/search/?api=1&query=${p.mapsQ}`;
+    const bw=p.avance;
+    const fillColor=bw===100?'var(--accent)':bw>=50?'var(--accent2)':'var(--gray4)';
+
+    // Unit chips
+    const unitChips=Object.entries(p.unidadesDetalle)
+      .filter(([t,v])=>t&&t!=='-'&&v)
+      .map(([t,v])=>`<div class="unit-chip"><strong>${t}</strong>${v}</div>`).join('');
+
+    // Cert badge
+    const certBadge=p.cert&&p.cert!=='No'&&p.cert!=='—'
+      ?`<span style="font-size:9px;padding:2px 7px;background:rgba(120,180,100,.12);color:var(--accent);border:1px solid rgba(120,180,100,.25);border-radius:1px;letter-spacing:.5px">${p.cert}</span>`:'';
+    const taxBadge=p.taxFree
+      ?`<span style="font-size:9px;padding:2px 8px;background:rgba(120,180,100,.12);color:#8FA870;border:1px solid rgba(120,180,100,.35);border-radius:1px;letter-spacing:.3px;font-weight:500">✓ Vivienda Promovida · Tax Free</span>`
+      :'';
+
+    const card=document.createElement('div');
+    card.className='proj-card';
+    card.style.cursor='pointer';
+    card.onclick=function(e){if(!e.target.closest('a')&&!e.target.closest('button'))openModal(p.id)};
+    card.innerHTML=`
+      <div class="card-img">
+        ${p.imgUrl
+          ? `<img src="${p.imgUrl}" alt="${p.nombre}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
+          : ''}
+        <div class="card-img-placeholder" style="${p.imgUrl?'display:none':''}">🏗</div>
+        ${p.destacado?'<div class="card-star" title="Proyecto destacado"><svg viewBox="0 0 24 24" width="14" height="14" fill="#C8D5B0" style="filter:drop-shadow(0 0 3px rgba(200,213,176,.5))"><polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9"/></svg></div>':''}
+        <div class="card-obra-badge"><span class="obra-tag ${obraClass(p.obra)}" style="margin:0">${obraLabel(p.obra)}</span></div>
+      </div>
+      <div class="card-body">
+        <div>
+          <div class="card-name">${p.nombre}</div>
+          ${p.concepto?`<div class="card-concepto">"${p.concepto}"</div>`:''}
+        </div>
+        <div class="card-loc">
+          📍 <a href="${mapsUrl}" target="_blank" title="Ver en Google Maps">${p.calle}, ${p.barrio}</a>
+        </div>
+        <div class="card-progress">
+          <div class="card-progress-label">
+            <span style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray3)">Avance de obra</span>
+            <span style="color:var(--gray5)">${bw}%</span>
+          </div>
+          <div class="card-progress-bar"><div class="card-progress-fill" style="width:${bw}%;background:${fillColor}"></div></div>
+        </div>
+        <div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+            <div class="card-units-title">Tipos y precios desde</div>
+            <div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:2px">${certBadge}${taxBadge}</div>
+          </div>
+          <div class="card-units-grid">${unitChips||'<span style="font-size:11px;color:var(--gray3)">Consultar</span>'}</div>
+        </div>
+        <div style="display:flex;gap:12px;font-size:11px;color:var(--gray4);padding-top:4px;border-top:1px solid var(--gray1);flex-wrap:wrap">
+          <span>📦 ${p.unidades} unidades</span>
+          <span>🗓 Ocupación: ${p.ocupacion}</span>
+        </div>
+        ${p.pago?`<div style="font-size:10px;color:var(--gray3);padding-top:4px;letter-spacing:.3px"><span style="color:var(--gray4)">Forma de pago:</span> ${p.pago}</div>`:''}
+        ${p.amenities&&p.amenities!=='—'?`<div style="font-size:10px;color:var(--gray3);line-height:1.5">◇ ${p.amenities}</div>`:''}
+      </div>
+      <div class="card-foot">
+        <a class="btn-sm btn-drive" href="${p.driveUrl}" target="_blank">${DI} Drive</a>
+        <a class="btn-sm btn-web" href="${p.webUrl}" target="_blank">🌐 Sitio</a>
+        <a class="btn-sm btn-map" href="${mapsUrl}" target="_blank">📍 Mapa</a>
+        <button class="btn-sm" onclick="openModal(${p.id})" style="border-color:var(--accent);color:var(--accent);background:transparent">+ Info</button>
+      </div>`;
+    grid.appendChild(card);
+  });
+  } catch(err) {
+    console.error('renderProj error:', err);
+    document.getElementById('proj-cards').innerHTML =
+      `<div style="padding:2rem;color:#E88;grid-column:1/-1">Error al cargar proyectos: ${err.message}</div>`;
+  }
+}
+
+/* ══ MODAL ══ */
+function openModal(id){
+  const p=PROYECTOS.find(x=>x.id===id);
+  const mapsUrl=`https://www.google.com/maps/search/?api=1&query=${p.mapsQ}`;
+  const units=Object.entries(p.unidadesDetalle).filter(([t,v])=>t&&t!=='-'&&v).map(([t,v])=>`<div class="modal-row"><span class="modal-lbl">${t}</span><span class="modal-val" style="color:var(--accent)">${v}</span></div>`).join('');
+  const bw=p.avance;
+  const rel=livePosts.filter(b=>b.proyecto===p.nombre).slice(0,3);
+  const postsHtml=rel.length?rel.map(b=>`<div class="modal-row"><span class="modal-lbl ${CAT[b.cat].cls}">${CAT[b.cat].lbl}</span><span class="modal-val" style="font-size:11px;font-weight:400;color:var(--gray5)">${b.titulo.substring(0,55)}…</span></div>`).join(''):'<p style="font-size:11px;color:var(--gray3)">Sin novedades recientes.</p>';
+  document.getElementById('modal-box').innerHTML=`
+    <div class="modal-hd">
+      <div>
+        <div class="modal-hd-name">${p.nombre}${p.destacado?'&nbsp;<span style="display:inline-block;vertical-align:middle"><svg viewBox="0 0 24 24" width="14" height="14" fill="#C8D5B0" style="filter:drop-shadow(0 0 3px rgba(200,213,176,.5))"><polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9"/></svg></span>':''}</div>
+        <div class="modal-hd-sub">${p.arq}</div>
+        <div class="modal-hd-sub" style="margin-top:2px"><span class="obra-tag ${obraClass(p.obra)}" style="position:static;margin:0">${obraLabel(p.obra)} · ${bw}%</span>${p.cert&&p.cert!=='No'?` &nbsp;<span style="font-size:9px;padding:2px 7px;background:rgba(120,180,100,.12);color:var(--accent);border:1px solid rgba(120,180,100,.25);border-radius:1px">${p.cert}</span>`:''}</div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-sec"><div class="modal-sec-title">Ubicación</div>
+        <div class="modal-row"><span class="modal-lbl">Dirección</span><span class="modal-val"><a href="${mapsUrl}" target="_blank" style="color:var(--accent);text-decoration:none">📍 ${p.calle}</a></span></div>
+        <div class="modal-row"><span class="modal-lbl">Barrio</span><span class="modal-val">${p.barrio}, ${p.ciudad}</span></div>
+        <div class="modal-row"><span class="modal-lbl">Concepto</span><span class="modal-val" style="font-style:italic;font-size:11px;color:var(--gray4)">${p.concepto}</span></div>
+        ${p.taxFree?'<div class="modal-row"><span class="modal-lbl">Beneficio fiscal</span><span class="modal-val" style="color:#E8C850;font-size:11px">✓ Vivienda Promovida · Tax Free (Ley 18.795)</span></div>':''}
+      </div>
+      <div class="modal-sec"><div class="modal-sec-title">Datos del proyecto</div>
+        <div class="modal-row"><span class="modal-lbl">Unidades</span><span class="modal-val">${p.unidades}</span></div>
+        <div class="modal-row"><span class="modal-lbl">Ocupación estimada</span><span class="modal-val">${p.ocupacion}</span></div>
+        <div class="modal-row"><span class="modal-lbl">Avance de obra</span><span class="modal-val">${bw}%</span></div>
+        ${p.amenities&&p.amenities!=='—'?`<div class="modal-row" style="flex-direction:column;gap:4px"><span class="modal-lbl">Amenities</span><span style="font-size:11px;color:var(--gray5);line-height:1.6">${p.amenities}</span></div>`:''}
+      </div>
+      <div class="modal-sec"><div class="modal-sec-title">Tipos de unidad y precios desde</div>${units}
+        ${p.pago?`<div class="modal-row" style="flex-direction:column;gap:3px"><span class="modal-lbl">Forma de pago</span><span style="font-size:12px;color:var(--accent2)">${p.pago}</span></div>`:''}
+      </div>
+      <div class="modal-sec"><div class="modal-sec-title">Documentación y links</div>
+        <div class="modal-row"><span class="modal-lbl">Google Drive</span><a href="${p.driveUrl}" target="_blank" style="color:#4285f4;font-size:11px;text-decoration:none">${DI} Abrir carpeta</a></div>
+        <div class="modal-row"><span class="modal-lbl">Sitio web</span><a href="${p.webUrl}" target="_blank" style="color:var(--accent);font-size:11px;text-decoration:none">🌐 Ver sitio</a></div>
+        <div class="modal-row"><span class="modal-lbl">Google Maps</span><a href="${mapsUrl}" target="_blank" style="color:var(--gray4);font-size:11px;text-decoration:none">📍 Ver ubicación</a></div>
+      </div>
+      <div class="modal-sec"><div class="modal-sec-title">Novedades relacionadas</div>${postsHtml}</div>
+    </div>`;
+  document.getElementById('modal').classList.add('open');
+}
+function closeModal(){document.getElementById('modal').classList.remove('open')}
+
+/* ══ BLOG ══ */
+function renderBlog(){
+  const list=bFilter==='all'?livePosts:livePosts.filter(p=>p.cat===bFilter);
+  const feat=list.find(p=>p.destacado)||list[0];
+  const rest=list.filter(p=>p!==feat);
+  let html='';
+  if(feat){const m=CAT[feat.cat];html+=`<div class="post-feat" onclick="openPost(${feat.id})" style="cursor:pointer">
+      ${feat.imgUrl ? `<div style="height:220px;overflow:hidden;background:var(--black3)"><img src="${feat.imgUrl}" alt="" style="width:100%;height:100%;object-fit:cover;object-position:center 20%;opacity:.85;transition:opacity .3s" onerror="this.parentElement.style.display='none'"></div>` : ''}
+      <div class="post-feat-tag-row"><span class="post-feat-sticker">Destacado</span><span class="post-feat-date">${feat.fecha}</span><span class="${m.cls}" style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase">${m.lbl}</span></div><div class="post-feat-body"><div class="post-feat-ttl">${feat.titulo}</div><div class="post-feat-txt">${feat.resumen}</div>${feat.proyecto?`<div class="post-feat-proj">◇ ${feat.proyecto}</div>`:''}</div></div>`}
+  html+=rest.slice(0,8).map(p=>{const m=CAT[p.cat];return`<div class="post-list-item" onclick="openPost(${p.id})" style="grid-template-columns:${p.imgUrl?'80px 1fr':'1fr'} auto;gap:12px">
+      ${p.imgUrl ? `<img src="${p.imgUrl}" alt="" style="width:80px;height:80px;object-fit:cover;object-position:center 20%;opacity:.85;border-radius:1px;flex-shrink:0" onerror="this.style.display='none'">` : ''}
+      <div><div class="pli-top"><span class="pli-date">${p.fecha}</span><span class="pli-cat ${m.cls}">${m.lbl}</span></div><div class="pli-ttl">${p.titulo}</div>${p.proyecto?`<div class="pli-proj">◇ ${p.proyecto}</div>`:''}</div><div class="pli-arrow">→</div></div>`}).join('');
+  document.getElementById('blog-main').innerHTML=html;
+  const counts={};livePosts.forEach(p=>counts[p.cat]=(counts[p.cat]||0)+1);
+  document.getElementById('blog-cats').innerHTML=Object.entries(CAT).map(([k,v])=>`<div class="cat-stat-row"><span class="cat-stat-lbl ${v.cls}">${v.lbl}</span><span class="cat-stat-n">${counts[k]||0}</span></div>`).join('');
+  const projs=[...new Set(livePosts.map(p=>p.proyecto).filter(Boolean))];
+  document.getElementById('blog-projs').innerHTML=projs.map(n=>`<div class="cat-stat-row" style="cursor:pointer" onclick="showSec('proyectos',document.querySelectorAll('.nav-btn')[1])"><span class="cat-stat-lbl">${n}</span><span style="font-size:10px;color:var(--gray3)">→</span></div>`).join('');
+  // populate project select
+  document.getElementById('nf-p').innerHTML='<option value="">— General —</option>'+PROYECTOS.map(p=>`<option value="${p.nombre}">${p.nombre}</option>`).join('');
+}
+function filterBlog(cat,btn){bFilter=cat;document.querySelectorAll('.cat-btn2').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderBlog()}
+
+function toggleForm(){
+  const f=document.getElementById('nf');
+  f.classList.toggle('open');
+}
+
+function publishPost(){
+  const t=document.getElementById('nf-t').value.trim();
+  const r=document.getElementById('nf-r').value.trim();
+  const c=document.getElementById('nf-c').value;
+  const p=document.getElementById('nf-p').value;
+  const img=document.getElementById('nf-img')?document.getElementById('nf-img').value.trim():'';
+  if(!t||!r){alert('Completá el título y el resumen.');return}
+  const m=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  const d=new Date();
+  livePosts.unshift({id:Date.now(),titulo:t,resumen:r,imgUrl:img||null,fecha:`${d.getDate()} ${m[d.getMonth()]} ${d.getFullYear()}`,cat:c,proyecto:p||null,destacado:false});
+  document.getElementById('nf-t').value='';
+  document.getElementById('nf-r').value='';
+  if(document.getElementById('nf-img'))document.getElementById('nf-img').value='';
+  document.getElementById('nf').classList.remove('open');
+  bFilter='all';
+  document.querySelectorAll('.cat-btn2').forEach((b,i)=>b.classList.toggle('active',i===0));
+  renderBlog();
+  renderDash();
+  document.getElementById('hdr-right').textContent=PROYECTOS.length+' PROYECTOS · '+livePosts.length+' NOVEDADES';
+  updateNotifBadge&&updateNotifBadge();
+}
+
+/* ══ SLIDER ══ */
+
+function renderSlider() {
+  const proj = FEATURED();
+  const track = document.getElementById('slider-track');
+  const dots  = document.getElementById('slider-dots');
+  if (!track || !proj.length) return;
+
+  track.innerHTML = proj.map(p => {
+    const firstPrice = Object.entries(p.unidadesDetalle)
+      .filter(([t,v]) => t && t !== '-' && v && v !== 'Consultar')[0];
+    return `
+    <div class="slide" onclick="openModal(${p.id})">
+      <div class="slide-img">
+        ${p.imgUrl
+          ? `<img src="${p.imgUrl}" alt="${p.nombre}" onerror="this.style.display='none'">`
+          : '<div style="width:100%;height:100%;background:var(--black3)"></div>'}
+        <div class="slide-overlay"></div>
+      </div>
+      <div class="slide-content">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+          <span class="obra-tag ${OBRA_CLS[p.obra]||'ob-pozo'}" style="margin:0">${p.obra} · ${p.avance}%</span>
+          ${p.taxFree ? '<span style="font-size:9px;padding:2px 8px;background:rgba(120,180,100,.2);color:#8FA870;border:1px solid rgba(120,180,100,.4);border-radius:1px">✓ Vivienda Promovida</span>' : ''}
+        </div>
+        <div class="slide-name">${p.nombre}</div>
+        <div class="slide-sub">📍 ${p.calle}, ${p.barrio} &nbsp;·&nbsp; by ${p.arq}</div>
+        <div class="slide-concepto">"${p.concepto}"</div>
+        <div class="slide-chips">
+          ${firstPrice ? `<span style="font-size:11px;padding:4px 12px;background:rgba(200,213,176,.15);border:1px solid rgba(200,213,176,.3);color:var(--accent);border-radius:1px">${firstPrice[0]} desde ${firstPrice[1]}</span>` : ''}
+          <span style="font-size:11px;padding:4px 12px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.7);border-radius:1px">${p.unidades} unidades</span>
+          ${p.pago ? `<span style="font-size:10px;padding:4px 12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.5);border-radius:1px">${p.pago}</span>` : ''}
+        </div>
+        <div class="slide-btns" onclick="event.stopPropagation()">
+          <a href="${p.driveUrl}" target="_blank" class="btn-sm btn-drive" style="font-size:10px;padding:6px 14px">Drive</a>
+          <a href="${p.webUrl}"   target="_blank" class="btn-sm btn-web"   style="font-size:10px;padding:6px 14px">Sitio web</a>
+          <a href="https://www.google.com/maps/search/?api=1&query=${p.mapsQ}" target="_blank" class="btn-sm btn-map" style="font-size:10px;padding:6px 14px">📍 Mapa</a>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  dots.innerHTML = proj.map((_,i) =>
+    `<div class="slider-dot${i===0?' active':''}" onclick="slideTo(${i});event.stopPropagation()"></div>`
+  ).join('');
+
+  slideTo(0);
+  startSlider();
+}
+
+function slideTo(i) {
+  const proj  = FEATURED();
+  slideIdx    = (i + proj.length) % proj.length;
+  const track = document.getElementById('slider-track');
+  if (track) track.style.transform = `translateX(-${slideIdx * 100}%)`;
+  document.querySelectorAll('.slider-dot').forEach((d,j) => {
+    d.classList.toggle('active', j === slideIdx);
+  });
+}
+
+function slideMove(dir) {
+  slideTo(slideIdx + dir);
+  restartSlider();
+}
+
+function startSlider() {
+  clearInterval(slideTimer);
+  slideTimer = setInterval(() => slideTo(slideIdx + 1), 5000);
+}
+function restartSlider() {
+  clearInterval(slideTimer);
+  startSlider();
+}
+window.slideTo   = slideTo;
+window.slideMove = slideMove;
+window.renderSlider = renderSlider;
+
+
+/* ══ NOTIFICATIONS ══ */
+
+function getUnread(){return livePosts.filter(p=>!readIds.includes(p.id))}
+
+function updateNotifBadge(){
+  const n=getUnread().length;
+  const badge=document.getElementById('notif-count');
+  if(badge){badge.textContent=n>0?n:'';badge.style.display=n>0?'flex':'none';}
+}
+
+function toggleNotif(){
+  const panel=document.getElementById('notif-panel');
+  const isOpen=panel.style.display!=='none';
+  panel.style.display=isOpen?'none':'block';
+  if(!isOpen) renderNotifPanel();
+}
+
+function renderNotifPanel(){
+  const list=document.getElementById('notif-list');
+  if(!list)return;
+  list.innerHTML=livePosts.slice(0,10).map(p=>{
+    const unread=!readIds.includes(p.id);
+    const m=CAT[p.cat];
+    return `<div style="padding:12px 16px;border-bottom:1px solid var(--gray1);cursor:pointer;background:${unread?'var(--black3)':'var(--black2)'};transition:background .15s"
+      onmouseover="this.style.background='var(--black3)'" onmouseout="this.style.background='${unread?'var(--black3)':'var(--black2)'}'"
+      onclick="clickNotif(${p.id})">
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
+        ${unread?'<div style="width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0"></div>':'<div style="width:6px;height:6px;flex-shrink:0"></div>'}
+        <span class="${m.cls}" style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase">${m.lbl}</span>
+        <span style="font-size:10px;color:var(--gray4)">${p.fecha}</span>
+      </div>
+      <div style="font-size:12px;color:${unread?'var(--white)':'var(--gray5)'};line-height:1.4">${p.titulo}</div>
+      ${p.proyecto?`<div style="font-size:10px;color:var(--gray3);margin-top:3px">◇ ${p.proyecto}</div>`:''}
+    </div>`;
+  }).join('');
+}
+
+function clickNotif(id){
+  if(!readIds.includes(id)){readIds.push(id);sessionStorage.setItem('ixou_read',JSON.stringify(readIds));}
+  updateNotifBadge();
+  document.getElementById('notif-panel').style.display='none';
+  showSec('blog',document.querySelectorAll('.nav-btn')[2]);
+}
+
+function markAllRead(){
+  readIds=livePosts.map(p=>p.id);
+  sessionStorage.setItem('ixou_read',JSON.stringify(readIds));
+  updateNotifBadge();
+  renderNotifPanel();
+}
+
+/* Close notif panel on outside click */
+document.addEventListener('click',function(e){
+  const panel=document.getElementById('notif-panel');
+  const btn=document.getElementById('notif-btn');
+  if(panel&&btn&&!panel.contains(e.target)&&!btn.contains(e.target)){
+    panel.style.display='none';
+  }
+});
+
+/* Init notifications after portal loads */
+window.addEventListener('DOMContentLoaded',()=>{
+  setTimeout(()=>{
+    updateNotifBadge();
+    renderNotifPanel();
+  },500);
+});
+
+/* ══ POST DETAIL ══ */
+function openPost(id) {
+  const p = livePosts.find(x => x.id === id);
+  if (!p) return;
+  const m = CAT[p.cat];
+  const allPosts = livePosts;
+  const postIdx = allPosts.findIndex(x => x.id === id);
+  const hasPrev = postIdx < allPosts.length - 1;
+  const hasNext = postIdx > 0;
+  document.getElementById('post-modal-box').innerHTML = `
+    <div class="modal-hd">
+      <div style="flex:1">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+          <span class="${m.cls}" style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;font-weight:500">${m.lbl}</span>
+          <span style="font-size:11px;color:var(--gray4)">${p.fecha}</span>
+          ${p.proyecto ? `<span style="font-size:10px;color:var(--gray3)">◇ ${p.proyecto}</span>` : ''}
+        </div>
+        <div class="modal-hd-name" style="font-size:1.6rem;line-height:1.1">${p.titulo}</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">
+        ${hasPrev ? `<button onclick="prevPost(${id})" style="background:none;border:1px solid var(--gray2);color:var(--gray4);width:30px;height:30px;cursor:pointer;font-size:16px;transition:all .2s" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--gray2)';this.style.color='var(--gray4)'">‹</button>` : '<div style="width:30px"></div>'}
+        ${hasNext ? `<button onclick="nextPost(${id})" style="background:none;border:1px solid var(--gray2);color:var(--gray4);width:30px;height:30px;cursor:pointer;font-size:16px;transition:all .2s" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--gray2)';this.style.color='var(--gray4)'">›</button>` : '<div style="width:30px"></div>'}
+        <button class="modal-close" onclick="closePostModal()">✕</button>
+      </div>
+    </div>
+    <div class="modal-body">
+      ${p.imgUrl ? `<img src="${p.imgUrl}" alt="" style="width:100%;height:220px;object-fit:cover;margin-bottom:1.5rem;display:block">` : ''}
+      ${p.logos ? `<div style="display:flex;gap:12px;align-items:center;margin-bottom:16px;flex-wrap:wrap">
+        ${p.logos.map(src=>`<img src="${src}" style="height:52px;width:auto;background:#fff;padding:4px 8px;border-radius:2px">`).join('')}
+      </div>` : ''}
+      <div style="font-size:14px;color:var(--gray4);line-height:1.75">${p.resumen}</div>
+      ${p.link ? `<a href="${p.link}" target="_blank" style="display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:rgba(200,213,176,.15);border:1px solid rgba(200,213,176,.3);color:#C8D5B0;border-radius:2px;font-size:12px;text-decoration:none;margin-top:12px">📐 Ver Guía de Metrajes APPCU →</a>` : ''}
+      ${p.proyecto ? `
+      <div style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--gray1)">
+        <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--accent2);margin-bottom:8px">Proyecto relacionado</div>
+        <div style="font-size:13px;color:var(--gray5);cursor:pointer" onclick="closePostModal();openModal(${
+          (PROYECTOS.find(pr => pr.nombre === p.proyecto) || {}).id || 0
+        })">◇ ${p.proyecto} →</div>
+      </div>` : ''}
+    </div>`;
+  document.getElementById('post-modal').classList.add('open');
+  /* mark as read */
+  if (!readIds.includes(p.id)) {
+    readIds.push(p.id);
+    sessionStorage.setItem('ixou_read', JSON.stringify(readIds));
+    updateNotifBadge && updateNotifBadge();
+  }
+}
+function closePostModal() {
+  document.getElementById('post-modal').classList.remove('open');
+}
+function prevPost(currentId) {
+  const ids = livePosts.map(p => p.id);
+  const idx = ids.indexOf(currentId);
+  const prev = livePosts[idx + 1];
+  if (prev) openPost(prev.id);
+}
+function nextPost(currentId) {
+  const ids = livePosts.map(p => p.id);
+  const idx = ids.indexOf(currentId);
+  const next = livePosts[idx - 1];
+  if (next) openPost(next.id);
+}
+window.prevPost = prevPost;
+window.nextPost = nextPost;
+
+/* ══ BUSCADOR DE UNIDADES ══ */
 
 function processBuscadorData(json) {
   const sample = json[0];
