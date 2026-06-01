@@ -432,7 +432,7 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
       <select class="ctrl-sel" id="bu-proj"     onchange="renderBuscador()"><option value="">Todos los proyectos</option></select>
       <select class="ctrl-sel" id="bu-tipo"     onchange="renderBuscador()"><option value="">Todos los tipos</option></select>
       <select class="ctrl-sel" id="bu-tipologia" onchange="renderBuscador()"><option value="">Todas las tipologías</option></select>
-      <select class="ctrl-sel" id="bu-dorm"     onchange="renderBuscador()"><option value="">Todos los dorm.</option></select>
+
       <select class="ctrl-sel" id="bu-estado" onchange="renderBuscador()">
         <option value="">Todos los estados</option>
         <option value="DISPONIBLE">Disponible</option>
@@ -456,19 +456,15 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
           <thead>
             <tr style="background:var(--black2);border-bottom:1px solid var(--gray1)">
               <th onclick="sortBuscador('proyecto')" style="padding:10px 12px;text-align:left;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">Proyecto ↕</th>
-              <th onclick="sortBuscador('torre')" style="padding:10px 12px;text-align:center;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">Torre ↕</th>
-              <th onclick="sortBuscador('tipo')" style="padding:10px 12px;text-align:left;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">Tipo ↕</th>
-              <th onclick="sortBuscador('unidad')" style="padding:10px 12px;text-align:center;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">Unidad ↕</th>
+              <th onclick="sortBuscador('tipo')"     style="padding:10px 12px;text-align:left;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">Tipo ↕</th>
+              <th onclick="sortBuscador('unidad')"   style="padding:10px 12px;text-align:center;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">Unidad ↕</th>
               <th onclick="sortBuscador('tipologia')" style="padding:10px 12px;text-align:left;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">Tipología ↕</th>
-              <th onclick="sortBuscador('dorm')" style="padding:10px 12px;text-align:center;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">Dorm ↕</th>
-              <th onclick="sortBuscador('piso')" style="padding:10px 12px;text-align:center;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">Piso ↕</th>
-              <th onclick="sortBuscador('orient')" style="padding:10px 12px;text-align:center;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">Orientación ↕</th>
-              <th onclick="sortBuscador('m2int')" style="padding:10px 12px;text-align:right;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">M² Int ↕</th>
+              <th onclick="sortBuscador('m2int')"    style="padding:10px 12px;text-align:right;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">M² Int ↕</th>
               <th onclick="sortBuscador('m2extcub')" style="padding:10px 12px;text-align:right;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">M² Ext Cub ↕</th>
               <th onclick="sortBuscador('m2extdes')" style="padding:10px 12px;text-align:right;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">M² Ext Desc ↕</th>
-              <th onclick="sortBuscador('m2com')" style="padding:10px 12px;text-align:right;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">M² Comunes ↕</th>
-              <th onclick="sortBuscador('m2tot')" style="padding:10px 12px;text-align:right;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">M² Totales ↕</th>
-              <th onclick="sortBuscador('precio')" style="padding:10px 12px;text-align:right;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">Precio USD ↕</th>
+              <th onclick="sortBuscador('m2com')"    style="padding:10px 12px;text-align:right;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">M² Comunes ↕</th>
+              <th onclick="sortBuscador('m2tot')"    style="padding:10px 12px;text-align:right;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">M² Totales ↕</th>
+              <th onclick="sortBuscador('precio')"   style="padding:10px 12px;text-align:right;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">Precio USD ↕</th>
               <th style="padding:10px 12px;text-align:center;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);white-space:nowrap">Estado</th>
             </tr>
           </thead>
@@ -1277,7 +1273,6 @@ function renderBuscador() {
   const proj     = document.getElementById('bu-proj')?.value       || '';
   const tipo     = document.getElementById('bu-tipo')?.value       || '';
   const tipologia= document.getElementById('bu-tipologia')?.value  || '';
-  const dorm     = document.getElementById('bu-dorm')?.value       || '';
   const estado   = document.getElementById('bu-estado')?.value     || '';
   const minP     = parsePrecio(document.getElementById('bu-min')?.value);
   const maxP     = parsePrecio(document.getElementById('bu-max')?.value) || Infinity;
@@ -1288,7 +1283,6 @@ function renderBuscador() {
         && (!proj     || r.proyecto === proj)
         && (!tipo     || r.tipo === tipo)
         && (!tipologia|| r.tipologia === tipologia)
-        && (!dorm     || r.dorm === dorm)
         && (!estado   || r.estado.toLowerCase().includes(estado.toLowerCase()))
         && (!minP     || price >= minP)
         && (maxP === Infinity || !maxP || price <= maxP);
@@ -1328,13 +1322,9 @@ function renderBuscador() {
   tbody.innerHTML = list.map((r,i) => `
     <tr style="border-bottom:1px solid var(--gray1);background:${i%2===0?'var(--black2)':'var(--black3)'}">
       <td style="padding:9px 12px;color:var(--white);font-weight:500;white-space:nowrap">${r.proyecto}</td>
-      <td style="padding:9px 12px;color:var(--gray5);text-align:center">${r.torre}</td>
       <td style="padding:9px 12px;color:var(--gray5)">${r.tipo}</td>
       <td style="padding:9px 12px;color:var(--gray5);text-align:center">${r.unidad}</td>
       <td style="padding:9px 12px;color:var(--gray5)">${r.tipologia}</td>
-      <td style="padding:9px 12px;color:var(--gray4);text-align:center">${r.dorm}</td>
-      <td style="padding:9px 12px;color:var(--gray4);text-align:center">${r.piso}</td>
-      <td style="padding:9px 12px;color:var(--gray4);text-align:center">${r.orient}</td>
       <td style="padding:9px 12px;color:var(--gray4);text-align:right">${r.m2int}</td>
       <td style="padding:9px 12px;color:var(--gray4);text-align:right">${r.m2extcub}</td>
       <td style="padding:9px 12px;color:var(--gray4);text-align:right">${r.m2extdes}</td>
@@ -1355,7 +1345,7 @@ function sortBuscador(key) {
 
 function resetBuscador() {
   ['bu-q','bu-min','bu-max'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
-  ['bu-proj','bu-tipo','bu-tipologia','bu-dorm','bu-estado'].forEach(id=>{const el=document.getElementById(id);if(el)el.selectedIndex=0;});
+  ['bu-proj','bu-tipo','bu-tipologia','bu-estado'].forEach(id=>{const el=document.getElementById(id);if(el)el.selectedIndex=0;});
   renderBuscador();
 }
 
