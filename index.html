@@ -551,25 +551,25 @@ function showSec(n,btn){
   if(n==='buscador') loadBuscador();
 }
 window.showSec=showSec;
-/* Pre-assign globals — lazy wrappers so they work even before function definitions */
-window.openModal      = function(id){ return openModal(id); };
-window.closeModal     = function(){ return closeModal(); };
-window.openPost       = function(id){ return openPost(id); };
-window.closePostModal = function(){ return closePostModal(); };
-window.prevPost       = function(id){ return prevPost(id); };
-window.nextPost       = function(id){ return nextPost(id); };
-window.filterBlog     = function(c,b){ return filterBlog(c,b); };
-window.toggleForm     = function(){ return toggleForm(); };
-window.publishPost    = function(){ return publishPost(); };
-window.toggleNotif    = function(){ return toggleNotif(); };
-window.markAllRead    = function(){ return markAllRead(); };
-window.clickNotif     = function(id){ return clickNotif(id); };
-window.renderProj     = function(){ return renderProj(); };
-window.renderBuscador = function(){ return renderBuscador(); };
-window.sortBuscador   = function(k){ return sortBuscador(k); };
-window.resetBuscador  = function(){ return resetBuscador(); };
-window.loadBuscador   = function(){ return loadBuscador(); };
-window.logoutUser     = function(){ return logoutUser(); };
+/* Expose all functions globally — function declarations are hoisted so this is safe */
+window.openModal      = openModal;
+window.closeModal     = closeModal;
+window.openPost       = openPost;
+window.closePostModal = closePostModal;
+window.prevPost       = prevPost;
+window.nextPost       = nextPost;
+window.filterBlog     = filterBlog;
+window.toggleForm     = toggleForm;
+window.publishPost    = publishPost;
+window.toggleNotif    = toggleNotif;
+window.markAllRead    = markAllRead;
+window.clickNotif     = clickNotif;
+window.renderProj     = renderProj;
+window.renderBuscador = renderBuscador;
+window.sortBuscador   = sortBuscador;
+window.resetBuscador  = resetBuscador;
+window.loadBuscador   = loadBuscador;
+window.logoutUser     = logoutUser;
 
 /* ══ DASHBOARD ══ */
 function renderDash(){
@@ -720,7 +720,6 @@ function renderProj(){
       `<div style="padding:2rem;color:#E88;grid-column:1/-1">Error al cargar proyectos: ${err.message}</div>`;
   }
 }
-window.renderProj=renderProj;
 
 /* ══ MODAL ══ */
 function openModal(id){
@@ -765,8 +764,6 @@ function openModal(id){
   document.getElementById('modal').classList.add('open');
 }
 function closeModal(){document.getElementById('modal').classList.remove('open')}
-window.openModal=openModal;
-window.closeModal=closeModal;
 
 /* ══ BLOG ══ */
 function renderBlog(){
@@ -789,13 +786,11 @@ function renderBlog(){
   document.getElementById('nf-p').innerHTML='<option value="">— General —</option>'+PROYECTOS.map(p=>`<option value="${p.nombre}">${p.nombre}</option>`).join('');
 }
 function filterBlog(cat,btn){bFilter=cat;document.querySelectorAll('.cat-btn2').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderBlog()}
-window.filterBlog=filterBlog;
 
 function toggleForm(){
   const f=document.getElementById('nf');
   f.classList.toggle('open');
 }
-window.toggleForm=toggleForm;
 
 function publishPost(){
   const t=document.getElementById('nf-t').value.trim();
@@ -818,7 +813,6 @@ function publishPost(){
   document.getElementById('hdr-right').textContent=PROYECTOS.length+' PROYECTOS · '+livePosts.length+' NOVEDADES';
   updateNotifBadge&&updateNotifBadge();
 }
-window.publishPost=publishPost;
 
 /* ══ SLIDER ══ */
 let slideIdx = 0;
@@ -969,7 +963,6 @@ window.addEventListener('DOMContentLoaded',()=>{
     renderNotifPanel();
   },500);
 });
-window.toggleNotif=toggleNotif;
 
 /* ══ POST DETAIL ══ */
 function openPost(id) {
@@ -1034,8 +1027,6 @@ function nextPost(currentId) {
   const next = livePosts[idx - 1];
   if (next) openPost(next.id);
 }
-window.openPost = openPost;
-window.closePostModal = closePostModal;
 window.prevPost = prevPost;
 window.nextPost = nextPost;
 
@@ -1206,10 +1197,6 @@ function loadBuscador() {
   };
   document.head.appendChild(script);
 }
-window.renderBuscador = renderBuscador;
-window.sortBuscador   = sortBuscador;
-window.resetBuscador  = resetBuscador;
-window.loadBuscador   = loadBuscador;
 </script>
 </body>
 </html>
