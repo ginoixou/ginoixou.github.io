@@ -630,10 +630,10 @@ function obraLabel(o){return OBRA_LBL[o]||o}
 
 function renderProj(){
   try {
-  const q=(document.getElementById('ctrl-q').value||'').toLowerCase();
-  const obra=document.getElementById('ctrl-obra').value;
-  const barrio=document.getElementById('ctrl-barrio').value;
-  const tax=document.getElementById('ctrl-tax').value;
+  const q=((document.getElementById('ctrl-q')?.value)||'').toLowerCase();
+  const obra=(document.getElementById('ctrl-obra')?.value)||'';
+  const barrio=(document.getElementById('ctrl-barrio')?.value)||'';
+  const tax=(document.getElementById('ctrl-tax')?.value)||'';
   const list=PROYECTOS.filter(p=>{
     const mq=!q||p.nombre.toLowerCase().includes(q)||p.barrio.toLowerCase().includes(q)||p.arq.toLowerCase().includes(q)||p.calle.toLowerCase().includes(q);
     const mo=!obra||p.obra===obra;
@@ -643,6 +643,7 @@ function renderProj(){
   });
   const grid=document.getElementById('proj-cards');
   const noRes=document.getElementById('no-res');
+  if(!grid) return;
   grid.innerHTML='';
   noRes.style.display=list.length?'none':'block';
 
