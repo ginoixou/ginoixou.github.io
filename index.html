@@ -315,10 +315,22 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
       </div>
   </div><!-- /mapa full width -->
 
-  <!-- NOVEDADES sidebar (full width single col below map) -->
-  <div style="max-width:1200px;margin:0 auto;padding:0 2rem 2rem">
-    <div class="section-head">Últimas novedades <a onclick="showSec('blog',document.querySelectorAll('.nav-btn')[2])">Ver todas →</a></div>
-    <div id="dash-news" style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--gray1);border:1px solid var(--gray1)"></div>
+  <!-- MAIN CONTENT: featured + sidebar -->
+  <div style="max-width:1200px;margin:0 auto;padding:0 2rem 2rem;display:grid;grid-template-columns:1fr 300px;gap:2rem">
+    <!-- LEFT: featured projects list -->
+    <div>
+      <div class="section-head">Proyectos destacados <a onclick="showSec('proyectos',document.querySelectorAll('.nav-btn')[1])">Ver todos →</a></div>
+      <div id="dash-feat"></div>
+    </div>
+    <!-- RIGHT: news sidebar -->
+    <div>
+      <div class="section-head" style="font-size:.75rem">Últimas novedades <a onclick="showSec('blog',document.querySelectorAll('.nav-btn')[2])">Ver todas →</a></div>
+      <div id="dash-news"></div>
+      <div class="sidebar-block" style="margin-top:1px">
+        <div class="sidebar-title">Acceso a Drive</div>
+        <div id="dash-drive"></div>
+      </div>
+    </div>
   </div>
   <div style="height:1rem"></div>
 </section>
@@ -703,7 +715,7 @@ function renderDash(){
   const epr=PROYECTOS.filter(p=>p.obra==='Proyecto').length;
   const et=PROYECTOS.filter(p=>p.obra==='Terminado').length;
   if(!document.getElementById('stats-row')) return;
-  document.getElementById('stats-row').innerHTML=`
+  const _sr=document.getElementById('stats-row'); if(_sr) _sr.innerHTML=`
     <div class="stat-cell" style="cursor:pointer" onclick="window.open('https://ixou.la/#ixou','_blank')">
       <div class="stat-n">+13</div><div class="stat-l">Años en el mercado</div>
       <div style="font-size:9px;color:var(--accent);letter-spacing:1px;margin-top:4px">ixou.la ↗</div>
@@ -730,7 +742,7 @@ function renderDash(){
     </div>`;
   /* slider rendered separately */
   renderSlider();
-  document.getElementById('dash-news').innerHTML=livePosts.slice(0,8).map(p=>`
+  const _dn=document.getElementById('dash-news'); if(_dn) _dn.innerHTML=livePosts.slice(0,8).map(p=>`
     <div style="padding:14px;background:var(--black2);cursor:pointer;transition:background .15s"
          onmouseover="this.style.background='var(--black3)'" onmouseout="this.style.background='var(--black2)'"
          onclick="openPost(${p.id})">
@@ -742,7 +754,7 @@ function renderDash(){
       <div style="font-size:12px;font-weight:500;color:var(--gray5);line-height:1.4">${p.titulo}</div>
       ${p.proyecto?`<div style="font-size:10px;color:var(--gray3);margin-top:3px">◇ ${p.proyecto}</div>`:''}
     </div>`).join('');
-  document.getElementById('dash-drive').innerHTML=PROYECTOS.map(p=>`
+  const _dd=document.getElementById('dash-drive'); if(_dd) _dd.innerHTML=PROYECTOS.map(p=>`
     <a class="qlink" href="${p.driveUrl}" target="_blank">
       <div class="qlink-dot"></div>
       <div><div class="qlink-name">${p.nombre}</div><div class="qlink-sub">${p.calle}</div></div>
