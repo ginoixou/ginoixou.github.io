@@ -254,6 +254,7 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
     <button class="nav-btn" onclick="showSec('proyectos',this)">Proyectos</button>
     <button class="nav-btn" onclick="showSec('blog',this)">Novedades</button>
     <button class="nav-btn" onclick="showSec('buscador',this)">Buscador</button>
+    <button class="nav-btn" onclick="showSec('sobre',this)">Sobre IXOU</button>
   </nav>
   <div style="margin-left:auto;display:flex;align-items:center;gap:12px">
     <div class="hdr-right" id="hdr-right"></div>
@@ -324,7 +325,10 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
 
 <!-- PROYECTOS -->
 <section id="sec-proyectos" style="display:none">
-  <div class="sec-hero"><h2>PROYECTOS</h2><p>◇ 16 desarrollos · Información comercial y acceso a documentación</p></div>
+  <div class="sec-hero" style="display:flex;align-items:center;justify-content:space-between">
+    <div><h2>PROYECTOS</h2><p>◇ 16 desarrollos · Información comercial y acceso a documentación</p></div>
+    <img src="https://ginoixou.github.io/imgs/logo-ixou.png" alt="IXOU" style="height:clamp(2.5rem,5vw,4.5rem);width:auto;filter:brightness(0) invert(1);opacity:.7;flex-shrink:0">
+  </div>
   <div class="proj-controls">
     <input class="ctrl-in" id="ctrl-q" placeholder="Buscar por nombre, barrio o arquitecto…" oninput="renderProj()">
     <select class="ctrl-sel" id="ctrl-obra" onchange="renderProj()">
@@ -354,7 +358,10 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
 
 <!-- BLOG -->
 <section id="sec-blog" style="display:none">
-  <div class="sec-hero"><h2>NOVEDADES</h2><p>◇ Actualizaciones, lanzamientos y comunicados</p></div>
+  <div class="sec-hero" style="display:flex;align-items:center;justify-content:space-between">
+    <div><h2>NOVEDADES</h2><p>◇ Actualizaciones, lanzamientos y comunicados</p></div>
+    <img src="https://ginoixou.github.io/imgs/logo-ixou.png" alt="IXOU" style="height:clamp(2.5rem,5vw,4.5rem);width:auto;filter:brightness(0) invert(1);opacity:.7;flex-shrink:0">
+  </div>
   <div class="blog-wrap">
     <div>
       <div class="cat-row">
@@ -402,9 +409,9 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
 </section>
 <!-- BUSCADOR DE UNIDADES -->
 <section id="sec-buscador" style="display:none">
-  <div class="sec-hero">
-    <h2>BUSCADOR DE UNIDADES</h2>
-    <p>◇ Filtrá por proyecto, tipología, precio y estado · datos en tiempo real</p>
+  <div class="sec-hero" style="display:flex;align-items:center;justify-content:space-between">
+    <div><h2>BUSCADOR DE UNIDADES</h2><p>◇ Filtrá por proyecto, tipología, precio y estado · datos en tiempo real</p></div>
+    <img src="https://ginoixou.github.io/imgs/logo-ixou.png" alt="IXOU" style="height:clamp(2.5rem,5vw,4.5rem);width:auto;filter:brightness(0) invert(1);opacity:.7;flex-shrink:0">
   </div>
   <div style="max-width:1200px;margin:0 auto;padding:2rem">
     <!-- FILTERS -->
@@ -453,6 +460,114 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
       <div id="bu-empty" style="display:none;text-align:center;padding:2rem;color:var(--gray3);font-size:12px;letter-spacing:.5px">Sin resultados para esa búsqueda.</div>
     </div>
     <div id="bu-error" style="display:none;text-align:center;padding:2rem;color:#E88;font-size:12px"></div>
+  </div>
+</section>
+
+<!-- SOBRE IXOU -->
+<section id="sec-sobre" style="display:none">
+  <div class="sec-hero" style="display:flex;align-items:center;justify-content:space-between">
+    <div><h2>SOBRE IXOU</h2><p>◇ Ciudad Consciente · 13 años transformando Montevideo</p></div>
+    <img src="https://ginoixou.github.io/imgs/logo-ixou.png" alt="IXOU" style="height:clamp(2.5rem,5vw,4.5rem);width:auto;filter:brightness(0) invert(1);opacity:.7;flex-shrink:0">
+  </div>
+  <div style="max-width:900px;margin:0 auto;padding:3rem 2rem">
+
+    <!-- INTRO -->
+    <div style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid var(--gray1)">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:.06em;color:var(--white);margin-bottom:1rem">Ciudad Consciente</div>
+      <p style="font-size:14px;color:var(--gray4);line-height:1.8;margin-bottom:1rem">
+        IXOU es una desarrolladora líder en Uruguay de edificios exclusivos y sustentables, con diseños vanguardistas realizados por estudios de arquitectura internacionales de primer nivel. Nos encargamos del diseño, construcción y comercialización de cada proyecto, llevado a cabo por un equipo multidisciplinario formado por personas de distintos países.
+      </p>
+      <p style="font-size:14px;color:var(--gray4);line-height:1.8">
+        Con más de 13 años en el mercado y 16 obras entre terminadas, en construcción y proyectadas en Uruguay, nos preocupamos por un futuro sustentable trabajando con certificaciones de construcción sostenible y eficiente tales como <strong style="color:var(--accent)">LEED</strong> (Leadership in Energy and Environmental Design) y <strong style="color:var(--accent)">EDGE</strong> (Excellence in Design for Greater Efficiencies).
+      </p>
+    </div>
+
+    <!-- PILARES -->
+    <div style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid var(--gray1)">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:.06em;color:var(--white);margin-bottom:1.5rem">Nuestra filosofía</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--gray1);border:1px solid var(--gray1);margin-bottom:1.5rem">
+        <div style="background:var(--black2);padding:1.5rem">
+          <div style="font-size:1.5rem;margin-bottom:8px">🏗</div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:2px;color:var(--white);margin-bottom:6px">Diseño internacional</div>
+          <p style="font-size:12px;color:var(--gray4);line-height:1.6">Trabajamos con los estudios de arquitectura más reconocidos del mundo — Carlos Ott, MVRDV, Elemental, Architecture Studio, Monoblock y más.</p>
+        </div>
+        <div style="background:var(--black2);padding:1.5rem">
+          <div style="font-size:1.5rem;margin-bottom:8px">🌿</div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:2px;color:var(--white);margin-bottom:6px">Sustentabilidad</div>
+          <p style="font-size:12px;color:var(--gray4);line-height:1.6">Líderes en certificaciones LEED y EDGE en Uruguay. ALMA ET y BRUSCO son los primeros edificios certificados LEED Platino del país.</p>
+        </div>
+        <div style="background:var(--black2);padding:1.5rem">
+          <div style="font-size:1.5rem;margin-bottom:8px">🏙</div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:2px;color:var(--white);margin-bottom:6px">Ciudad Consciente</div>
+          <p style="font-size:12px;color:var(--gray4);line-height:1.6">Cada proyecto regenera el espacio urbano, integrando arquitectura de calidad con amenities únicos que transforman la experiencia de vida en Montevideo.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- HITOS -->
+    <div style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid var(--gray1)">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:.06em;color:var(--white);margin-bottom:1.5rem">Hitos</div>
+      <div style="display:flex;flex-direction:column;gap:0">
+        <div style="display:grid;grid-template-columns:80px 1fr;gap:1.5rem;padding:1rem 0;border-bottom:1px solid var(--gray1);align-items:start">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--accent);letter-spacing:.04em">2012</div>
+          <div style="font-size:13px;color:var(--gray4);line-height:1.6">Fundación de IXOU. Inicio del desarrollo de los primeros proyectos en Barrio Sur, Montevideo.</div>
+        </div> <div style="display:grid;grid-template-columns:80px 1fr;gap:1.5rem;padding:1rem 0;border-bottom:1px solid var(--gray1);align-items:start">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--accent);letter-spacing:.04em">2016</div>
+          <div style="font-size:13px;color:var(--gray4);line-height:1.6">Entrega de ALMA SUR — primer proyecto de la serie ALMA, con arquitectura de Carlos Ott y HOA.</div>
+        </div> <div style="display:grid;grid-template-columns:80px 1fr;gap:1.5rem;padding:1rem 0;border-bottom:1px solid var(--gray1);align-items:start">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--accent);letter-spacing:.04em">2018</div>
+          <div style="font-size:13px;color:var(--gray4);line-height:1.6">Entrega de ALMA BRAVA y ALMA CORSO. Premio SCA-CPAU de Arquitectura Argentina para ALMA BRAVA.</div>
+        </div> <div style="display:grid;grid-template-columns:80px 1fr;gap:1.5rem;padding:1rem 0;border-bottom:1px solid var(--gray1);align-items:start">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--accent);letter-spacing:.04em">2020</div>
+          <div style="font-size:13px;color:var(--gray4);line-height:1.6">Inicio de obra de ALMA DUÇ en Ciudad Vieja con el arquitecto español Carlos Ferrater.</div>
+        </div> <div style="display:grid;grid-template-columns:80px 1fr;gap:1.5rem;padding:1rem 0;border-bottom:1px solid var(--gray1);align-items:start">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--accent);letter-spacing:.04em">2022</div>
+          <div style="font-size:13px;color:var(--gray4);line-height:1.6">ALMA ET certifica LEED Platino — primer edificio de oficinas en Uruguay con esa distinción.</div>
+        </div> <div style="display:grid;grid-template-columns:80px 1fr;gap:1.5rem;padding:1rem 0;border-bottom:1px solid var(--gray1);align-items:start">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--accent);letter-spacing:.04em">2023</div>
+          <div style="font-size:13px;color:var(--gray4);line-height:1.6">BRUSCO certifica LEED Platino. Lanzamiento de ÂME, RISCO, ZIEL y CUMBRE.</div>
+        </div> <div style="display:grid;grid-template-columns:80px 1fr;gap:1.5rem;padding:1rem 0;border-bottom:1px solid var(--gray1);align-items:start">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--accent);letter-spacing:.04em">2024</div>
+          <div style="font-size:13px;color:var(--gray4);line-height:1.6">Lanzamiento de MIRLO, VARDØ, CÉFIRO y HALO. 16 proyectos en cartera.</div>
+        </div> <div style="display:grid;grid-template-columns:80px 1fr;gap:1.5rem;padding:1rem 0;border-bottom:1px solid var(--gray1);align-items:start">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--accent);letter-spacing:.04em">2025</div>
+          <div style="font-size:13px;color:var(--gray4);line-height:1.6">Publicación de la Memoria Anual 2025. IXOU consolida su posición como desarrolladora líder en Uruguay.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MEMORIA ANUAL -->
+    <div style="margin-bottom:2rem">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:.06em;color:var(--white);margin-bottom:1rem">Memoria Anual 2025</div>
+      <p style="font-size:13px;color:var(--gray4);line-height:1.7;margin-bottom:1.5rem">
+        La Memoria Anual 2025 recopila el desempeño, los proyectos y los hitos más importantes del año. Disponible para descarga exclusiva para agentes autorizados.
+      </p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <a href="https://drive.google.com/file/d/1UGhpaxtFn7V9XMAyY5mbAJYfi0UH0mjz/view?usp=drive_link" target="_blank"
+           style="display:inline-flex;align-items:center;gap:8px;padding:12px 24px;background:rgba(200,213,176,.15);border:1px solid rgba(200,213,176,.35);color:var(--accent);border-radius:2px;font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:1px;text-transform:uppercase;text-decoration:none;transition:all .2s"
+           onmouseover="this.style.background='rgba(200,213,176,.25)'" onmouseout="this.style.background='rgba(200,213,176,.15)'">
+          👁 Ver en Drive
+        </a>
+        <a href="https://drive.google.com/uc?export=download&id=1UGhpaxtFn7V9XMAyY5mbAJYfi0UH0mjz" target="_blank"
+           style="display:inline-flex;align-items:center;gap:8px;padding:12px 24px;background:transparent;border:1px solid var(--gray2);color:var(--gray4);border-radius:2px;font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:1px;text-transform:uppercase;text-decoration:none;transition:all .2s"
+           onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--gray2)';this.style.color='var(--gray4)'">
+          ⬇ Descargar PDF
+        </a>
+      </div>
+    </div>
+
+    <!-- CONTACTO -->
+    <div style="padding:1.5rem;background:var(--black2);border:1px solid var(--gray1);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem">
+      <div>
+        <div style="font-size:12px;color:var(--gray4);letter-spacing:.5px;margin-bottom:4px">¿Querés saber más?</div>
+        <div style="font-size:13px;color:var(--white)">ventas@ixou.la &nbsp;·&nbsp; <a href="https://ixou.la" target="_blank" style="color:var(--accent);text-decoration:none">ixou.la</a></div>
+      </div>
+      <a href="https://wa.me/59894647581" target="_blank"
+         style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:#25D366;color:white;border-radius:2px;font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:1px;text-transform:uppercase;text-decoration:none">
+        💬 WhatsApp
+      </a>
+    </div>
+
   </div>
 </section>
 </div><!-- /portal-screen -->
@@ -545,7 +660,7 @@ let bFilter='all';
 
 /* ══ NAV ══ */
 function showSec(n,btn){
-  ['dashboard','proyectos','blog','buscador'].forEach(s=>document.getElementById('sec-'+s).style.display='none');
+  ['dashboard','proyectos','blog','buscador','sobre'].forEach(s=>document.getElementById('sec-'+s).style.display='none');
   document.getElementById('sec-'+n).style.display='block';
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
   if(btn)btn.classList.add('active');
