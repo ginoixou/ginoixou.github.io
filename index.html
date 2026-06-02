@@ -244,7 +244,7 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
 <!-- PORTAL -->
 <div id="portal-screen">
 <header id="header">
-  <div class="hdr-logo">
+  <div class="hdr-logo" onclick="showSec('dashboard',document.querySelectorAll('.nav-btn')[0])" style="cursor:pointer">
     <img src="https://ginoixou.github.io/imgs/logo-ixou.png" 
          alt="IXOU" style="height:28px;width:auto;object-fit:contain;filter:brightness(0) invert(1)"
          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
@@ -680,7 +680,7 @@ function renderDash(){
   document.getElementById('stats-row').innerHTML=`
     <div class="stat-cell" style="cursor:pointer" onclick="showSec('sobre',document.querySelector('.nav-btn[onclick*=sobre]'))">
       <div class="stat-n">+13</div><div class="stat-l">Años en el mercado</div>
-      <div style="font-size:9px;color:var(--accent);letter-spacing:1px;margin-top:4px">ixou.la ↗</div>
+      <div style="font-size:9px;color:var(--accent);letter-spacing:1px;margin-top:4px">+ info</div>
     </div>
     <div class="stat-cell" style="cursor:pointer" onclick="showSec('proyectos',document.querySelectorAll('.nav-btn')[1]);document.getElementById('ctrl-obra').value='';renderProj()">
       <div class="stat-n">${PROYECTOS.length}</div><div class="stat-l">Proyectos</div>
@@ -1313,7 +1313,7 @@ function renderDash(){
   document.getElementById('stats-row').innerHTML=`
     <div class="stat-cell" style="cursor:pointer" onclick="showSec('sobre',document.querySelector('.nav-btn[onclick*=sobre]'))">
       <div class="stat-n">+13</div><div class="stat-l">Años en el mercado</div>
-      <div style="font-size:9px;color:var(--accent);letter-spacing:1px;margin-top:4px">ixou.la ↗</div>
+      <div style="font-size:9px;color:var(--accent);letter-spacing:1px;margin-top:4px">+ info</div>
     </div>
     <div class="stat-cell" style="cursor:pointer" onclick="showSec('proyectos',document.querySelectorAll('.nav-btn')[1]);document.getElementById('ctrl-obra').value='';renderProj()">
       <div class="stat-n">${PROYECTOS.length}</div><div class="stat-l">Proyectos</div>
