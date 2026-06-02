@@ -434,17 +434,21 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
         <table id="bu-table" style="width:100%;border-collapse:collapse;font-size:12px">
           <thead>
             <tr style="background:var(--black2);border-bottom:1px solid var(--gray1)">
-              <th onclick="sortBuscador('proyecto')"  style="padding:10px 12px;text-align:left;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">Proyecto ↕</th>
-              <th onclick="sortBuscador('tipo')"      style="padding:10px 12px;text-align:left;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">Tipo ↕</th>
-              <th onclick="sortBuscador('unidad')"    style="padding:10px 12px;text-align:center;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">Unidad ↕</th>
-              <th onclick="sortBuscador('tipologia')" style="padding:10px 12px;text-align:left;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">Tipología ↕</th>
-              <th onclick="sortBuscador('m2int')"     style="padding:10px 12px;text-align:right;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">M² Int ↕</th>
-              <th onclick="sortBuscador('m2extcub')"  style="padding:10px 12px;text-align:right;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">M² Ext Cub ↕</th>
-              <th onclick="sortBuscador('m2extdes')"  style="padding:10px 12px;text-align:right;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">M² Ext Desc ↕</th>
-              <th onclick="sortBuscador('m2com')"     style="padding:10px 12px;text-align:right;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">M² Comunes ↕</th>
-              <th onclick="sortBuscador('m2tot')"     style="padding:10px 12px;text-align:right;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">M² Totales ↕</th>
-              <th onclick="sortBuscador('precio')"    style="padding:10px 12px;text-align:right;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">Precio USD ↕</th>
-              <th style="padding:10px 12px;text-align:center;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);white-space:nowrap">Estado</th>
+              <th onclick="sortBuscador('tipo')"        style="padding:10px 12px;text-align:left;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">Tipo ↕</th>
+              <th onclick="sortBuscador('proyecto')"    style="padding:10px 12px;text-align:left;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">Proyecto ↕</th>
+              <th onclick="sortBuscador('unidad')"      style="padding:10px 12px;text-align:center;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">Unidad ↕</th>
+              <th onclick="sortBuscador('dorm')"        style="padding:10px 12px;text-align:center;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">Dorm ↕</th>
+              <th onclick="sortBuscador('estadoVenta')" style="padding:10px 12px;text-align:center;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">Estado Venta ↕</th>
+              <th onclick="sortBuscador('precio')"      style="padding:10px 12px;text-align:right;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">Precio USD ↕</th>
+              <th style="padding:10px 12px;text-align:left;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);white-space:nowrap">Comentario</th>
+              <th onclick="sortBuscador('estadoAlq')"   style="padding:10px 12px;text-align:center;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">Est. Alquiler ↕</th>
+              <th onclick="sortBuscador('alqMensual')"  style="padding:10px 12px;text-align:right;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">Alq. Mensual ↕</th>
+              <th onclick="sortBuscador('rentaBruta')"  style="padding:10px 12px;text-align:right;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">% Renta ↕</th>
+              <th onclick="sortBuscador('m2int')"       style="padding:10px 12px;text-align:right;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">M² Int ↕</th>
+              <th onclick="sortBuscador('m2extcub')"    style="padding:10px 12px;text-align:right;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">M² Ext Cub ↕</th>
+              <th onclick="sortBuscador('m2extdes')"    style="padding:10px 12px;text-align:right;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">M² Ext Desc ↕</th>
+              <th onclick="sortBuscador('m2com')"       style="padding:10px 12px;text-align:right;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">M² Comunes ↕</th>
+              <th onclick="sortBuscador('m2tot')"       style="padding:10px 12px;text-align:right;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">M² Totales ↕</th>
             </tr>
           </thead>
           <tbody id="bu-tbody"></tbody>
@@ -1051,17 +1055,21 @@ function processBuscadorData(json) {
   buData = json
     .filter(r => r['PROYECTO'] && String(r['PROYECTO']).trim())
     .map(r => ({
-      tipo:      String(r['TIPO']               || '').trim(),
-      proyecto:  String(r['PROYECTO']           || '').trim(),
-      unidad:    String(r['UNIDAD']             || '').trim(),
-      tipologia: String(r['TIPOLOGIA']          || '').trim(),
-      m2int:     String(r['M2 INT.']            || '').trim(),
-      m2extcub:  String(r['M2 EXT. Cub.']      || '').trim(),
-      m2extdes:  String(r['M2 EXT. Desc.']     || '').trim(),
-      m2com:     String(r['M2 COMUNES']         || '').trim(),
-      m2tot:     String(r['M2 TOTALES']         || '').trim(),
-      precio:    String(r['PRECIO']             || '').trim(),
-      estado:    String(r['ESTADO VENTA']       || '').trim(),
+      tipo:        String(r['TIPO']                || '').trim(),
+      proyecto:    String(r['PROYECTO']            || '').trim(),
+      unidad:      String(r['UNIDAD']              || '').trim(),
+      dorm:        String(r['DORM']                || '').trim(),
+      estadoVenta: String(r['ESTADO VENTA']        || '').trim(),
+      precio:      String(r['PRECIO']              || '').trim(),
+      comentario:  String(r['Cometario ventas']    || '').trim(),
+      estadoAlq:   String(r['Estado alquiler'] || r['Estado\nalquiler'] || '').trim(),
+      alqMensual:  String(r['Alquiler mensual USD']|| '').trim(),
+      rentaBruta:  String(r['% Renta bruta']       || '').trim(),
+      m2int:       String(r['M2 INT.']             || '').trim(),
+      m2extcub:    String(r['M2 EXT. Cub.']        || '').trim(),
+      m2extdes:    String(r['M2 EXT. Desc.']       || '').trim(),
+      m2com:       String(r['M2 COMUNES']          || '').trim(),
+      m2tot:       String(r['M2 TOTALES']          || '').trim(),
     }));
 
   buLoaded = true;
@@ -1139,7 +1147,7 @@ function renderBuscador() {
         && (!proj      || r.proyecto === proj)
         && (!tipo      || r.tipo === tipo)
         && (!tipologia || r.tipologia === tipologia)
-        && (!estado    || r.estado.toUpperCase().includes(estado.toUpperCase()))
+        && (!estado    || r.estadoVenta.toUpperCase().includes(estado.toUpperCase()))
         && (!minP      || price >= minP)
         && (maxP === Infinity || !maxP || price <= maxP);
   });
@@ -1173,22 +1181,29 @@ function renderBuscador() {
     return 'background:var(--black3);color:var(--gray4);border:1px solid var(--gray2)';
   };
 
-  tbody.innerHTML = list.map((r,i) => `
+  tbody.innerHTML = list.map((r,i) => {
+    const fmtP   = r.precio    ? 'USD ' + parseFloat(r.precio).toLocaleString('es-UY',{maximumFractionDigits:0})    : '';
+    const fmtAlq = r.alqMensual? 'USD ' + parseFloat(r.alqMensual).toLocaleString('es-UY',{maximumFractionDigits:0}): '';
+    const fmtRenta = r.rentaBruta ? (parseFloat(r.rentaBruta)*100).toFixed(2)+'%' : '';
+    return `
     <tr style="border-bottom:1px solid var(--gray1);background:${i%2===0?'var(--black2)':'var(--black3)'}">
+      <td style="padding:9px 12px;color:var(--gray5);white-space:nowrap">${r.tipo}</td>
       <td style="padding:9px 12px;color:var(--white);font-weight:500;white-space:nowrap">${r.proyecto}</td>
-      <td style="padding:9px 12px;color:var(--gray5)">${r.tipo}</td>
       <td style="padding:9px 12px;color:var(--gray5);text-align:center">${r.unidad}</td>
-      <td style="padding:9px 12px;color:var(--gray5)">${r.tipologia}</td>
+      <td style="padding:9px 12px;color:var(--gray4);text-align:center">${r.dorm}</td>
+      <td style="padding:9px 12px;text-align:center"><span style="font-size:9px;padding:2px 8px;border-radius:1px;white-space:nowrap;${estadoStyle(r.estadoVenta)}">${r.estadoVenta}</span></td>
+      <td style="padding:9px 12px;color:var(--accent);text-align:right;font-weight:500">${fmtP}</td>
+      <td style="padding:9px 12px;color:var(--gray4);font-size:11px;max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${r.comentario}">${r.comentario}</td>
+      <td style="padding:9px 12px;text-align:center"><span style="font-size:9px;padding:2px 8px;border-radius:1px;white-space:nowrap;${estadoStyle(r.estadoAlq)}">${r.estadoAlq}</span></td>
+      <td style="padding:9px 12px;color:var(--gray5);text-align:right">${fmtAlq}</td>
+      <td style="padding:9px 12px;color:var(--gray5);text-align:right">${fmtRenta}</td>
       <td style="padding:9px 12px;color:var(--gray4);text-align:right">${r.m2int}</td>
       <td style="padding:9px 12px;color:var(--gray4);text-align:right">${r.m2extcub}</td>
       <td style="padding:9px 12px;color:var(--gray4);text-align:right">${r.m2extdes}</td>
       <td style="padding:9px 12px;color:var(--gray4);text-align:right">${r.m2com}</td>
       <td style="padding:9px 12px;color:var(--gray4);text-align:right">${r.m2tot}</td>
-      <td style="padding:9px 12px;color:var(--accent);text-align:right;font-weight:500">${r.precio}</td>
-      <td style="padding:9px 12px;text-align:center">
-        <span style="font-size:9px;padding:2px 8px;border-radius:1px;white-space:nowrap;${estadoStyle(r.estado)}">${r.estado}</span>
-      </td>
-    </tr>`).join('');
+    </tr>`;
+  }).join('');
 }
 
 function sortBuscador(key) {
