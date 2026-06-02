@@ -218,6 +218,9 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
 .slider-dot.active{background:var(--accent);width:20px;border-radius:3px}
 /* DASH NEW LAYOUT */
 .dash-new-layout{max-width:1200px;margin:0 auto;padding:2rem;display:grid;grid-template-columns:1fr 320px;gap:2rem}
+.bu-th{padding:10px 12px;text-align:left;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap;user-select:none}
+.bu-th:hover{color:var(--white)}
+.bu-th-s{padding:10px 12px;text-align:left;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);white-space:nowrap}
 /* RESPONSIVE */
 @media(max-width:1000px){.dash-grid{grid-template-columns:1fr}.blog-wrap{grid-template-columns:1fr}.stats-row{grid-template-columns:repeat(2,1fr)}.proj-cards{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:650px){.feat-grid{grid-template-columns:1fr}.hdr-logo-tag,.hdr-logo-sep{display:none}.dash-hero::before{display:none}.proj-cards{grid-template-columns:1fr}.cat-row{flex-wrap:wrap}.cat-btn2{flex:none}}
@@ -402,61 +405,63 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
 </section>
 <!-- BUSCADOR DE UNIDADES -->
 <section id="sec-buscador" style="display:none">
-  <div class="sec-hero">
-    <h2>BUSCADOR DE UNIDADES</h2>
-    <p>◇ Filtrá por proyecto, tipología, precio y estado · datos en tiempo real</p>
+  <div class="sec-hero" style="display:flex;align-items:center;justify-content:space-between">
+    <div><h2>BUSCADOR DE UNIDADES</h2><p>◇ Datos en tiempo real desde la lista de precios</p></div>
+    <img src="https://ginoixou.github.io/imgs/logo-ixou.png" alt="IXOU" style="height:clamp(2.5rem,5vw,4.5rem);width:auto;filter:brightness(0) invert(1);opacity:.7;flex-shrink:0">
   </div>
-  <div style="max-width:1200px;margin:0 auto;padding:2rem">
+  <div style="max-width:1400px;margin:0 auto;padding:2rem">
+
     <!-- FILTERS -->
     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:1rem;padding-bottom:1rem;border-bottom:1px solid var(--gray1)">
-      <input class="ctrl-in" id="bu-q" placeholder="Buscar por proyecto, tipo, piso…" oninput="renderBuscador()" style="flex:2;min-width:180px">
-      <select class="ctrl-sel" id="bu-proj"   onchange="renderBuscador()"><option value="">Todos los proyectos</option></select>
-      <select class="ctrl-sel" id="bu-tipo"   onchange="renderBuscador()"><option value="">Todos los tipos</option></select>
-      <select class="ctrl-sel" id="bu-estado" onchange="renderBuscador()">
+      <input class="ctrl-in" id="bu-q" placeholder="Buscar…" oninput="renderBuscador()" style="flex:2;min-width:180px">
+      <select class="ctrl-sel" id="bu-proj"    onchange="renderBuscador()"><option value="">Todos los proyectos</option></select>
+      <select class="ctrl-sel" id="bu-tipo"    onchange="renderBuscador()"><option value="">Todos los tipos</option></select>
+      <select class="ctrl-sel" id="bu-estado"  onchange="renderBuscador()">
         <option value="">Todos los estados</option>
-        <option value="Disponible">Disponible</option>
-        <option value="Reservada">Reservada</option>
-        <option value="Vendida">Vendida</option>
+        <option value="DISPONIBLE">Disponible</option>
+        <option value="ASIGNADO">Asignado</option>
+        <option value="RESERVADO">Reservado</option>
+        <option value="VENDIDO">Vendido</option>
       </select>
-      <input class="ctrl-in" id="bu-min" placeholder="Precio mín USD" type="number" oninput="renderBuscador()" style="width:140px;flex:none">
-      <input class="ctrl-in" id="bu-max" placeholder="Precio máx USD" type="number" oninput="renderBuscador()" style="width:140px;flex:none">
-      <button onclick="resetBuscador()" style="padding:8px 14px;background:none;border:1px solid var(--gray2);color:var(--gray4);font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:all .2s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--gray2)'">Limpiar</button>
+      <input class="ctrl-in" id="bu-min" placeholder="Precio mín" type="number" oninput="renderBuscador()" style="width:120px;flex:none">
+      <input class="ctrl-in" id="bu-max" placeholder="Precio máx" type="number" oninput="renderBuscador()" style="width:120px;flex:none">
+      <button onclick="resetBuscador()" style="padding:8px 14px;background:none;border:1px solid var(--gray2);color:var(--gray4);font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:1px;text-transform:uppercase;cursor:pointer" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--gray2)'">Limpiar</button>
     </div>
-    <div id="bu-stats" style="font-size:11px;color:var(--gray4);margin-bottom:1rem;letter-spacing:.5px;min-height:20px"></div>
+
+    <div id="bu-stats" style="font-size:11px;color:var(--gray4);margin-bottom:1rem;min-height:18px"></div>
+
     <!-- LOADING -->
     <div id="bu-loading" style="text-align:center;padding:3rem;color:var(--gray3)">
       <div style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:.1em;color:var(--gray2);margin-bottom:8px">Cargando datos…</div>
-      <div style="font-size:11px;letter-spacing:1px">Conectando con la lista de precios · acceso seguro</div>
     </div>
-    <!-- TABLE -->
-    <div id="bu-results" style="display:none">
-      <div style="overflow-x:auto">
-        <table id="bu-table" style="width:100%;border-collapse:collapse;font-size:12px">
-          <thead>
-            <tr style="background:var(--black2);border-bottom:1px solid var(--gray1)">
-              <th onclick="sortBuscador('tipo')"        style="padding:10px 12px;text-align:left;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">Tipo ↕</th>
-              <th onclick="sortBuscador('proyecto')"    style="padding:10px 12px;text-align:left;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">Proyecto ↕</th>
-              <th onclick="sortBuscador('unidad')"      style="padding:10px 12px;text-align:center;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">Unidad ↕</th>
-              <th onclick="sortBuscador('dorm')"        style="padding:10px 12px;text-align:center;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">Dorm ↕</th>
-              <th onclick="sortBuscador('estadoVenta')" style="padding:10px 12px;text-align:center;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">Estado Venta ↕</th>
-              <th onclick="sortBuscador('precio')"      style="padding:10px 12px;text-align:right;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">Precio USD ↕</th>
-              <th style="padding:10px 12px;text-align:left;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);white-space:nowrap">Comentario</th>
-              <th onclick="sortBuscador('estadoAlq')"   style="padding:10px 12px;text-align:center;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">Est. Alquiler ↕</th>
-              <th onclick="sortBuscador('alqMensual')"  style="padding:10px 12px;text-align:right;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">Alq. Mensual ↕</th>
-              <th onclick="sortBuscador('rentaBruta')"  style="padding:10px 12px;text-align:right;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">% Renta ↕</th>
-              <th onclick="sortBuscador('m2int')"       style="padding:10px 12px;text-align:right;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">M² Int ↕</th>
-              <th onclick="sortBuscador('m2extcub')"    style="padding:10px 12px;text-align:right;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">M² Ext Cub ↕</th>
-              <th onclick="sortBuscador('m2extdes')"    style="padding:10px 12px;text-align:right;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">M² Ext Desc ↕</th>
-              <th onclick="sortBuscador('m2com')"       style="padding:10px 12px;text-align:right;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">M² Comunes ↕</th>
-              <th onclick="sortBuscador('m2tot')"       style="padding:10px 12px;text-align:right;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;white-space:nowrap">M² Totales ↕</th>
-            </tr>
-          </thead>
-          <tbody id="bu-tbody"></tbody>
-        </table>
-      </div>
-      <div id="bu-empty" style="display:none;text-align:center;padding:2rem;color:var(--gray3);font-size:12px;letter-spacing:.5px">Sin resultados para esa búsqueda.</div>
+
+    <!-- ERROR -->
+    <div id="bu-error" style="display:none;padding:1.5rem;color:#E88;font-size:13px;border:1px solid rgba(200,60,60,.3);background:rgba(200,60,60,.05)"></div>
+
+    <!-- RESULTS -->
+    <div id="bu-results" style="display:none;overflow-x:auto">
+      <table id="bu-table" style="width:100%;border-collapse:collapse;font-size:12px;min-width:900px">
+        <thead>
+          <tr style="background:var(--black2);border-bottom:2px solid var(--gray1)">
+            <th onclick="sortBu('tipo')"       class="bu-th">Tipo ↕</th>
+            <th onclick="sortBu('proyecto')"   class="bu-th">Proyecto ↕</th>
+            <th onclick="sortBu('unidad')"     class="bu-th" style="text-align:center">Unidad ↕</th>
+            <th onclick="sortBu('dorm')"       class="bu-th" style="text-align:center">Dorm ↕</th>
+            <th onclick="sortBu('estadoVenta')" class="bu-th" style="text-align:center">Estado ↕</th>
+            <th onclick="sortBu('precio')"     class="bu-th" style="text-align:right">Precio USD ↕</th>
+            <th class="bu-th-s">Comentario</th>
+            <th onclick="sortBu('m2int')"      class="bu-th" style="text-align:right">M² Int ↕</th>
+            <th onclick="sortBu('m2extcub')"   class="bu-th" style="text-align:right">M² Ext Cub ↕</th>
+            <th onclick="sortBu('m2extdes')"   class="bu-th" style="text-align:right">M² Ext Desc ↕</th>
+            <th onclick="sortBu('m2com')"      class="bu-th" style="text-align:right">M² Com ↕</th>
+            <th onclick="sortBu('m2tot')"      class="bu-th" style="text-align:right">M² Tot ↕</th>
+          </tr>
+        </thead>
+        <tbody id="bu-tbody"></tbody>
+      </table>
+      <div id="bu-empty" style="display:none;text-align:center;padding:2rem;color:var(--gray3);font-size:12px">Sin resultados.</div>
     </div>
-    <div id="bu-error" style="display:none;text-align:center;padding:2rem;color:#E88;font-size:12px"></div>
+
   </div>
 </section>
 </div><!-- /portal-screen -->
@@ -556,6 +561,7 @@ function showSec(n,btn){
   window.scrollTo(0,0);
   if(n==='proyectos') renderProj();
   if(n==='blog') renderBlog();
+  if(n==='buscador') loadBuscador();
   if(n==='buscador') loadBuscador();
 }
 window.showSec=showSec;
@@ -1040,185 +1046,176 @@ window.nextPost = nextPost;
 
 /* ══ BUSCADOR DE UNIDADES ══ */
 const SHEET_API = 'https://script.google.com/macros/s/AKfycbyb7OE298DryuqqnWGsq1agVA2mJYnx7T_ivBCwIOi2EYW4B7cl4ItADM645ezQ__WF/exec?key=ixou2026portal';
-let buData = [];
-let buLoaded = false;
+let buRows    = [];   // raw mapped rows
+let buLoaded  = false;
 let buSortKey = 'proyecto';
 let buSortAsc = true;
 
-/* Exact column names from sheet row 3:
-   TIPO, PROYECTO, UNIDAD, DORM, ESTADO VENTA, PRECIO, Comentario ventas,
-   Fecha estimada ocupación, ..., TORRE, PISO, TIPOLOGIA, ORIENTACION,
-   M2 INT., M2 EXT. Cub., M2 EXT. Desc., M2 COMUNES, M2 TOTALES */
-
-function processBuscadorData(json) {
-  if (!Array.isArray(json) || !json.length) return;
-  buData = json
-    .filter(r => r['PROYECTO'] && String(r['PROYECTO']).trim())
-    .map(r => ({
-      tipo:        String(r['TIPO']                || '').trim(),
-      proyecto:    String(r['PROYECTO']            || '').trim(),
-      unidad:      String(r['UNIDAD']              || '').trim(),
-      dorm:        String(r['DORM']                || '').trim(),
-      estadoVenta: String(r['ESTADO VENTA']        || '').trim(),
-      precio:      String(r['PRECIO']              || '').trim(),
-      comentario:  String(r['Cometario ventas']    || '').trim(),
-      estadoAlq:   String(r['Estado\nalquiler'] || r['Estado alquiler'] || '').trim(),
-      alqMensual:  String(r['Alquiler mensual USD']|| '').trim(),
-      rentaBruta:  String(r['% Renta bruta']       || '').trim(),
-      m2int:       String(r['M2 INT.']             || '').trim(),
-      m2extcub:    String(r['M2 EXT. Cub.']        || '').trim(),
-      m2extdes:    String(r['M2 EXT. Desc.']       || '').trim(),
-      m2com:       String(r['M2 COMUNES']          || '').trim(),
-      m2tot:       String(r['M2 TOTALES']          || '').trim(),
-    }));
-
-  buLoaded = true;
-
-  const projs = [...new Set(buData.map(r => r.proyecto).filter(Boolean))].sort();
-  const psel = document.getElementById('bu-proj');
-  if (psel) psel.innerHTML = '<option value="">Todos los proyectos</option>' +
-    projs.map(p => `<option value="${p}">${p}</option>`).join('');
-
-  const tipos = [...new Set(buData.map(r => r.tipo).filter(Boolean))].sort();
-  const tsel = document.getElementById('bu-tipo');
-  if (tsel) tsel.innerHTML = '<option value="">Todos los tipos</option>' +
-    tipos.map(t => `<option value="${t}">${t}</option>`).join('');
-
-  const tipols = [...new Set(buData.map(r => r.tipologia).filter(Boolean))].sort();
-  const tlsel = document.getElementById('bu-tipologia');
-  if (tlsel) tlsel.innerHTML = '<option value="">Todas las tipologías</option>' +
-    tipols.map(t => `<option value="${t}">${t}</option>`).join('');
-
-  document.getElementById('bu-loading').style.display = 'none';
-  document.getElementById('bu-results').style.display = 'block';
-  renderBuscador();
+/* Map one API row → display object using EXACT key names confirmed from API */
+function mapRow(r) {
+  return {
+    tipo:        String(r['TIPO']              ?? '').trim(),
+    proyecto:    String(r['PROYECTO']          ?? '').trim(),
+    unidad:      String(r['UNIDAD']            ?? '').trim(),
+    dorm:        String(r['DORM']              ?? '').trim(),
+    estadoVenta: String(r['ESTADO VENTA']      ?? '').trim(),
+    precio:      String(r['PRECIO']            ?? '').trim(),
+    comentario:  String(r['Cometario ventas']  ?? '').trim(),
+    m2int:       String(r['M2 INT.']           ?? '').trim(),
+    m2extcub:    String(r['M2 EXT. Cub.']      ?? '').trim(),
+    m2extdes:    String(r['M2 EXT. Desc.']     ?? '').trim(),
+    m2com:       String(r['M2 COMUNES']        ?? '').trim(),
+    m2tot:       String(r['M2 TOTALES']        ?? '').trim(),
+  };
 }
 
-function parsePrecio(s) {
-  if (!s) return 0;
-  return parseFloat(String(s).replace(/[^0-9.]/g, '')) || 0;
+function numVal(s) {
+  return parseFloat(String(s ?? '').replace(/[^0-9.]/g, '')) || 0;
 }
 
+function fmtUSD(s) {
+  const n = numVal(s);
+  return n ? 'USD ' + n.toLocaleString('es-UY', {maximumFractionDigits: 0}) : '';
+}
+
+function estadoBadge(e) {
+  const u = (e || '').toUpperCase();
+  let style = 'background:var(--black3);color:var(--gray4);border:1px solid var(--gray2)';
+  if (u.includes('DISP'))   style = 'background:rgba(120,180,100,.12);color:#8FA870;border:1px solid rgba(120,180,100,.3)';
+  if (u.includes('ASIGN'))  style = 'background:rgba(60,100,200,.12);color:#6B9EE8;border:1px solid rgba(60,100,200,.3)';
+  if (u.includes('RESERV')) style = 'background:rgba(200,160,60,.12);color:#C8A03C;border:1px solid rgba(200,160,60,.3)';
+  if (u.includes('VEND'))   style = 'background:rgba(200,60,60,.12);color:#E87070;border:1px solid rgba(200,60,60,.3)';
+  return `<span style="font-size:9px;padding:2px 8px;border-radius:1px;white-space:nowrap;${style}">${e}</span>`;
+}
+
+/* JSONP loader */
 function loadBuscador() {
   if (buLoaded) { renderBuscador(); return; }
   const loadEl = document.getElementById('bu-loading');
   const errEl  = document.getElementById('bu-error');
   const resEl  = document.getElementById('bu-results');
-  if (loadEl) loadEl.style.display = 'block';
-  if (errEl)  errEl.style.display  = 'none';
-  if (resEl)  resEl.style.display  = 'none';
+  if (loadEl) { loadEl.style.display = 'block'; }
+  if (errEl)  { errEl.style.display  = 'none';  }
+  if (resEl)  { resEl.style.display  = 'none';  }
 
-  window._jsonpBuscador = function(json) {
-    try {
-      if (json && json.error) throw new Error(json.error);
-      processBuscadorData(json);
-    } catch(e) {
-      if (loadEl) loadEl.style.display = 'none';
-      if (errEl)  { errEl.style.display = 'block'; errEl.textContent = 'Error: ' + e.message; }
-    }
-    const s = document.getElementById('_jsonp_s');
+  window._jbu = function(data) {
+    const s = document.getElementById('_jbu_s');
     if (s) s.remove();
+    if (!data || data.error) {
+      if (loadEl) loadEl.style.display = 'none';
+      if (errEl)  { errEl.style.display = 'block'; errEl.textContent = 'Error: ' + (data && data.error ? data.error : 'Sin datos'); }
+      return;
+    }
+    if (!Array.isArray(data) || !data.length) {
+      if (loadEl) loadEl.style.display = 'none';
+      if (errEl)  { errEl.style.display = 'block'; errEl.textContent = 'La API no devolvió datos. Verificá que el Apps Script esté publicado correctamente.'; }
+      return;
+    }
+    /* Map all rows */
+    buRows = data.map(mapRow).filter(r => r.proyecto);
+    buLoaded = true;
+    /* Populate project filter */
+    const projs = [...new Set(buRows.map(r => r.proyecto))].sort();
+    const ps = document.getElementById('bu-proj');
+    if (ps) ps.innerHTML = '<option value="">Todos los proyectos</option>' + projs.map(p => `<option value="${p}">${p}</option>`).join('');
+    /* Populate tipo filter */
+    const tipos = [...new Set(buRows.map(r => r.tipo).filter(Boolean))].sort();
+    const ts = document.getElementById('bu-tipo');
+    if (ts) ts.innerHTML = '<option value="">Todos los tipos</option>' + tipos.map(t => `<option value="${t}">${t}</option>`).join('');
+    if (loadEl) loadEl.style.display = 'none';
+    if (resEl)  resEl.style.display  = 'block';
+    renderBuscador();
   };
 
-  const script = document.createElement('script');
-  script.id  = '_jsonp_s';
-  script.src = SHEET_API + '&callback=_jsonpBuscador';
-  script.onerror = function() {
-    if (loadEl) loadEl.style.display = 'none';
-    if (errEl)  { errEl.style.display = 'block'; errEl.textContent = 'Error al conectar con la API.'; }
+  const sc = document.createElement('script');
+  sc.id  = '_jbu_s';
+  sc.src = SHEET_API + '&callback=_jbu';
+  sc.onerror = function() {
     this.remove();
+    if (loadEl) loadEl.style.display = 'none';
+    if (errEl)  { errEl.style.display = 'block'; errEl.textContent = 'Error de conexión con la API.'; }
   };
-  document.head.appendChild(script);
+  document.head.appendChild(sc);
 }
 
 function renderBuscador() {
   if (!buLoaded) { loadBuscador(); return; }
-  const q        = (document.getElementById('bu-q')?.value        || '').toLowerCase();
-  const proj     = document.getElementById('bu-proj')?.value      || '';
-  const tipo     = document.getElementById('bu-tipo')?.value      || '';
-  const tipologia= document.getElementById('bu-tipologia')?.value || '';
-  const estado   = document.getElementById('bu-estado')?.value    || '';
-  const minP     = parsePrecio(document.getElementById('bu-min')?.value);
-  const maxP     = parsePrecio(document.getElementById('bu-max')?.value) || Infinity;
+  const q       = (document.getElementById('bu-q')?.value       || '').toLowerCase();
+  const proj    = document.getElementById('bu-proj')?.value     || '';
+  const tipo    = document.getElementById('bu-tipo')?.value     || '';
+  const estado  = document.getElementById('bu-estado')?.value   || '';
+  const minP    = numVal(document.getElementById('bu-min')?.value);
+  const maxP    = numVal(document.getElementById('bu-max')?.value) || Infinity;
 
-  let list = buData.filter(r => {
-    const price = parsePrecio(r.precio);
-    return (!q         || Object.values(r).join(' ').toLowerCase().includes(q))
-        && (!proj      || r.proyecto === proj)
-        && (!tipo      || r.tipo === tipo)
-        && (!tipologia || r.tipologia === tipologia)
-        && (!estado    || r.estadoVenta.toUpperCase().includes(estado.toUpperCase()))
-        && (!minP      || price >= minP)
-        && (maxP === Infinity || !maxP || price <= maxP);
+  let list = buRows.filter(r => {
+    const p = numVal(r.precio);
+    return (!q      || Object.values(r).join(' ').toLowerCase().includes(q))
+        && (!proj   || r.proyecto === proj)
+        && (!tipo   || r.tipo === tipo)
+        && (!estado || r.estadoVenta.toUpperCase().includes(estado))
+        && (!minP   || p >= minP)
+        && (maxP === Infinity || !maxP || p <= maxP);
   });
 
+  /* Sort */
   list.sort((a, b) => {
-    let va = a[buSortKey] || '', vb = b[buSortKey] || '';
-    if (['precio','m2int','m2extcub','m2extdes','m2com','m2tot'].includes(buSortKey)) {
-      va = parseFloat(String(va).replace(/[^0-9.]/g,''))||0;
-      vb = parseFloat(String(vb).replace(/[^0-9.]/g,''))||0;
-    }
+    let va = a[buSortKey] ?? '', vb = b[buSortKey] ?? '';
+    const numCols = ['precio','m2int','m2extcub','m2extdes','m2com','m2tot','dorm'];
+    if (numCols.includes(buSortKey)) { va = numVal(va); vb = numVal(vb); }
     if (va < vb) return buSortAsc ? -1 : 1;
     if (va > vb) return buSortAsc ?  1 : -1;
     return 0;
   });
 
-  const disp = list.filter(r => r.estado.toUpperCase().includes('DISP')).length;
-  const statsEl = document.getElementById('bu-stats');
-  if (statsEl) statsEl.textContent = `${list.length} unidades · ${disp} disponibles`;
+  /* Stats */
+  const disp = list.filter(r => r.estadoVenta.toUpperCase().includes('DISP')).length;
+  const st = document.getElementById('bu-stats');
+  if (st) st.textContent = `${list.length} unidades · ${disp} disponibles`;
 
   const tbody = document.getElementById('bu-tbody');
   const empty = document.getElementById('bu-empty');
   if (!tbody) return;
-  if (!list.length) { tbody.innerHTML = ''; if(empty) empty.style.display='block'; return; }
+
+  if (!list.length) {
+    tbody.innerHTML = '';
+    if (empty) empty.style.display = 'block';
+    return;
+  }
   if (empty) empty.style.display = 'none';
 
-  const estadoStyle = (e) => {
-    const el = (e||'').toUpperCase();
-    if (el.includes('DISP'))   return 'background:rgba(120,180,100,.12);color:#8FA870;border:1px solid rgba(120,180,100,.3)';
-    if (el.includes('RESERV')) return 'background:rgba(200,160,60,.12);color:#C8A03C;border:1px solid rgba(200,160,60,.3)';
-    if (el.includes('VEND'))   return 'background:rgba(200,60,60,.12);color:#E87070;border:1px solid rgba(200,60,60,.3)';
-    return 'background:var(--black3);color:var(--gray4);border:1px solid var(--gray2)';
-  };
-
-  tbody.innerHTML = list.map((r,i) => {
-    const fmtP   = r.precio    ? 'USD ' + parseFloat(r.precio).toLocaleString('es-UY',{maximumFractionDigits:0})    : '';
-    const fmtAlq = r.alqMensual? 'USD ' + parseFloat(r.alqMensual).toLocaleString('es-UY',{maximumFractionDigits:0}): '';
-    const fmtRenta = r.rentaBruta ? (parseFloat(r.rentaBruta)*100).toFixed(2)+'%' : '';
-    return `
-    <tr style="border-bottom:1px solid var(--gray1);background:${i%2===0?'var(--black2)':'var(--black3)'}">
+  tbody.innerHTML = list.map((r, i) => `
+    <tr style="border-bottom:1px solid var(--gray1);background:${i % 2 === 0 ? 'var(--black2)' : 'var(--black3)'}">
       <td style="padding:9px 12px;color:var(--gray5);white-space:nowrap">${r.tipo}</td>
       <td style="padding:9px 12px;color:var(--white);font-weight:500;white-space:nowrap">${r.proyecto}</td>
       <td style="padding:9px 12px;color:var(--gray5);text-align:center">${r.unidad}</td>
       <td style="padding:9px 12px;color:var(--gray4);text-align:center">${r.dorm}</td>
-      <td style="padding:9px 12px;text-align:center"><span style="font-size:9px;padding:2px 8px;border-radius:1px;white-space:nowrap;${estadoStyle(r.estadoVenta)}">${r.estadoVenta}</span></td>
-      <td style="padding:9px 12px;color:var(--accent);text-align:right;font-weight:500">${fmtP}</td>
-      <td style="padding:9px 12px;color:var(--gray4);font-size:11px;max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${r.comentario}">${r.comentario}</td>
-      <td style="padding:9px 12px;text-align:center"><span style="font-size:9px;padding:2px 8px;border-radius:1px;white-space:nowrap;${estadoStyle(r.estadoAlq)}">${r.estadoAlq}</span></td>
-      <td style="padding:9px 12px;color:var(--gray5);text-align:right">${fmtAlq}</td>
-      <td style="padding:9px 12px;color:var(--gray5);text-align:right">${fmtRenta}</td>
+      <td style="padding:9px 12px;text-align:center">${estadoBadge(r.estadoVenta)}</td>
+      <td style="padding:9px 12px;color:var(--accent);text-align:right;font-weight:500;white-space:nowrap">${fmtUSD(r.precio)}</td>
+      <td style="padding:9px 12px;color:var(--gray4);font-size:11px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${r.comentario}">${r.comentario}</td>
       <td style="padding:9px 12px;color:var(--gray4);text-align:right">${r.m2int}</td>
       <td style="padding:9px 12px;color:var(--gray4);text-align:right">${r.m2extcub}</td>
       <td style="padding:9px 12px;color:var(--gray4);text-align:right">${r.m2extdes}</td>
       <td style="padding:9px 12px;color:var(--gray4);text-align:right">${r.m2com}</td>
       <td style="padding:9px 12px;color:var(--gray4);text-align:right">${r.m2tot}</td>
-    </tr>`;
-  }).join('');
+    </tr>`).join('');
 }
 
-function sortBuscador(key) {
+function sortBu(key) {
   if (buSortKey === key) buSortAsc = !buSortAsc;
   else { buSortKey = key; buSortAsc = true; }
   renderBuscador();
 }
 
 function resetBuscador() {
-  ['bu-q','bu-min','bu-max'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
-  ['bu-proj','bu-tipo','bu-tipologia','bu-estado'].forEach(id=>{const el=document.getElementById(id);if(el)el.selectedIndex=0;});
+  ['bu-q','bu-min','bu-max'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+  ['bu-proj','bu-tipo','bu-estado'].forEach(id => { const el = document.getElementById(id); if (el) el.selectedIndex = 0; });
   renderBuscador();
 }
 
 window.loadBuscador   = loadBuscador;
+window.renderBuscador = renderBuscador;
+window.sortBu         = sortBu;
+window.resetBuscador  = resetBuscador;
 window.logoutUser     = logoutUser;
 
 /* ══ DASHBOARD ══ */
