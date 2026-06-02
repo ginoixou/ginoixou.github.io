@@ -419,18 +419,18 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
       <table id="bu-table" style="width:100%;border-collapse:collapse;font-size:12px;min-width:900px">
         <thead>
           <tr style="background:var(--black2);border-bottom:2px solid var(--gray1)">
-            <th onclick="sortBu('tipo')"       class="bu-th">Tipo ↕</th>
-            <th onclick="sortBu('proyecto')"   class="bu-th">Proyecto ↕</th>
-            <th onclick="sortBu('unidad')"     class="bu-th" style="text-align:center">Unidad ↕</th>
-            <th onclick="sortBu('dorm')"       class="bu-th" style="text-align:center">Dorm ↕</th>
-            <th onclick="sortBu('estadoVenta')" class="bu-th" style="text-align:center">Estado ↕</th>
-            <th onclick="sortBu('precio')"     class="bu-th" style="text-align:right">Precio USD ↕</th>
+            <th onclick="sortBuscador('tipo')"       class="bu-th">Tipo ↕</th>
+            <th onclick="sortBuscador('proyecto')"   class="bu-th">Proyecto ↕</th>
+            <th onclick="sortBuscador('unidad')"     class="bu-th" style="text-align:center">Unidad ↕</th>
+            <th onclick="sortBuscador('dorm')"       class="bu-th" style="text-align:center">Dorm ↕</th>
+            <th onclick="sortBuscador('estadoVenta')" class="bu-th" style="text-align:center">Estado ↕</th>
+            <th onclick="sortBuscador('precio')"     class="bu-th" style="text-align:right">Precio USD ↕</th>
             <th class="bu-th-s">Comentario</th>
-            <th onclick="sortBu('m2int')"      class="bu-th" style="text-align:right">M² Int ↕</th>
-            <th onclick="sortBu('m2extcub')"   class="bu-th" style="text-align:right">M² Ext Cub ↕</th>
-            <th onclick="sortBu('m2extdes')"   class="bu-th" style="text-align:right">M² Ext Desc ↕</th>
-            <th onclick="sortBu('m2com')"      class="bu-th" style="text-align:right">M² Com ↕</th>
-            <th onclick="sortBu('m2tot')"      class="bu-th" style="text-align:right">M² Tot ↕</th>
+            <th onclick="sortBuscador('m2int')"      class="bu-th" style="text-align:right">M² Int ↕</th>
+            <th onclick="sortBuscador('m2extcub')"   class="bu-th" style="text-align:right">M² Ext Cub ↕</th>
+            <th onclick="sortBuscador('m2extdes')"   class="bu-th" style="text-align:right">M² Ext Desc ↕</th>
+            <th onclick="sortBuscador('m2com')"      class="bu-th" style="text-align:right">M² Com ↕</th>
+            <th onclick="sortBuscador('m2tot')"      class="bu-th" style="text-align:right">M² Tot ↕</th>
           </tr>
         </thead>
         <tbody id="bu-tbody"></tbody>
@@ -1107,39 +1107,43 @@ window.nextPost = nextPost;
 
 /* ══ BUSCADOR DE UNIDADES ══ */
 const SHEET_API = 'https://script.google.com/macros/s/AKfycbwYJJaT3PvYgsopku3CiGp-D8mLbXV51JoNa8lSexTcwc7IKYogJAKP0ALsszbyB2zm/exec?key=ixou2026portal';
-let buRows    = [];   // raw mapped rows
+let buRows    = [];
 let buLoaded  = false;
 let buSortKey = 'proyecto';
 let buSortAsc = true;
 
-/* Map one API row → display object using EXACT key names confirmed from API */
 function mapRow(r) {
   return {
-    tipo:        String(r['TIPO']                         || '').trim(),
-    proyecto:    String(r['PROYECTO']                     || '').trim(),
-    unidad:      String(r['UNIDAD']                       || '').trim(),
-    dorm:        String(r['DORM']                         || '').trim(),
-    estadoVenta: String(r['ESTADO VENTA']                 || '').trim(),
-    precio:      String(r['PRECIO']                       || '').trim(),
-    comentario:  String(r['Comentario']                   || '').trim(),
-    estadoAlq:   String(r['Estado alquiler']              || '').trim(),
-    alqMensual:  String(r['Alquiler mensual USD']         || '').trim(),
-    rentaBruta:  String(r['% Renta bruta']                || '').trim(),
-    m2int:       String(r['M2 Interiores']                || '').trim(),
-    m2extcub:    String(r['M2 Exteriores Cubiertos']      || '').trim(),
-    m2extdes:    String(r['M2 Exteriores Descubiertos']   || '').trim(),
-    m2com:       String(r['M2 Comunes']                   || '').trim(),
-    m2tot:       String(r['M2 Totales']                   || '').trim(),
+    tipo:        String(r['TIPO']                       || '').trim(),
+    proyecto:    String(r['PROYECTO']                   || '').trim(),
+    unidad:      String(r['UNIDAD']                     || '').trim(),
+    dorm:        String(r['DORM']                       || '').trim(),
+    estadoVenta: String(r['ESTADO VENTA']               || '').trim(),
+    precio:      String(r['PRECIO']                     || '').trim(),
+    comentario:  String(r['Comentario']                 || '').trim(),
+    estadoAlq:   String(r['Estado alquiler']            || '').trim(),
+    alqMensual:  String(r['Alquiler mensual USD']       || '').trim(),
+    rentaBruta:  String(r['% Renta bruta']              || '').trim(),
+    m2int:       String(r['M2 Interiores']              || '').trim(),
+    m2extcub:    String(r['M2 Exteriores Cubiertos']    || '').trim(),
+    m2extdes:    String(r['M2 Exteriores Descubiertos'] || '').trim(),
+    m2com:       String(r['M2 Comunes']                 || '').trim(),
+    m2tot:       String(r['M2 Totales']                 || '').trim(),
   };
 }
 
 function numVal(s) {
-  return parseFloat(String(s ?? '').replace(/[^0-9.]/g, '')) || 0;
+  return parseFloat(String(s || '').replace(/[^0-9.]/g, '')) || 0;
 }
 
 function fmtUSD(s) {
-  const n = numVal(s);
-  return n ? 'USD ' + n.toLocaleString('es-UY', {maximumFractionDigits: 0}) : '';
+  const n = Math.round(numVal(s));
+  return n ? 'USD ' + n.toLocaleString('es-UY') : '';
+}
+
+function fmtNum(s) {
+  const n = parseFloat(s);
+  return isNaN(n) ? '' : n % 1 === 0 ? String(n) : n.toFixed(2);
 }
 
 function estadoBadge(e) {
@@ -1149,18 +1153,17 @@ function estadoBadge(e) {
   if (u.includes('ASIGN'))  style = 'background:rgba(60,100,200,.12);color:#6B9EE8;border:1px solid rgba(60,100,200,.3)';
   if (u.includes('RESERV')) style = 'background:rgba(200,160,60,.12);color:#C8A03C;border:1px solid rgba(200,160,60,.3)';
   if (u.includes('VEND'))   style = 'background:rgba(200,60,60,.12);color:#E87070;border:1px solid rgba(200,60,60,.3)';
-  return `<span style="font-size:9px;padding:2px 8px;border-radius:1px;white-space:nowrap;${style}">${e}</span>`;
+  return '<span style="font-size:9px;padding:2px 8px;border-radius:1px;white-space:nowrap;' + style + '">' + e + '</span>';
 }
 
-/* JSONP loader */
 function loadBuscador() {
   if (buLoaded) { renderBuscador(); return; }
   const loadEl = document.getElementById('bu-loading');
   const errEl  = document.getElementById('bu-error');
   const resEl  = document.getElementById('bu-results');
-  if (loadEl) { loadEl.style.display = 'block'; }
-  if (errEl)  { errEl.style.display  = 'none';  }
-  if (resEl)  { resEl.style.display  = 'none';  }
+  if (loadEl) loadEl.style.display = 'block';
+  if (errEl)  errEl.style.display  = 'none';
+  if (resEl)  resEl.style.display  = 'none';
 
   window._jbu = function(data) {
     const s = document.getElementById('_jbu_s');
@@ -1172,26 +1175,23 @@ function loadBuscador() {
     }
     if (!Array.isArray(data) || !data.length) {
       if (loadEl) loadEl.style.display = 'none';
-      if (errEl)  { errEl.style.display = 'block'; errEl.textContent = 'La API no devolvió datos. Verificá que el Apps Script esté publicado correctamente.'; }
+      if (errEl)  { errEl.style.display = 'block'; errEl.textContent = 'Sin datos.'; }
       return;
     }
-    /* Map all rows */
-    buRows = data.map(mapRow).filter(r => r.proyecto);
+    buRows = data.map(mapRow).filter(function(r){ return r.proyecto; });
     buLoaded = true;
-    /* Populate project filter */
-    const projs = [...new Set(buRows.map(r => r.proyecto))].sort();
-    const ps = document.getElementById('bu-proj');
-    if (ps) ps.innerHTML = '<option value="">Todos los proyectos</option>' + projs.map(p => `<option value="${p}">${p}</option>`).join('');
-    /* Populate tipo filter */
-    const tipos = [...new Set(buRows.map(r => r.tipo).filter(Boolean))].sort();
-    const ts = document.getElementById('bu-tipo');
-    if (ts) ts.innerHTML = '<option value="">Todos los tipos</option>' + tipos.map(t => `<option value="${t}">${t}</option>`).join('');
+    var projs = Array.from(new Set(buRows.map(function(r){ return r.proyecto; }))).sort();
+    var ps = document.getElementById('bu-proj');
+    if (ps) ps.innerHTML = '<option value="">Todos los proyectos</option>' + projs.map(function(p){ return '<option value="' + p + '">' + p + '</option>'; }).join('');
+    var tipos = Array.from(new Set(buRows.map(function(r){ return r.tipo; }).filter(Boolean))).sort();
+    var ts = document.getElementById('bu-tipo');
+    if (ts) ts.innerHTML = '<option value="">Todos los tipos</option>' + tipos.map(function(t){ return '<option value="' + t + '">' + t + '</option>'; }).join('');
     if (loadEl) loadEl.style.display = 'none';
     if (resEl)  resEl.style.display  = 'block';
     renderBuscador();
   };
 
-  const sc = document.createElement('script');
+  var sc = document.createElement('script');
   sc.id  = '_jbu_s';
   sc.src = SHEET_API + '&callback=_jbu';
   sc.onerror = function() {
@@ -1204,40 +1204,38 @@ function loadBuscador() {
 
 function renderBuscador() {
   if (!buLoaded) { loadBuscador(); return; }
-  const q       = (document.getElementById('bu-q')?.value       || '').toLowerCase();
-  const proj    = document.getElementById('bu-proj')?.value     || '';
-  const tipo    = document.getElementById('bu-tipo')?.value     || '';
-  const estado  = document.getElementById('bu-estado')?.value   || '';
-  const minP    = numVal(document.getElementById('bu-min')?.value);
-  const maxP    = numVal(document.getElementById('bu-max')?.value) || Infinity;
+  var q       = (document.getElementById('bu-q') ? document.getElementById('bu-q').value : '').toLowerCase();
+  var proj    = document.getElementById('bu-proj')   ? document.getElementById('bu-proj').value   : '';
+  var tipo    = document.getElementById('bu-tipo')   ? document.getElementById('bu-tipo').value   : '';
+  var estado  = document.getElementById('bu-estado') ? document.getElementById('bu-estado').value : '';
+  var minP    = numVal(document.getElementById('bu-min') ? document.getElementById('bu-min').value : '');
+  var maxP    = numVal(document.getElementById('bu-max') ? document.getElementById('bu-max').value : '') || Infinity;
 
-  let list = buRows.filter(r => {
-    const p = numVal(r.precio);
-    return (!q      || Object.values(r).join(' ').toLowerCase().includes(q))
+  var list = buRows.filter(function(r) {
+    var p = numVal(r.precio);
+    return (!q      || Object.values(r).join(' ').toLowerCase().indexOf(q) >= 0)
         && (!proj   || r.proyecto === proj)
         && (!tipo   || r.tipo === tipo)
-        && (!estado || r.estadoVenta.toUpperCase().includes(estado))
+        && (!estado || r.estadoVenta.toUpperCase().indexOf(estado) >= 0)
         && (!minP   || p >= minP)
         && (maxP === Infinity || !maxP || p <= maxP);
   });
 
-  /* Sort */
-  list.sort((a, b) => {
-    let va = a[buSortKey] ?? '', vb = b[buSortKey] ?? '';
-    const numCols = ['precio','m2int','m2extcub','m2extdes','m2com','m2tot','dorm'];
-    if (numCols.includes(buSortKey)) { va = numVal(va); vb = numVal(vb); }
+  list.sort(function(a, b) {
+    var va = a[buSortKey] || '', vb = b[buSortKey] || '';
+    var numCols = ['precio','m2int','m2extcub','m2extdes','m2com','m2tot','dorm'];
+    if (numCols.indexOf(buSortKey) >= 0) { va = numVal(va); vb = numVal(vb); }
     if (va < vb) return buSortAsc ? -1 : 1;
     if (va > vb) return buSortAsc ?  1 : -1;
     return 0;
   });
 
-  /* Stats */
-  const disp = list.filter(r => r.estadoVenta.toUpperCase().includes('DISP')).length;
-  const st = document.getElementById('bu-stats');
-  if (st) st.textContent = `${list.length} unidades · ${disp} disponibles`;
+  var disp = list.filter(function(r){ return r.estadoVenta.toUpperCase().indexOf('DISP') >= 0; }).length;
+  var st = document.getElementById('bu-stats');
+  if (st) st.textContent = list.length + ' unidades · ' + disp + ' disponibles';
 
-  const tbody = document.getElementById('bu-tbody');
-  const empty = document.getElementById('bu-empty');
+  var tbody = document.getElementById('bu-tbody');
+  var empty = document.getElementById('bu-empty');
   if (!tbody) return;
 
   if (!list.length) {
@@ -1247,36 +1245,43 @@ function renderBuscador() {
   }
   if (empty) empty.style.display = 'none';
 
-  tbody.innerHTML = list.map((r, i) => `
-    <tr style="border-bottom:1px solid var(--gray1);background:${i % 2 === 0 ? 'var(--black2)' : 'var(--black3)'}">
-      <td style="padding:9px 12px;color:var(--gray5);white-space:nowrap">${r.tipo}</td>
-      <td style="padding:9px 12px;color:var(--white);font-weight:500;white-space:nowrap">${r.proyecto}</td>
-      <td style="padding:9px 12px;color:var(--gray5);text-align:center">${r.unidad}</td>
-      <td style="padding:9px 12px;color:var(--gray4);text-align:center">${r.dorm}</td>
-      <td style="padding:9px 12px;text-align:center">${estadoBadge(r.estadoVenta)}</td>
-      <td style="padding:9px 12px;color:var(--accent);text-align:right;font-weight:500;white-space:nowrap">${fmtUSD(r.precio)}</td>
-      <td style="padding:9px 12px;color:var(--gray4);font-size:11px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${r.comentario}">${r.comentario}</td>
-      <td style="padding:9px 12px;color:var(--gray4);text-align:right">${r.m2int}</td>
-      <td style="padding:9px 12px;color:var(--gray4);text-align:right">${r.m2extcub}</td>
-      <td style="padding:9px 12px;color:var(--gray4);text-align:right">${r.m2extdes}</td>
-      <td style="padding:9px 12px;color:var(--gray4);text-align:right">${r.m2com}</td>
-      <td style="padding:9px 12px;color:var(--gray4);text-align:right">${r.m2tot}</td>
-    </tr>`).join('');
+  tbody.innerHTML = list.map(function(r, i) {
+    return '<tr style="border-bottom:1px solid var(--gray1);background:' + (i%2===0?'var(--black2)':'var(--black3)') + '">'
+      + '<td style="padding:9px 12px;color:var(--gray5);white-space:nowrap">' + r.tipo + '</td>'
+      + '<td style="padding:9px 12px;color:var(--white);font-weight:500;white-space:nowrap">' + r.proyecto + '</td>'
+      + '<td style="padding:9px 12px;color:var(--gray5);text-align:center">' + r.unidad + '</td>'
+      + '<td style="padding:9px 12px;color:var(--gray4);text-align:center">' + r.dorm + '</td>'
+      + '<td style="padding:9px 12px;text-align:center">' + estadoBadge(r.estadoVenta) + '</td>'
+      + '<td style="padding:9px 12px;color:var(--accent);text-align:right;font-weight:500;white-space:nowrap">' + fmtUSD(r.precio) + '</td>'
+      + '<td style="padding:9px 12px;color:var(--gray4);font-size:11px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + r.comentario + '">' + r.comentario + '</td>'
+      + '<td style="padding:9px 12px;text-align:center">' + estadoBadge(r.estadoAlq) + '</td>'
+      + '<td style="padding:9px 12px;color:var(--gray5);text-align:right">' + fmtUSD(r.alqMensual) + '</td>'
+      + '<td style="padding:9px 12px;color:var(--gray5);text-align:right">' + (r.rentaBruta ? (parseFloat(r.rentaBruta)*100).toFixed(2)+'%' : '') + '</td>'
+      + '<td style="padding:9px 12px;color:var(--gray4);text-align:right">' + fmtNum(r.m2int) + '</td>'
+      + '<td style="padding:9px 12px;color:var(--gray4);text-align:right">' + fmtNum(r.m2extcub) + '</td>'
+      + '<td style="padding:9px 12px;color:var(--gray4);text-align:right">' + fmtNum(r.m2extdes) + '</td>'
+      + '<td style="padding:9px 12px;color:var(--gray4);text-align:right">' + fmtNum(r.m2com) + '</td>'
+      + '<td style="padding:9px 12px;color:var(--gray4);text-align:right">' + fmtNum(r.m2tot) + '</td>'
+      + '</tr>';
+  }).join('');
 }
 
-function sortBu(key) {
+function sortBuscador(key) {
   if (buSortKey === key) buSortAsc = !buSortAsc;
   else { buSortKey = key; buSortAsc = true; }
   renderBuscador();
 }
 
 function resetBuscador() {
-  ['bu-q','bu-min','bu-max'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
-  ['bu-proj','bu-tipo','bu-estado'].forEach(id => { const el = document.getElementById(id); if (el) el.selectedIndex = 0; });
+  ['bu-q','bu-min','bu-max'].forEach(function(id){ var el=document.getElementById(id); if(el) el.value=''; });
+  ['bu-proj','bu-tipo','bu-estado'].forEach(function(id){ var el=document.getElementById(id); if(el) el.selectedIndex=0; });
   renderBuscador();
 }
 
 window.loadBuscador   = loadBuscador;
+window.renderBuscador = renderBuscador;
+window.sortBuscador   = sortBuscador;
+window.resetBuscador  = resetBuscador;
 window.renderBuscador = renderBuscador;
 window.sortBu         = sortBu;
 window.resetBuscador  = resetBuscador;
