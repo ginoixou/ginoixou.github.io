@@ -460,10 +460,10 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
             <th onclick="sortBuscador('dorm')"       class="bu-th" style="text-align:center">Dorm ↕</th>
             <th onclick="sortBuscador('estadoVenta')" class="bu-th" style="text-align:center">Estado ↕</th>
             <th onclick="sortBuscador('precio')"     class="bu-th" style="text-align:right">Precio USD ↕</th>
-            <th class="bu-th-s">Comentario</th>
-            <th onclick="sortBuscador('estadoAlq')"  class="bu-th" style="text-align:center">Est. Alquiler ↕</th>
-            <th onclick="sortBuscador('alqMensual')" class="bu-th" style="text-align:right">Alquiler mensual USD ↕</th>
-            <th onclick="sortBuscador('rentaBruta')" class="bu-th" style="text-align:right">% Renta bruta ↕</th>
+            <th class="bu-th-s" style="min-width:200px;max-width:260px">Comentario</th>
+            <th onclick="sortBuscador('estadoAlq')"  class="bu-th" style="text-align:center;white-space:nowrap;font-size:8px">Est. Alq ↕</th>
+            <th onclick="sortBuscador('alqMensual')" class="bu-th" style="text-align:right;white-space:nowrap;font-size:8px">Alq. USD ↕</th>
+            <th onclick="sortBuscador('rentaBruta')" class="bu-th" style="text-align:right;white-space:nowrap;font-size:8px">% Renta ↕</th>
             <th onclick="sortBuscador('m2int')"      class="bu-th" style="text-align:right">M² Int ↕</th>
             <th onclick="sortBuscador('m2extcub')"   class="bu-th" style="text-align:right">M² Ext Cub ↕</th>
             <th onclick="sortBuscador('m2extdes')"   class="bu-th" style="text-align:right">M² Ext Desc ↕</th>
@@ -1293,10 +1293,10 @@ function renderBuscador() {
       + '<td style="padding:9px 12px;color:var(--gray4);text-align:center">' + r.dorm + '</td>'
       + '<td style="padding:9px 12px;text-align:center">' + estadoBadge(r.estadoVenta) + '</td>'
       + '<td style="padding:9px 12px;color:var(--accent);text-align:right;font-weight:500;white-space:nowrap">' + fmtUSD(r.precio) + '</td>'
-      + '<td style="padding:9px 12px;color:var(--gray4);font-size:11px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + r.comentario + '">' + r.comentario + '</td>'
-      + '<td style="padding:9px 12px;text-align:center">' + estadoBadge(r.estadoAlq) + '</td>'
-      + '<td style="padding:9px 12px;color:var(--gray5);text-align:right">' + fmtUSD(r.alqMensual) + '</td>'
-      + '<td style="padding:9px 12px;color:var(--gray5);text-align:right">' + (r.rentaBruta ? (parseFloat(r.rentaBruta)*100).toFixed(2)+'%' : '') + '</td>'
+      + '<td style="padding:9px 12px;color:var(--gray4);font-size:11px;min-width:180px;max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + r.comentario + '">' + r.comentario + '</td>'
+      + '<td style="padding:9px 8px;text-align:center">' + estadoBadge(r.estadoAlq) + '</td>'
+      + '<td style="padding:9px 8px;color:var(--gray5);text-align:right;white-space:nowrap">' + fmtUSD(r.alqMensual) + '</td>'
+      + '<td style="padding:9px 8px;color:var(--gray5);text-align:right">' + (r.rentaBruta ? (parseFloat(r.rentaBruta)*100).toFixed(2)+'%' : '') + '</td>'
       + '<td style="padding:9px 12px;color:var(--gray4);text-align:right">' + fmtNum(r.m2int) + '</td>'
       + '<td style="padding:9px 12px;color:var(--gray4);text-align:right">' + fmtNum(r.m2extcub) + '</td>'
       + '<td style="padding:9px 12px;color:var(--gray4);text-align:right">' + fmtNum(r.m2extdes) + '</td>'
