@@ -75,44 +75,11 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
 .feat-card-units{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--gray4)}
 .drive-link{display:inline-flex;align-items:center;gap:5px;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#4285f4;text-decoration:none}
 /* ── OBRA TAGS ── */
-.obra-tag{display:inline-block;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;padding:3px 9px;border-radius:1px;font-weight:500;margin-bottom:8px}
-.ob-pozo{background:rgba(200,160,60,.12);color:#C8A03C;border:1px solid rgba(200,160,60,.25)}
-.ob-obra{background:rgba(60,100,200,.12);color:#6B9EE8;border:1px solid rgba(60,100,200,.25)}
-.ob-terminado{background:rgba(120,180,100,.12);color:var(--accent);border:1px solid rgba(120,180,100,.25)}
-.ob-proyecto{background:rgba(180,100,200,.12);color:#C888D8;border:1px solid rgba(180,100,200,.25)}
-/* ── SIDEBAR ── */
-.sidebar-block{background:var(--black2);border:1px solid var(--gray1);padding:1.25rem;margin-bottom:1px}
-.sidebar-title{font-family:'Bebas Neue',sans-serif;font-size:.85rem;letter-spacing:3px;text-transform:uppercase;color:var(--gray4);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--gray1)}
-.news-row{padding:10px 0;border-bottom:1px solid var(--gray1);cursor:pointer}
-.news-row:last-child{border-bottom:none;padding-bottom:0}
-.news-date{font-size:10px;color:var(--accent2);margin-bottom:4px}
-.news-ttl{font-size:12px;color:var(--gray5);line-height:1.45;transition:color .2s}
-.news-row:hover .news-ttl{color:var(--white)}
-.qlink{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--gray1);text-decoration:none;cursor:pointer}
-.qlink:last-child{border-bottom:none}
-.qlink-dot{width:6px;height:6px;border-radius:50%;background:var(--gray3);flex-shrink:0;transition:background .2s}
-.qlink:hover .qlink-dot{background:var(--accent)}
-.qlink-name{font-size:11px;color:var(--gray5);transition:color .2s}
-.qlink:hover .qlink-name{color:var(--white)}
-.qlink-sub{font-size:10px;color:var(--gray3)}
-/* ── PROJECT GRID ── */
-.proj-controls{max-width:1200px;margin:0 auto;padding:1.5rem 2rem .5rem;display:flex;gap:10px;flex-wrap:wrap;align-items:center;border-bottom:1px solid var(--gray1)}
-.ctrl-in{flex:1;min-width:200px;padding:8px 14px;background:var(--black2);border:1px solid var(--gray2);border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:12px;color:var(--white);outline:none;transition:border-color .2s}
-.ctrl-in::placeholder{color:var(--gray3)}.ctrl-in:focus{border-color:var(--accent)}
-.ctrl-sel{padding:8px 12px;background:var(--black2);border:1px solid var(--gray2);border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:12px;color:var(--gray4);cursor:pointer;outline:none}
-.ctrl-sel option{background:var(--black2)}
-/* Project CARDS grid */
-.proj-cards-wrap{max-width:1200px;margin:0 auto;padding:2rem}
-.proj-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.proj-card{background:var(--black2);border:1px solid var(--gray1);border-radius:var(--r2);overflow:hidden;transition:all .22s;display:flex;flex-direction:column}
-.proj-card:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:0 8px 32px rgba(0,0,0,.3)}
-/* Card image area */
-.card-img{height:220px;background:var(--black3);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.card-img img{width:100%;height:100%;object-fit:cover;object-position:center 20%;opacity:.92;transition:all .5s}
-.proj-card:hover .card-img img{opacity:1;transform:scale(1.04);object-position:center 25%}
-.card-img-placeholder{font-size:3rem;color:var(--gray2);display:flex;align-items:center;justify-content:center;width:100%;height:100%}
-.card-star{position:absolute;top:10px;right:10px;color:#FFD700;font-size:16px;text-shadow:0 1px 3px rgba(0,0,0,.5)}
-.card-obra-badge{position:absolute;bottom:10px;left:10px}
+.obra-tag{display:inline-block;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;padding:4px 10px;border-radius:2px;font-weight:600;margin-bottom:8px}
+.ob-pozo{background:rgba(200,160,60,.28);color:#EDBC40;border:1px solid rgba(200,160,60,.55)}
+.ob-obra{background:rgba(60,100,200,.28);color:#7AADFF;border:1px solid rgba(60,100,200,.55)}
+.ob-terminado{background:rgba(120,180,100,.28);color:#9FCC78;border:1px solid rgba(120,180,100,.55)}
+.ob-proyecto{background:rgba(130,130,150,.28);color:#C0C0D5;border:1px solid rgba(130,130,150,.55)}
 /* Card body */
 .card-body{padding:14px 16px;flex:1;display:flex;flex-direction:column;gap:8px}
 .card-name{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:.06em;color:var(--white);line-height:1}
@@ -758,9 +725,9 @@ function renderProj(){
 
     // Cert badge
     const certBadge=p.cert&&p.cert!=='No'&&p.cert!=='—'
-      ?`<span style="font-size:9px;padding:2px 7px;background:rgba(120,180,100,.12);color:var(--accent);border:1px solid rgba(120,180,100,.25);border-radius:1px;letter-spacing:.5px">${p.cert}</span>`:'';
+      ?`<span style="font-size:9px;padding:3px 8px;background:rgba(0,0,0,.7);color:var(--accent);border:1px solid rgba(200,213,176,.5);border-radius:2px;letter-spacing:.5px;white-space:nowrap">${p.cert}</span>`:'';
     const taxBadge=p.taxFree
-      ?`<span style="font-size:9px;padding:2px 8px;background:rgba(120,180,100,.12);color:#8FA870;border:1px solid rgba(120,180,100,.35);border-radius:1px;letter-spacing:.3px;font-weight:500">✓ Vivienda Promovida · Tax Free</span>`
+      ?`<span style="font-size:9px;padding:3px 8px;background:rgba(0,0,0,.7);color:#8FA870;border:1px solid rgba(143,168,112,.5);border-radius:2px;letter-spacing:.3px;font-weight:600;white-space:nowrap">✓ Vivienda Promovida · Tax Free</span>`
       :'';
 
     const card=document.createElement('div');
@@ -773,7 +740,7 @@ function renderProj(){
           ? `<img src="${p.imgUrl}" alt="${p.nombre}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
           : ''}
         <div class="card-img-placeholder" style="${p.imgUrl?'display:none':''}">🏗</div>
-        ${p.destacado?'<div class="card-star" title="Proyecto destacado"><svg viewBox="0 0 24 24" width="14" height="14" fill="#C8D5B0" style="filter:drop-shadow(0 0 3px rgba(200,213,176,.5))"><polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9"/></svg></div>':''}
+        ${(certBadge||taxBadge)?`<div style="position:absolute;top:8px;left:8px;display:flex;flex-direction:column;gap:4px;z-index:2">${certBadge}${taxBadge}</div>`:''}        ${p.destacado?'<div class="card-star" title="Proyecto destacado"><svg viewBox="0 0 24 24" width="14" height="14" fill="#C8D5B0" style="filter:drop-shadow(0 0 3px rgba(200,213,176,.5))"><polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9"/></svg></div>':''}
         <div class="card-obra-badge"><span class="obra-tag ${obraClass(p.obra)}" style="margin:0">${obraLabel(p.obra)}</span></div>
       </div>
       <div class="card-body">
@@ -794,7 +761,7 @@ function renderProj(){
         <div>
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
             <div class="card-units-title">Tipos y precios desde</div>
-            <div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:2px">${certBadge}${taxBadge}</div>
+            
           </div>
           <div class="card-units-grid">${unitChips||'<span style="font-size:11px;color:var(--gray3)">Consultar</span>'}</div>
         </div>
@@ -1391,9 +1358,9 @@ function renderProj(){
 
     // Cert badge
     const certBadge=p.cert&&p.cert!=='No'&&p.cert!=='—'
-      ?`<span style="font-size:9px;padding:2px 7px;background:rgba(120,180,100,.12);color:var(--accent);border:1px solid rgba(120,180,100,.25);border-radius:1px;letter-spacing:.5px">${p.cert}</span>`:'';
+      ?`<span style="font-size:9px;padding:3px 8px;background:rgba(0,0,0,.7);color:var(--accent);border:1px solid rgba(200,213,176,.5);border-radius:2px;letter-spacing:.5px;white-space:nowrap">${p.cert}</span>`:'';
     const taxBadge=p.taxFree
-      ?`<span style="font-size:9px;padding:2px 8px;background:rgba(120,180,100,.12);color:#8FA870;border:1px solid rgba(120,180,100,.35);border-radius:1px;letter-spacing:.3px;font-weight:500">✓ Vivienda Promovida · Tax Free</span>`
+      ?`<span style="font-size:9px;padding:3px 8px;background:rgba(0,0,0,.7);color:#8FA870;border:1px solid rgba(143,168,112,.5);border-radius:2px;letter-spacing:.3px;font-weight:600;white-space:nowrap">✓ Vivienda Promovida · Tax Free</span>`
       :'';
 
     const card=document.createElement('div');
@@ -1406,7 +1373,7 @@ function renderProj(){
           ? `<img src="${p.imgUrl}" alt="${p.nombre}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
           : ''}
         <div class="card-img-placeholder" style="${p.imgUrl?'display:none':''}">🏗</div>
-        ${p.destacado?'<div class="card-star" title="Proyecto destacado"><svg viewBox="0 0 24 24" width="14" height="14" fill="#C8D5B0" style="filter:drop-shadow(0 0 3px rgba(200,213,176,.5))"><polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9"/></svg></div>':''}
+        ${(certBadge||taxBadge)?`<div style="position:absolute;top:8px;left:8px;display:flex;flex-direction:column;gap:4px;z-index:2">${certBadge}${taxBadge}</div>`:''}        ${p.destacado?'<div class="card-star" title="Proyecto destacado"><svg viewBox="0 0 24 24" width="14" height="14" fill="#C8D5B0" style="filter:drop-shadow(0 0 3px rgba(200,213,176,.5))"><polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9"/></svg></div>':''}
         <div class="card-obra-badge"><span class="obra-tag ${obraClass(p.obra)}" style="margin:0">${obraLabel(p.obra)}</span></div>
       </div>
       <div class="card-body">
@@ -1427,7 +1394,7 @@ function renderProj(){
         <div>
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
             <div class="card-units-title">Tipos y precios desde</div>
-            <div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:2px">${certBadge}${taxBadge}</div>
+            
           </div>
           <div class="card-units-grid">${unitChips||'<span style="font-size:11px;color:var(--gray3)">Consultar</span>'}</div>
         </div>
