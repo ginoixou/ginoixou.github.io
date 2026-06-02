@@ -81,6 +81,10 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
 .ob-terminado{background:rgba(120,180,100,.28);color:#9FCC78;border:1px solid rgba(120,180,100,.55)}
 .ob-proyecto{background:rgba(130,130,150,.28);color:#C0C0D5;border:1px solid rgba(130,130,150,.55)}
 /* Card body */
+.card-img{position:relative;width:100%;height:180px;overflow:hidden;background:var(--black3);flex-shrink:0}
+.card-img img{width:100%;height:100%;object-fit:cover;object-position:center 30%;display:block;transition:transform .3s}
+.card-img:hover img{transform:scale(1.03)}
+.card-img-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:2rem;color:var(--gray2)}
 .card-body{padding:14px 16px;flex:1;display:flex;flex-direction:column;gap:8px}
 .card-name{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:.06em;color:var(--white);line-height:1}
 .card-concepto{font-size:11px;color:var(--accent);font-style:italic;line-height:1.4}
