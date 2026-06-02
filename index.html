@@ -1062,7 +1062,7 @@ function processBuscadorData(json) {
       estadoVenta: String(r['ESTADO VENTA']        || '').trim(),
       precio:      String(r['PRECIO']              || '').trim(),
       comentario:  String(r['Cometario ventas']    || '').trim(),
-      estadoAlq:   String(r['Estado alquiler'] || r['Estado\nalquiler'] || '').trim(),
+      estadoAlq:   String(r['Estado\nalquiler'] || r['Estado alquiler'] || '').trim(),
       alqMensual:  String(r['Alquiler mensual USD']|| '').trim(),
       rentaBruta:  String(r['% Renta bruta']       || '').trim(),
       m2int:       String(r['M2 INT.']             || '').trim(),
