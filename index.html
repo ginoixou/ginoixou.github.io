@@ -199,6 +199,41 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
 /* RESPONSIVE */
 @media(max-width:1000px){.dash-grid{grid-template-columns:1fr}.blog-wrap{grid-template-columns:1fr}.stats-row{grid-template-columns:repeat(2,1fr)}.proj-cards{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:650px){.feat-grid{grid-template-columns:1fr}.hdr-logo-tag,.hdr-logo-sep{display:none}.dash-hero::before{display:none}.proj-cards{grid-template-columns:1fr}.cat-row{flex-wrap:wrap}.cat-btn2{flex:none}}
+/* ── RESPONSIVE MOBILE ── */
+@media(max-width:900px){
+  .proj-cards{grid-template-columns:repeat(2,1fr)}
+  .dash-grid{grid-template-columns:1fr}
+  .sec-hero{flex-direction:column;gap:1rem;text-align:center}
+  .sec-hero img{height:2.5rem}
+}
+@media(max-width:650px){
+  .feat-grid{grid-template-columns:1fr}
+  .hdr-logo-tag,.hdr-logo-sep{display:none}
+  .dash-hero::before{display:none}
+  .proj-cards{grid-template-columns:1fr}
+  .cat-row{flex-wrap:wrap}
+  .cat-btn2{flex:none}
+  .hdr-nav{gap:4px}
+  .nav-btn{font-size:9px;padding:6px 8px;letter-spacing:.5px}
+  .card-foot{flex-wrap:wrap;gap:6px}
+  .card-foot a,.card-foot button{font-size:9px;padding:5px 8px}
+  .post-feat-tag-row{flex-wrap:wrap}
+  .post-list-item{grid-template-columns:1fr auto!important}
+  .post-list-item img{display:none}
+  #whatsapp-float{bottom:16px;right:16px;width:46px;height:46px}
+  #whatsapp-float+a,a[title="Agendar visita"]{bottom:72px;right:16px;width:46px;height:46px}
+  .bu-th,.bu-th-s{font-size:8px;padding:8px 8px}
+  #bu-table td{padding:7px 8px;font-size:11px}
+  .proj-cards-wrap{padding:1rem}
+  .sec-hero h2{font-size:2rem}
+  .hdr{padding:0 1rem}
+  .dash-hero{padding:2rem 1rem 1.5rem}
+}
+@media(max-width:400px){
+  .proj-cards{grid-template-columns:1fr}
+  .nav-btn{font-size:8px;padding:5px 6px}
+  .hdr-logo-name{font-size:16px}
+}
 </style>
 </head>
 <body>
@@ -304,7 +339,7 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
 <!-- PROYECTOS -->
 <section id="sec-proyectos" style="display:none">
   <div class="sec-hero"><h2>PROYECTOS</h2><p>◇ 16 desarrollos · Información comercial y acceso a documentación</p></div>
-  <div class="proj-controls">
+  <div class="proj-controls" style="display:flex;flex-wrap:wrap;gap:10px;padding:1.5rem 2rem;justify-content:center;align-items:center;max-width:1200px;margin:0 auto">
     <input class="ctrl-in" id="ctrl-q" placeholder="Buscar por nombre, barrio o arquitecto…" oninput="renderProj()">
     <select class="ctrl-sel" id="ctrl-obra" onchange="renderProj()">
       <option value="">Todos los estados</option>
@@ -426,6 +461,9 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
             <th onclick="sortBuscador('estadoVenta')" class="bu-th" style="text-align:center">Estado ↕</th>
             <th onclick="sortBuscador('precio')"     class="bu-th" style="text-align:right">Precio USD ↕</th>
             <th class="bu-th-s">Comentario</th>
+            <th onclick="sortBuscador('estadoAlq')"  class="bu-th" style="text-align:center">Est. Alquiler ↕</th>
+            <th onclick="sortBuscador('alqMensual')" class="bu-th" style="text-align:right">Alquiler mensual USD ↕</th>
+            <th onclick="sortBuscador('rentaBruta')" class="bu-th" style="text-align:right">% Renta bruta ↕</th>
             <th onclick="sortBuscador('m2int')"      class="bu-th" style="text-align:right">M² Int ↕</th>
             <th onclick="sortBuscador('m2extcub')"   class="bu-th" style="text-align:right">M² Ext Cub ↕</th>
             <th onclick="sortBuscador('m2extdes')"   class="bu-th" style="text-align:right">M² Ext Desc ↕</th>
