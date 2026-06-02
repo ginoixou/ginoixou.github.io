@@ -75,12 +75,16 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
 .feat-card-units{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--gray4)}
 .drive-link{display:inline-flex;align-items:center;gap:5px;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#4285f4;text-decoration:none}
 /* ── OBRA TAGS ── */
-.obra-tag{display:inline-block;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;padding:4px 10px;border-radius:2px;font-weight:600;margin-bottom:8px}
-.ob-pozo{background:rgba(200,160,60,.28);color:#EDBC40;border:1px solid rgba(200,160,60,.55)}
-.ob-obra{background:rgba(60,100,200,.28);color:#7AADFF;border:1px solid rgba(60,100,200,.55)}
-.ob-terminado{background:rgba(120,180,100,.28);color:#9FCC78;border:1px solid rgba(120,180,100,.55)}
-.ob-proyecto{background:rgba(130,130,150,.28);color:#C0C0D5;border:1px solid rgba(130,130,150,.55)}
+.obra-tag{display:inline-block;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;padding:4px 10px;border-radius:2px;font-weight:600;margin-bottom:8px;background:rgba(0,0,0,.6);border:1px solid rgba(255,255,255,.25);color:rgba(255,255,255,.75)}
+.ob-pozo{border-color:rgba(255,255,255,.2)}
+.ob-obra{border-color:rgba(255,255,255,.2)}
+.ob-terminado{border-color:rgba(255,255,255,.2)}
+.ob-proyecto{border-color:rgba(255,255,255,.15);color:rgba(255,255,255,.5)}
 /* Card body */
+.proj-cards-wrap{max-width:1200px;margin:0 auto;padding:2rem}
+.proj-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.proj-card{background:var(--black2);border:1px solid var(--gray1);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;transition:border-color .2s,transform .2s}
+.proj-card:hover{border-color:var(--gray2);transform:translateY(-2px)}
 .card-img{position:relative;width:100%;height:180px;overflow:hidden;background:var(--black3);flex-shrink:0}
 .card-img img{width:100%;height:100%;object-fit:cover;object-position:center 30%;display:block;transition:transform .3s}
 .card-img:hover img{transform:scale(1.03)}
@@ -731,7 +735,7 @@ function renderProj(){
     const certBadge=p.cert&&p.cert!=='No'&&p.cert!=='—'
       ?`<span style="font-size:9px;padding:3px 8px;background:rgba(0,0,0,.7);color:var(--accent);border:1px solid rgba(200,213,176,.5);border-radius:2px;letter-spacing:.5px;white-space:nowrap">${p.cert}</span>`:'';
     const taxBadge=p.taxFree
-      ?`<span style="font-size:9px;padding:3px 8px;background:rgba(0,0,0,.7);color:#8FA870;border:1px solid rgba(143,168,112,.5);border-radius:2px;letter-spacing:.3px;font-weight:600;white-space:nowrap">✓ Vivienda Promovida · Tax Free</span>`
+      ?`<span style="font-size:9px;padding:3px 8px;background:rgba(0,0,0,.6);color:rgba(255,255,255,.75);border:1px solid rgba(255,255,255,.25);border-radius:2px;letter-spacing:.3px;font-weight:600;white-space:nowrap">✓ Vivienda Promovida</span>`
       :'';
 
     const card=document.createElement('div');
@@ -1364,7 +1368,7 @@ function renderProj(){
     const certBadge=p.cert&&p.cert!=='No'&&p.cert!=='—'
       ?`<span style="font-size:9px;padding:3px 8px;background:rgba(0,0,0,.7);color:var(--accent);border:1px solid rgba(200,213,176,.5);border-radius:2px;letter-spacing:.5px;white-space:nowrap">${p.cert}</span>`:'';
     const taxBadge=p.taxFree
-      ?`<span style="font-size:9px;padding:3px 8px;background:rgba(0,0,0,.7);color:#8FA870;border:1px solid rgba(143,168,112,.5);border-radius:2px;letter-spacing:.3px;font-weight:600;white-space:nowrap">✓ Vivienda Promovida · Tax Free</span>`
+      ?`<span style="font-size:9px;padding:3px 8px;background:rgba(0,0,0,.6);color:rgba(255,255,255,.75);border:1px solid rgba(255,255,255,.25);border-radius:2px;letter-spacing:.3px;font-weight:600;white-space:nowrap">✓ Vivienda Promovida</span>`
       :'';
 
     const card=document.createElement('div');
