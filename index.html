@@ -133,12 +133,12 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
 /* Card footer */
 .card-foot{padding:10px 16px;border-top:1px solid var(--gray1);background:var(--black);display:flex;gap:6px;flex-wrap:wrap}
 .btn-sm{display:inline-flex;align-items:center;gap:5px;padding:6px 12px;border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:10px;letter-spacing:1px;text-transform:uppercase;text-decoration:none;transition:all .2s;cursor:pointer;border:1px solid}
-.btn-drive{color:#4285f4;border-color:#4285f4;background:transparent}
-.btn-drive:hover{background:#4285f4;color:white}
-.btn-web{color:var(--accent);border-color:var(--accent);background:transparent}
-.btn-web:hover{background:var(--accent);color:var(--black)}
-.btn-map{color:var(--gray4);border-color:var(--gray2);background:transparent}
-.btn-map:hover{border-color:var(--gray4);color:var(--white)}
+.btn-drive{color:var(--gray5);border-color:var(--gray2);background:transparent}
+.btn-drive:hover{border-color:var(--accent);color:var(--accent)}
+.btn-web{color:var(--gray5);border-color:var(--gray2);background:transparent}
+.btn-web:hover{border-color:var(--accent);color:var(--accent)}
+.btn-map{color:var(--gray5);border-color:var(--gray2);background:transparent}
+.btn-map:hover{border-color:var(--accent);color:var(--accent)}
 .no-res{text-align:center;padding:4rem;color:var(--gray3);font-size:12px;letter-spacing:1px;text-transform:uppercase;display:none;grid-column:1/-1}
 /* ── BLOG ── */
 .blog-wrap{max-width:1200px;margin:0 auto;padding:2.5rem 2rem;display:grid;grid-template-columns:1fr 260px;gap:3rem}
@@ -782,7 +782,7 @@ function renderProj(){
           ${p.concepto?`<div class="card-concepto">"${p.concepto}"</div>`:''}
         </div>
         <div class="card-loc">
-          📍 <a href="${mapsUrl}" target="_blank" title="Ver en Google Maps">${p.calle}, ${p.barrio}</a>
+          <a href="${mapsUrl}" target="_blank" title="Ver en Google Maps">${p.calle}, ${p.barrio}</a>
         </div>
         <div class="card-progress">
           <div class="card-progress-label">
@@ -798,9 +798,9 @@ function renderProj(){
           </div>
           <div class="card-units-grid">${unitChips||'<span style="font-size:11px;color:var(--gray3)">Consultar</span>'}</div>
         </div>
-        <div style="display:flex;gap:12px;font-size:11px;color:var(--gray4);padding-top:4px;border-top:1px solid var(--gray1);flex-wrap:wrap">
-          <span>📦 ${p.unidades} unidades</span>
-          <span>🗓 Ocupación: ${p.ocupacion}</span>
+        <div style="display:flex;gap:12px;font-size:12px;color:var(--gray5);padding-top:6px;border-top:1px solid var(--gray1);flex-wrap:wrap;font-weight:500">
+          <span>${p.unidades} unidades</span>
+          <span>Ocupación: ${p.ocupacion}</span>
         </div>
         ${p.pago?`<div style="font-size:10px;color:var(--gray3);padding-top:4px;letter-spacing:.3px"><span style="color:var(--gray4)">Forma de pago:</span> ${p.pago}</div>`:''}
         ${p.amenities&&p.amenities!=='—'?`<div style="font-size:10px;color:var(--gray3);line-height:1.5">◇ ${p.amenities}</div>`:''}
@@ -808,7 +808,7 @@ function renderProj(){
       <div class="card-foot">
         <a class="btn-sm btn-drive" href="${p.driveUrl}" target="_blank">${DI} Drive</a>
         <a class="btn-sm btn-web" href="${p.webUrl}" target="_blank">🌐 Sitio</a>
-        <a class="btn-sm btn-map" href="${mapsUrl}" target="_blank">📍 Mapa</a>
+        <a class="btn-sm btn-map" href="${mapsUrl}" target="_blank"><svg width="10" height="13" viewBox="0 0 10 13" fill="currentColor" style="flex-shrink:0"><path d="M5 0C2.24 0 0 2.24 0 5c0 3.75 5 8 5 8s5-4.25 5-8c0-2.76-2.24-5-5-5zm0 6.75A1.75 1.75 0 115 3.25a1.75 1.75 0 010 3.5z"/></svg> Ubicación</a>
         <button class="btn-sm" onclick="openModal(${p.id})" style="border-color:var(--accent);color:var(--accent);background:transparent">+ Info</button>
       </div>`;
     grid.appendChild(card);
@@ -1415,7 +1415,7 @@ function renderProj(){
           ${p.concepto?`<div class="card-concepto">"${p.concepto}"</div>`:''}
         </div>
         <div class="card-loc">
-          📍 <a href="${mapsUrl}" target="_blank" title="Ver en Google Maps">${p.calle}, ${p.barrio}</a>
+          <a href="${mapsUrl}" target="_blank" title="Ver en Google Maps">${p.calle}, ${p.barrio}</a>
         </div>
         <div class="card-progress">
           <div class="card-progress-label">
@@ -1431,9 +1431,9 @@ function renderProj(){
           </div>
           <div class="card-units-grid">${unitChips||'<span style="font-size:11px;color:var(--gray3)">Consultar</span>'}</div>
         </div>
-        <div style="display:flex;gap:12px;font-size:11px;color:var(--gray4);padding-top:4px;border-top:1px solid var(--gray1);flex-wrap:wrap">
-          <span>📦 ${p.unidades} unidades</span>
-          <span>🗓 Ocupación: ${p.ocupacion}</span>
+        <div style="display:flex;gap:12px;font-size:12px;color:var(--gray5);padding-top:6px;border-top:1px solid var(--gray1);flex-wrap:wrap;font-weight:500">
+          <span>${p.unidades} unidades</span>
+          <span>Ocupación: ${p.ocupacion}</span>
         </div>
         ${p.pago?`<div style="font-size:10px;color:var(--gray3);padding-top:4px;letter-spacing:.3px"><span style="color:var(--gray4)">Forma de pago:</span> ${p.pago}</div>`:''}
         ${p.amenities&&p.amenities!=='—'?`<div style="font-size:10px;color:var(--gray3);line-height:1.5">◇ ${p.amenities}</div>`:''}
@@ -1441,7 +1441,7 @@ function renderProj(){
       <div class="card-foot">
         <a class="btn-sm btn-drive" href="${p.driveUrl}" target="_blank">${DI} Drive</a>
         <a class="btn-sm btn-web" href="${p.webUrl}" target="_blank">🌐 Sitio</a>
-        <a class="btn-sm btn-map" href="${mapsUrl}" target="_blank">📍 Mapa</a>
+        <a class="btn-sm btn-map" href="${mapsUrl}" target="_blank"><svg width="10" height="13" viewBox="0 0 10 13" fill="currentColor" style="flex-shrink:0"><path d="M5 0C2.24 0 0 2.24 0 5c0 3.75 5 8 5 8s5-4.25 5-8c0-2.76-2.24-5-5-5zm0 6.75A1.75 1.75 0 115 3.25a1.75 1.75 0 010 3.5z"/></svg> Ubicación</a>
         <button class="btn-sm" onclick="openModal(${p.id})" style="border-color:var(--accent);color:var(--accent);background:transparent">+ Info</button>
       </div>`;
     grid.appendChild(card);
