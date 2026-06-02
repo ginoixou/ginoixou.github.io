@@ -2669,21 +2669,7 @@ function loadBuscador() {
   document.getElementById('bu-results').style.display='none';
   document.getElementById('bu-error').style.display='none';
   // JSONP to bypass CORS
-  window._jsonpBuscador = function(json) {
-    try {
-      if (json.error) throw new Error(json.error);
-      if (!Array.isArray(json) || !json.length) throw new Error('Sin datos');
-      processBuscadorData(json);
-    } catch(e) {
-      document.getElementById('bu-loading').style.display='none';
-      const err=document.getElementById('bu-error');
-      err.style.display='block';
-      err.textContent='Error al cargar los datos: '+e.message;
-    }
-    // cleanup
-    const s=document.getElementById('_jsonp_script');
-    if(s) s.remove();
-  };
+  
   const script=document.createElement('script');
   script.id='_jsonp_script';
   script.src=SHEET_API+'&callback=_jsonpBuscador';
