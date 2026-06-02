@@ -1106,7 +1106,7 @@ window.prevPost = prevPost;
 window.nextPost = nextPost;
 
 /* ══ BUSCADOR DE UNIDADES ══ */
-const SHEET_API = 'https://script.google.com/macros/s/AKfycbyb7OE298DryuqqnWGsq1agVA2mJYnx7T_ivBCwIOi2EYW4B7cl4ItADM645ezQ__WF/exec?key=ixou2026portal';
+const SHEET_API = 'https://script.google.com/macros/s/AKfycby6j8HdSCE1ZGR1utE25jlaimMun9_pvRcdqgcEbh0btHqtEcR5sNIZaSYYdefMYAVe/exec?key=ixou2026portal';
 let buRows    = [];   // raw mapped rows
 let buLoaded  = false;
 let buSortKey = 'proyecto';
@@ -1115,18 +1115,21 @@ let buSortAsc = true;
 /* Map one API row → display object using EXACT key names confirmed from API */
 function mapRow(r) {
   return {
-    tipo:        String(r['TIPO']              ?? '').trim(),
-    proyecto:    String(r['PROYECTO']          ?? '').trim(),
-    unidad:      String(r['UNIDAD']            ?? '').trim(),
-    dorm:        String(r['DORM']              ?? '').trim(),
-    estadoVenta: String(r['ESTADO VENTA']      ?? '').trim(),
-    precio:      String(r['PRECIO']            ?? '').trim(),
-    comentario:  String(r['Cometario ventas']  ?? '').trim(),
-    m2int:       String(r['M2 INT.']           ?? '').trim(),
-    m2extcub:    String(r['M2 EXT. Cub.']      ?? '').trim(),
-    m2extdes:    String(r['M2 EXT. Desc.']     ?? '').trim(),
-    m2com:       String(r['M2 COMUNES']        ?? '').trim(),
-    m2tot:       String(r['M2 TOTALES']        ?? '').trim(),
+    tipo:        String(r['TIPO']                         || '').trim(),
+    proyecto:    String(r['PROYECTO']                     || '').trim(),
+    unidad:      String(r['UNIDAD']                       || '').trim(),
+    dorm:        String(r['DORM']                         || '').trim(),
+    estadoVenta: String(r['ESTADO VENTA']                 || '').trim(),
+    precio:      String(r['PRECIO']                       || '').trim(),
+    comentario:  String(r['Comentario']                   || '').trim(),
+    estadoAlq:   String(r['Estado alquiler']              || '').trim(),
+    alqMensual:  String(r['Alquiler mensual USD']         || '').trim(),
+    rentaBruta:  String(r['% Renta bruta']                || '').trim(),
+    m2int:       String(r['M2 Interiores']                || '').trim(),
+    m2extcub:    String(r['M2 Exteriores Cubiertos']      || '').trim(),
+    m2extdes:    String(r['M2 Exteriores Descubiertos']   || '').trim(),
+    m2com:       String(r['M2 Comunes']                   || '').trim(),
+    m2tot:       String(r['M2 Totales']                   || '').trim(),
   };
 }
 
