@@ -427,13 +427,7 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
       <input class="ctrl-in" id="bu-q" placeholder="Buscar…" oninput="renderBuscador()" style="flex:2;min-width:180px">
       <select class="ctrl-sel" id="bu-proj"    onchange="renderBuscador()"><option value="">Todos los proyectos</option></select>
       <select class="ctrl-sel" id="bu-tipo"    onchange="renderBuscador()"><option value="">Todos los tipos</option></select>
-      <select class="ctrl-sel" id="bu-estado"  onchange="renderBuscador()">
-        <option value="">Todos los estados</option>
-        <option value="DISPONIBLE">Disponible</option>
-        <option value="ASIGNADO">Asignado</option>
-        <option value="RESERVADO">Reservado</option>
-        <option value="VENDIDO">Vendido</option>
-      </select>
+
       <input class="ctrl-in" id="bu-min" placeholder="Precio mín" type="number" oninput="renderBuscador()" style="width:120px;flex:none">
       <input class="ctrl-in" id="bu-max" placeholder="Precio máx" type="number" oninput="renderBuscador()" style="width:120px;flex:none">
       <button onclick="resetBuscador()" style="padding:8px 14px;background:none;border:1px solid var(--gray2);color:var(--gray4);font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:1px;text-transform:uppercase;cursor:pointer" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--gray2)'">Limpiar</button>
@@ -474,6 +468,15 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
         <tbody id="bu-tbody"></tbody>
       </table>
       <div id="bu-empty" style="display:none;text-align:center;padding:2rem;color:var(--gray3);font-size:12px">Sin resultados.</div>
+    </div>
+
+    <!-- LEGAL FOOTER -->
+    <div style="margin-top:2rem;padding:1.25rem 1.5rem;border-top:1px solid var(--gray1);font-size:11px;color:var(--gray3);line-height:1.8">
+      <p>Sujeto a disponibilidad.</p>
+      <p id="bu-validez"></p>
+      <script>document.getElementById('bu-validez').textContent = 'Validez: 7 días desde ' + new Date().toLocaleDateString('es-UY', {day:'2-digit',month:'2-digit',year:'numeric'});</script>
+      <p>Los precios no incluyen gastos de ocupación (5%).</p>
+      <p>El presente sitio web es para uso exclusivo de inmobiliarias, es de carácter orientativo y no podrá entenderse en ningún caso como un compromiso por parte de IXOU.</p>
     </div>
 
   </div>
@@ -1247,16 +1250,17 @@ function renderBuscador() {
   var q       = (document.getElementById('bu-q') ? document.getElementById('bu-q').value : '').toLowerCase();
   var proj    = document.getElementById('bu-proj')   ? document.getElementById('bu-proj').value   : '';
   var tipo    = document.getElementById('bu-tipo')   ? document.getElementById('bu-tipo').value   : '';
-  var estado  = document.getElementById('bu-estado') ? document.getElementById('bu-estado').value : '';
   var minP    = numVal(document.getElementById('bu-min') ? document.getElementById('bu-min').value : '');
   var maxP    = numVal(document.getElementById('bu-max') ? document.getElementById('bu-max').value : '') || Infinity;
 
+  var ESTADOS_VISIBLES = ['DISPONIBLE','ASIGNADO','REVENTA'];
   var list = buRows.filter(function(r) {
     var p = numVal(r.precio);
-    return (!q      || Object.values(r).join(' ').toLowerCase().indexOf(q) >= 0)
+    var ev = r.estadoVenta.toUpperCase();
+    return ESTADOS_VISIBLES.indexOf(ev) >= 0
+        && (!q      || Object.values(r).join(' ').toLowerCase().indexOf(q) >= 0)
         && (!proj   || r.proyecto === proj)
         && (!tipo   || r.tipo === tipo)
-        && (!estado || r.estadoVenta.toUpperCase().indexOf(estado) >= 0)
         && (!minP   || p >= minP)
         && (maxP === Infinity || !maxP || p <= maxP);
   });
@@ -1314,7 +1318,7 @@ function sortBuscador(key) {
 
 function resetBuscador() {
   ['bu-q','bu-min','bu-max'].forEach(function(id){ var el=document.getElementById(id); if(el) el.value=''; });
-  ['bu-proj','bu-tipo','bu-estado'].forEach(function(id){ var el=document.getElementById(id); if(el) el.selectedIndex=0; });
+  ['bu-proj','bu-tipo'].forEach(function(id){ var el=document.getElementById(id); if(el) el.selectedIndex=0; });
   renderBuscador();
 }
 
