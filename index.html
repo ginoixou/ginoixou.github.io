@@ -742,39 +742,95 @@ function exportBuscadorPDF() {
   var list = window._buExportList || [];
   if (!list.length) return;
   var doc = new jspdf.jsPDF({orientation:'landscape', unit:'mm', format:'a4'});
-  /* Header */
+  var W = 297, fecha = new Date().toLocaleDateString('es-UY',{day:'2-digit',month:'2-digit',year:'numeric'});
+
+  /* ── Header negro ── */
   doc.setFillColor(10,10,10);
-  doc.rect(0,0,297,20,'F');
-  doc.setTextColor(200,213,176);
-  doc.setFontSize(14);
+  doc.rect(0,0,W,22,'F');
+
+  /* Izquierda: título + fecha */
   doc.setFont('helvetica','bold');
-  doc.text('IXOU · Lista de Unidades', 14, 13);
-  doc.setFontSize(8);
+  doc.setFontSize(13);
+  doc.setTextColor(200,213,176);
+  doc.text('IXOU · Lista de precios', 14, 10);
   doc.setFont('helvetica','normal');
+  doc.setFontSize(8);
+  doc.setTextColor(180,180,180);
+  doc.text('Generado: ' + fecha + ' · Validez: 7 días', 14, 17);
+
+  /* Derecha: logo IXOU (texto estilizado) */
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(16);
+  doc.setTextColor(255,255,255);
+  doc.text('IXOU', W-14, 14, {align:'right'});
+  doc.setFont('helvetica','normal');
+  doc.setFontSize(7);
   doc.setTextColor(150,150,150);
-  var fecha = new Date().toLocaleDateString('es-UY',{day:'2-digit',month:'2-digit',year:'numeric'});
-  doc.text('Generado: ' + fecha + ' · Validez: 7 días', 297-14, 13, {align:'right'});
-  /* Table */
+  doc.text('Ciudad Consciente', W-14, 19, {align:'right'});
+
+  /* ── Tabla: fondo blanco, filas alternas gris 10% ── */
   doc.autoTable({
     head: [BU_HEADERS],
     body: list.map(buRowToArr),
-    startY: 24,
+    startY: 26,
     theme: 'grid',
-    styles: {fontSize:7, cellPadding:2, textColor:[220,220,220], fillColor:[20,20,20], lineColor:[50,50,50]},
-    headStyles: {fillColor:[30,30,30], textColor:[200,213,176], fontStyle:'bold', fontSize:7},
-    alternateRowStyles: {fillColor:[26,26,26]},
+    styles: {
+      fontSize: 7,
+      cellPadding: 2,
+      textColor: [30,30,30],
+      fillColor: [255,255,255],
+      lineColor: [210,210,210],
+      lineWidth: 0.1
+    },
+    headStyles: {
+      fillColor: [10,10,10],
+      textColor: [255,255,255],
+      fontStyle: 'bold',
+      fontSize: 7,
+      lineColor: [10,10,10]
+    },
+    alternateRowStyles: {
+      fillColor: [242,242,242]
+    },
     columnStyles: {
       5:{halign:'right'}, 8:{halign:'right'}, 9:{halign:'right'},
       10:{halign:'right'}, 11:{halign:'right'}, 12:{halign:'right'}, 13:{halign:'right'}, 14:{halign:'right'}
     },
     didDrawPage: function(data) {
-      doc.setFontSize(7);
-      doc.setTextColor(100,100,100);
-      doc.text('Sujeto a disponibilidad · Precios orientativos, sujetos a cambios · No incluyen gastos de ocupación (5%) · Uso exclusivo para inmobiliarias registradas habilitadas por IXOU', 14, doc.internal.pageSize.height - 6);
-      doc.text('Pág. ' + data.pageNumber, 297-14, doc.internal.pageSize.height - 6, {align:'right'});
+      /* Repetir header en páginas siguientes */
+      if (data.pageNumber > 1) {
+        doc.setFillColor(10,10,10);
+        doc.rect(0,0,W,22,'F');
+        doc.setFont('helvetica','bold');
+        doc.setFontSize(13);
+        doc.setTextColor(200,213,176);
+        doc.text('IXOU · Lista de precios', 14, 10);
+        doc.setFont('helvetica','normal');
+        doc.setFontSize(8);
+        doc.setTextColor(180,180,180);
+        doc.text('Generado: ' + fecha + ' · Validez: 7 días', 14, 17);
+        doc.setFont('helvetica','bold');
+        doc.setFontSize(16);
+        doc.setTextColor(255,255,255);
+        doc.text('IXOU', W-14, 14, {align:'right'});
+        doc.setFont('helvetica','normal');
+        doc.setFontSize(7);
+        doc.setTextColor(150,150,150);
+        doc.text('Ciudad Consciente', W-14, 19, {align:'right'});
+      }
+      /* Footer */
+      var ph = doc.internal.pageSize.height;
+      doc.setDrawColor(210,210,210);
+      doc.line(14, ph-10, W-14, ph-10);
+      doc.setFontSize(6.5);
+      doc.setTextColor(120,120,120);
+      doc.setFont('helvetica','normal');
+      doc.text('Sujeto a disponibilidad · Precios orientativos, sujetos a cambios · No incluyen gastos de ocupación (5%) · Uso exclusivo para inmobiliarias registradas y habilitadas por IXOU', 14, ph-6);
+      doc.text('Pág. ' + data.pageNumber, W-14, ph-6, {align:'right'});
     }
   });
-  var fname = 'IXOU-Unidades-' + new Date().toLocaleDateString('es-UY',{day:'2-digit',month:'2-digit',year:'numeric'}).replace(/\//g,'-') + '.pdf';
+
+  var fname = 'IXOU-Lista-precios-' + fecha.replace(/\//g,'-') + '.pdf';
   doc.save(fname);
 }
 
@@ -849,17 +905,18 @@ function renderProj(){
   const obra=(document.getElementById('ctrl-obra')?.value)||'';
   const barrio=(document.getElementById('ctrl-barrio')?.value)||'';
   const tax=(document.getElementById('ctrl-tax')?.value)||'';
+  const pmin=parseFloat(document.getElementById('ctrl-pmin')?.value)||0;
+  const pmax=parseFloat(document.getElementById('ctrl-pmax')?.value)||Infinity;
   const list=PROYECTOS.filter(p=>{
     const mq=!q||p.nombre.toLowerCase().includes(q)||p.barrio.toLowerCase().includes(q)||p.arq.toLowerCase().includes(q)||p.calle.toLowerCase().includes(q);
     const mo=!obra||p.obra===obra;
     const mb=!barrio||p.barrio===barrio;
     const mt=!tax||(tax==='tax'&&p.taxFree);
-    /* Price filter: compare against min unit chip price in project */
     const projKey=p.nombre.toUpperCase().replace(/ /g,'_');
-    const unitPrices=buLoaded?buRows.filter(r=>r.proyecto.toUpperCase()===projKey||r.proyecto.toUpperCase()===p.nombre.toUpperCase()).map(r=>parseFloat(r.precio)||0).filter(v=>v>0):[];
-    const minUP=unitPrices.length?Math.min(...unitPrices):0;
-    const maxUP=unitPrices.length?Math.max(...unitPrices):Infinity;
-    const mp=(!pmin&&!pmax)||(unitPrices.length?(maxUP>=pmin&&(pmax===Infinity||minUP<=pmax)):true);
+    const uPrices=buLoaded?buRows.filter(function(r){return r.proyecto.toUpperCase()===projKey||r.proyecto.toUpperCase()===p.nombre.toUpperCase();}).map(function(r){return parseFloat(r.precio)||0;}).filter(function(v){return v>0;}):[];
+    const minUP=uPrices.length?Math.min.apply(null,uPrices):0;
+    const maxUP=uPrices.length?Math.max.apply(null,uPrices):Infinity;
+    const mp=(!pmin&&pmax===Infinity)||(uPrices.length?(maxUP>=pmin&&minUP<=pmax):true);
     return mq&&mo&&mb&&mt&&mp;
   });
   const grid=document.getElementById('proj-cards');
@@ -1541,39 +1598,95 @@ function exportBuscadorPDF() {
   var list = window._buExportList || [];
   if (!list.length) return;
   var doc = new jspdf.jsPDF({orientation:'landscape', unit:'mm', format:'a4'});
-  /* Header */
+  var W = 297, fecha = new Date().toLocaleDateString('es-UY',{day:'2-digit',month:'2-digit',year:'numeric'});
+
+  /* ── Header negro ── */
   doc.setFillColor(10,10,10);
-  doc.rect(0,0,297,20,'F');
-  doc.setTextColor(200,213,176);
-  doc.setFontSize(14);
+  doc.rect(0,0,W,22,'F');
+
+  /* Izquierda: título + fecha */
   doc.setFont('helvetica','bold');
-  doc.text('IXOU · Lista de Unidades', 14, 13);
-  doc.setFontSize(8);
+  doc.setFontSize(13);
+  doc.setTextColor(200,213,176);
+  doc.text('IXOU · Lista de precios', 14, 10);
   doc.setFont('helvetica','normal');
+  doc.setFontSize(8);
+  doc.setTextColor(180,180,180);
+  doc.text('Generado: ' + fecha + ' · Validez: 7 días', 14, 17);
+
+  /* Derecha: logo IXOU (texto estilizado) */
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(16);
+  doc.setTextColor(255,255,255);
+  doc.text('IXOU', W-14, 14, {align:'right'});
+  doc.setFont('helvetica','normal');
+  doc.setFontSize(7);
   doc.setTextColor(150,150,150);
-  var fecha = new Date().toLocaleDateString('es-UY',{day:'2-digit',month:'2-digit',year:'numeric'});
-  doc.text('Generado: ' + fecha + ' · Validez: 7 días', 297-14, 13, {align:'right'});
-  /* Table */
+  doc.text('Ciudad Consciente', W-14, 19, {align:'right'});
+
+  /* ── Tabla: fondo blanco, filas alternas gris 10% ── */
   doc.autoTable({
     head: [BU_HEADERS],
     body: list.map(buRowToArr),
-    startY: 24,
+    startY: 26,
     theme: 'grid',
-    styles: {fontSize:7, cellPadding:2, textColor:[220,220,220], fillColor:[20,20,20], lineColor:[50,50,50]},
-    headStyles: {fillColor:[30,30,30], textColor:[200,213,176], fontStyle:'bold', fontSize:7},
-    alternateRowStyles: {fillColor:[26,26,26]},
+    styles: {
+      fontSize: 7,
+      cellPadding: 2,
+      textColor: [30,30,30],
+      fillColor: [255,255,255],
+      lineColor: [210,210,210],
+      lineWidth: 0.1
+    },
+    headStyles: {
+      fillColor: [10,10,10],
+      textColor: [200,213,176],
+      fontStyle: 'bold',
+      fontSize: 7,
+      lineColor: [10,10,10]
+    },
+    alternateRowStyles: {
+      fillColor: [242,242,242]
+    },
     columnStyles: {
       5:{halign:'right'}, 8:{halign:'right'}, 9:{halign:'right'},
       10:{halign:'right'}, 11:{halign:'right'}, 12:{halign:'right'}, 13:{halign:'right'}, 14:{halign:'right'}
     },
     didDrawPage: function(data) {
-      doc.setFontSize(7);
-      doc.setTextColor(100,100,100);
-      doc.text('Sujeto a disponibilidad · Precios orientativos, sujetos a cambios · No incluyen gastos de ocupación (5%) · Uso exclusivo para inmobiliarias registradas habilitadas por IXOU', 14, doc.internal.pageSize.height - 6);
-      doc.text('Pág. ' + data.pageNumber, 297-14, doc.internal.pageSize.height - 6, {align:'right'});
+      /* Repetir header en páginas siguientes */
+      if (data.pageNumber > 1) {
+        doc.setFillColor(10,10,10);
+        doc.rect(0,0,W,22,'F');
+        doc.setFont('helvetica','bold');
+        doc.setFontSize(13);
+        doc.setTextColor(200,213,176);
+        doc.text('IXOU · Lista de precios', 14, 10);
+        doc.setFont('helvetica','normal');
+        doc.setFontSize(8);
+        doc.setTextColor(180,180,180);
+        doc.text('Generado: ' + fecha + ' · Validez: 7 días', 14, 17);
+        doc.setFont('helvetica','bold');
+        doc.setFontSize(16);
+        doc.setTextColor(255,255,255);
+        doc.text('IXOU', W-14, 14, {align:'right'});
+        doc.setFont('helvetica','normal');
+        doc.setFontSize(7);
+        doc.setTextColor(150,150,150);
+        doc.text('Ciudad Consciente', W-14, 19, {align:'right'});
+      }
+      /* Footer */
+      var ph = doc.internal.pageSize.height;
+      doc.setDrawColor(210,210,210);
+      doc.line(14, ph-10, W-14, ph-10);
+      doc.setFontSize(6.5);
+      doc.setTextColor(120,120,120);
+      doc.setFont('helvetica','normal');
+      doc.text('Sujeto a disponibilidad · Precios orientativos, sujetos a cambios · No incluyen gastos de ocupación (5%) · Uso exclusivo para inmobiliarias registradas y habilitadas por IXOU', 14, ph-6);
+      doc.text('Pág. ' + data.pageNumber, W-14, ph-6, {align:'right'});
     }
   });
-  var fname = 'IXOU-Unidades-' + new Date().toLocaleDateString('es-UY',{day:'2-digit',month:'2-digit',year:'numeric'}).replace(/\//g,'-') + '.pdf';
+
+  var fname = 'IXOU-Lista-precios-' + fecha.replace(/\//g,'-') + '.pdf';
   doc.save(fname);
 }
 
@@ -1654,18 +1767,14 @@ function renderProj(){
   const obra=(document.getElementById('ctrl-obra')?.value)||'';
   const barrio=(document.getElementById('ctrl-barrio')?.value)||'';
   const tax=(document.getElementById('ctrl-tax')?.value)||'';
+  const pmin=parseFloat(document.getElementById('ctrl-pmin')?.value)||0;
+  const pmax=parseFloat(document.getElementById('ctrl-pmax')?.value)||Infinity;
   const list=PROYECTOS.filter(p=>{
     const mq=!q||p.nombre.toLowerCase().includes(q)||p.barrio.toLowerCase().includes(q)||p.arq.toLowerCase().includes(q)||p.calle.toLowerCase().includes(q);
     const mo=!obra||p.obra===obra;
     const mb=!barrio||p.barrio===barrio;
     const mt=!tax||(tax==='tax'&&p.taxFree);
-    /* Price filter: compare against min unit chip price in project */
-    const projKey=p.nombre.toUpperCase().replace(/ /g,'_');
-    const unitPrices=buLoaded?buRows.filter(r=>r.proyecto.toUpperCase()===projKey||r.proyecto.toUpperCase()===p.nombre.toUpperCase()).map(r=>parseFloat(r.precio)||0).filter(v=>v>0):[];
-    const minUP=unitPrices.length?Math.min(...unitPrices):0;
-    const maxUP=unitPrices.length?Math.max(...unitPrices):Infinity;
-    const mp=(!pmin&&!pmax)||(unitPrices.length?(maxUP>=pmin&&(pmax===Infinity||minUP<=pmax)):true);
-    return mq&&mo&&mb&&mt&&mp;
+    return mq&&mo&&mb&&mt;
   });
   const grid=document.getElementById('proj-cards');
   const noRes=document.getElementById('no-res');
@@ -2124,18 +2233,14 @@ function renderProj(){
   const obra=(document.getElementById('ctrl-obra')?.value)||'';
   const barrio=(document.getElementById('ctrl-barrio')?.value)||'';
   const tax=(document.getElementById('ctrl-tax')?.value)||'';
+  const pmin=parseFloat(document.getElementById('ctrl-pmin')?.value)||0;
+  const pmax=parseFloat(document.getElementById('ctrl-pmax')?.value)||Infinity;
   const list=PROYECTOS.filter(p=>{
     const mq=!q||p.nombre.toLowerCase().includes(q)||p.barrio.toLowerCase().includes(q)||p.arq.toLowerCase().includes(q)||p.calle.toLowerCase().includes(q);
     const mo=!obra||p.obra===obra;
     const mb=!barrio||p.barrio===barrio;
     const mt=!tax||(tax==='tax'&&p.taxFree);
-    /* Price filter: compare against min unit chip price in project */
-    const projKey=p.nombre.toUpperCase().replace(/ /g,'_');
-    const unitPrices=buLoaded?buRows.filter(r=>r.proyecto.toUpperCase()===projKey||r.proyecto.toUpperCase()===p.nombre.toUpperCase()).map(r=>parseFloat(r.precio)||0).filter(v=>v>0):[];
-    const minUP=unitPrices.length?Math.min(...unitPrices):0;
-    const maxUP=unitPrices.length?Math.max(...unitPrices):Infinity;
-    const mp=(!pmin&&!pmax)||(unitPrices.length?(maxUP>=pmin&&(pmax===Infinity||minUP<=pmax)):true);
-    return mq&&mo&&mb&&mt&&mp;
+    return mq&&mo&&mb&&mt;
   });
   const grid=document.getElementById('proj-cards');
   const noRes=document.getElementById('no-res');
@@ -2597,18 +2702,14 @@ function renderProj(){
   const obra=(document.getElementById('ctrl-obra')?.value)||'';
   const barrio=(document.getElementById('ctrl-barrio')?.value)||'';
   const tax=(document.getElementById('ctrl-tax')?.value)||'';
+  const pmin=parseFloat(document.getElementById('ctrl-pmin')?.value)||0;
+  const pmax=parseFloat(document.getElementById('ctrl-pmax')?.value)||Infinity;
   const list=PROYECTOS.filter(p=>{
     const mq=!q||p.nombre.toLowerCase().includes(q)||p.barrio.toLowerCase().includes(q)||p.arq.toLowerCase().includes(q)||p.calle.toLowerCase().includes(q);
     const mo=!obra||p.obra===obra;
     const mb=!barrio||p.barrio===barrio;
     const mt=!tax||(tax==='tax'&&p.taxFree);
-    /* Price filter: compare against min unit chip price in project */
-    const projKey=p.nombre.toUpperCase().replace(/ /g,'_');
-    const unitPrices=buLoaded?buRows.filter(r=>r.proyecto.toUpperCase()===projKey||r.proyecto.toUpperCase()===p.nombre.toUpperCase()).map(r=>parseFloat(r.precio)||0).filter(v=>v>0):[];
-    const minUP=unitPrices.length?Math.min(...unitPrices):0;
-    const maxUP=unitPrices.length?Math.max(...unitPrices):Infinity;
-    const mp=(!pmin&&!pmax)||(unitPrices.length?(maxUP>=pmin&&(pmax===Infinity||minUP<=pmax)):true);
-    return mq&&mo&&mb&&mt&&mp;
+    return mq&&mo&&mb&&mt;
   });
   const grid=document.getElementById('proj-cards');
   const noRes=document.getElementById('no-res');
