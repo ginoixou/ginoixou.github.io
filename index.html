@@ -623,7 +623,8 @@ function showPortal(u){
   if(!window._pi){window._pi=true;
     document.getElementById('hdr-right').textContent=PROYECTOS.length+' PROYECTOS · '+livePosts.length+' NOVEDADES';
     renderDash();
-  loadAvailability(); /* pre-fetch counts */renderProj();renderBlog();renderSlider&&renderSlider();
+  loadAvailability();
+  renderProj();renderBlog();renderSlider&&renderSlider();
     setTimeout(()=>{updateNotifBadge&&updateNotifBadge();},300);
   }
 }
@@ -906,6 +907,54 @@ function renderDash(){
 /* ══ PROJECT CARDS ══ */
 function obraClass(o){return OBRA_CLS[o]||'ob-proyecto'}
 function obraLabel(o){return OBRA_LBL[o]||o}
+
+
+/* ── AVAILABILITY COUNTS (loads independently of buscador) ── */
+function normProj(s) {
+  return String(s).toUpperCase()
+    .replace(/_/g,' ')
+    .replace(/Ç/g,'C').replace(/Ñ/g,'N')
+    .replace(/[À-Å]/g,'A').replace(/[È-Ë]/g,'E')
+    .replace(/[Ì-Ï]/g,'I').replace(/[Ò-Ö]/g,'O')
+    .replace(/[Ù-Ü]/g,'U');
+}
+
+function applyAvailability(data) {
+  var lookup = {};
+  Object.keys(data).forEach(function(k){ lookup[normProj(k)] = data[k]; });
+  PROYECTOS.forEach(function(p) {
+    var n = lookup[normProj(p.nombre)] || 0;
+    var el = document.getElementById('avail-'+p.id);
+    if (!el) return;
+    el.innerHTML = n > 0
+      ? n + ' disponible' + (n!==1?'s':'')
+      : '<a href="https://wa.me/59894647581" target="_blank" style="color:var(--gray4);text-decoration:none" onmouseover="this.style.color=\'var(--accent)\'" onmouseout="this.style.color=\'var(--gray4)\'">Consulta stock</a>';
+    el.style.color = n > 0 ? '#8FA870' : '';
+  });
+}
+
+function loadAvailability() {
+  if (window._availLoading || window._availData) {
+    if (window._availData) applyAvailability(window._availData);
+    return;
+  }
+  window._availLoading = true;
+  window._availCb = function(data) {
+    window._availLoading = false;
+    var s = document.getElementById('_avail_s');
+    if (s) s.remove();
+    if (!data || data.error) return;
+    window._availData = data;
+    applyAvailability(data);
+  };
+  var sc = document.createElement('script');
+  sc.id  = '_avail_s';
+  sc.src = 'https://script.google.com/macros/s/AKfycbw_eGqr_4l4BS5h3Mmk6HWkev0z4BkedNzAkDOu4vBNQBy1wgDRy2STiHX4aZ7-OFLX/exec?key=ixou2026portal&mode=counts&callback=_availCb';
+  sc.onerror = function(){ window._availLoading=false; this.remove(); };
+  document.head.appendChild(sc);
+}
+window.loadAvailability = loadAvailability;
+window.applyAvailability = applyAvailability;
 
 function renderProj(){
   try {
@@ -2805,6 +2854,7 @@ function renderProj(){
       </div>`;
     grid.appendChild(card);
   });
+
   /* Update availability badges now that cards exist */
   if (window._availData) applyAvailability(window._availData);
   else if (!window._availLoading) loadAvailability();
