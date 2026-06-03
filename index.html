@@ -616,8 +616,9 @@ function showPortal(u){
   document.getElementById('portal-screen').style.display='block';
   const n=document.getElementById('user-display-name');if(n)n.textContent=u.name||u.email;
   const a=document.getElementById('user-avatar');if(a&&u.pic){a.src=u.pic;a.style.display='block';a.onerror=()=>a.style.display='none'}
-  /* Show publish button only for admins */
-  /* admin button handled in showPortal */
+  /* Show publish button for admins */
+  var adminBtn = document.getElementById('admin-pub-btn');
+  if (adminBtn && checkAdmin()) adminBtn.style.display = 'inline';
   if(!window._pi){window._pi=true;
     document.getElementById('hdr-right').textContent=PROYECTOS.length+' PROYECTOS · '+livePosts.length+' NOVEDADES';
     renderDash();
