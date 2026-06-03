@@ -397,7 +397,7 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
 
 <!-- BLOG -->
 <section id="sec-blog" style="display:none">
-  <div class="sec-hero" style="display:flex;align-items:center;justify-content:space-between"><div><h2>NOVEDADES</h2><p>◇ Actualizaciones, lanzamientos y comunicados</p></div><img src="https://ginoixou.github.io/imgs/logo-ixou.png" alt="IXOU" style="height:clamp(2.5rem,5vw,4.5rem);width:auto;filter:brightness(0) invert(1);opacity:.7;flex-shrink:0"></div>
+  <div class="sec-hero" style="display:flex;align-items:center;justify-content:space-between"><div><h2>NOVEDADES</h2><p>◇ Actualizaciones, lanzamientos y comunicados</p></div><div style="display:flex;align-items:center;gap:12px"><span id="admin-pub-btn" style="display:none"><button onclick="openPublishModal()" style="display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:rgba(200,213,176,.12);border:1px solid rgba(200,213,176,.35);color:var(--accent);border-radius:2px;font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:all .2s" onmouseover="this.style.background='rgba(200,213,176,.22)'" onmouseout="this.style.background='rgba(200,213,176,.12)'"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Publicar novedad</button></span><img src="https://ginoixou.github.io/imgs/logo-ixou.png" alt="IXOU" style="height:clamp(2.5rem,5vw,4.5rem);width:auto;filter:brightness(0) invert(1);opacity:.7;flex-shrink:0"></div>
   <div class="blog-wrap">
     <div>
       <div class="cat-row">
@@ -785,6 +785,110 @@ document.addEventListener('keydown', function(e) {
 
 window.renderGsearch = renderGsearch;
 
+
+/* ══ PUBLICAR NOVEDADES (ADMIN) ══ */
+const SHEET_API_NOTIFY = 'https://script.google.com/macros/s/AKfycbw9xCpZ_gd3GxpwxXcFV1IqxAAMfJt416MMV94xFI90kNlglZ6JjRvCC_Q_QPqrNutp/exec?key=ixou2026portal&mode=notify';
+
+function checkAdmin() {
+  try {
+    var u = JSON.parse(sessionStorage.getItem('ixou_user'));
+    return u && ADMIN_EMAILS.indexOf(u.email) >= 0;
+  } catch(e) { return false; }
+}
+
+function openPublishModal() {
+  /* Populate project selector */
+  var sel = document.getElementById('pub-proj');
+  if (sel && sel.options.length === 1) {
+    PROYECTOS.forEach(function(p) {
+      var opt = document.createElement('option');
+      opt.value = p.nombre; opt.textContent = p.nombre;
+      sel.appendChild(opt);
+    });
+  }
+  document.getElementById('pub-status').textContent = '';
+  document.getElementById('publish-modal').style.display = 'flex';
+}
+
+function closePublishModal() {
+  document.getElementById('publish-modal').style.display = 'none';
+}
+
+function submitPost() {
+  var title   = (document.getElementById('pub-title').value   || '').trim();
+  var cat     = (document.getElementById('pub-cat').value     || 'Proyectos');
+  var resumen = (document.getElementById('pub-resumen').value || '').trim();
+  var body    = (document.getElementById('pub-body').value    || '').trim();
+  var img     = (document.getElementById('pub-img').value     || '').trim();
+  var proj    = (document.getElementById('pub-proj').value    || '');
+  var notify  = document.getElementById('pub-notify').checked;
+  var status  = document.getElementById('pub-status');
+  var btn     = document.getElementById('pub-submit');
+
+  if (!title)   { status.style.color='#E87070'; status.textContent='El título es obligatorio.'; return; }
+  if (!resumen) { status.style.color='#E87070'; status.textContent='El resumen es obligatorio.'; return; }
+
+  /* Build new post and prepend to livePosts */
+  var newId = Date.now();
+  var today = new Date();
+  var fecha = today.toLocaleDateString('es-UY',{day:'2-digit',month:'long',year:'numeric'});
+  var newPost = {
+    id: newId,
+    title: title,
+    categoria: cat,
+    fecha: fecha,
+    body: body || resumen,
+    imgUrl: img || '',
+    proyecto: proj || '',
+    destacado: false
+  };
+  livePosts.unshift(newPost);
+  renderBlog();
+  updateNotifBadge && updateNotifBadge();
+
+  status.style.color = 'var(--accent)';
+  status.textContent = '✓ Novedad publicada en el portal.';
+  btn.disabled = true;
+  btn.style.opacity = '.5';
+
+  /* Send email notification */
+  if (notify) {
+    status.textContent = '✓ Publicada. Enviando notificación…';
+    var url = SHEET_API_NOTIFY
+      + '&title='    + encodeURIComponent(title)
+      + '&categoria='+ encodeURIComponent(cat)
+      + '&resumen='  + encodeURIComponent(resumen);
+
+    window._notifyCb = function(data) {
+      var s = document.getElementById('_notify_s');
+      if (s) s.remove();
+      if (data && data.ok) {
+        status.textContent = '✓ Publicada y notificación enviada a ' + data.sent + ' destinatarios.';
+      } else {
+        status.textContent = '✓ Publicada en el portal. Error al enviar email: ' + (data && data.error ? data.error : 'desconocido');
+        status.style.color = '#E8A870';
+      }
+      setTimeout(function(){ closePublishModal(); btn.disabled=false; btn.style.opacity='1'; }, 2500);
+    };
+    var sc = document.createElement('script');
+    sc.id  = '_notify_s';
+    sc.src = url + '&callback=_notifyCb';
+    sc.onerror = function() {
+      this.remove();
+      status.textContent = '✓ Publicada. No se pudo enviar la notificación.';
+      status.style.color = '#E8A870';
+      setTimeout(function(){ closePublishModal(); btn.disabled=false; btn.style.opacity='1'; }, 2500);
+    };
+    document.head.appendChild(sc);
+  } else {
+    setTimeout(function(){ closePublishModal(); btn.disabled=false; btn.style.opacity='1'; }, 1500);
+  }
+}
+
+window.openPublishModal  = openPublishModal;
+window.closePublishModal = closePublishModal;
+window.submitPost        = submitPost;
+
 function showSec(n,btn){
   ['dashboard','proyectos','blog','buscador','sobre'].forEach(s=>document.getElementById('sec-'+s).style.display='none');
   document.getElementById('sec-'+n).style.display='block';
@@ -1055,7 +1159,7 @@ function loadAvailability() {
   };
   var sc = document.createElement('script');
   sc.id  = '_avail_s';
-  sc.src = 'https://script.google.com/macros/s/AKfycbw_eGqr_4l4BS5h3Mmk6HWkev0z4BkedNzAkDOu4vBNQBy1wgDRy2STiHX4aZ7-OFLX/exec?key=ixou2026portal&mode=counts&callback=_availCb';
+  sc.src = 'https://script.google.com/macros/s/AKfycbw9xCpZ_gd3GxpwxXcFV1IqxAAMfJt416MMV94xFI90kNlglZ6JjRvCC_Q_QPqrNutp/exec?key=ixou2026portal&mode=counts&callback=_availCb';
   sc.onerror = function(){ window._availLoading=false; this.remove(); };
   document.head.appendChild(sc);
 }
@@ -1523,7 +1627,7 @@ window.prevPost = prevPost;
 window.nextPost = nextPost;
 
 /* ══ BUSCADOR DE UNIDADES ══ */
-const SHEET_API = 'https://script.google.com/macros/s/AKfycbw_eGqr_4l4BS5h3Mmk6HWkev0z4BkedNzAkDOu4vBNQBy1wgDRy2STiHX4aZ7-OFLX/exec?key=ixou2026portal';
+const SHEET_API = 'https://script.google.com/macros/s/AKfycbw9xCpZ_gd3GxpwxXcFV1IqxAAMfJt416MMV94xFI90kNlglZ6JjRvCC_Q_QPqrNutp/exec?key=ixou2026portal';
 let buRows    = [];
 let buLoaded  = false;
 let buSortKey = 'proyecto';
@@ -3307,6 +3411,61 @@ window.nextPost = nextPost;
 <!-- POST DETAIL MODAL -->
 <div class="modal-bg" id="post-modal" onclick="if(event.target===this)closePostModal()">
   <div class="modal-box" id="post-modal-box" style="max-width:680px"></div>
+</div>
+
+
+<!-- PUBLISH MODAL -->
+<div class="modal-bg" id="publish-modal" onclick="if(event.target===this)closePublishModal()" style="display:none">
+  <div class="modal-box" style="max-width:560px;padding:28px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:.06em;color:var(--white)">Nueva Novedad</div>
+      <button onclick="closePublishModal()" style="background:none;border:none;color:var(--gray4);font-size:20px;cursor:pointer;padding:0 4px">✕</button>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div>
+        <label style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray4);display:block;margin-bottom:6px">Título *</label>
+        <input id="pub-title" class="ctrl-in" placeholder="Título de la novedad" style="width:100%;box-sizing:border-box">
+      </div>
+      <div>
+        <label style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray4);display:block;margin-bottom:6px">Categoría</label>
+        <select id="pub-cat" class="ctrl-sel" style="width:100%">
+          <option value="Proyectos">Proyectos</option>
+          <option value="Notarial">Notarial</option>
+          <option value="Mercado">Mercado</option>
+          <option value="Empresa">Empresa</option>
+          <option value="Normativa">Normativa</option>
+        </select>
+      </div>
+      <div>
+        <label style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray4);display:block;margin-bottom:6px">Resumen (para el email) *</label>
+        <textarea id="pub-resumen" placeholder="Breve descripción visible en el email de notificación…" style="width:100%;box-sizing:border-box;background:var(--black3);border:1px solid var(--gray2);color:var(--white);font-family:'DM Sans',sans-serif;font-size:13px;padding:8px 12px;resize:vertical;min-height:80px;border-radius:var(--r)"></textarea>
+      </div>
+      <div>
+        <label style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray4);display:block;margin-bottom:6px">Texto completo</label>
+        <textarea id="pub-body" placeholder="Contenido completo de la novedad (visible al abrir el post)…" style="width:100%;box-sizing:border-box;background:var(--black3);border:1px solid var(--gray2);color:var(--white);font-family:'DM Sans',sans-serif;font-size:13px;padding:8px 12px;resize:vertical;min-height:120px;border-radius:var(--r)"></textarea>
+      </div>
+      <div>
+        <label style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray4);display:block;margin-bottom:6px">URL de imagen (opcional)</label>
+        <input id="pub-img" class="ctrl-in" placeholder="https://ginoixou.github.io/imgs/..." style="width:100%;box-sizing:border-box">
+      </div>
+      <div>
+        <label style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray4);display:block;margin-bottom:6px">Proyecto relacionado (opcional)</label>
+        <select id="pub-proj" class="ctrl-sel" style="width:100%">
+          <option value="">— Ninguno —</option>
+        </select>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;padding:12px;background:var(--black3);border:1px solid var(--gray1);border-radius:2px">
+        <input type="checkbox" id="pub-notify" checked style="accent-color:var(--accent);width:14px;height:14px">
+        <label for="pub-notify" style="font-size:12px;color:var(--gray5);cursor:pointer">Enviar notificación por email al grupo piloto</label>
+      </div>
+      <div id="pub-status" style="font-size:12px;min-height:18px;text-align:center"></div>
+      <div style="display:flex;gap:10px;justify-content:flex-end">
+        <button onclick="closePublishModal()" style="padding:10px 20px;background:none;border:1px solid var(--gray2);color:var(--gray4);font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:1px;text-transform:uppercase;cursor:pointer">Cancelar</button>
+        <button onclick="submitPost()" id="pub-submit" style="padding:10px 24px;background:var(--accent);border:1px solid var(--accent);color:var(--black);font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;font-weight:600">Publicar</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- CALENDARIO FLOTANTE -->
