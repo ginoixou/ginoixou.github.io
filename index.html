@@ -363,6 +363,12 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
       <option value="">Todos</option>
       <option value="tax">Vivienda Promovida</option>
     </select>
+    <div style="display:flex;align-items:center;gap:6px">
+      <input class="ctrl-in" id="ctrl-pmin" type="number" placeholder="Precio mín USD" oninput="renderProj()" style="width:130px">
+      <span style="color:var(--gray3);font-size:11px">—</span>
+      <input class="ctrl-in" id="ctrl-pmax" type="number" placeholder="Precio máx USD" oninput="renderProj()" style="width:130px">
+    </div>
+    <button onclick="resetProjFilters()" style="padding:7px 14px;background:none;border:1px solid var(--gray2);color:var(--gray4);font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:all .2s" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--gray2)';this.style.color='var(--gray4)'">Limpiar</button>
   </div>
   <div class="proj-cards-wrap">
     <div class="proj-cards" id="proj-cards"></div>
@@ -1467,7 +1473,7 @@ function loadBuscador() {
     if (ts) ts.innerHTML = '<option value="">Todos los tipos</option>' + tipos.map(function(t){ return '<option value="' + t + '">' + t + '</option>'; }).join('');
     var dorms = Array.from(new Set(buRows.map(function(r){ return r.dorm; }).filter(function(d){ return d !== '' && d !== undefined; }))).sort(function(a,b){ return parseFloat(a)-parseFloat(b); });
     var ds = document.getElementById('bu-dorm');
-    if (ds) ds.innerHTML = '<option value="">Todos los dormitorios</option>' + dorms.map(function(d){ return '<option value="' + d + '">' + (d==='0'?'Monoambiente/Flex':d+' dorm.') + '</option>'; }).join('');
+    if (ds) ds.innerHTML = '<option value="">Todos los dormitorios</option>' + dorms.map(function(d){ return '<option value="' + d + '">' + (d==='0'?'Studio/Flex':d+' dorm.') + '</option>'; }).join('');
     if (loadEl) loadEl.style.display = 'none';
     if (resEl)  resEl.style.display  = 'block';
     renderBuscador();
@@ -2810,7 +2816,32 @@ function openModal(id){
   const rel=livePosts.filter(b=>b.proyecto===p.nombre).slice(0,3);
   const postsHtml=rel.length?rel.map(b=>`<div class="modal-row"><span class="modal-lbl ${CAT[b.cat].cls}">${CAT[b.cat].lbl}</span><span class="modal-val" style="font-size:11px;font-weight:400;color:var(--gray5)">${b.titulo.substring(0,55)}…</span></div>`).join(''):'<p style="font-size:11px;color:var(--gray3)">Sin novedades recientes.</p>';
   /* Build gallery: starts with facade, more can be added later */
-  document.getElementById('modal-box').innerHTML=`
+  /* Build gallery */
+  var _gal=(p.galeria&&p.galeria.length)?p.galeria:(p.imgUrl?[p.imgUrl]:[]);
+  window._buIdx=window._buIdx||{};window._buIdx[p.id]=0;
+  window._buGal=window._buGal||{};window._buGal[p.id]=_gal;
+  var _gh='';
+  if(_gal.length){
+    var _dots='',_thumbs='';
+    for(var _i=0;_i<_gal.length;_i++){
+      _dots+='<div id="mg-dot-'+p.id+'-'+_i+'" onclick="event.stopPropagation();mgGoto('+p.id+','+_i+')" style="width:6px;height:6px;border-radius:50%;background:'+(_i===0?'rgba(255,255,255,.9)':'rgba(255,255,255,.3)')+';cursor:pointer;transition:background .2s;flex-shrink:0"></div>';
+      _thumbs+='<img src="'+_gal[_i]+'" id="mg-th-'+p.id+'-'+_i+'" onclick="mgGoto('+p.id+','+_i+')" style="width:60px;height:44px;object-fit:cover;object-position:center 30%;border-radius:1px;cursor:pointer;opacity:'+(_i===0?1:.45)+';border:1px solid '+(_i===0?'var(--accent)':'transparent')+';transition:all .2s;flex-shrink:0">';
+    }
+    var _nav=_gal.length>1
+      ? '<div onclick="event.stopPropagation();mgPrev('+p.id+')" style="position:absolute;top:50%;left:10px;transform:translateY(-50%);background:rgba(0,0,0,.55);border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.85);width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;z-index:2">&#8249;</div>'
+      + '<div onclick="mgNext('+p.id+')" style="position:absolute;top:50%;right:10px;transform:translateY(-50%);background:rgba(0,0,0,.55);border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.85);width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;z-index:2">&#8250;</div>'
+      + '<div style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);display:flex;gap:5px;z-index:2">'+_dots+'</div>'
+      + '<div style="position:absolute;bottom:8px;right:10px;background:rgba(0,0,0,.5);color:rgba(255,255,255,.6);font-size:10px;padding:2px 7px;border-radius:10px;z-index:2"><span id="mg-n-'+p.id+'">1</span> / '+_gal.length+'</div>'
+      : '';
+    _gh='<div class="modal-gallery">'
+      +'<div style="position:relative;height:260px;overflow:hidden;cursor:'+(_gal.length>1?'pointer':'default')+'" '+(_gal.length>1?'onclick="mgNext('+p.id+')"':'')+' >'
+      +'<img id="mg-img-'+p.id+'" src="'+_gal[0]+'" style="width:100%;height:100%;object-fit:cover;object-position:center 30%;transition:opacity .2s">'
+      +_nav
+      +'</div>'
+      +(_gal.length>1?'<div style="display:flex;gap:6px;padding:8px 0 2px;overflow-x:auto">'+_thumbs+'</div>':'')
+      +'</div>';
+  }
+  document.getElementById('modal-box').innerHTML=_gh+`
     <div class="modal-hd">
       <div>
         <div class="modal-hd-name">${p.nombre}${p.destacado?'&nbsp;<span style="display:inline-block;vertical-align:middle"><svg viewBox="0 0 24 24" width="14" height="14" fill="#C8D5B0" style="filter:drop-shadow(0 0 3px rgba(200,213,176,.5))"><polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9"/></svg></span>':''}</div>
