@@ -660,7 +660,7 @@ function showSec(n,btn){
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
   if(btn)btn.classList.add('active');
   window.scrollTo(0,0);
-  if(n==='proyectos') renderProj();
+  if(n==='proyectos') { renderProj(); if(buLoaded) updateProjAvailability(); }
   if(n==='blog') renderBlog();
   if(n==='buscador') loadBuscador();
   if(n==='buscador') loadBuscador();
@@ -817,9 +817,10 @@ function renderProj(){
           </div>
           <div class="card-units-grid">${unitChips||'<span style="font-size:11px;color:var(--gray3)">Consultar</span>'}</div>
         </div>
-        <div style="display:flex;gap:12px;font-size:12px;color:var(--gray5);padding-top:6px;border-top:1px solid var(--gray1);flex-wrap:wrap;font-weight:500">
+        <div style="display:flex;gap:12px;font-size:12px;color:var(--gray5);padding-top:6px;border-top:1px solid var(--gray1);flex-wrap:wrap;font-weight:500;align-items:center">
           <span>${p.unidades} unidades</span>
           <span>Ocupación: ${p.ocupacion}</span>
+          <span id="avail-${p.id}" style="margin-left:auto;font-size:10px;padding:2px 8px;border-radius:1px;background:rgba(120,180,100,.1);border:1px solid rgba(120,180,100,.2);color:var(--gray3);letter-spacing:.5px" title="Unidades disponibles según lista de precios">—</span>
         </div>
         ${p.pago?`<div style="font-size:10px;color:var(--gray3);padding-top:4px;letter-spacing:.3px"><span style="color:var(--gray4)">Forma de pago:</span> ${p.pago}</div>`:''}
         ${p.amenities&&p.amenities!=='—'?`<div style="font-size:10px;color:var(--gray3);line-height:1.5">◇ ${p.amenities}</div>`:''}
@@ -1203,6 +1204,28 @@ function estadoBadge(e) {
   return '<span style="font-size:9px;padding:2px 8px;border-radius:1px;white-space:nowrap;' + style + '">' + e + '</span>';
 }
 
+function updateProjAvailability() {
+  /* Count DISPONIBLE units per project name from buscador data */
+  var counts = {};
+  buRows.forEach(function(r) {
+    if (r.estadoVenta.toUpperCase() === 'DISPONIBLE') {
+      var key = r.proyecto.toUpperCase().replace(/_/g,' ');
+      counts[key] = (counts[key] || 0) + 1;
+    }
+  });
+  /* Match to project cards by name */
+  PROYECTOS.forEach(function(p) {
+    var key = p.nombre.toUpperCase().replace(/_/g,' ');
+    /* Try exact match and underscore variant */
+    var n = counts[key] || counts[p.nombre.toUpperCase()] || 0;
+    var el = document.getElementById('avail-' + p.id);
+    if (el) {
+      el.textContent = n > 0 ? n + ' disponible' + (n !== 1 ? 's' : '') : 'Sin stock';
+      el.style.color = n > 0 ? '#8FA870' : 'var(--gray3)';
+    }
+  });
+}
+
 function loadBuscador() {
   if (buLoaded) { renderBuscador(); return; }
   const loadEl = document.getElementById('bu-loading');
@@ -1227,6 +1250,8 @@ function loadBuscador() {
     }
     buRows = data.map(mapRow).filter(function(r){ return r.proyecto; });
     buLoaded = true;
+    /* Update available unit counts on project cards */
+    updateProjAvailability();
     var projs = Array.from(new Set(buRows.map(function(r){ return r.proyecto; }))).sort();
     var ps = document.getElementById('bu-proj');
     if (ps) ps.innerHTML = '<option value="">Todos los proyectos</option>' + projs.map(function(p){ return '<option value="' + p + '">' + p + '</option>'; }).join('');
@@ -1466,9 +1491,10 @@ function renderProj(){
           </div>
           <div class="card-units-grid">${unitChips||'<span style="font-size:11px;color:var(--gray3)">Consultar</span>'}</div>
         </div>
-        <div style="display:flex;gap:12px;font-size:12px;color:var(--gray5);padding-top:6px;border-top:1px solid var(--gray1);flex-wrap:wrap;font-weight:500">
+        <div style="display:flex;gap:12px;font-size:12px;color:var(--gray5);padding-top:6px;border-top:1px solid var(--gray1);flex-wrap:wrap;font-weight:500;align-items:center">
           <span>${p.unidades} unidades</span>
           <span>Ocupación: ${p.ocupacion}</span>
+          <span id="avail-${p.id}" style="margin-left:auto;font-size:10px;padding:2px 8px;border-radius:1px;background:rgba(120,180,100,.1);border:1px solid rgba(120,180,100,.2);color:var(--gray3);letter-spacing:.5px" title="Unidades disponibles según lista de precios">—</span>
         </div>
         ${p.pago?`<div style="font-size:10px;color:var(--gray3);padding-top:4px;letter-spacing:.3px"><span style="color:var(--gray4)">Forma de pago:</span> ${p.pago}</div>`:''}
         ${p.amenities&&p.amenities!=='—'?`<div style="font-size:10px;color:var(--gray3);line-height:1.5">◇ ${p.amenities}</div>`:''}
@@ -1926,9 +1952,10 @@ function renderProj(){
           </div>
           <div class="card-units-grid">${unitChips||'<span style="font-size:11px;color:var(--gray3)">Consultar</span>'}</div>
         </div>
-        <div style="display:flex;gap:12px;font-size:12px;color:var(--gray5);padding-top:6px;border-top:1px solid var(--gray1);flex-wrap:wrap;font-weight:500">
+        <div style="display:flex;gap:12px;font-size:12px;color:var(--gray5);padding-top:6px;border-top:1px solid var(--gray1);flex-wrap:wrap;font-weight:500;align-items:center">
           <span>${p.unidades} unidades</span>
           <span>Ocupación: ${p.ocupacion}</span>
+          <span id="avail-${p.id}" style="margin-left:auto;font-size:10px;padding:2px 8px;border-radius:1px;background:rgba(120,180,100,.1);border:1px solid rgba(120,180,100,.2);color:var(--gray3);letter-spacing:.5px" title="Unidades disponibles según lista de precios">—</span>
         </div>
         ${p.pago?`<div style="font-size:10px;color:var(--gray3);padding-top:4px;letter-spacing:.3px"><span style="color:var(--gray4)">Forma de pago:</span> ${p.pago}</div>`:''}
         ${p.amenities&&p.amenities!=='—'?`<div style="font-size:10px;color:var(--gray3);line-height:1.5">◇ ${p.amenities}</div>`:''}
@@ -2389,9 +2416,10 @@ function renderProj(){
           </div>
           <div class="card-units-grid">${unitChips||'<span style="font-size:11px;color:var(--gray3)">Consultar</span>'}</div>
         </div>
-        <div style="display:flex;gap:12px;font-size:12px;color:var(--gray5);padding-top:6px;border-top:1px solid var(--gray1);flex-wrap:wrap;font-weight:500">
+        <div style="display:flex;gap:12px;font-size:12px;color:var(--gray5);padding-top:6px;border-top:1px solid var(--gray1);flex-wrap:wrap;font-weight:500;align-items:center">
           <span>${p.unidades} unidades</span>
           <span>Ocupación: ${p.ocupacion}</span>
+          <span id="avail-${p.id}" style="margin-left:auto;font-size:10px;padding:2px 8px;border-radius:1px;background:rgba(120,180,100,.1);border:1px solid rgba(120,180,100,.2);color:var(--gray3);letter-spacing:.5px" title="Unidades disponibles según lista de precios">—</span>
         </div>
         ${p.pago?`<div style="font-size:10px;color:var(--gray3);padding-top:4px;letter-spacing:.3px"><span style="color:var(--gray4)">Forma de pago:</span> ${p.pago}</div>`:''}
         ${p.amenities&&p.amenities!=='—'?`<div style="font-size:10px;color:var(--gray3);line-height:1.5">◇ ${p.amenities}</div>`:''}
