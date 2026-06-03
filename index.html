@@ -431,6 +431,7 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
       <input class="ctrl-in" id="bu-q" placeholder="Buscar…" oninput="renderBuscador()" style="flex:2;min-width:180px">
       <select class="ctrl-sel" id="bu-proj"    onchange="renderBuscador()"><option value="">Todos los proyectos</option></select>
       <select class="ctrl-sel" id="bu-tipo"    onchange="renderBuscador()"><option value="">Todos los tipos</option></select>
+      <select class="ctrl-sel" id="bu-dorm"    onchange="renderBuscador()"><option value="">Todos los dormitorios</option></select>
 
       <input class="ctrl-in" id="bu-min" placeholder="Precio mín" type="number" oninput="renderBuscador()" style="width:120px;flex:none">
       <input class="ctrl-in" id="bu-max" placeholder="Precio máx" type="number" oninput="renderBuscador()" style="width:120px;flex:none">
@@ -1464,6 +1465,9 @@ function loadBuscador() {
     var tipos = Array.from(new Set(buRows.map(function(r){ return r.tipo; }).filter(Boolean))).sort();
     var ts = document.getElementById('bu-tipo');
     if (ts) ts.innerHTML = '<option value="">Todos los tipos</option>' + tipos.map(function(t){ return '<option value="' + t + '">' + t + '</option>'; }).join('');
+    var dorms = Array.from(new Set(buRows.map(function(r){ return r.dorm; }).filter(function(d){ return d !== '' && d !== undefined; }))).sort(function(a,b){ return parseFloat(a)-parseFloat(b); });
+    var ds = document.getElementById('bu-dorm');
+    if (ds) ds.innerHTML = '<option value="">Todos los dormitorios</option>' + dorms.map(function(d){ return '<option value="' + d + '">' + (d==='0'?'Monoambiente/Flex':d+' dorm.') + '</option>'; }).join('');
     if (loadEl) loadEl.style.display = 'none';
     if (resEl)  resEl.style.display  = 'block';
     renderBuscador();
@@ -1485,6 +1489,7 @@ function renderBuscador() {
   var q       = (document.getElementById('bu-q') ? document.getElementById('bu-q').value : '').toLowerCase();
   var proj    = document.getElementById('bu-proj')   ? document.getElementById('bu-proj').value   : '';
   var tipo    = document.getElementById('bu-tipo')   ? document.getElementById('bu-tipo').value   : '';
+  var dorm    = document.getElementById('bu-dorm')   ? document.getElementById('bu-dorm').value   : '';
   var minP    = numVal(document.getElementById('bu-min') ? document.getElementById('bu-min').value : '');
   var maxP    = numVal(document.getElementById('bu-max') ? document.getElementById('bu-max').value : '') || Infinity;
 
@@ -1496,6 +1501,7 @@ function renderBuscador() {
         && (!q      || Object.values(r).join(' ').toLowerCase().indexOf(q) >= 0)
         && (!proj   || r.proyecto === proj)
         && (!tipo   || r.tipo === tipo)
+        && (!dorm   || r.dorm === dorm)
         && (!minP   || p >= minP)
         && (maxP === Infinity || !maxP || p <= maxP);
   });
@@ -1698,7 +1704,7 @@ window.renderBuscador = renderBuscador;
 window.sortBuscador   = sortBuscador;
 window.resetBuscador  = resetBuscador;
 window.renderBuscador = renderBuscador;
-window.sortBu         = sortBu;
+window.sortBu         = sortBuscador;
 window.resetBuscador  = resetBuscador;
 window.logoutUser     = logoutUser;
 
@@ -2633,7 +2639,7 @@ window.nextPost = nextPost;
 
 
 window.renderBuscador = renderBuscador;
-window.sortBu         = sortBu;
+window.sortBu         = sortBuscador;
 window.resetBuscador  = resetBuscador;
 window.logoutUser     = logoutUser;
 
