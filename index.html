@@ -144,17 +144,17 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
 .cat-stat-row:last-child{border-bottom:none}
 .cat-stat-lbl{color:var(--gray5)}.cat-stat-n{font-family:'Bebas Neue',sans-serif;font-size:1rem;color:var(--gray4)}
 /* ── NEW POST FORM ── */
-.new-post-btn{width:100%;padding:10px;background:none;border:1px solid var(--gray2);font-family:'DM Sans',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);cursor:pointer;margin-bottom:1px;transition:all .2s}
-.new-post-btn:hover{border-color:var(--accent);color:var(--accent)}
-.new-post-form{border:1px solid var(--gray1);padding:1.25rem;margin-bottom:1px;display:none}
-.new-post-form.open{display:block}
-.nf-lbl{display:block;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4);margin-bottom:4px;margin-top:12px;font-weight:500}
-.nf-lbl:first-child{margin-top:0}
-.nf-in,.nf-sel,.nf-ta{width:100%;padding:7px 10px;background:var(--black);border:1px solid var(--gray2);border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:12px;color:var(--white);outline:none;transition:border-color .2s}
-.nf-in::placeholder,.nf-ta::placeholder{color:var(--gray3)}.nf-in:focus,.nf-ta:focus{border-color:var(--accent)}
-.nf-ta{resize:vertical;min-height:70px}.nf-sel option{background:var(--black2)}
-.nf-submit{width:100%;margin-top:12px;padding:9px;background:var(--white);color:var(--black);border:none;font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;font-weight:500;cursor:pointer;transition:background .2s}
-.nf-submit:hover{background:var(--accent)}
+
+
+
+
+
+
+
+
+
+
+
 /* ── MODAL ── */
 .modal-gallery{background:var(--black3);margin:-20px -24px 16px;border-bottom:1px solid var(--gray1)}
 .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:200;display:none;align-items:center;justify-content:center;padding:2rem}
@@ -411,27 +411,7 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
       <div id="blog-main"></div>
     </div>
     <div>
-      <button class="new-post-btn" id="toggle-form-btn" onclick="toggleForm()">+ Publicar novedad</button>
-      <div class="new-post-form" id="nf">
-        <label class="nf-lbl">Título</label>
-        <input class="nf-in" id="nf-t" placeholder="Título de la novedad…">
-        <label class="nf-lbl">Categoría</label>
-        <select class="nf-sel" id="nf-c">
-          <option value="lanzamiento">Lanzamiento</option>
-          <option value="avance">Avance de obra</option>
-          <option value="comercial">Comercial</option>
-          <option value="legal">Notarial</option>
-          <option value="general">General</option>
-        </select>
-        <label class="nf-lbl">Proyecto</label>
-        <select class="nf-sel" id="nf-p"><option value="">— General —</option></select>
-        <label class="nf-lbl">Resumen</label>
-        <textarea class="nf-ta" id="nf-r" placeholder="Texto de la novedad…"></textarea>
-        <label class="nf-lbl">Imagen (URL de Google Drive o web)</label>
-        <input class="nf-in" id="nf-img" placeholder="https://lh3.googleusercontent.com/d/...">
-        <div style="font-size:10px;color:var(--gray3);margin-top:3px;letter-spacing:.3px">Opcional — pegá el link directo de la imagen</div>
-        <button class="nf-submit" onclick="publishPost()">Publicar</button>
-      </div>
+      
       <div class="blog-side-block" style="margin-top:1px">
         <div class="blog-side-title">Por categoría</div>
         <div id="blog-cats"></div>
@@ -637,8 +617,7 @@ function showPortal(u){
   const n=document.getElementById('user-display-name');if(n)n.textContent=u.name||u.email;
   const a=document.getElementById('user-avatar');if(a&&u.pic){a.src=u.pic;a.style.display='block';a.onerror=()=>a.style.display='none'}
   /* Show publish button only for admins */
-  const publishBtn=document.getElementById('toggle-form-btn');
-  if(publishBtn) publishBtn.style.display=isAdmin(u.email)?'block':'none';
+  /* admin button handled in showPortal */
   if(!window._pi){window._pi=true;
     document.getElementById('hdr-right').textContent=PROYECTOS.length+' PROYECTOS · '+livePosts.length+' NOVEDADES';
     renderDash();
@@ -994,8 +973,6 @@ window.closePostModal = closePostModal;
 window.prevPost       = prevPost;
 window.nextPost       = nextPost;
 window.filterBlog     = filterBlog;
-window.toggleForm     = toggleForm;
-window.publishPost    = publishPost;
 window.toggleNotif    = toggleNotif;
 window.markAllRead    = markAllRead;
 window.clickNotif     = clickNotif;
@@ -1464,37 +1441,6 @@ function renderBlog(){
 }
 function filterBlog(cat,btn){bFilter=cat;document.querySelectorAll('.cat-btn2').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderBlog()}
 
-function toggleForm(){
-  const f=document.getElementById('nf');
-  f.classList.toggle('open');
-}
-
-function publishPost(){
-  const t=document.getElementById('nf-t').value.trim();
-  const r=document.getElementById('nf-r').value.trim();
-  const c=document.getElementById('nf-c').value;
-  const p=document.getElementById('nf-p').value;
-  const img=document.getElementById('nf-img')?document.getElementById('nf-img').value.trim():'';
-  if(!t||!r){alert('Completá el título y el resumen.');return}
-  const m=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
-  const d=new Date();
-  livePosts.unshift({id:Date.now(),titulo:t,resumen:r,imgUrl:img||null,fecha:`${d.getDate()} ${m[d.getMonth()]} ${d.getFullYear()}`,cat:c,proyecto:p||null,destacado:false});
-  document.getElementById('nf-t').value='';
-  document.getElementById('nf-r').value='';
-  if(document.getElementById('nf-img'))document.getElementById('nf-img').value='';
-  document.getElementById('nf').classList.remove('open');
-  bFilter='all';
-  document.querySelectorAll('.cat-btn2').forEach((b,i)=>b.classList.toggle('active',i===0));
-  renderBlog();
-  renderDash();
-  document.getElementById('hdr-right').textContent=PROYECTOS.length+' PROYECTOS · '+livePosts.length+' NOVEDADES';
-  updateNotifBadge&&updateNotifBadge();
-}
-
-/* ══ SLIDER ══ */
-let slideIdx = 0;
-let slideTimer = null;
-const FEATURED = () => PROYECTOS.filter(p => p.destacado);
 
 function renderSlider() {
   const proj = FEATURED();
@@ -2291,34 +2237,6 @@ function renderBlog(){
 }
 function filterBlog(cat,btn){bFilter=cat;document.querySelectorAll('.cat-btn2').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderBlog()}
 
-function toggleForm(){
-  const f=document.getElementById('nf');
-  f.classList.toggle('open');
-}
-
-function publishPost(){
-  const t=document.getElementById('nf-t').value.trim();
-  const r=document.getElementById('nf-r').value.trim();
-  const c=document.getElementById('nf-c').value;
-  const p=document.getElementById('nf-p').value;
-  const img=document.getElementById('nf-img')?document.getElementById('nf-img').value.trim():'';
-  if(!t||!r){alert('Completá el título y el resumen.');return}
-  const m=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
-  const d=new Date();
-  livePosts.unshift({id:Date.now(),titulo:t,resumen:r,imgUrl:img||null,fecha:`${d.getDate()} ${m[d.getMonth()]} ${d.getFullYear()}`,cat:c,proyecto:p||null,destacado:false});
-  document.getElementById('nf-t').value='';
-  document.getElementById('nf-r').value='';
-  if(document.getElementById('nf-img'))document.getElementById('nf-img').value='';
-  document.getElementById('nf').classList.remove('open');
-  bFilter='all';
-  document.querySelectorAll('.cat-btn2').forEach((b,i)=>b.classList.toggle('active',i===0));
-  renderBlog();
-  renderDash();
-  document.getElementById('hdr-right').textContent=PROYECTOS.length+' PROYECTOS · '+livePosts.length+' NOVEDADES';
-  updateNotifBadge&&updateNotifBadge();
-}
-
-/* ══ SLIDER ══ */
 
 function renderSlider() {
   const proj = FEATURED();
@@ -2757,34 +2675,6 @@ function renderBlog(){
 }
 function filterBlog(cat,btn){bFilter=cat;document.querySelectorAll('.cat-btn2').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderBlog()}
 
-function toggleForm(){
-  const f=document.getElementById('nf');
-  f.classList.toggle('open');
-}
-
-function publishPost(){
-  const t=document.getElementById('nf-t').value.trim();
-  const r=document.getElementById('nf-r').value.trim();
-  const c=document.getElementById('nf-c').value;
-  const p=document.getElementById('nf-p').value;
-  const img=document.getElementById('nf-img')?document.getElementById('nf-img').value.trim():'';
-  if(!t||!r){alert('Completá el título y el resumen.');return}
-  const m=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
-  const d=new Date();
-  livePosts.unshift({id:Date.now(),titulo:t,resumen:r,imgUrl:img||null,fecha:`${d.getDate()} ${m[d.getMonth()]} ${d.getFullYear()}`,cat:c,proyecto:p||null,destacado:false});
-  document.getElementById('nf-t').value='';
-  document.getElementById('nf-r').value='';
-  if(document.getElementById('nf-img'))document.getElementById('nf-img').value='';
-  document.getElementById('nf').classList.remove('open');
-  bFilter='all';
-  document.querySelectorAll('.cat-btn2').forEach((b,i)=>b.classList.toggle('active',i===0));
-  renderBlog();
-  renderDash();
-  document.getElementById('hdr-right').textContent=PROYECTOS.length+' PROYECTOS · '+livePosts.length+' NOVEDADES';
-  updateNotifBadge&&updateNotifBadge();
-}
-
-/* ══ SLIDER ══ */
 
 function renderSlider() {
   const proj = FEATURED();
@@ -3255,34 +3145,6 @@ function renderBlog(){
 }
 function filterBlog(cat,btn){bFilter=cat;document.querySelectorAll('.cat-btn2').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderBlog()}
 
-function toggleForm(){
-  const f=document.getElementById('nf');
-  f.classList.toggle('open');
-}
-
-function publishPost(){
-  const t=document.getElementById('nf-t').value.trim();
-  const r=document.getElementById('nf-r').value.trim();
-  const c=document.getElementById('nf-c').value;
-  const p=document.getElementById('nf-p').value;
-  const img=document.getElementById('nf-img')?document.getElementById('nf-img').value.trim():'';
-  if(!t||!r){alert('Completá el título y el resumen.');return}
-  const m=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
-  const d=new Date();
-  livePosts.unshift({id:Date.now(),titulo:t,resumen:r,imgUrl:img||null,fecha:`${d.getDate()} ${m[d.getMonth()]} ${d.getFullYear()}`,cat:c,proyecto:p||null,destacado:false});
-  document.getElementById('nf-t').value='';
-  document.getElementById('nf-r').value='';
-  if(document.getElementById('nf-img'))document.getElementById('nf-img').value='';
-  document.getElementById('nf').classList.remove('open');
-  bFilter='all';
-  document.querySelectorAll('.cat-btn2').forEach((b,i)=>b.classList.toggle('active',i===0));
-  renderBlog();
-  renderDash();
-  document.getElementById('hdr-right').textContent=PROYECTOS.length+' PROYECTOS · '+livePosts.length+' NOVEDADES';
-  updateNotifBadge&&updateNotifBadge();
-}
-
-/* ══ SLIDER ══ */
 
 function renderSlider() {
   const proj = FEATURED();
