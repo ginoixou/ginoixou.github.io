@@ -622,7 +622,8 @@ function showPortal(u){
   if(publishBtn) publishBtn.style.display=isAdmin(u.email)?'block':'none';
   if(!window._pi){window._pi=true;
     document.getElementById('hdr-right').textContent=PROYECTOS.length+' PROYECTOS · '+livePosts.length+' NOVEDADES';
-    renderDash();renderProj();renderBlog();renderSlider&&renderSlider();
+    renderDash();
+  loadAvailability();renderProj();renderBlog();renderSlider&&renderSlider();
     setTimeout(()=>{updateNotifBadge&&updateNotifBadge();},300);
   }
 }
@@ -1367,7 +1368,7 @@ window.prevPost = prevPost;
 window.nextPost = nextPost;
 
 /* ══ BUSCADOR DE UNIDADES ══ */
-const SHEET_API = 'https://script.google.com/macros/s/AKfycbwYJJaT3PvYgsopku3CiGp-D8mLbXV51JoNa8lSexTcwc7IKYogJAKP0ALsszbyB2zm/exec?key=ixou2026portal';
+const SHEET_API = 'https://script.google.com/macros/s/AKfycbw_eGqr_4l4BS5h3Mmk6HWkev0z4BkedNzAkDOu4vBNQBy1wgDRy2STiHX4aZ7-OFLX/exec?key=ixou2026portal';
 let buRows    = [];
 let buLoaded  = false;
 let buSortKey = 'proyecto';
@@ -1471,8 +1472,6 @@ function loadBuscador() {
     }
     buRows = data.map(mapRow).filter(function(r){ return r.proyecto; });
     buLoaded = true;
-    /* Update available unit counts on project cards */
-    updateProjAvailability();
     var projs = Array.from(new Set(buRows.map(function(r){ return r.proyecto; }))).sort();
     var ps = document.getElementById('bu-proj');
     if (ps) ps.innerHTML = '<option value="">Todos los proyectos</option>' + projs.map(function(p){ return '<option value="' + p + '">' + p + '</option>'; }).join('');
