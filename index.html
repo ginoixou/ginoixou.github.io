@@ -843,14 +843,14 @@ function editPost(id) {
   if (titleEl) titleEl.textContent = 'Editar Novedad';
   var submitEl = document.getElementById('pub-submit');
   if (submitEl) submitEl.textContent = 'Guardar cambios';
-  document.getElementById('pub-title').value   = p.title   || p.titulo || '';
-  document.getElementById('pub-resumen').value = p.resumen || p.body   || '';
-  document.getElementById('pub-body').value    = p.body    || '';
+  document.getElementById('pub-title').value   = p.titulo  || '';
+  document.getElementById('pub-resumen').value = p.resumen || '';
+  document.getElementById('pub-body').value    = p.body    || p.resumen || '';
   document.getElementById('pub-img').value     = p.imgUrl  || '';
   /* Set category */
   var catEl = document.getElementById('pub-cat');
-  if (catEl && p.categoria) {
-    Array.from(catEl.options).forEach(function(o){ o.selected = o.value === p.categoria; });
+  if (catEl && p.cat) {
+    Array.from(catEl.options).forEach(function(o){ o.selected = o.value === p.cat; });
   }
   /* Set project */
   var projEl = document.getElementById('pub-proj');
@@ -879,12 +879,12 @@ function submitPost() {
     /* Update existing post */
     var p = livePosts.find(function(x){ return x.id === window._editingPostId; });
     if (p) {
-      p.title    = p.titulo = (document.getElementById('pub-title').value || '').trim();
+      p.titulo   = (document.getElementById('pub-title').value   || '').trim();
       p.resumen  = (document.getElementById('pub-resumen').value || '').trim();
       p.body     = (document.getElementById('pub-body').value    || '').trim() || p.resumen;
       p.imgUrl   = (document.getElementById('pub-img').value     || '').trim();
-      p.categoria= document.getElementById('pub-cat').value;
-      p.proyecto = document.getElementById('pub-proj').value;
+      p.cat      = document.getElementById('pub-cat').value;
+      p.proyecto = document.getElementById('pub-proj').value || null;
     }
     window._editingPostId = null;
     /* Reset modal title */
@@ -918,12 +918,13 @@ function submitPost() {
   var fecha = today.toLocaleDateString('es-UY',{day:'2-digit',month:'long',year:'numeric'});
   var newPost = {
     id: newId,
-    title: title,
-    categoria: cat,
+    titulo: title,
+    cat: cat,
     fecha: fecha,
+    resumen: resumen,
     body: body || resumen,
     imgUrl: img || '',
-    proyecto: proj || '',
+    proyecto: proj || null,
     destacado: false
   };
   livePosts.unshift(newPost);
