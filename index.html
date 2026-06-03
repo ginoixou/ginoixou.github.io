@@ -1013,7 +1013,11 @@ window.renderSlider = renderSlider;
 
 
 /* ══ NOTIFICATIONS ══ */
-let readIds = JSON.parse(sessionStorage.getItem('ixou_read')||'[]');
+/* Persistent read history — keyed by user email so each agent has their own */
+function getReadKey() {
+  try { var u = JSON.parse(sessionStorage.getItem('ixou_user')); return 'ixou_read_' + (u && u.email ? u.email : 'guest'); } catch(e) { return 'ixou_read_guest'; }
+}
+let readIds = JSON.parse(localStorage.getItem(getReadKey()) || '[]');
 
 function getUnread(){return livePosts.filter(p=>!readIds.includes(p.id))}
 
@@ -1051,7 +1055,7 @@ function renderNotifPanel(){
 }
 
 function clickNotif(id){
-  if(!readIds.includes(id)){readIds.push(id);sessionStorage.setItem('ixou_read',JSON.stringify(readIds));}
+  if(!readIds.includes(id)){readIds.push(id);localStorage.setItem(getReadKey(),JSON.stringify(readIds));}
   updateNotifBadge();
   document.getElementById('notif-panel').style.display='none';
   showSec('blog',document.querySelectorAll('.nav-btn')[2]);
@@ -1059,7 +1063,7 @@ function clickNotif(id){
 
 function markAllRead(){
   readIds=livePosts.map(p=>p.id);
-  sessionStorage.setItem('ixou_read',JSON.stringify(readIds));
+  localStorage.setItem(getReadKey(),JSON.stringify(readIds));
   updateNotifBadge();
   renderNotifPanel();
 }
@@ -1126,7 +1130,7 @@ function openPost(id) {
   /* mark as read */
   if (!readIds.includes(p.id)) {
     readIds.push(p.id);
-    sessionStorage.setItem('ixou_read', JSON.stringify(readIds));
+    localStorage.setItem(getReadKey(), JSON.stringify(readIds));
     updateNotifBadge && updateNotifBadge();
   }
 }
@@ -1692,7 +1696,7 @@ function renderNotifPanel(){
 }
 
 function clickNotif(id){
-  if(!readIds.includes(id)){readIds.push(id);sessionStorage.setItem('ixou_read',JSON.stringify(readIds));}
+  if(!readIds.includes(id)){readIds.push(id);localStorage.setItem(getReadKey(),JSON.stringify(readIds));}
   updateNotifBadge();
   document.getElementById('notif-panel').style.display='none';
   showSec('blog',document.querySelectorAll('.nav-btn')[2]);
@@ -1700,7 +1704,7 @@ function clickNotif(id){
 
 function markAllRead(){
   readIds=livePosts.map(p=>p.id);
-  sessionStorage.setItem('ixou_read',JSON.stringify(readIds));
+  localStorage.setItem(getReadKey(),JSON.stringify(readIds));
   updateNotifBadge();
   renderNotifPanel();
 }
@@ -1766,7 +1770,7 @@ function openPost(id) {
   /* mark as read */
   if (!readIds.includes(p.id)) {
     readIds.push(p.id);
-    sessionStorage.setItem('ixou_read', JSON.stringify(readIds));
+    localStorage.setItem(getReadKey(), JSON.stringify(readIds));
     updateNotifBadge && updateNotifBadge();
   }
 }
@@ -2152,7 +2156,7 @@ function renderNotifPanel(){
 }
 
 function clickNotif(id){
-  if(!readIds.includes(id)){readIds.push(id);sessionStorage.setItem('ixou_read',JSON.stringify(readIds));}
+  if(!readIds.includes(id)){readIds.push(id);localStorage.setItem(getReadKey(),JSON.stringify(readIds));}
   updateNotifBadge();
   document.getElementById('notif-panel').style.display='none';
   showSec('blog',document.querySelectorAll('.nav-btn')[2]);
@@ -2160,7 +2164,7 @@ function clickNotif(id){
 
 function markAllRead(){
   readIds=livePosts.map(p=>p.id);
-  sessionStorage.setItem('ixou_read',JSON.stringify(readIds));
+  localStorage.setItem(getReadKey(),JSON.stringify(readIds));
   updateNotifBadge();
   renderNotifPanel();
 }
@@ -2226,7 +2230,7 @@ function openPost(id) {
   /* mark as read */
   if (!readIds.includes(p.id)) {
     readIds.push(p.id);
-    sessionStorage.setItem('ixou_read', JSON.stringify(readIds));
+    localStorage.setItem(getReadKey(), JSON.stringify(readIds));
     updateNotifBadge && updateNotifBadge();
   }
 }
@@ -2615,7 +2619,7 @@ function renderNotifPanel(){
 }
 
 function clickNotif(id){
-  if(!readIds.includes(id)){readIds.push(id);sessionStorage.setItem('ixou_read',JSON.stringify(readIds));}
+  if(!readIds.includes(id)){readIds.push(id);localStorage.setItem(getReadKey(),JSON.stringify(readIds));}
   updateNotifBadge();
   document.getElementById('notif-panel').style.display='none';
   showSec('blog',document.querySelectorAll('.nav-btn')[2]);
@@ -2623,7 +2627,7 @@ function clickNotif(id){
 
 function markAllRead(){
   readIds=livePosts.map(p=>p.id);
-  sessionStorage.setItem('ixou_read',JSON.stringify(readIds));
+  localStorage.setItem(getReadKey(),JSON.stringify(readIds));
   updateNotifBadge();
   renderNotifPanel();
 }
@@ -2689,7 +2693,7 @@ function openPost(id) {
   /* mark as read */
   if (!readIds.includes(p.id)) {
     readIds.push(p.id);
-    sessionStorage.setItem('ixou_read', JSON.stringify(readIds));
+    localStorage.setItem(getReadKey(), JSON.stringify(readIds));
     updateNotifBadge && updateNotifBadge();
   }
 }
