@@ -623,7 +623,7 @@ function showPortal(u){
   if(!window._pi){window._pi=true;
     document.getElementById('hdr-right').textContent=PROYECTOS.length+' PROYECTOS · '+livePosts.length+' NOVEDADES';
     renderDash();
-  loadAvailability();renderProj();renderBlog();renderSlider&&renderSlider();
+  loadAvailability(); /* pre-fetch counts */renderProj();renderBlog();renderSlider&&renderSlider();
     setTimeout(()=>{updateNotifBadge&&updateNotifBadge();},300);
   }
 }
@@ -2805,6 +2805,9 @@ function renderProj(){
       </div>`;
     grid.appendChild(card);
   });
+  /* Update availability badges now that cards exist */
+  if (window._availData) applyAvailability(window._availData);
+  else if (!window._availLoading) loadAvailability();
   } catch(err) {
     console.error('renderProj error:', err);
     document.getElementById('proj-cards').innerHTML =
