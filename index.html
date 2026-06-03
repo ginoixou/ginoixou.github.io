@@ -1418,19 +1418,27 @@ function estadoBadge(e) {
 }
 
 function updateProjAvailability() {
-  /* Count DISPONIBLE units per project name from buscador data */
+  /* Normalize: remove accents/cedilla, underscores → spaces, uppercase */
+  function norm(s) {
+    return s.toUpperCase()
+      .replace(/_/g,' ')
+      .replace(/Ç/g,'C').replace(/Ñ/g,'N')
+      .replace(/[ÁÀÄÂ]/g,'A').replace(/[ÉÈËÊ]/g,'E')
+      .replace(/[ÍÌÏÎ]/g,'I').replace(/[ÓÒÖÔ]/g,'O')
+      .replace(/[ÚÙÜÛ]/g,'U');
+  }
+  /* Count DISPONIBLE units per project */
   var counts = {};
   buRows.forEach(function(r) {
     if (r.estadoVenta.toUpperCase() === 'DISPONIBLE') {
-      var key = r.proyecto.toUpperCase().replace(/_/g,' ');
+      var key = norm(r.proyecto);
       counts[key] = (counts[key] || 0) + 1;
     }
   });
-  /* Match to project cards by name */
+  /* Match to project cards */
   PROYECTOS.forEach(function(p) {
-    var key = p.nombre.toUpperCase().replace(/_/g,' ');
-    /* Try exact match and underscore variant */
-    var n = counts[key] || counts[p.nombre.toUpperCase()] || 0;
+    var key = norm(p.nombre);
+    var n = counts[key] || 0;
     var el = document.getElementById('avail-' + p.id);
     if (el) {
       el.innerHTML = n > 0 ? n + ' disponible' + (n !== 1 ? 's' : '') : '<a href="https://wa.me/59894647581" target="_blank" style="color:var(--gray4);text-decoration:none" onmouseover="this.style.color=\'var(--accent)\'" onmouseout="this.style.color=\'var(--gray4)\'">Consulta stock</a>';
