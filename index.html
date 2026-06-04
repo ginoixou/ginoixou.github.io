@@ -634,7 +634,7 @@ function loadNovedades() {
     livePosts = data.concat(hardcoded).sort(function(a,b){
       return Number(String(b.id).substring(0,13)) - Number(String(a.id).substring(0,13));
     });
-    window._novedadesLoaded = true;
+    
     renderBlog();
     if (updateNotifBadge) updateNotifBadge();
   };
@@ -1035,7 +1035,7 @@ function showSec(n,btn){
   if(btn)btn.classList.add('active');
   window.scrollTo(0,0);
   if(n==='proyectos') { renderProj(); if(buLoaded) updateProjAvailability(); }
-  if(n==='blog') { renderBlog(); if(!window._novedadesLoaded) loadNovedades(); }
+  if(n==='blog') { renderBlog(); loadNovedades(); }
   if(n==='buscador') loadBuscador();
   if(n==='buscador') loadBuscador();
 }
@@ -1971,6 +1971,8 @@ function closeModal(){document.getElementById('modal').classList.remove('open')}
 
 /* ══ BLOG ══ */
 function renderBlog(){
+  /* Always sort newest first — Sheets ids are timestamps > hardcoded small ids */
+  livePosts.sort(function(a,b){ return Number(b.id) - Number(a.id); });
   const list=bFilter==='all'?livePosts:livePosts.filter(p=>p.cat===bFilter);
   const feat=list.find(p=>p.destacado)||list[0];
   const rest=list.filter(p=>p!==feat);
