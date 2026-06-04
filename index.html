@@ -611,6 +611,29 @@ window.handleCredentialResponse=function(r){
   showPortal({email:p.email,name:p.name,pic:p.picture});
 };
 function showLoginError(m){const el=document.getElementById('login-error');if(el){el.textContent=m;el.style.display='block'}}
+
+/* ══ CARGAR NOVEDADES DESDE SHEETS ══ */
+function loadNovedades() {
+  window._novedadesCb = function(data) {
+    var s = document.getElementById('_nov_s');
+    if (s) s.remove();
+    if (!data || data.error || !Array.isArray(data) || !data.length) return;
+    var existingIds = livePosts.map(function(p){ return String(p.id); });
+    var newOnes = data.filter(function(p){ return existingIds.indexOf(String(p.id)) < 0; });
+    if (newOnes.length) {
+      livePosts = newOnes.concat(livePosts);
+      renderBlog();
+      if (updateNotifBadge) updateNotifBadge();
+    }
+  };
+  var sc = document.createElement('script');
+  sc.id  = '_nov_s';
+  sc.src = 'https://script.google.com/macros/s/AKfycbw11ot11qnfvkbIiXRQf0RrAZa2a-rX3APyK49e88Tz9pbFbq-2VlRhYRTnEBraslZZ/exec?key=ixou2026portal&mode=novedades&callback=_novedadesCb';
+  sc.onerror = function(){ this.remove(); };
+  document.head.appendChild(sc);
+}
+window.loadNovedades = loadNovedades;
+
 function showPortal(u){
   document.getElementById('login-screen').style.display='none';
   document.getElementById('portal-screen').style.display='block';
@@ -767,7 +790,7 @@ window.renderGsearch = renderGsearch;
 
 
 /* ══ PUBLICAR NOVEDADES (ADMIN) ══ */
-const SHEET_API_NOTIFY = 'https://script.google.com/macros/s/AKfycbw9xCpZ_gd3GxpwxXcFV1IqxAAMfJt416MMV94xFI90kNlglZ6JjRvCC_Q_QPqrNutp/exec?key=ixou2026portal&mode=notify';
+const SHEET_API_NOTIFY = 'https://script.google.com/macros/s/AKfycbw11ot11qnfvkbIiXRQf0RrAZa2a-rX3APyK49e88Tz9pbFbq-2VlRhYRTnEBraslZZ/exec?key=ixou2026portal&mode=notify';
 
 function checkAdmin() {
   try {
@@ -872,6 +895,12 @@ function submitPost() {
     var s = document.getElementById('pub-submit'); if (s) s.textContent = 'Publicar';
     var nr = document.getElementById('pub-notify') ? document.getElementById('pub-notify').closest('label') : null;
     if (nr) nr.style.display = '';
+    fetch('https://script.google.com/macros/s/AKfycbw11ot11qnfvkbIiXRQf0RrAZa2a-rX3APyK49e88Tz9pbFbq-2VlRhYRTnEBraslZZ/exec', {
+      method: 'POST',
+      body: JSON.stringify({key:'ixou2026portal',mode:'updateNovedad',
+        id:window._editingPostId,titulo:p.titulo,cat:p.cat,
+        resumen:p.resumen,body:p.body,imgUrl:p.imgUrl,proyecto:p.proyecto})
+    }).catch(function(e){ console.warn('update error:',e); });
     renderBlog();
     document.getElementById('pub-status').textContent = '✓ Novedad actualizada.';
     document.getElementById('pub-status').style.color = 'var(--accent)';
@@ -907,21 +936,31 @@ function submitPost() {
     proyecto: proj || null,
     destacado: false
   };
-  try {
-    livePosts.unshift(newPost);
-    renderBlog();
-    if (updateNotifBadge) updateNotifBadge();
-  } catch(e) {
-    console.error('Error publicando:', e);
-  }
-
   status.style.color = 'var(--accent)';
-  status.textContent = '✓ Novedad publicada en el portal.';
+  status.textContent = 'Guardando...';
   btn.disabled = true;
   btn.style.opacity = '.5';
 
-  /* Send email notification */
-  if (notify) {
+  fetch('https://script.google.com/macros/s/AKfycbw11ot11qnfvkbIiXRQf0RrAZa2a-rX3APyK49e88Tz9pbFbq-2VlRhYRTnEBraslZZ/exec', {
+    method: 'POST',
+    body: JSON.stringify({key:'ixou2026portal',mode:'saveNovedad',
+      titulo:title,cat:cat,resumen:resumen,body:body,imgUrl:img,proyecto:proj})
+  })
+  .then(function(r){ return r.json(); })
+  .then(function(saved) {
+    if (saved.error) {
+      status.style.color='#E87070';
+      status.textContent='Error al guardar: '+saved.error;
+      btn.disabled=false; btn.style.opacity='1';
+      return;
+    }
+    newPost.id    = saved.id    || newPost.id;
+    newPost.fecha = saved.fecha || newPost.fecha;
+    try { livePosts.unshift(newPost); renderBlog(); if(updateNotifBadge)updateNotifBadge(); }
+    catch(e){ console.error('renderBlog:',e); }
+    status.textContent = '✓ Guardada.';
+    /* Send email notification */
+    if (notify) {
     status.textContent = '✓ Publicada. Enviando notificación…';
     var url = SHEET_API_NOTIFY
       + '&title='    + encodeURIComponent(title)
@@ -949,9 +988,16 @@ function submitPost() {
       setTimeout(function(){ closePublishModal(); btn.disabled=false; btn.style.opacity='1'; }, 2500);
     };
     document.head.appendChild(sc);
-  } else {
-    setTimeout(function(){ closePublishModal(); btn.disabled=false; btn.style.opacity='1'; }, 1500);
-  }
+    } else {
+      setTimeout(function(){ closePublishModal(); btn.disabled=false; btn.style.opacity='1'; }, 1500);
+    }
+  })
+  .catch(function(err){
+    status.style.color='#E87070';
+    status.textContent='Error de conexión. La novedad no se guardó.';
+    btn.disabled=false; btn.style.opacity='1';
+    console.error('fetch error:',err);
+  });
 }
 
 window.openPublishModal  = openPublishModal;
@@ -1173,7 +1219,7 @@ function loadAvailability() {
   };
   var sc = document.createElement('script');
   sc.id  = '_avail_s';
-  sc.src = 'https://script.google.com/macros/s/AKfycbw9xCpZ_gd3GxpwxXcFV1IqxAAMfJt416MMV94xFI90kNlglZ6JjRvCC_Q_QPqrNutp/exec?key=ixou2026portal&mode=counts&callback=_availCb';
+  sc.src = 'https://script.google.com/macros/s/AKfycbw11ot11qnfvkbIiXRQf0RrAZa2a-rX3APyK49e88Tz9pbFbq-2VlRhYRTnEBraslZZ/exec?key=ixou2026portal&mode=counts&callback=_availCb';
   sc.onerror = function(){ window._availLoading=false; this.remove(); };
   document.head.appendChild(sc);
 }
@@ -1484,7 +1530,7 @@ function closePostModal() {
 
 
 /* ══ BUSCADOR DE UNIDADES ══ */
-const SHEET_API = 'https://script.google.com/macros/s/AKfycbw_eGqr_4l4BS5h3Mmk6HWkev0z4BkedNzAkDOu4vBNQBy1wgDRy2STiHX4aZ7-OFLX/exec?key=ixou2026portal';
+const SHEET_API = 'https://script.google.com/macros/s/AKfycbw11ot11qnfvkbIiXRQf0RrAZa2a-rX3APyK49e88Tz9pbFbq-2VlRhYRTnEBraslZZ/exec?key=ixou2026portal';
 let buRows    = [];
 let buLoaded  = false;
 let buSortKey = 'proyecto';
