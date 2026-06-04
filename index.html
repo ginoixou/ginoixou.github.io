@@ -1483,6 +1483,13 @@ function closePostModal() {
 }
 
 
+/* ══ BUSCADOR DE UNIDADES ══ */
+const SHEET_API = 'https://script.google.com/macros/s/AKfycbw_eGqr_4l4BS5h3Mmk6HWkev0z4BkedNzAkDOu4vBNQBy1wgDRy2STiHX4aZ7-OFLX/exec?key=ixou2026portal';
+let buRows    = [];
+let buLoaded  = false;
+let buSortKey = 'proyecto';
+let buSortAsc = true;
+
 function mapRow(r) {
   return {
     tipo:        String(r['TIPO']                       || '').trim(),
