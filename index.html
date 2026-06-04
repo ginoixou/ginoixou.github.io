@@ -617,6 +617,7 @@ function loadNovedades() {
   window._novedadesCb = function(data) {
     var s = document.getElementById('_nov_s');
     if (s) s.remove();
+    console.log('novedades loaded:', data && data.length, data && data.error);
     if (!data || data.error || !Array.isArray(data)) return;
     /* Sheets novedades take priority — add hardcoded ones not already in Sheets */
     var sheetsIds = data.map(function(p){ return String(p.id); });
@@ -631,6 +632,7 @@ function loadNovedades() {
       }
     });
     livePosts = data.concat(hardcoded);
+    window._novedadesLoaded = true;
     renderBlog();
     if (updateNotifBadge) updateNotifBadge();
   };
@@ -1031,7 +1033,7 @@ function showSec(n,btn){
   if(btn)btn.classList.add('active');
   window.scrollTo(0,0);
   if(n==='proyectos') { renderProj(); if(buLoaded) updateProjAvailability(); }
-  if(n==='blog') renderBlog();
+  if(n==='blog') { renderBlog(); if(!window._novedadesLoaded) loadNovedades(); }
   if(n==='buscador') loadBuscador();
   if(n==='buscador') loadBuscador();
 }
