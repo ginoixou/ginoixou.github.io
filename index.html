@@ -907,9 +907,13 @@ function submitPost() {
     proyecto: proj || null,
     destacado: false
   };
-  livePosts.unshift(newPost);
-  renderBlog();
-  updateNotifBadge && updateNotifBadge();
+  try {
+    livePosts.unshift(newPost);
+    renderBlog();
+    if (updateNotifBadge) updateNotifBadge();
+  } catch(e) {
+    console.error('Error publicando:', e);
+  }
 
   status.style.color = 'var(--accent)';
   status.textContent = '✓ Novedad publicada en el portal.';
