@@ -977,6 +977,7 @@ window.openPost       = openPost;
 window.closePostModal = closePostModal;
 window.prevPost       = prevPost;
 window.nextPost       = nextPost;
+window.renderBlog = renderBlog;
 window.filterBlog     = filterBlog;
 window.toggleNotif    = toggleNotif;
 window.markAllRead    = markAllRead;
@@ -1127,61 +1128,7 @@ window.loadBuscador   = loadBuscador;
 window.logoutUser     = logoutUser;
 
 /* ══ DASHBOARD ══ */
-function renderDash(){
-  const eo=PROYECTOS.filter(p=>p.obra==='obra').length;
-  const ep=PROYECTOS.filter(p=>p.obra==='Pozo').length;
-  const epr=PROYECTOS.filter(p=>p.obra==='Proyecto').length;
-  const et=PROYECTOS.filter(p=>p.obra==='Terminado').length;
-  if(!document.getElementById('stats-row')) return;
-  if(!document.getElementById('stats-row'))return;
-  document.getElementById('stats-row').innerHTML=`
-    <div class="stat-cell" style="cursor:pointer" onclick="showSec('sobre',document.querySelector('.nav-btn[onclick*=sobre]'))">
-      <div class="stat-n">+13</div><div class="stat-l">Años en el mercado</div>
-      <div style="font-size:9px;color:var(--accent);letter-spacing:1px;margin-top:4px">+ info</div>
-    </div>
-    <div class="stat-cell" style="cursor:pointer" onclick="showSec('proyectos',document.querySelectorAll('.nav-btn')[1]);document.getElementById('ctrl-obra').value='';renderProj()">
-      <div class="stat-n">${PROYECTOS.length}</div><div class="stat-l">Proyectos</div>
-      <div style="font-size:9px;color:var(--accent);letter-spacing:1px;margin-top:4px">Ver todos ↗</div>
-    </div>
-    <div class="stat-cell" style="cursor:pointer" onclick="showSec('proyectos',document.querySelectorAll('.nav-btn')[1]);document.getElementById('ctrl-obra').value='Terminado';renderProj()">
-      <div class="stat-n">${et}</div><div class="stat-l">Terminados</div>
-      <div style="font-size:9px;color:var(--accent);letter-spacing:1px;margin-top:4px">+info ↗</div>
-    </div>
-    <div class="stat-cell" style="cursor:pointer" onclick="showSec('proyectos',document.querySelectorAll('.nav-btn')[1]);document.getElementById('ctrl-obra').value='obra';renderProj()">
-      <div class="stat-n">${eo}</div><div class="stat-l">En obra</div>
-      <div style="font-size:9px;color:var(--accent);letter-spacing:1px;margin-top:4px">+info ↗</div>
-    </div>
-    <div class="stat-cell" style="cursor:pointer" onclick="showSec('proyectos',document.querySelectorAll('.nav-btn')[1]);document.getElementById('ctrl-obra').value='Pozo';renderProj()">
-      <div class="stat-n">${ep}</div><div class="stat-l">En pozo</div>
-      <div style="font-size:9px;color:var(--accent);letter-spacing:1px;margin-top:4px">+info ↗</div>
-    </div>
-    <div class="stat-cell" style="cursor:pointer" onclick="showSec('proyectos',document.querySelectorAll('.nav-btn')[1]);document.getElementById('ctrl-obra').value='Proyecto';renderProj()">
-      <div class="stat-n">${epr}</div><div class="stat-l">En proyecto</div>
-      <div style="font-size:9px;color:var(--accent);letter-spacing:1px;margin-top:4px">+info ↗</div>
-    </div>`;
-  /* slider rendered separately */
-  renderSlider();
-  if(!document.getElementById('dash-news'))return;
-  document.getElementById('dash-news').innerHTML=livePosts.slice(0,8).map(p=>`
-    <div style="padding:14px;background:var(--black2);cursor:pointer;transition:background .15s"
-         onmouseover="this.style.background='var(--black3)'" onmouseout="this.style.background='var(--black2)'"
-         onclick="openPost(${p.id})">
-      ${p.imgUrl?`<img src="${p.imgUrl}" style="width:100%;height:90px;object-fit:cover;margin-bottom:8px;opacity:.85">`:''} 
-      <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
-        <span class="${CAT[p.cat].cls}" style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase">${CAT[p.cat].lbl}</span>
-        <span style="font-size:10px;color:var(--gray4)">${p.fecha}</span>
-      </div>
-      <div style="font-size:12px;font-weight:500;color:var(--gray5);line-height:1.4">${p.titulo}</div>
-      ${p.proyecto?`<div style="font-size:10px;color:var(--gray3);margin-top:3px">◇ ${p.proyecto}</div>`:''}
-    </div>`).join('');
-  document.getElementById('dash-drive').innerHTML=PROYECTOS.map(p=>`
-    <a class="qlink" href="${p.driveUrl}" target="_blank">
-      <div class="qlink-dot"></div>
-      <div><div class="qlink-name">${p.nombre}</div><div class="qlink-sub">${p.calle}</div></div>
-    </a>`).join('');
-}
 
-/* ══ PROJECT CARDS ══ */
 function obraClass(o){return OBRA_CLS[o]||'ob-proyecto'}
 function obraLabel(o){return OBRA_LBL[o]||o}
 
@@ -1426,15 +1373,6 @@ function closeModal(){document.getElementById('modal').classList.remove('open')}
 
 /* ══ BLOG ══ */
 
-function filterBlog(cat,btn){bFilter=cat;document.querySelectorAll('.cat-btn2').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderBlog()}
-
-
-
-/* ── Slider vars ── */
-let slideIdx = 0;
-let slideTimer = null;
-const FEATURED = () => PROYECTOS.filter(p => p.destacado);
-
 
 function slideTo(i) {
   const proj  = FEATURED();
@@ -1539,78 +1477,11 @@ window.addEventListener('DOMContentLoaded',()=>{
 });
 
 /* ══ POST DETAIL ══ */
-function openPost(id) {
-  const p = livePosts.find(x => x.id === id);
-  if (!p) return;
-  const m = CAT[p.cat];
-  const allPosts = livePosts;
-  const postIdx = allPosts.findIndex(x => x.id === id);
-  const hasPrev = postIdx < allPosts.length - 1;
-  const hasNext = postIdx > 0;
-  document.getElementById('post-modal-box').innerHTML = `
-    <div class="modal-hd">
-      <div style="flex:1">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
-          <span class="${m.cls}" style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;font-weight:500">${m.lbl}</span>
-          <span style="font-size:11px;color:var(--gray4)">${p.fecha}</span>
-          ${p.proyecto ? `<span style="font-size:10px;color:var(--gray3)">◇ ${p.proyecto}</span>` : ''}
-        </div>
-        <div class="modal-hd-name" style="font-size:1.6rem;line-height:1.1">${p.titulo}</div>
-      </div>
-      <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">
-        ${checkAdmin() ? `<button onclick="editPost(${id})" style="background:none;border:1px solid rgba(200,213,176,.3);color:var(--accent);padding:4px 10px;font-size:10px;letter-spacing:1px;font-family:'DM Sans',sans-serif;text-transform:uppercase;cursor:pointer;transition:all .2s" onmouseover="this.style.background='rgba(200,213,176,.1)'" onmouseout="this.style.background='none'">✎ Editar</button>` : ''}
-        ${hasPrev ? `<button onclick="prevPost(${id})" style="background:none;border:1px solid var(--gray2);color:var(--gray4);width:30px;height:30px;cursor:pointer;font-size:16px;transition:all .2s" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--gray2)';this.style.color='var(--gray4)'">‹</button>` : '<div style="width:30px"></div>'}
-        ${hasNext ? `<button onclick="nextPost(${id})" style="background:none;border:1px solid var(--gray2);color:var(--gray4);width:30px;height:30px;cursor:pointer;font-size:16px;transition:all .2s" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--gray2)';this.style.color='var(--gray4)'">›</button>` : '<div style="width:30px"></div>'}
-        <button class="modal-close" onclick="closePostModal()">✕</button>
-      </div>
-    </div>
-    <div class="modal-body">
-      ${p.imgUrl ? `<img src="${p.imgUrl}" alt="" style="width:100%;height:220px;object-fit:cover;margin-bottom:1.5rem;display:block">` : ''}
-      ${p.logos ? `<div style="display:flex;gap:12px;align-items:center;margin-bottom:16px;flex-wrap:wrap">
-        ${p.logos.map(src=>`<img src="${src}" style="height:52px;width:auto;background:#fff;padding:4px 8px;border-radius:2px">`).join('')}
-      </div>` : ''}
-      <div style="font-size:14px;color:var(--gray4);line-height:1.75">${p.resumen}</div>
-      ${p.link ? `<a href="${p.link}" target="_blank" style="display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:rgba(200,213,176,.15);border:1px solid rgba(200,213,176,.3);color:#C8D5B0;border-radius:2px;font-size:12px;text-decoration:none;margin-top:12px">📐 Ver Guía de Metrajes APPCU →</a>` : ''}
-      ${p.proyecto ? `
-      <div style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--gray1)">
-        <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--accent2);margin-bottom:8px">Proyecto relacionado</div>
-        <div style="font-size:13px;color:var(--gray5);cursor:pointer" onclick="closePostModal();openModal(${
-          (PROYECTOS.find(pr => pr.nombre === p.proyecto) || {}).id || 0
-        })">◇ ${p.proyecto} →</div>
-      </div>` : ''}
-    </div>`;
-  document.getElementById('post-modal').classList.add('open');
-  /* mark as read */
-  if (!readIds.includes(p.id)) {
-    readIds.push(p.id);
-    localStorage.setItem(getReadKey(), JSON.stringify(readIds));
-    updateNotifBadge && updateNotifBadge();
-  }
-}
+
 function closePostModal() {
   document.getElementById('post-modal').classList.remove('open');
 }
-function prevPost(currentId) {
-  const ids = livePosts.map(p => p.id);
-  const idx = ids.indexOf(currentId);
-  const prev = livePosts[idx + 1];
-  if (prev) openPost(prev.id);
-}
-function nextPost(currentId) {
-  const ids = livePosts.map(p => p.id);
-  const idx = ids.indexOf(currentId);
-  const next = livePosts[idx - 1];
-  if (next) openPost(next.id);
-}
-window.prevPost = prevPost;
-window.nextPost = nextPost;
 
-/* ══ BUSCADOR DE UNIDADES ══ */
-const SHEET_API = 'https://script.google.com/macros/s/AKfycbw9xCpZ_gd3GxpwxXcFV1IqxAAMfJt416MMV94xFI90kNlglZ6JjRvCC_Q_QPqrNutp/exec?key=ixou2026portal';
-let buRows    = [];
-let buLoaded  = false;
-let buSortKey = 'proyecto';
-let buSortAsc = true;
 
 function mapRow(r) {
   return {
@@ -2007,7 +1878,7 @@ function renderDash(){
       <div style="font-size:12px;font-weight:500;color:var(--gray5);line-height:1.4">${p.titulo}</div>
       ${p.proyecto?`<div style="font-size:10px;color:var(--gray3);margin-top:3px">◇ ${p.proyecto}</div>`:''}
     </div>`).join('');
-  document.getElementById('dash-drive').innerHTML=PROYECTOS.map(p=>`
+  var _dd=document.getElementById('dash-drive');if(_dd)_dd.innerHTML=PROYECTOS.map(p=>`
     <a class="qlink" href="${p.driveUrl}" target="_blank">
       <div class="qlink-dot"></div>
       <div><div class="qlink-name">${p.nombre}</div><div class="qlink-sub">${p.calle}</div></div>
@@ -2038,10 +1909,14 @@ function renderBlog(){
   document.getElementById('blog-cats').innerHTML=Object.entries(CAT).map(([k,v])=>`<div class="cat-stat-row"><span class="cat-stat-lbl ${v.cls}">${v.lbl}</span><span class="cat-stat-n">${counts[k]||0}</span></div>`).join('');
   const projs=[...new Set(livePosts.map(p=>p.proyecto).filter(Boolean))];
   document.getElementById('blog-projs').innerHTML=projs.map(n=>`<div class="cat-stat-row" style="cursor:pointer" onclick="showSec('proyectos',document.querySelectorAll('.nav-btn')[1])"><span class="cat-stat-lbl">${n}</span><span style="font-size:10px;color:var(--gray3)">→</span></div>`).join('');
-  // populate project select
-  document.getElementById('nf-p').innerHTML='<option value="">— General —</option>'+PROYECTOS.map(p=>`<option value="${p.nombre}">${p.nombre}</option>`).join('');
 }
 function filterBlog(cat,btn){bFilter=cat;document.querySelectorAll('.cat-btn2').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderBlog()}
+
+
+/* ── Slider state ── */
+let slideIdx = 0;
+let slideTimer = null;
+const FEATURED = () => PROYECTOS.filter(p => p.destacado);
 
 
 function renderSlider() {
@@ -2188,6 +2063,13 @@ window.addEventListener('DOMContentLoaded',()=>{
 });
 
 /* ══ POST DETAIL ══ */
+
+function closePost() {
+  var m = document.getElementById('post-modal');
+  if (m) m.style.display = 'none';
+}
+window.closePost = closePost;
+
 function openPost(id) {
   const p = livePosts.find(x => x.id === id);
   if (!p) return;
