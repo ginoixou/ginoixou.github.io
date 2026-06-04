@@ -640,7 +640,7 @@ function loadNovedades() {
   };
   var sc = document.createElement('script');
   sc.id  = '_nov_s';
-  sc.src = 'https://script.google.com/macros/s/AKfycbwcebJLlXaJi_zoxREC74NTcwxG2ooNyHvu3yOdgvK7YrM48m4lssu7mDv4upcjR88j/exec?key=ixou2026portal&mode=novedades&callback=_novedadesCb';
+  sc.src = 'https://script.google.com/macros/s/AKfycbycaPrcTFKBy7GuHzfm_odXPSEOAnxzbeeKZHlkabzRJbriM-K9DK3FrzWAjdGrML7J/exec?key=ixou2026portal&mode=novedades&callback=_novedadesCb';
   sc.onerror = function(){ this.remove(); };
   document.head.appendChild(sc);
 }
@@ -713,7 +713,7 @@ let livePosts=[{id:11,titulo:"IXOU adopta el criterio APPCU para informar la sup
 Solicitamos a todos los agentes comerciales que completen y presenten la documentación correspondiente para cada operación, conforme al procedimiento establecido.
 
 <a href="https://drive.google.com/uc?export=download&id=1Cg9bicVzXPWDY4lCzs-h2BZyiQ2K7HAg" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:10px 18px;background:rgba(200,213,176,.15);border:1px solid rgba(200,213,176,.3);color:#C8D5B0;border-radius:2px;font-size:12px;text-decoration:none;margin-top:12px">⬇ Descargar guía de documentación para operaciones</a>`,
-fecha:"31 mayo 2026",cat:"legal",proyecto:null,destacado:false},{id:9,titulo:"MIRLO — Vallado instalado: comienza la obra en Barrio Sur",resumen:"Se instaló el vallado perimetral en Andes 1162, marcando el inicio oficial de obra de MIRLO by IXOU. El proyecto de Monoblock continúa con los beneficios de preventa durante todo junio 2026 — una oportunidad única de acceder a precios y condiciones especiales antes del avance de construcción.",fecha:"31 mayo 2026",cat:"lanzamiento",proyecto:"MIRLO",imgUrl:"https://ginoixou.github.io/imgs/mirlo-obra.jpg",destacado:true},{id:10,titulo:"VARDØ amplía el proyecto — nuevo padrón suma unidades en 21 de Setiembre y Roque Graseras",resumen:"Grandes noticias para VARDØ: ampliamos el proyecto incorporando un nuevo padrón, sumando más unidades a este ícono en una de las esquinas más privilegiadas de Punta Carretas. Próximamente habilitaremos la preventa de las nuevas unidades. Mantenete atento para acceder a las condiciones especiales de lanzamiento.",fecha:"31 mayo 2026",cat:"lanzamiento",proyecto:"VARDØ",imgUrl:"https://ginoixou.github.io/imgs/vardo.jpg",destacado:false},
+fecha:"31 mayo 2026",cat:"legal",proyecto:null,destacado:false},{id:13,titulo:"MIRLO — Vallado instalado: comienza la obra en Barrio Sur",resumen:"Se instaló el vallado perimetral en Andes 1162, marcando el inicio oficial de obra de MIRLO by IXOU. El proyecto de Monoblock continúa con los beneficios de preventa durante todo junio 2026 — una oportunidad única de acceder a precios y condiciones especiales antes del avance de construcción.",fecha:"31 mayo 2026",cat:"lanzamiento",proyecto:"MIRLO",imgUrl:"https://ginoixou.github.io/imgs/mirlo-obra.jpg",destacado:true},{id:10,titulo:"VARDØ amplía el proyecto — nuevo padrón suma unidades en 21 de Setiembre y Roque Graseras",resumen:"Grandes noticias para VARDØ: ampliamos el proyecto incorporando un nuevo padrón, sumando más unidades a este ícono en una de las esquinas más privilegiadas de Punta Carretas. Próximamente habilitaremos la preventa de las nuevas unidades. Mantenete atento para acceder a las condiciones especiales de lanzamiento.",fecha:"31 mayo 2026",cat:"lanzamiento",proyecto:"VARDØ",imgUrl:"https://ginoixou.github.io/imgs/vardo.jpg",destacado:false},
   {id:1,titulo:"ALMA ET y BRUSCO certifican LEED PLATINO — IXOU lidera la sustentabilidad en Uruguay",resumen:"Con dos proyectos certificados LEED Platino, IXOU se consolida como la desarrolladora más sustentable de Uruguay.",fecha:"18 mayo 2025",cat:"general",proyecto:"BRUSCO",destacado:true},
   {id:2,titulo:"ÂME avanza al 70% — Architecture Studio confirma entregas para fines de 2025",resumen:"Las 12 mansiones en altura sobre la Rambla Armenia en Buceo superan el 70% de avance.",fecha:"15 mayo 2025",cat:"avance",proyecto:"ÂME",destacado:false},
   {id:3,titulo:"ZIEL supera el 60% de unidades reservadas en Punta Carretas",resumen:"El proyecto del estudio holandés MVRDV continúa captando inversores locales e internacionales.",fecha:"10 mayo 2025",cat:"comercial",proyecto:"ZIEL",destacado:false},
@@ -813,7 +813,7 @@ window.renderGsearch = renderGsearch;
 
 
 /* ══ PUBLICAR NOVEDADES (ADMIN) ══ */
-const SHEET_API_NOTIFY = 'https://script.google.com/macros/s/AKfycbwcebJLlXaJi_zoxREC74NTcwxG2ooNyHvu3yOdgvK7YrM48m4lssu7mDv4upcjR88j/exec?key=ixou2026portal&mode=notify';
+const SHEET_API_NOTIFY = 'https://script.google.com/macros/s/AKfycbycaPrcTFKBy7GuHzfm_odXPSEOAnxzbeeKZHlkabzRJbriM-K9DK3FrzWAjdGrML7J/exec?key=ixou2026portal&mode=notify';
 
 function checkAdmin() {
   try {
@@ -918,7 +918,7 @@ function submitPost() {
     var s = document.getElementById('pub-submit'); if (s) s.textContent = 'Publicar';
     var nr = document.getElementById('pub-notify') ? document.getElementById('pub-notify').closest('label') : null;
     if (nr) nr.style.display = '';
-    fetch('https://script.google.com/macros/s/AKfycbwcebJLlXaJi_zoxREC74NTcwxG2ooNyHvu3yOdgvK7YrM48m4lssu7mDv4upcjR88j/exec', {
+    fetch('https://script.google.com/macros/s/AKfycbycaPrcTFKBy7GuHzfm_odXPSEOAnxzbeeKZHlkabzRJbriM-K9DK3FrzWAjdGrML7J/exec', {
       method: 'POST',
       body: JSON.stringify({key:'ixou2026portal',mode:'updateNovedad',
         id:window._editingPostId,titulo:p.titulo,cat:p.cat,
@@ -964,7 +964,7 @@ function submitPost() {
   btn.disabled = true;
   btn.style.opacity = '.5';
 
-  fetch('https://script.google.com/macros/s/AKfycbwcebJLlXaJi_zoxREC74NTcwxG2ooNyHvu3yOdgvK7YrM48m4lssu7mDv4upcjR88j/exec', {
+  fetch('https://script.google.com/macros/s/AKfycbycaPrcTFKBy7GuHzfm_odXPSEOAnxzbeeKZHlkabzRJbriM-K9DK3FrzWAjdGrML7J/exec', {
     method: 'POST',
     body: JSON.stringify({key:'ixou2026portal',mode:'saveNovedad',
       titulo:title,cat:cat,resumen:resumen,body:body,imgUrl:img,proyecto:proj})
@@ -1243,7 +1243,7 @@ function loadAvailability() {
   };
   var sc = document.createElement('script');
   sc.id  = '_avail_s';
-  sc.src = 'https://script.google.com/macros/s/AKfycbwcebJLlXaJi_zoxREC74NTcwxG2ooNyHvu3yOdgvK7YrM48m4lssu7mDv4upcjR88j/exec?key=ixou2026portal&mode=counts&callback=_availCb';
+  sc.src = 'https://script.google.com/macros/s/AKfycbycaPrcTFKBy7GuHzfm_odXPSEOAnxzbeeKZHlkabzRJbriM-K9DK3FrzWAjdGrML7J/exec?key=ixou2026portal&mode=counts&callback=_availCb';
   sc.onerror = function(){ window._availLoading=false; this.remove(); };
   document.head.appendChild(sc);
 }
@@ -1554,7 +1554,7 @@ function closePostModal() {
 
 
 /* ══ BUSCADOR DE UNIDADES ══ */
-const SHEET_API = 'https://script.google.com/macros/s/AKfycbwcebJLlXaJi_zoxREC74NTcwxG2ooNyHvu3yOdgvK7YrM48m4lssu7mDv4upcjR88j/exec?key=ixou2026portal';
+const SHEET_API = 'https://script.google.com/macros/s/AKfycbycaPrcTFKBy7GuHzfm_odXPSEOAnxzbeeKZHlkabzRJbriM-K9DK3FrzWAjdGrML7J/exec?key=ixou2026portal';
 let buRows    = [];
 let buLoaded  = false;
 let buSortKey = 'proyecto';
