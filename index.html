@@ -1059,12 +1059,21 @@ window.resetBuscador  = resetBuscador;
 var BU_HEADERS = ['Tipo','Proyecto','Unidad','Dorm','Estado Venta','Precio USD','Comentario','Est. Alquiler','Alquiler Mensual USD','% Renta Bruta','M2 Interiores','M2 Ext Cub','M2 Ext Desc','M2 Comunes','M2 Totales'];
 
 function buRowToArr(r) {
+  function fmtInt(s) {
+    var n = Math.round(parseFloat(s)||0);
+    return n ? n.toLocaleString('es-UY') : '';
+  }
+  function fmtM2(s) {
+    var n = parseFloat(s);
+    return isNaN(n)||n===0 ? '' : n.toFixed(2);
+  }
   var renta = r.rentaBruta ? (parseFloat(r.rentaBruta)*100).toFixed(2)+'%' : '';
   return [r.tipo, r.proyecto, r.unidad, r.dorm, r.estadoVenta,
-    r.precio ? Math.round(parseFloat(r.precio)) : '',
+    fmtInt(r.precio),
     r.comentario, r.estadoAlq,
-    r.alqMensual ? Math.round(parseFloat(r.alqMensual)) : '',
-    renta, r.m2int, r.m2extcub, r.m2extdes, r.m2com, r.m2tot];
+    fmtInt(r.alqMensual),
+    renta,
+    fmtM2(r.m2int), fmtM2(r.m2extcub), fmtM2(r.m2extdes), fmtM2(r.m2com), fmtM2(r.m2tot)];
 }
 
 function exportBuscadorExcel() {
@@ -1768,12 +1777,21 @@ function resetBuscador() {
 var BU_HEADERS = ['Tipo','Proyecto','Unidad','Dorm','Estado Venta','Precio USD','Comentario','Est. Alquiler','Alquiler Mensual USD','% Renta Bruta','M2 Interiores','M2 Ext Cub','M2 Ext Desc','M2 Comunes','M2 Totales'];
 
 function buRowToArr(r) {
+  function fmtInt(s) {
+    var n = Math.round(parseFloat(s)||0);
+    return n ? n.toLocaleString('es-UY') : '';
+  }
+  function fmtM2(s) {
+    var n = parseFloat(s);
+    return isNaN(n)||n===0 ? '' : n.toFixed(2);
+  }
   var renta = r.rentaBruta ? (parseFloat(r.rentaBruta)*100).toFixed(2)+'%' : '';
   return [r.tipo, r.proyecto, r.unidad, r.dorm, r.estadoVenta,
-    r.precio ? Math.round(parseFloat(r.precio)) : '',
+    fmtInt(r.precio),
     r.comentario, r.estadoAlq,
-    r.alqMensual ? Math.round(parseFloat(r.alqMensual)) : '',
-    renta, r.m2int, r.m2extcub, r.m2extdes, r.m2com, r.m2tot];
+    fmtInt(r.alqMensual),
+    renta,
+    fmtM2(r.m2int), fmtM2(r.m2extcub), fmtM2(r.m2extdes), fmtM2(r.m2com), fmtM2(r.m2tot)];
 }
 
 function exportBuscadorExcel() {
