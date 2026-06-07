@@ -1034,7 +1034,7 @@ function showSec(n,btn){
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
   if(btn)btn.classList.add('active');
   window.scrollTo(0,0);
-  if(n==='proyectos') { renderProj(); if(buLoaded) updateProjAvailability(); }
+  if(n==='proyectos') { renderProj(); if(window._availData) applyAvailability(window._availData); }
   if(n==='blog') { renderBlog(); loadNovedades(); }
   if(n==='buscador') loadBuscador();
   if(n==='buscador') loadBuscador();
@@ -1347,6 +1347,9 @@ function renderProj(){
       </div>`;
     grid.appendChild(card);
   });
+  /* Update availability badges */
+  if (window._availData) applyAvailability(window._availData);
+  else loadAvailability();
   } catch(err) {
     console.error('renderProj error:', err);
     document.getElementById('proj-cards').innerHTML =
