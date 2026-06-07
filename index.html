@@ -2136,11 +2136,11 @@ function closePost() {
 window.closePost = closePost;
 
 function openPost(id) {
-  const p = livePosts.find(x => x.id === id);
+  const p = livePosts.find(x => String(x.id) === String(id));
   if (!p) return;
-  const m = CAT[p.cat];
+  const m = CAT[p.cat] || {lbl:p.cat||'',cls:'cc-general'};
   const allPosts = livePosts;
-  const postIdx = allPosts.findIndex(x => x.id === id);
+  const postIdx = allPosts.findIndex(x => String(x.id) === String(id));
   const hasPrev = postIdx < allPosts.length - 1;
   const hasNext = postIdx > 0;
   document.getElementById('post-modal-box').innerHTML = `
