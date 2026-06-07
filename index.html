@@ -382,6 +382,13 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
       <option value="">Todos</option>
       <option value="tax">Vivienda Promovida</option>
     </select>
+    <select class="ctrl-sel" id="ctrl-tipo-proj" onchange="renderProj()">
+      <option value="Vivienda">Solo viviendas</option>
+      <option value="">Todos los tipos</option>
+      <option value="Local">Locales</option>
+      <option value="Oficina">Oficinas</option>
+      <option value="Garaje">Garajes</option>
+    </select>
     <div style="display:flex;align-items:center;gap:6px">
       <input class="ctrl-in" id="ctrl-pmin" type="number" placeholder="Precio mín USD" oninput="renderProj()" style="width:130px">
       <span style="color:var(--gray3);font-size:11px">—</span>
@@ -1039,7 +1046,7 @@ window.markAllRead    = markAllRead;
 window.clickNotif     = clickNotif;
 function resetProjFilters(){
   ['ctrl-q','ctrl-pmin','ctrl-pmax'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
-  ['ctrl-obra','ctrl-barrio','ctrl-tax'].forEach(id=>{const el=document.getElementById(id);if(el)el.selectedIndex=0;});
+  ['ctrl-obra','ctrl-barrio','ctrl-tax','ctrl-tipo-proj'].forEach(id=>{const el=document.getElementById(id);if(el)el.selectedIndex=0;});
   renderProj();
 }
 window.resetProjFilters = resetProjFilters;
@@ -1240,6 +1247,7 @@ function renderProj(){
   const obra=(document.getElementById('ctrl-obra')?.value)||'';
   const barrio=(document.getElementById('ctrl-barrio')?.value)||'';
   const tax=(document.getElementById('ctrl-tax')?.value)||'';
+  const tipoProj=(document.getElementById('ctrl-tipo-proj')?.value)||'Vivienda';
   const pmin=parseFloat(document.getElementById('ctrl-pmin')?.value)||0;
   const pmax=parseFloat(document.getElementById('ctrl-pmax')?.value)||Infinity;
   /* Auto-load buscador data if price filter is used and data not yet loaded */
@@ -1250,10 +1258,13 @@ function renderProj(){
     const mb=!barrio||p.barrio===barrio;
     const mt=!tax||(tax==='tax'&&p.taxFree);
     const projKey=p.nombre.toUpperCase().replace(/ /g,'_');
-    const uPrices=buLoaded?buRows.filter(function(r){return r.proyecto.toUpperCase()===projKey||r.proyecto.toUpperCase()===p.nombre.toUpperCase();}).map(function(r){return parseFloat(r.precio)||0;}).filter(function(v){return v>0;}):[];
+    const uPrices=buLoaded?buRows.filter(function(r){return (r.proyecto.toUpperCase()===projKey||r.proyecto.toUpperCase()===p.nombre.toUpperCase())&&(!tipoProj||r.tipo.toLowerCase()===tipoProj.toLowerCase());}).map(function(r){return parseFloat(r.precio)||0;}).filter(function(v){return v>0;}):[];
     const minUP=uPrices.length?Math.min.apply(null,uPrices):0;
     const maxUP=uPrices.length?Math.max.apply(null,uPrices):Infinity;
-    const mp=(!pmin&&pmax===Infinity)||(uPrices.length?(maxUP>=pmin&&minUP<=pmax):true);
+    /* Show project only if it has at least one unit within the price range */
+    const mp=(!pmin&&pmax===Infinity)||(uPrices.length
+      ? uPrices.some(function(v){ return v>=pmin && v<=pmax; })
+      : true);
     return mq&&mo&&mb&&mt&&mp;
   });
   const grid=document.getElementById('proj-cards');
