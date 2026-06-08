@@ -1490,7 +1490,7 @@ function getReadKey() {
 }
 let readIds = JSON.parse(localStorage.getItem(getReadKey()) || '[]');
 
-function getUnread(){return livePosts.filter(p=>!readIds.includes(p.id))}
+function getUnread(){return livePosts.filter(p=>!readIds.map(String).includes(String(p.id)))}
 
 function updateNotifBadge(){
   const n=getUnread().length;
@@ -2095,7 +2095,7 @@ window.renderSlider = renderSlider;
 
 /* ══ NOTIFICATIONS ══ */
 
-function getUnread(){return livePosts.filter(p=>!readIds.includes(p.id))}
+function getUnread(){return livePosts.filter(p=>!readIds.map(String).includes(String(p.id)))}
 
 function updateNotifBadge(){
   const n=getUnread().length;
