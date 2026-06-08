@@ -10,7 +10,7 @@
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{--black:#0A0A0A;--black2:#111;--black3:#1A1A1A;--gray1:#222;--gray2:#333;--gray3:#555;--gray4:#888;--gray5:#AAA;--white:#F5F5F0;--accent:#C8D5B0;--accent2:#8FA870;--r:2px;--r2:4px}
-html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-family:'DM Sans',sans-serif;font-size:14px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-family:'DM Sans',sans-serif;font-size:14px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden;height:100%;overflow:hidden}
 ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--black2)}::-webkit-scrollbar-thumb{background:var(--gray2);border-radius:2px}
 /* ── LOGIN ── */
 #login-screen{position:fixed;inset:0;background:#0A0A0A;display:flex;align-items:center;justify-content:center;z-index:9999}
@@ -23,7 +23,7 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
 .login-footer{margin-top:2rem;font-size:10px;color:#2A2A2A;letter-spacing:1.5px;text-transform:uppercase}
 #google-btn-wrap{display:flex;justify-content:center;margin-bottom:4px;min-height:44px;align-items:center}
 /* ── PORTAL ── */
-#portal-screen{display:none}
+#portal-screen{display:none;flex-direction:column;height:100vh;overflow:hidden}
 /* ── HEADER ── */
 #header{position:sticky;top:0;z-index:100;height:52px;background:var(--black);border-bottom:1px solid var(--gray1);display:flex;align-items:center;padding:0 2rem;gap:2rem}
 .hdr-logo{display:flex;align-items:center;gap:8px;flex-shrink:0}
@@ -205,6 +205,7 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
 .gsearch-item-name{font-size:12px;color:var(--white);flex:1}
 .gsearch-item-meta{font-size:10px;color:var(--gray4);white-space:nowrap}
 .gsearch-empty{padding:16px 12px;font-size:12px;color:var(--gray3);text-align:center}
+.portal-content{flex:1;overflow-y:auto;overflow-x:hidden}
 /* RESPONSIVE */
 @media(max-width:1000px){.dash-grid{grid-template-columns:1fr}.blog-wrap{grid-template-columns:1fr}.stats-row{grid-template-columns:repeat(2,1fr)}.proj-cards{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:650px){#gsearch-wrap{display:none}.feat-grid{grid-template-columns:1fr}.hdr-logo-tag,.hdr-logo-sep{display:none}.dash-hero::before{display:none}.proj-cards{grid-template-columns:1fr}.cat-row{flex-wrap:wrap}.cat-btn2{flex:none}}
@@ -318,6 +319,7 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
 </header>
 
 <!-- DASHBOARD -->
+<div class="portal-content">
 <section id="sec-dashboard">
   <div class="dash-hero">
     <div style="display:flex;align-items:center;justify-content:space-between;position:relative;z-index:1">
@@ -657,7 +659,7 @@ window.loadNovedades = loadNovedades;
 
 function showPortal(u){
   document.getElementById('login-screen').style.display='none';
-  document.getElementById('portal-screen').style.display='block';
+  document.getElementById('portal-screen').style.display='flex';
   const n=document.getElementById('user-display-name');if(n)n.textContent=u.name||u.email;
   const a=document.getElementById('user-avatar');if(a&&u.pic){a.src=u.pic;a.style.display='block';a.onerror=()=>a.style.display='none'}
   /* Show publish button for admins */
@@ -2242,6 +2244,8 @@ window.nextPost = nextPost;
   <div class="modal-box" id="post-modal-box" style="max-width:680px"></div>
 </div>
 
+
+</div><!-- /portal-content -->
 
 <!-- PUBLISH MODAL -->
 <div class="modal-bg" id="publish-modal" onclick="if(event.target===this)closePublishModal()" style="display:none">
