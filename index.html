@@ -383,11 +383,14 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
       <option value="tax">Vivienda Promovida</option>
     </select>
     <select class="ctrl-sel" id="ctrl-tipo-proj" onchange="renderProj()">
-      <option value="Vivienda">Solo viviendas</option>
+      <option value="Vivienda">Vivienda</option>
       <option value="">Todos los tipos</option>
-      <option value="Local">Locales</option>
-      <option value="Oficina">Oficinas</option>
-      <option value="Garaje">Garajes</option>
+      <option value="Local">Local</option>
+      <option value="Sky Bar">Sky Bar</option>
+      <option value="Oficina">Oficina</option>
+      <option value="Estudio">Estudio</option>
+      <option value="Garaje">Garaje</option>
+      <option value="Baulera">Baulera</option>
     </select>
     <div style="display:flex;align-items:center;gap:6px">
       <input class="ctrl-in" id="ctrl-pmin" type="number" placeholder="Precio mín USD" oninput="renderProj()" style="width:130px">
@@ -1267,13 +1270,13 @@ function renderProj(){
     const mb=!barrio||p.barrio===barrio;
     const mt=!tax||(tax==='tax'&&p.taxFree);
     const projKey=p.nombre.toUpperCase().replace(/ /g,'_');
-    const uPrices=buLoaded?buRows.filter(function(r){return (r.proyecto.toUpperCase()===projKey||r.proyecto.toUpperCase()===p.nombre.toUpperCase())&&(!tipoProj||r.tipo.toLowerCase()===tipoProj.toLowerCase());}).map(function(r){return parseFloat(r.precio)||0;}).filter(function(v){return v>0;}):[];
+    const uPrices=buLoaded?buRows.filter(function(r){var rk=normProj(r.proyecto);var pn=normProj(p.nombre);return rk===pn&&(!tipoProj||r.tipo===tipoProj);}).map(function(r){return parseFloat(r.precio)||0;}).filter(function(v){return v>0;}):[]; 
     const minUP=uPrices.length?Math.min.apply(null,uPrices):0;
     const maxUP=uPrices.length?Math.max.apply(null,uPrices):Infinity;
     /* Show project only if it has at least one unit within the price range */
     const mp=(!pmin&&pmax===Infinity)||(uPrices.length
       ? uPrices.some(function(v){ return v>=pmin && v<=pmax; })
-      : true);
+      : (!pmin&&pmax===Infinity));
     return mq&&mo&&mb&&mt&&mp;
   });
   const grid=document.getElementById('proj-cards');
