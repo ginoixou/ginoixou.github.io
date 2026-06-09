@@ -1072,139 +1072,11 @@ window.resetBuscador  = resetBuscador;
 /* ── EXPORTAR BUSCADOR ── */
 var BU_HEADERS = ['Tipo','Proyecto','Unidad','Dorm','Estado Venta','Precio USD','Comentario','Est. Alquiler','Alquiler Mensual USD','% Renta Bruta','M2 Interiores','M2 Ext Cub','M2 Ext Desc','M2 Comunes','M2 Totales'];
 
-function buRowToArr(r) {
-  function fmtInt(s) {
-    var n = Math.round(parseFloat(s)||0);
-    return n ? n.toLocaleString('es-UY') : '';
-  }
-  function fmtM2(s) {
-    var n = parseFloat(s);
-    return isNaN(n)||n===0 ? '' : n.toFixed(2);
-  }
-  var renta = r.rentaBruta ? (parseFloat(r.rentaBruta)*100).toFixed(2)+'%' : '';
-  return [r.tipo, r.proyecto, r.unidad, r.dorm, r.estadoVenta,
-    fmtInt(r.precio),
-    r.comentario, r.estadoAlq,
-    fmtInt(r.alqMensual),
-    renta,
-    fmtM2(r.m2int), fmtM2(r.m2extcub), fmtM2(r.m2extdes), fmtM2(r.m2com), fmtM2(r.m2tot)];
-}
 
-function exportBuscadorExcel() {
-  var list = window._buExportList || [];
-  if (!list.length) return;
-  var ws_data = [BU_HEADERS].concat(list.map(buRowToArr));
-  var ws = XLSX.utils.aoa_to_sheet(ws_data);
-  /* Column widths */
-  ws['!cols'] = [{wch:10},{wch:14},{wch:8},{wch:6},{wch:12},{wch:12},{wch:30},{wch:12},{wch:16},{wch:10},{wch:10},{wch:10},{wch:11},{wch:10},{wch:10}];
-  /* Header style */
-  var range = XLSX.utils.decode_range(ws['!ref']);
-  for (var C = range.s.c; C <= range.e.c; C++) {
-    var addr = XLSX.utils.encode_cell({r:0, c:C});
-    if (!ws[addr]) continue;
-    ws[addr].s = {font:{bold:true}, fill:{fgColor:{rgb:'1A1A1A'}}, alignment:{horizontal:'center'}};
-  }
-  var wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, 'Lista de Unidades');
-  var fecha = new Date().toLocaleDateString('es-UY',{day:'2-digit',month:'2-digit',year:'numeric'}).replace(/\//g,'-');
-  XLSX.writeFile(wb, 'IXOU-Unidades-' + fecha + '.xlsx');
-}
 
-function exportBuscadorPDF() {
-  var list = window._buExportList || [];
-  if (!list.length) return;
-  var doc = new jspdf.jsPDF({orientation:'landscape', unit:'mm', format:'a4'});
-  var W = 297, fecha = new Date().toLocaleDateString('es-UY',{day:'2-digit',month:'2-digit',year:'numeric'});
 
-  /* ── Header negro ── */
-  doc.setFillColor(10,10,10);
-  doc.rect(0,0,W,22,'F');
 
-  /* Izquierda: título + fecha */
-  doc.setFont('helvetica','bold');
-  doc.setFontSize(13);
-  doc.setTextColor(255,255,255);
-  doc.text('IXOU · Lista de precios', 14, 10);
-  doc.setFont('helvetica','normal');
-  doc.setFontSize(8);
-  doc.setTextColor(180,180,180);
-  doc.text('Generado: ' + fecha + ' · Validez: 7 días', 14, 17);
 
-  /* Derecha: logo IXOU (texto estilizado) */
-  doc.setFont('helvetica','bold');
-  doc.setFontSize(16);
-  doc.setTextColor(255,255,255);
-  doc.text('IXOU', W-14, 14, {align:'right'});
-  doc.setFont('helvetica','normal');
-  doc.setFontSize(7);
-  doc.setTextColor(150,150,150);
-  doc.text('Ciudad Consciente', W-14, 19, {align:'right'});
-
-  /* ── Tabla: fondo blanco, filas alternas gris 10% ── */
-  doc.autoTable({
-    head: [BU_HEADERS],
-    body: list.map(buRowToArr),
-    startY: 26,
-    theme: 'grid',
-    styles: {
-      fontSize: 7,
-      cellPadding: 2,
-      textColor: [30,30,30],
-      fillColor: [255,255,255],
-      lineColor: [210,210,210],
-      lineWidth: 0.1
-    },
-    headStyles: {
-      fillColor: [10,10,10],
-      textColor: [255,255,255],
-      fontStyle: 'bold',
-      fontSize: 7,
-      lineColor: [10,10,10]
-    },
-    alternateRowStyles: {
-      fillColor: [242,242,242]
-    },
-    columnStyles: {
-      5:{halign:'right'}, 8:{halign:'right'}, 9:{halign:'right'},
-      10:{halign:'right'}, 11:{halign:'right'}, 12:{halign:'right'}, 13:{halign:'right'}, 14:{halign:'right'}
-    },
-    didDrawPage: function(data) {
-      /* Repetir header en páginas siguientes */
-      if (data.pageNumber > 1) {
-        doc.setFillColor(10,10,10);
-        doc.rect(0,0,W,22,'F');
-        doc.setFont('helvetica','bold');
-        doc.setFontSize(13);
-        doc.setTextColor(255,255,255);
-        doc.text('IXOU · Lista de precios', 14, 10);
-        doc.setFont('helvetica','normal');
-        doc.setFontSize(8);
-        doc.setTextColor(180,180,180);
-        doc.text('Generado: ' + fecha + ' · Validez: 7 días', 14, 17);
-        doc.setFont('helvetica','bold');
-        doc.setFontSize(16);
-        doc.setTextColor(255,255,255);
-        doc.text('IXOU', W-14, 14, {align:'right'});
-        doc.setFont('helvetica','normal');
-        doc.setFontSize(7);
-        doc.setTextColor(150,150,150);
-        doc.text('Ciudad Consciente', W-14, 19, {align:'right'});
-      }
-      /* Footer */
-      var ph = doc.internal.pageSize.height;
-      doc.setDrawColor(210,210,210);
-      doc.line(14, ph-10, W-14, ph-10);
-      doc.setFontSize(6.5);
-      doc.setTextColor(120,120,120);
-      doc.setFont('helvetica','normal');
-      doc.text('Sujeto a disponibilidad · Precios orientativos, sujetos a cambios · No incluyen gastos de ocupación (5%) · Uso exclusivo para inmobiliarias registradas y habilitadas por IXOU', 14, ph-6);
-      doc.text('Pág. ' + data.pageNumber, W-14, ph-6, {align:'right'});
-    }
-  });
-
-  var fname = 'IXOU-Lista-precios-' + fecha.replace(/\//g,'-') + '.pdf';
-  doc.save(fname);
-}
 
 window.exportBuscadorExcel = exportBuscadorExcel;
 window.exportBuscadorPDF   = exportBuscadorPDF;
@@ -1213,8 +1085,8 @@ window.logoutUser     = logoutUser;
 
 /* ══ DASHBOARD ══ */
 
-function obraClass(o){return OBRA_CLS[o]||'ob-proyecto'}
-function obraLabel(o){return OBRA_LBL[o]||o}
+
+
 
 /* ── AVAILABILITY COUNTS (loads independently of buscador) ── */
 function normProj(s) {
@@ -1462,34 +1334,15 @@ function openModal(id){
   document.getElementById('modal').classList.add('open');
 }
 window.openModal = openModal;
-function closeModal(){document.getElementById('modal').classList.remove('open')}
-window.closeModal = closeModal;
 
 /* ══ BLOG ══ */
 
-function slideTo(i) {
-  const proj  = FEATURED();
-  slideIdx    = (i + proj.length) % proj.length;
-  const track = document.getElementById('slider-track');
-  if (track) track.style.transform = `translateX(-${slideIdx * 100}%)`;
-  document.querySelectorAll('.slider-dot').forEach((d,j) => {
-    d.classList.toggle('active', j === slideIdx);
-  });
-}
 
-function slideMove(dir) {
-  slideTo(slideIdx + dir);
-  restartSlider();
-}
 
-function startSlider() {
-  clearInterval(slideTimer);
-  slideTimer = setInterval(() => slideTo(slideIdx + 1), 5000);
-}
-function restartSlider() {
-  clearInterval(slideTimer);
-  startSlider();
-}
+
+
+
+
 window.slideTo   = slideTo;
 window.slideMove = slideMove;
 window.renderSlider = renderSlider;
@@ -1501,57 +1354,14 @@ function getReadKey() {
 }
 let readIds = JSON.parse(localStorage.getItem(getReadKey()) || '[]');
 
-function getUnread(){return livePosts.filter(p=>!readIds.map(String).includes(String(p.id)))}
 
-function updateNotifBadge(){
-  const n=getUnread().length;
-  const badge=document.getElementById('notif-count');
-  if(badge){badge.textContent=n>0?n:'';badge.style.display=n>0?'flex':'none';}
-}
 
-function toggleNotif(){
-  const panel=document.getElementById('notif-panel');
-  const isOpen=panel.style.display!=='none';
-  panel.style.display=isOpen?'none':'block';
-  if(!isOpen) renderNotifPanel();
-}
-window.toggleNotif = toggleNotif;
 
-function renderNotifPanel(){
-  const list=document.getElementById('notif-list');
-  if(!list)return;
-  list.innerHTML=livePosts.slice(0,10).map(p=>{
-    const unread=!readIds.includes(p.id);
-    const m=CAT[p.cat];
-    return `<div style="padding:12px 16px;border-bottom:1px solid var(--gray1);cursor:pointer;background:${unread?'var(--black3)':'var(--black2)'};transition:background .15s"
-      onmouseover="this.style.background='var(--black3)'" onmouseout="this.style.background='${unread?'var(--black3)':'var(--black2)'}'"
-      onclick="clickNotif(${p.id})">
-      <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
-        ${unread?'<div style="width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0"></div>':'<div style="width:6px;height:6px;flex-shrink:0"></div>'}
-        <span class="${m.cls}" style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase">${m.lbl}</span>
-        <span style="font-size:10px;color:var(--gray4)">${p.fecha}</span>
-      </div>
-      <div style="font-size:12px;color:${unread?'var(--white)':'var(--gray5)'};line-height:1.4">${p.titulo}</div>
-      ${p.proyecto?`<div style="font-size:10px;color:var(--gray3);margin-top:3px">◇ ${p.proyecto}</div>`:''}
-    </div>`;
-  }).join('');
-}
 
-function clickNotif(id){
-  if(!readIds.includes(id)){readIds.push(id);localStorage.setItem(getReadKey(),JSON.stringify(readIds));}
-  updateNotifBadge();
-  document.getElementById('notif-panel').style.display='none';
-  showSec('blog',document.querySelectorAll('.nav-btn')[2]);
-}
-window.clickNotif = clickNotif;
 
-function markAllRead(){
-  readIds=livePosts.map(p=>p.id);
-  localStorage.setItem(getReadKey(),JSON.stringify(readIds));
-  updateNotifBadge();
-  renderNotifPanel();
-}
-window.markAllRead = markAllRead;
+
+
+
 
 /* Close notif panel on outside click */
 document.addEventListener('click',function(e){
@@ -1573,10 +1383,6 @@ window.addEventListener('DOMContentLoaded',()=>{
 
 /* ══ POST DETAIL ══ */
 
-function closePostModal() {
-  document.getElementById('post-modal').classList.remove('open');
-}
-window.closePostModal = closePostModal;
 
 /* ══ BUSCADOR DE UNIDADES ══ */
 
@@ -1955,6 +1761,8 @@ function renderDashNews() {
       <div style="font-size:12px;font-weight:500;color:var(--gray5);line-height:1.4">${p.titulo}</div>
       ${p.proyecto?`<div style="font-size:10px;color:var(--gray3);margin-top:3px">◇ ${p.proyecto}</div>`:''}
     </div>`).join('');
+}
+window.renderDashNews = renderDashNews;
 
 function renderDash(){
   const eo=PROYECTOS.filter(p=>p.obra==='obra').length;
@@ -2252,7 +2060,6 @@ function nextPost(currentId) {
 }
 window.prevPost = prevPost;
 window.nextPost = nextPost;
-}
 </script>
 <!-- POST DETAIL MODAL -->
 <div class="modal-bg" id="post-modal" onclick="if(event.target===this)closePostModal()">
