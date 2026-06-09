@@ -1048,25 +1048,13 @@ function showSec(n,btn){
   if(n==='buscador') loadBuscador();
 }
 window.showSec=showSec;
-/* Expose all functions globally — function declarations are hoisted so this is safe */
-window.openModal      = openModal;
-window.closeModal     = closeModal;
-window.openPost       = openPost;
-window.closePostModal = closePostModal;
-window.prevPost       = prevPost;
-window.nextPost       = nextPost;
-window.renderBlog = renderBlog;
-window.filterBlog     = filterBlog;
-window.toggleNotif    = toggleNotif;
-window.markAllRead    = markAllRead;
-window.clickNotif     = clickNotif;
+/* exports are next to each function definition */
 function resetProjFilters(){
   ['ctrl-q','ctrl-pmin','ctrl-pmax'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
   ['ctrl-obra','ctrl-barrio','ctrl-tax','ctrl-tipo-proj'].forEach(id=>{const el=document.getElementById(id);if(el)el.selectedIndex=0;});
   renderProj();
 }
 window.resetProjFilters = resetProjFilters;
-window.renderProj     = renderProj;
 window.renderBuscador = renderBuscador;
 window.sortBuscador   = sortBuscador;
 window.resetBuscador  = resetBuscador;
@@ -1211,7 +1199,6 @@ function exportBuscadorPDF() {
 window.exportBuscadorExcel = exportBuscadorExcel;
 window.exportBuscadorPDF   = exportBuscadorPDF;
 
-window.loadBuscador   = loadBuscador;
 window.logoutUser     = logoutUser;
 
 /* ══ DASHBOARD ══ */
@@ -1376,6 +1363,7 @@ function renderProj(){
       `<div style="padding:2rem;color:#E88;grid-column:1/-1">Error al cargar proyectos: ${err.message}</div>`;
   }
 }
+window.renderProj = renderProj;
 
 /* ══ MODAL ══ */
 
@@ -1463,7 +1451,9 @@ function openModal(id){
     </div>`;
   document.getElementById('modal').classList.add('open');
 }
+window.openModal = openModal;
 function closeModal(){document.getElementById('modal').classList.remove('open')}
+window.closeModal = closeModal;
 
 /* ══ BLOG ══ */
 
@@ -1515,6 +1505,7 @@ function toggleNotif(){
   panel.style.display=isOpen?'none':'block';
   if(!isOpen) renderNotifPanel();
 }
+window.toggleNotif = toggleNotif;
 
 function renderNotifPanel(){
   const list=document.getElementById('notif-list');
@@ -1542,6 +1533,7 @@ function clickNotif(id){
   document.getElementById('notif-panel').style.display='none';
   showSec('blog',document.querySelectorAll('.nav-btn')[2]);
 }
+window.clickNotif = clickNotif;
 
 function markAllRead(){
   readIds=livePosts.map(p=>p.id);
@@ -1549,6 +1541,7 @@ function markAllRead(){
   updateNotifBadge();
   renderNotifPanel();
 }
+window.markAllRead = markAllRead;
 
 /* Close notif panel on outside click */
 document.addEventListener('click',function(e){
@@ -1573,6 +1566,7 @@ window.addEventListener('DOMContentLoaded',()=>{
 function closePostModal() {
   document.getElementById('post-modal').classList.remove('open');
 }
+window.closePostModal = closePostModal;
 
 /* ══ BUSCADOR DE UNIDADES ══ */
 const SHEET_API = 'https://script.google.com/macros/s/AKfycbycaPrcTFKBy7GuHzfm_odXPSEOAnxzbeeKZHlkabzRJbriM-K9DK3FrzWAjdGrML7J/exec?key=ixou2026portal';
@@ -1705,6 +1699,7 @@ function loadBuscador() {
   };
   document.head.appendChild(sc);
 }
+window.loadBuscador = loadBuscador;
 
 function renderBuscador() {
   if (!buLoaded) { loadBuscador(); return; }
@@ -1998,6 +1993,7 @@ function renderDash(){
       <div><div class="qlink-name">${p.nombre}</div><div class="qlink-sub">${p.calle}</div></div>
     </a>`).join('');
 }
+window.renderDash = renderDash;
 
 /* ══ PROJECT CARDS ══ */
 function obraClass(o){return OBRA_CLS[o]||'ob-proyecto'}
@@ -2029,7 +2025,9 @@ function renderBlog(){
   const projs=[...new Set(livePosts.map(p=>p.proyecto).filter(Boolean))];
   document.getElementById('blog-projs').innerHTML=projs.map(n=>`<div class="cat-stat-row" style="cursor:pointer" onclick="showSec('proyectos',document.querySelectorAll('.nav-btn')[1])"><span class="cat-stat-lbl">${n}</span><span style="font-size:10px;color:var(--gray3)">→</span></div>`).join('');
 }
+window.renderBlog = renderBlog;
 function filterBlog(cat,btn){bFilter=cat;document.querySelectorAll('.cat-btn2').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderBlog()}
+window.filterBlog = filterBlog;
 
 /* ── Slider state ── */
 let slideIdx = 0;
@@ -2234,6 +2232,7 @@ function openPost(id) {
     updateNotifBadge && updateNotifBadge();
   }
 }
+window.openPost = openPost;
 function closePostModal() {
   document.getElementById('post-modal').classList.remove('open');
 }
