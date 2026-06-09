@@ -647,6 +647,15 @@ function loadNovedades() {
     });
     
     renderBlog();
+    /* Refresh dash news grid */
+    var dn = document.getElementById('dash-news');
+    if (dn) dn.innerHTML = livePosts.slice(0,8).map(function(p){
+      return '<div style="padding:14px;background:var(--black2);cursor:pointer;transition:background .15s" onmouseover="this.style.background=\'var(--black3)\'" onmouseout="this.style.background=\'var(--black2)\'" onclick="openPost('+String(p.id)+')">'
+        +(p.imgUrl&&p.imgUrl.length>4?'<img src="'+p.imgUrl+'" style="width:100%;height:90px;object-fit:cover;margin-bottom:8px;opacity:.85">':'')
+        +'<div style="font-size:11px;font-weight:500;color:var(--white);line-height:1.4;margin-bottom:4px">'+p.titulo+'</div>'
+        +'<div style="font-size:10px;color:var(--gray4)">'+p.fecha+'</div>'
+        +'</div>';
+    }).join('');
     if (updateNotifBadge) updateNotifBadge();
   };
   var sc = document.createElement('script');
@@ -1928,6 +1937,23 @@ window.resetBuscador  = resetBuscador;
 window.logoutUser     = logoutUser;
 
 /* ══ DASHBOARD ══ */
+
+function renderDashNews() {
+  var el = document.getElementById('dash-news');
+  if (!el) return;
+  el.innerHTML = livePosts.slice(0,8).map(p=>`
+    <div style="padding:14px;background:var(--black2);cursor:pointer;transition:background .15s"
+         onmouseover="this.style.background='var(--black3)'" onmouseout="this.style.background='var(--black2)'"
+         onclick="openPost(${p.id})">
+      ${p.imgUrl?`<img src="${p.imgUrl}" style="width:100%;height:90px;object-fit:cover;margin-bottom:8px;opacity:.85">`:''} 
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
+        <span class="${CAT[p.cat].cls}" style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase">${CAT[p.cat].lbl}</span>
+        <span style="font-size:10px;color:var(--gray4)">${p.fecha}</span>
+      </div>
+      <div style="font-size:12px;font-weight:500;color:var(--gray5);line-height:1.4">${p.titulo}</div>
+      ${p.proyecto?`<div style="font-size:10px;color:var(--gray3);margin-top:3px">◇ ${p.proyecto}</div>`:''}
+    </div>`).join('');
+
 function renderDash(){
   const eo=PROYECTOS.filter(p=>p.obra==='obra').length;
   const ep=PROYECTOS.filter(p=>p.obra==='Pozo').length;
@@ -1963,18 +1989,7 @@ function renderDash(){
   /* slider rendered separately */
   renderSlider();
   if(!document.getElementById('dash-news'))return;
-  document.getElementById('dash-news').innerHTML=livePosts.slice(0,8).map(p=>`
-    <div style="padding:14px;background:var(--black2);cursor:pointer;transition:background .15s"
-         onmouseover="this.style.background='var(--black3)'" onmouseout="this.style.background='var(--black2)'"
-         onclick="openPost(${p.id})">
-      ${p.imgUrl?`<img src="${p.imgUrl}" style="width:100%;height:90px;object-fit:cover;margin-bottom:8px;opacity:.85">`:''} 
-      <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
-        <span class="${CAT[p.cat].cls}" style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase">${CAT[p.cat].lbl}</span>
-        <span style="font-size:10px;color:var(--gray4)">${p.fecha}</span>
-      </div>
-      <div style="font-size:12px;font-weight:500;color:var(--gray5);line-height:1.4">${p.titulo}</div>
-      ${p.proyecto?`<div style="font-size:10px;color:var(--gray3);margin-top:3px">◇ ${p.proyecto}</div>`:''}
-    </div>`).join('');
+  renderDashNews();
   var _dd=document.getElementById('dash-drive');if(_dd)_dd.innerHTML=PROYECTOS.map(p=>`
     <a class="qlink" href="${p.driveUrl}" target="_blank">
       <div class="qlink-dot"></div>
@@ -2234,10 +2249,7 @@ function nextPost(currentId) {
 }
 window.prevPost = prevPost;
 window.nextPost = nextPost;
-
-window.prevPost = prevPost;
-window.nextPost = nextPost;
-
+}
 </script>
 <!-- POST DETAIL MODAL -->
 <div class="modal-bg" id="post-modal" onclick="if(event.target===this)closePostModal()">
