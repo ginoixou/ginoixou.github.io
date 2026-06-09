@@ -678,8 +678,9 @@ function showPortal(u){
     document.getElementById('hdr-right').textContent=PROYECTOS.length+' PROYECTOS · '+livePosts.length+' NOVEDADES';
     renderDash();
   loadAvailability();
-  renderProj();renderBlog();renderSlider&&renderSlider();
+  renderProj();renderBlog();
     setTimeout(()=>{
+    renderSlider&&renderSlider();
     updateNotifBadge&&updateNotifBadge();
     /* Open post from email link */
     var params = new URLSearchParams(window.location.search);
@@ -1037,6 +1038,7 @@ window.submitPost        = submitPost;
 function showSec(n,btn){
   ['dashboard','proyectos','blog','buscador','sobre'].forEach(s=>document.getElementById('sec-'+s).style.display='none');
   document.getElementById('sec-'+n).style.display='block';
+  if(n==='dashboard'){setTimeout(function(){renderSlider&&renderSlider();},50);}
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
   if(btn)btn.classList.add('active');
   window.scrollTo(0,0);
@@ -2350,4 +2352,4 @@ window.nextPost = nextPost;
 </a>
 
 </body>
-</html> 
+</html>
