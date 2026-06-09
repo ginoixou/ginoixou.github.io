@@ -643,6 +643,16 @@ function loadNovedades() {
     /* Sheets novedades take priority — add hardcoded ones not already in Sheets */
     var sheetsIds = data.map(function(p){ return String(p.id); });
     var hardcoded = livePosts.filter(function(p){ return sheetsIds.indexOf(String(p.id)) < 0; });
+    /* Normalize cat — map label to key if needed */
+    var catLabelToKey = {
+      'Notarial':'legal','notarial':'legal',
+      'Lanzamiento':'lanzamiento','Avance de obra':'avance','Avance':'avance',
+      'Comercial':'comercial','General':'general','Empresa':'general',
+      'Mercado':'general','Proyectos':'lanzamiento','Normativa':'legal'
+    };
+    data.forEach(function(p) {
+      if (p.cat && catLabelToKey[p.cat]) p.cat = catLabelToKey[p.cat];
+    });
     /* Normalize fecha from Sheets long format to dd/mm/yyyy */
     data.forEach(function(p) {
       if (p.fecha && p.fecha.length > 10) {
