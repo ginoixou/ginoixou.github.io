@@ -650,7 +650,7 @@ function loadNovedades() {
     /* Refresh dash news grid */
     var dn = document.getElementById('dash-news');
     if (dn) dn.innerHTML = livePosts.slice(0,8).map(function(p){
-      return '<div style="padding:14px;background:var(--black2);cursor:pointer;transition:background .15s" onmouseover="this.style.background=\'var(--black3)\'" onmouseout="this.style.background=\'var(--black2)\'" onclick="openPost('+String(p.id)+')">'
+      return '<div style="padding:14px;background:var(--black2);cursor:pointer;transition:background .15s" onmouseover="this.style.background=\'var(--black3)\'" onmouseout="this.style.background=\'var(--black2)\'" onclick="window.openPost('+String(p.id)+')">'
         +(p.imgUrl&&p.imgUrl.length>4?'<img src="'+p.imgUrl+'" style="width:100%;height:90px;object-fit:cover;margin-bottom:8px;opacity:.85">':'')
         +'<div style="font-size:11px;font-weight:500;color:var(--white);line-height:1.4;margin-bottom:4px">'+p.titulo+'</div>'
         +'<div style="font-size:10px;color:var(--gray4)">'+p.fecha+'</div>'
@@ -687,7 +687,7 @@ function showPortal(u){
     if (postId) {
       setTimeout(function(){
         var p = livePosts.find(function(x){ return String(x.id)===String(postId); });
-        if (p) { showSec('blog',document.querySelectorAll('.nav-btn')[2]); openPost(p.id); }
+        if (p) { showSec('blog',document.querySelectorAll('.nav-btn')[2]); window.openPost(p.id); }
       }, 800);
     }
   },300);
@@ -781,7 +781,7 @@ function renderGsearch() {
   if (bm.length) {
     html += '<div class="gsearch-section"><div class="gsearch-label">Novedades</div>';
     bm.forEach(function(p) {
-      var act = "showSec('blog',document.querySelectorAll('.nav-btn')[2]);setTimeout(function(){openPost("+p.id+")},150)";
+      var act = "showSec('blog',document.querySelectorAll('.nav-btn')[2]);setTimeout(function(){window.openPost("+p.id+")},150)";
       html += gsItem(['var(--gray4)','<path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/>'], p.title, p.categoria||'', act);
     });
     html += '</div>';
@@ -1944,7 +1944,7 @@ function renderDashNews() {
   el.innerHTML = livePosts.slice(0,8).map(p=>`
     <div style="padding:14px;background:var(--black2);cursor:pointer;transition:background .15s"
          onmouseover="this.style.background='var(--black3)'" onmouseout="this.style.background='var(--black2)'"
-         onclick="openPost(${p.id})">
+         onclick="window.openPost(${p.id})">
       ${p.imgUrl?`<img src="${p.imgUrl}" style="width:100%;height:90px;object-fit:cover;margin-bottom:8px;opacity:.85">`:''} 
       <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
         <span class="${CAT[p.cat].cls}" style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase">${CAT[p.cat].lbl}</span>
@@ -2015,10 +2015,10 @@ function renderBlog(){
   const feat=list.find(p=>p.destacado)||list[0];
   const rest=list.filter(p=>p!==feat);
   let html='';
-  if(feat){const m=CAT[feat.cat]||{lbl:feat.cat||'',cls:'cc-general'};html+=`<div class="post-feat" onclick="openPost(${feat.id})" style="cursor:pointer">
+  if(feat){const m=CAT[feat.cat]||{lbl:feat.cat||'',cls:'cc-general'};html+=`<div class="post-feat" onclick="window.openPost(${feat.id})" style="cursor:pointer">
       ${feat.imgUrl&&feat.imgUrl.length>4 ? `<div style="height:220px;overflow:hidden;background:var(--black3)"><img src="${feat.imgUrl}" alt="" style="width:100%;height:100%;object-fit:cover;object-position:center 20%;opacity:.85;transition:opacity .3s" onerror="this.parentElement.style.display='none'"></div>` : ''}
       <div class="post-feat-tag-row"><span class="post-feat-sticker">Destacado</span><span class="post-feat-date">${feat.fecha}</span><span class="${m.cls}" style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase">${m.lbl}</span></div><div class="post-feat-body"><div class="post-feat-ttl">${feat.titulo}</div><div class="post-feat-txt">${feat.resumen}</div>${feat.proyecto?`<div class="post-feat-proj">◇ ${feat.proyecto}</div>`:''}</div></div>`}
-  html+=rest.slice(0,8).map(p=>{const m=CAT[p.cat]||{lbl:p.cat||'',cls:'cc-general'};return`<div class="post-list-item" onclick="openPost(${p.id})" style="grid-template-columns:${p.imgUrl&&p.imgUrl.length>4?'80px 1fr':'1fr'} auto;gap:12px">
+  html+=rest.slice(0,8).map(p=>{const m=CAT[p.cat]||{lbl:p.cat||'',cls:'cc-general'};return`<div class="post-list-item" onclick="window.openPost(${p.id})" style="grid-template-columns:${p.imgUrl&&p.imgUrl.length>4?'80px 1fr':'1fr'} auto;gap:12px">
       ${p.imgUrl&&p.imgUrl.length>4 ? `<img src="${p.imgUrl}" alt="" style="width:80px;height:80px;object-fit:cover;object-position:center 20%;opacity:.85;border-radius:1px;flex-shrink:0" onerror="this.style.display='none'">` : ''}
       <div><div class="pli-top"><span class="pli-date">${p.fecha}</span><span class="pli-cat ${m.cls}">${m.lbl}</span></div><div class="pli-ttl">${p.titulo}</div>${p.proyecto?`<div class="pli-proj">◇ ${p.proyecto}</div>`:''}</div><div class="pli-arrow">→</div></div>`}).join('');
   document.getElementById('blog-main').innerHTML=html;
