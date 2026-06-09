@@ -699,6 +699,7 @@ function showPortal(u){
     renderDash();
   loadAvailability();
   renderProj();renderBlog();
+  loadNovedades();
     setTimeout(()=>{
     try{renderSlider&&renderSlider();}catch(e){console.error('slider:',e);}
     updateNotifBadge&&updateNotifBadge();
