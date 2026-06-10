@@ -1512,16 +1512,26 @@ function updateProjAvailability() {
 
 /* ── PRICE CHIPS — actualiza los chips de tipología con el mínimo disponible ── */
 function updatePriceChips() {
-  /* Build: { normProjName: { tipo: minPrecio } } — solo unidades DISPONIBLE */
+  /* Build: { normProjName: { etiqueta: minPrecio } } — solo unidades DISPONIBLE
+     Vivienda → etiqueta = dorm + "D" (ej. "1D", "2D", "3D")
+     Otros tipos (Local, Garaje, etc.) → etiqueta = tipo tal cual */
   var minByProj = {};
   buRows.forEach(function(r) {
     if (r.estadoVenta.toUpperCase() !== 'DISPONIBLE') return;
     var precio = parseFloat(r.precio);
     if (!precio || !r.tipo || !r.proyecto) return;
+    var tipoNorm = r.tipo.trim().toLowerCase();
+    var etiqueta;
+    if (tipoNorm === 'vivienda') {
+      var d = (r.dorm !== '' && r.dorm !== undefined && r.dorm !== null) ? r.dorm : null;
+      etiqueta = d !== null ? d + 'D' : 'Vivienda';
+    } else {
+      etiqueta = r.tipo.trim();
+    }
     var pKey = normProj(r.proyecto);
     if (!minByProj[pKey]) minByProj[pKey] = {};
-    if (!minByProj[pKey][r.tipo] || precio < minByProj[pKey][r.tipo]) {
-      minByProj[pKey][r.tipo] = precio;
+    if (!minByProj[pKey][etiqueta] || precio < minByProj[pKey][etiqueta]) {
+      minByProj[pKey][etiqueta] = precio;
     }
   });
 
@@ -1531,9 +1541,16 @@ function updatePriceChips() {
     var tiposDisp = minByProj[pKey] || {};
     /* Build new unidadesDetalle: only types with stock, price = min available */
     var newDetalle = {};
-    Object.keys(tiposDisp).sort().forEach(function(tipo) {
-      var n = Math.round(tiposDisp[tipo]);
-      newDetalle[tipo] = 'USD ' + n.toLocaleString('es-UY');
+    /* Sort: XD labels numerically first, then other types alphabetically */
+    Object.keys(tiposDisp).sort(function(a, b) {
+      var mA = a.match(/^(\d+)D$/), mB = b.match(/^(\d+)D$/);
+      if (mA && mB) return parseInt(mA[1]) - parseInt(mB[1]);
+      if (mA) return -1;
+      if (mB) return 1;
+      return a.localeCompare(b);
+    }).forEach(function(etiqueta) {
+      var n = Math.round(tiposDisp[etiqueta]);
+      newDetalle[etiqueta] = 'USD ' + n.toLocaleString('es-UY');
     });
     p.unidadesDetalle = Object.keys(newDetalle).length ? newDetalle : p.unidadesDetalle;
 
