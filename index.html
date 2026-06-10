@@ -607,10 +607,11 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
 
 <script>
 /* ══ AUTH ══ */
-const EMAILS_AUTORIZADOS=["a.symonds@prop.com.uy","a.urti@prop.com.uy","adrianalavecchia@kwuruguay.com","agnatelli@gmail.com","alejandra@caldeyro.com","alejandrasgolf@gmail.com","aleladeiralucas@gmail.com","aliciarubio2023@gmail.com","andrea.angeriz@entorno.com.uy","andrea.varela@entorno.com.uy","angerizadc@gmail.com","antonella.malvasio@justoaca.com","aranza.vidal@hauzen.com.uy","ariel@ixou.la","arq.mvillarb@gmail.com","arqvalentinapidutti@gmail.com","arquibrokers@gmail.com","barsukovilyaaa@gmail.com","belen.bogadjian@engelvoelkers.com","benjarrascaeta14@gmail.com","brimaryglobal@gmail.com","brunoar888@gmail.com","bycaroytiti@gmail.com","c.alvarez@ixou.la","camila.freire@justoaca.com","camila.gonzalez.mella@gmail.com","camilescas97@gmail.com","camioyhe@gmail.com","cantunez@abate.com.uy","caromontoro987@gmail.com","cecilia.pais@spot.uy","clauinmobiliariagolf@gmail.com","contacto.anaf@gmail.com","d93946675@gmail.com","danielmontero2011@gmail.com","desarrollos@planorbe.com","diego.carricaburu@justoaca.com","diego.goldaracena@justoaca.com","e.lacuesta@prop.com.uy","egrobert@etxe.com.uy","erikasolari2909@gmail.com","eugeniaperezsellanes@gmail.com","federicocapretti0@gmail.com","felixd.v@hotmail.com","fernanda.castro@justoaca.com","fernando.gonzalez.pointer@gmail.com","ferreiravalen822@gmail.com","florencia@polouy.com","fredmamash@gmail.com","frodriguez@soldati.com","g.larrosa@prop.com.uy","g.sosa@prop.com.uy","gali@entorno.com.uy","germanetchebarne@gmail.com","gianfrancofagnoni@gmail.com","ginodistasio@gmail.com","gino@ixou.la","goyenmariana@gmail.com","guillermina@ap.com.uy","hdelcorro@polouy.com","hernanadlib@gmail.com","hmsapriza@gmail.com","i.ramirez@prop.com.uy","ignacio@caldeyro.com","ignacio.sorhuet@fineandcountry.com","ignaciogimenez242@gmail.com","inmobiliariagolf1@gmail.com","info@aixarealestate.com","info@arquibrokers.com","info@polouy.com","info@vizcaya.uy","javier.garaza@justoaca.com","jfolle@planorbe.com","jlnayavarela@remax.com.uy","jponcedeleon@etxe.com.uy","jrebellato@acsa.uy","juan.palacios@engelvoelkers.com","ksnberkov@gmail.com","l.caraballo@prop.com.uy","lard.comex@gmail.com","laura@caldeyro.com","lcoitino@abate.com.uy","lfrancolino@etxe.com.uy","lizberkova@gmail.com","lorechiribao@gmail.com","luxinmobiliariauy@gmail.com","m.gonzalez@ixou.la","m.torres@prop.com.uy","m.zunino@prop.com.uy","macarinegociosinmobiliarios1@gmail.com","magdalenaacerenza@remax.com.uy","majotomas5@gmail.com","marcelo.saracho@coldwellbanker.com.uy","mariacabrera@remax.com.uy","mariano.monymar@gmail.com","marinabajuk@kwuruguay.com","marketing@justoaca.com","massimiglianodimauro@gmail.com","mateo.garcia@engelvoelkers.com","matiasrodfer@gmail.com","mb@blk.uy","mcgerfauo@gmail.com","mdavyt@metrocuadrado.uy","mealvarez@acsa.uy","micaela.hayd@engelvoelkers.com","micaela.lopez@justoaca.com","michi@entorno.com.uy","monicasegoviayic@gmail.com","msokol.pointer@gmail.com","mujicadiazmartin.pointer@gmail.com","natalia.silveira@justoaca.com","nataliamonymar@gmail.com","ncastro@acsa.uy","neorealestate.uy@gmail.com","nicolas@ixou.la","noeliablanco@kwuruguay.com","p.buela@ixou.la","p.correa@prop.com.uy","p.garcia@prop.com.uy","pablo.hontou@engelvoelkers.com","pcassi@acsa.uy","pia.barrabino@gmail.com","piainmobiliariagolf@gmail.com","piamagalhaes@gmail.com","piaoyenard@gmail.com","rafael.estudioflom@gmail.com","rafael@ap.com.uy","rafael@entorno.com.uy","rfalero@metrocuadrado.uy","rivadaviajohana2@gmail.com","rmarialaura48@gmail.com","rominamartinez.f98@gmail.com","rossiellonicolas@gmail.com","rossinaval17@gmail.com","s.vazquez@prop.com.uy","sales@uruestate.com","scheinowitzjackie@gmail.com","sheylacarballo@kwuruguay.com","soledad.uria@justoaca.com","szarza@metrocuadrado.uy","ta-macla@hotmail.com","tabare@entorno.com.uy","tatianaribeiro@kwuruguay.com","uru@neodom.es","v.dupont@prop.com.uy","ventas@inmobiliariafocus.com","ventas@treehouse.com.uy","victorica@caldeyro.com","viviana@arpro.com.uy","yura.sazonov@gmail.com"];
+/* Lista de accesos cargada desde Sheets (mode=accesos) */
+var _accesosCache = null;
 
 /* ── State variables ── */
-const SHEET_API = 'https://script.google.com/macros/s/AKfycbycaPrcTFKBy7GuHzfm_odXPSEOAnxzbeeKZHlkabzRJbriM-K9DK3FrzWAjdGrML7J/exec?key=ixou2026portal';
+const SHEET_API = 'https://script.google.com/macros/s/AKfycbyXXLaiouZz764tNZtu-CbICCDTG5oX5YZv-MXjtI64XTjKcr4u3LKf3dvU5IFjaDZp/exec?key=ixou2026portal';
 let buRows    = [];
 let buLoaded  = false;
 let buSortKey = 'proyecto';
@@ -621,16 +622,53 @@ const FEATURED = () => PROYECTOS.filter(p => p.destacado);
 const GOOGLE_CLIENT_ID="309421220352-pmk9r2oua7sqn84hbjogsd0s524q5a5d.apps.googleusercontent.com";
 /* ══ ADMIN ROLES ══ */
 const ADMIN_EMAILS = ["gino@ixou.la","ginodistasio@gmail.com"];
-function isAuthorized(e){ return EMAILS_AUTORIZADOS.includes(e.toLowerCase().trim()); }
 function isAdmin(email){ return ADMIN_EMAILS.includes((email||'').toLowerCase().trim()); }
 window.isAdmin = isAdmin;
 function parseJwt(t){try{const b=t.split('.')[1].replace(/-/g,'+').replace(/_/g,'/');return JSON.parse(decodeURIComponent(atob(b).split('').map(c=>'%'+('00'+c.charCodeAt(0).toString(16)).slice(-2)).join('')))}catch(e){return null}}
+
+function checkAccessFromSheets(email, onOk, onDenied, onError) {
+  var cbName = '_accesosCb_' + Date.now();
+  var sc = document.createElement('script');
+  var apiUrl = 'https://script.google.com/macros/s/AKfycbyXXLaiouZz764tNZtu-CbICCDTG5oX5YZv-MXjtI64XTjKcr4u3LKf3dvU5IFjaDZp/exec';
+  window[cbName] = function(data) {
+    sc.remove();
+    delete window[cbName];
+    if (!data || data.error) { onError(data && data.error ? data.error : 'Error de conexión'); return; }
+    var emails = Array.isArray(data) ? data : (data.emails || []);
+    _accesosCache = emails;
+    var norm = (email||'').toLowerCase().trim();
+    if (emails.map(function(e){ return (e||'').toLowerCase().trim(); }).indexOf(norm) >= 0) {
+      onOk();
+    } else {
+      onDenied();
+    }
+  };
+  sc.onerror = function() { sc.remove(); delete window[cbName]; onError('Error de red al verificar accesos'); };
+  sc.src = apiUrl + '?key=ixou2026portal&mode=accesos&callback=' + cbName;
+  document.head.appendChild(sc);
+}
+
 window.handleCredentialResponse=function(r){
   const p=parseJwt(r.credential);
   if(!p){showLoginError('Error al verificar la cuenta.');return}
-  if(!isAuthorized(p.email)){showLoginError('Tu cuenta ('+p.email+') no tiene acceso. Contactá a ventas@ixou.la');return}
-  sessionStorage.setItem('ixou_user',JSON.stringify({email:p.email,name:p.name,pic:p.picture}));
-  showPortal({email:p.email,name:p.name,pic:p.picture});
+  showLoginError('Verificando acceso…');
+  document.getElementById('login-error').style.color='var(--gray4)';
+  document.getElementById('login-error').style.display='block';
+  checkAccessFromSheets(
+    p.email,
+    function(){ /* onOk */
+      sessionStorage.setItem('ixou_user',JSON.stringify({email:p.email,name:p.name,pic:p.picture}));
+      showPortal({email:p.email,name:p.name,pic:p.picture});
+    },
+    function(){ /* onDenied */
+      document.getElementById('login-error').style.color='';
+      showLoginError('Tu cuenta ('+p.email+') no tiene acceso. Contactá a ventas@ixou.la');
+    },
+    function(err){ /* onError */
+      document.getElementById('login-error').style.color='';
+      showLoginError('Error al verificar acceso: '+err+'. Intentá de nuevo.');
+    }
+  );
 };
 function showLoginError(m){const el=document.getElementById('login-error');if(el){el.textContent=m;el.style.display='block'}}
 
@@ -680,7 +718,7 @@ function loadNovedades() {
   };
   var sc = document.createElement('script');
   sc.id  = '_nov_s';
-  sc.src = 'https://script.google.com/macros/s/AKfycbycaPrcTFKBy7GuHzfm_odXPSEOAnxzbeeKZHlkabzRJbriM-K9DK3FrzWAjdGrML7J/exec?key=ixou2026portal&mode=novedades&callback=_novedadesCb';
+  sc.src = 'https://script.google.com/macros/s/AKfycbyXXLaiouZz764tNZtu-CbICCDTG5oX5YZv-MXjtI64XTjKcr4u3LKf3dvU5IFjaDZp/exec?key=ixou2026portal&mode=novedades&callback=_novedadesCb';
   sc.onerror = function(){ this.remove(); };
   document.head.appendChild(sc);
 }
@@ -718,7 +756,7 @@ function showPortal(u){
 window.logoutUser=function(){if(confirm('¿Cerrar sesión?')){sessionStorage.removeItem('ixou_user');location.reload()}};
 window.addEventListener('DOMContentLoaded',()=>{
   const s=sessionStorage.getItem('ixou_user');
-  if(s){try{const u=JSON.parse(s);if(isAuthorized(u.email)){showPortal(u);return}}catch(e){}sessionStorage.removeItem('ixou_user')}
+  if(s){try{const u=JSON.parse(s);if(u&&u.email){showPortal(u);return}}catch(e){}sessionStorage.removeItem('ixou_user')}
   window.onGoogleLibraryLoad=function(){
     google.accounts.id.initialize({client_id:GOOGLE_CLIENT_ID,callback:window.handleCredentialResponse,auto_select:false});
     google.accounts.id.renderButton(document.getElementById('google-btn-wrap'),{theme:'filled_black',size:'large',width:280,text:'continue_with',locale:'es'});
@@ -842,7 +880,7 @@ document.addEventListener('keydown', function(e) {
 window.renderGsearch = renderGsearch;
 
 /* ══ PUBLICAR NOVEDADES (ADMIN) ══ */
-const SHEET_API_NOTIFY = 'https://script.google.com/macros/s/AKfycbycaPrcTFKBy7GuHzfm_odXPSEOAnxzbeeKZHlkabzRJbriM-K9DK3FrzWAjdGrML7J/exec?key=ixou2026portal&mode=notify';
+const SHEET_API_NOTIFY = 'https://script.google.com/macros/s/AKfycbyXXLaiouZz764tNZtu-CbICCDTG5oX5YZv-MXjtI64XTjKcr4u3LKf3dvU5IFjaDZp/exec?key=ixou2026portal&mode=notify';
 
 function checkAdmin() {
   try {
@@ -946,7 +984,7 @@ function submitPost() {
     var s = document.getElementById('pub-submit'); if (s) s.textContent = 'Publicar';
     var nr = document.getElementById('pub-notify') ? document.getElementById('pub-notify').closest('label') : null;
     if (nr) nr.style.display = '';
-    fetch('https://script.google.com/macros/s/AKfycbycaPrcTFKBy7GuHzfm_odXPSEOAnxzbeeKZHlkabzRJbriM-K9DK3FrzWAjdGrML7J/exec', {
+    fetch('https://script.google.com/macros/s/AKfycbyXXLaiouZz764tNZtu-CbICCDTG5oX5YZv-MXjtI64XTjKcr4u3LKf3dvU5IFjaDZp/exec', {
       method: 'POST',
       body: JSON.stringify({key:'ixou2026portal',mode:'updateNovedad',
         id:window._editingPostId,titulo:p.titulo,cat:p.cat,
@@ -992,7 +1030,7 @@ function submitPost() {
   btn.disabled = true;
   btn.style.opacity = '.5';
 
-  fetch('https://script.google.com/macros/s/AKfycbycaPrcTFKBy7GuHzfm_odXPSEOAnxzbeeKZHlkabzRJbriM-K9DK3FrzWAjdGrML7J/exec', {
+  fetch('https://script.google.com/macros/s/AKfycbyXXLaiouZz764tNZtu-CbICCDTG5oX5YZv-MXjtI64XTjKcr4u3LKf3dvU5IFjaDZp/exec', {
     method: 'POST',
     body: JSON.stringify({key:'ixou2026portal',mode:'saveNovedad',
       titulo:title,cat:cat,resumen:resumen,body:body,imgUrl:img,proyecto:proj})
@@ -1139,7 +1177,7 @@ function loadAvailability() {
   };
   var sc = document.createElement('script');
   sc.id  = '_avail_s';
-  sc.src = 'https://script.google.com/macros/s/AKfycbycaPrcTFKBy7GuHzfm_odXPSEOAnxzbeeKZHlkabzRJbriM-K9DK3FrzWAjdGrML7J/exec?key=ixou2026portal&mode=counts&callback=_availCb';
+  sc.src = 'https://script.google.com/macros/s/AKfycbyXXLaiouZz764tNZtu-CbICCDTG5oX5YZv-MXjtI64XTjKcr4u3LKf3dvU5IFjaDZp/exec?key=ixou2026portal&mode=counts&callback=_availCb';
   sc.onerror = function(){ window._availLoading=false; this.remove(); };
   document.head.appendChild(sc);
 }
