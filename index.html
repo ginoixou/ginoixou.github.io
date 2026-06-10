@@ -621,7 +621,7 @@ let slideTimer = null;
 const FEATURED = () => PROYECTOS.filter(p => p.destacado);
 const GOOGLE_CLIENT_ID="309421220352-pmk9r2oua7sqn84hbjogsd0s524q5a5d.apps.googleusercontent.com";
 /* ══ ADMIN ROLES ══ */
-const ADMIN_EMAILS = ["gino@ixou.la","ginodistasio@gmail.com"];
+const ADMIN_EMAILS = ["gino@ixou.la"];
 function isAdmin(email){ return ADMIN_EMAILS.includes((email||'').toLowerCase().trim()); }
 window.isAdmin = isAdmin;
 function parseJwt(t){try{const b=t.split('.')[1].replace(/-/g,'+').replace(/_/g,'/');return JSON.parse(decodeURIComponent(atob(b).split('').map(c=>'%'+('00'+c.charCodeAt(0).toString(16)).slice(-2)).join('')))}catch(e){return null}}
