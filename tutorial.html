@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portal Canal Inmobiliario — Tutorial IXOU</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.10.0/dist/tabler-icons.min.css">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f9f8f6; color: #1a1a1a; min-height: 100vh; display: flex; align-items: flex-start; justify-content: center; padding: 40px 16px; }
+.tutorial-wrap { max-width: 640px; width: 100%; background: #fff; border-radius: 16px; border: 0.5px solid rgba(0,0,0,0.1); padding: 32px; }
+
+.progress-bar { display: flex; gap: 6px; margin-bottom: 2rem; }
+.progress-step { flex: 1; height: 3px; background: rgba(0,0,0,0.1); border-radius: 2px; transition: background 0.3s; }
+.progress-step.done { background: #141414; }
+.progress-step.active { background: #141414; opacity: 0.5; }
+
+.step-label { font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #888; margin-bottom: 6px; }
+.step-title { font-size: 22px; font-weight: 500; color: #141414; margin-bottom: 8px; line-height: 1.2; }
+.step-desc { font-size: 15px; color: #555; line-height: 1.6; margin-bottom: 1.5rem; }
+
+.screen-mock { border: 0.5px solid rgba(0,0,0,0.1); border-radius: 12px; background: #fff; overflow: hidden; margin-bottom: 1.5rem; }
+.mock-topbar { background: #141414; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; }
+.mock-logo { font-size: 13px; font-weight: 600; letter-spacing: 0.15em; color: #fff; }
+.mock-logo span { font-size: 10px; font-weight: 400; letter-spacing: 0.05em; color: rgba(255,255,255,0.45); margin-left: 8px; }
+.mock-body { padding: 20px; }
+
+.highlight-box { border: 1.5px solid #141414; border-radius: 8px; padding: 12px 16px; margin-bottom: 12px; position: relative; }
+.highlight-label { position: absolute; top: -9px; left: 12px; background: #141414; color: #fff; font-size: 10px; font-weight: 500; letter-spacing: 0.06em; padding: 2px 8px; border-radius: 3px; }
+
+.mock-btn { display: inline-flex; align-items: center; gap: 8px; background: #141414; color: #fff; border: none; border-radius: 8px; padding: 9px 18px; font-size: 13px; font-weight: 500; cursor: default; }
+.mock-btn-outline { display: inline-flex; align-items: center; gap: 6px; background: transparent; color: #141414; border: 0.5px solid rgba(0,0,0,0.2); border-radius: 8px; padding: 8px 14px; font-size: 13px; cursor: default; }
+
+.chip { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 500; margin-right: 6px; margin-bottom: 4px; }
+.chip-dark { background: #141414; color: #fff; }
+.chip-outline { border: 0.5px solid rgba(0,0,0,0.2); color: #666; }
+
+.proj-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
+.proj-card { border: 0.5px solid rgba(0,0,0,0.1); border-radius: 8px; padding: 10px 12px; }
+.proj-card-name { font-size: 13px; font-weight: 500; color: #141414; margin-bottom: 2px; }
+.proj-card-sub { font-size: 11px; color: #888; }
+.proj-card-price { font-size: 12px; font-weight: 500; color: #141414; margin-top: 6px; }
+
+.table-mock { width: 100%; border-collapse: collapse; font-size: 12px; }
+.table-mock th { text-align: left; padding: 6px 8px; background: #f5f5f3; color: #888; font-weight: 500; border-bottom: 0.5px solid rgba(0,0,0,0.1); }
+.table-mock td { padding: 8px 8px; border-bottom: 0.5px solid rgba(0,0,0,0.07); color: #141414; }
+.table-mock tr:last-child td { border-bottom: none; }
+.row-highlight td { background: rgba(20,20,20,0.03); }
+
+.nav-row { display: flex; align-items: center; justify-content: space-between; margin-top: 1rem; }
+.nav-btn { display: inline-flex; align-items: center; gap: 6px; background: transparent; color: #141414; border: 0.5px solid rgba(0,0,0,0.2); border-radius: 8px; padding: 9px 18px; font-size: 13px; font-weight: 500; cursor: pointer; transition: background 0.15s; }
+.nav-btn:hover { background: #f5f5f3; }
+.nav-btn-primary { background: #141414; color: #fff; border-color: #141414; }
+.nav-btn-primary:hover { background: #333; border-color: #333; }
+.step-counter { font-size: 13px; color: #888; }
+
+.tip-row { display: flex; gap: 10px; align-items: flex-start; padding: 12px 14px; background: #f5f5f3; border-radius: 8px; margin-bottom: 1.5rem; }
+.tip-icon { font-size: 16px; color: #888; flex-shrink: 0; margin-top: 1px; }
+.tip-text { font-size: 13px; color: #666; line-height: 1.5; }
+
+.avatar-row { display: flex; align-items: center; gap: 10px; padding: 10px 0; }
+.avatar { width: 36px; height: 36px; border-radius: 50%; background: #e8f0fe; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 500; color: #3c5dcc; flex-shrink: 0; }
+.avatar-name { font-size: 13px; font-weight: 500; color: #141414; }
+.avatar-email { font-size: 12px; color: #888; }
+.badge-green { display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: 500; background: #e6f4ea; color: #1e7e34; }
+
+.novedad-item { padding: 12px 0; border-bottom: 0.5px solid rgba(0,0,0,0.08); }
+.novedad-item:last-child { border-bottom: none; }
+.novedad-fecha { font-size: 11px; color: #888; margin-bottom: 3px; }
+.novedad-titulo { font-size: 13px; font-weight: 500; color: #141414; margin-bottom: 2px; }
+.novedad-desc { font-size: 12px; color: #888; }
+
+.search-mock { display: flex; align-items: center; gap: 8px; border: 0.5px solid rgba(0,0,0,0.2); border-radius: 8px; padding: 8px 12px; margin-bottom: 12px; }
+.search-placeholder { font-size: 13px; color: #aaa; }
+
+.faq-item { border-bottom: 0.5px solid rgba(0,0,0,0.08); }
+.faq-item:last-child { border-bottom: none; }
+.faq-q { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; cursor: pointer; gap: 12px; }
+.faq-q:hover .faq-q-text { color: #141414; }
+.faq-q-text { font-size: 14px; font-weight: 500; color: #333; line-height: 1.4; }
+.faq-icon { font-size: 18px; color: #aaa; flex-shrink: 0; transition: transform 0.2s; }
+.faq-icon.open { transform: rotate(45deg); color: #141414; }
+.faq-a { font-size: 13px; color: #666; line-height: 1.6; padding-bottom: 14px; display: none; }
+.faq-a.open { display: block; }
+
+.faq-wrap { border: 0.5px solid rgba(0,0,0,0.1); border-radius: 12px; overflow: hidden; padding: 0 16px; margin-bottom: 1.5rem; }
+
+@media (max-width: 480px) {
+  body { padding: 0; }
+  .tutorial-wrap { border-radius: 0; border: none; padding: 24px 16px; min-height: 100vh; }
+  .proj-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="tutorial-wrap">
+  <div class="progress-bar" id="progress"></div>
+  <div id="steps-container"></div>
+</div>
+
+<script>
+const faqs = [
+  { q: "¿Cómo solicito acceso al portal si no tengo cuenta?", a: "Completá el formulario de solicitud de acceso que encontrás en la pantalla de login, o escribí directamente a ventas@ixou.la. Una vez que tu email esté habilitado, vas a poder ingresar con tu cuenta de Google." },
+  { q: "Ingresé con Google pero me dice que no estoy autorizado. ¿Qué hago?", a: "Eso significa que el email de tu cuenta de Google no está en el listado de accesos. Verificá que estás usando el email correcto, y si el problema persiste, contactá a ventas@ixou.la para que lo revisen." },
+  { q: "¿Con qué frecuencia se actualizan los precios?", a: "Los precios se actualizan en tiempo real desde la base de datos de IXOU. Cada vez que se vende una unidad o se realiza un ajuste de precios, el portal lo refleja automáticamente. Siempre consultá el portal antes de cotizarle a un cliente." },
+  { q: "¿Puedo compartir los materiales del portal con mis clientes?", a: "Sí, los brochures y fichas están diseñados para eso. Podés descargarlos y enviárselos a tus clientes por WhatsApp o email. Lo importante es bajarlos siempre desde el portal para asegurar que tenés la versión más actualizada." },
+  { q: "¿Cómo me entero cuando hay una novedad nueva?", a: "El portal te avisa por email automáticamente cada vez que IXOU publica una novedad. También podés revisar la sección de Novedades directamente en el portal para ver el historial completo." },
+  { q: "¿Puedo usar el portal desde el celular?", a: "Sí, el portal funciona en computadora, tablet y celular. No requiere instalar ninguna aplicación — simplemente ingresás desde el navegador a <a href=\"https://ixou.la/inmobiliarias\" target=\"_blank\">ixou.la/inmobiliarias</a>." },
+  { q: "¿Qué diferencia hay entre las inmobiliarias 'con publicación' y 'sin publicación'?", a: "Las inmobiliarias 'con publicación' están autorizadas a publicar los proyectos de IXOU en portales y redes sociales. Las 'sin publicación' pueden ofrecerle los productos a su base de clientes pero sin publicar. Ambos grupos tienen acceso completo al portal." },
+  { q: "¿A quién contacto si tengo una consulta sobre un proyecto específico?", a: "Para consultas comerciales sobre proyectos, escribí a ventas@ixou.la. El equipo de IXOU te responde y te acompaña en el proceso de venta." }
+];
+
+const steps = [
+  {
+    label: "Introducción", title: "El portal del Canal Inmobiliario",
+    desc: "<a href=\"https://ixou.la/inmobiliarias\" target=\"_blank\">ixou.la/inmobiliarias</a> es la plataforma exclusiva para las inmobiliarias autorizadas de IXOU. Desde acá accedés a precios actualizados, fichas de proyectos, brochures descargables y novedades del canal — todo en un solo lugar.",
+    tip: "El portal funciona en computadora, tablet y celular. No requiere instalar nada.",
+    screen: `<div class="mock-topbar"><div class="mock-logo">IXOU <span>Canal Inmobiliario</span></div><div style="font-size:11px;color:rgba(255,255,255,0.4)"><a href="https://ixou.la/inmobiliarias" target="_blank" style="color:rgba(255,255,255,0.7);text-decoration:none">ixou.la/inmobiliarias</a></div></div><div class="mock-body" style="text-align:center;padding:36px 20px"><div style="font-size:28px;font-weight:500;color:#141414;letter-spacing:0.1em;margin-bottom:8px">IXOU</div><div style="font-size:13px;color:#888;margin-bottom:24px">Plataforma para inmobiliarias autorizadas</div><div class="mock-btn" style="margin:0 auto;display:inline-flex"><i class="ti ti-brand-google"></i>Ingresar con Google</div></div>`
+  },
+  {
+    label: "Acceso", title: "Ingresá con tu cuenta de Google",
+    desc: "El acceso es con tu cuenta de Gmail. Hac\u00e9s clic en &ldquo;Ingresar con Google&rdquo;, selecci\u00f3n\u00e1s tu cuenta y el portal verifica si est\u00e1s autorizado. Si tu email no est\u00e1 habilitado, el sistema te avisa y pod\u00e9s solicitar acceso.",
+    tip: "Solo las cuentas autorizadas por IXOU pueden ingresar. Si tenés dudas sobre tu acceso, contactá a ventas@ixou.la.",
+    screen: `<div class="mock-topbar"><div class="mock-logo">IXOU</div></div><div class="mock-body"><div class="highlight-box"><div class="highlight-label">Paso 1 — clic acá</div><div class="mock-btn" style="margin:8px 0"><i class="ti ti-brand-google"></i>Ingresar con Google</div></div><div style="font-size:12px;color:#888;margin:12px 0 4px">Seleccionás tu cuenta:</div><div class="avatar-row" style="border:0.5px solid rgba(0,0,0,0.1);border-radius:8px;padding:10px 12px"><div class="avatar">MG</div><div><div class="avatar-name">María García</div><div class="avatar-email">mgarcia@inmobiliaria.com.uy</div></div><div style="margin-left:auto"><span class="badge-green">Autorizada</span></div></div></div>`
+  },
+  {
+    label: "Inicio", title: "Pantalla principal — tus proyectos",
+    desc: "Una vez dentro, el portal te muestra todos los proyectos activos de IXOU. Cada tarjeta indica el nombre del proyecto, el barrio, los tipos de unidades disponibles y el precio mínimo actualizado. Los precios se actualizan automáticamente desde la base de datos de IXOU.",
+    tip: "Los precios que ves reflejan las unidades disponibles en ese momento. Si una unidad se vende, desaparece del listado.",
+    screen: `<div class="mock-topbar"><div class="mock-logo">IXOU <span>bienvenida, María</span></div><div style="font-size:11px;color:rgba(255,255,255,0.4)">Salir</div></div><div class="mock-body"><div style="margin-bottom:12px"><span class="chip chip-dark">Todos</span><span class="chip chip-outline">En obra</span><span class="chip chip-outline">Punta Carretas</span><span class="chip chip-outline">Barrio Sur</span></div><div class="proj-grid"><div class="proj-card"><div class="proj-card-name">ZIEL</div><div class="proj-card-sub">Punta Carretas · MVRDV</div><div class="proj-card-price">desde USD 690.000</div></div><div class="proj-card" style="border-color:#141414"><div class="proj-card-name">Brusco</div><div class="proj-card-sub">Centro · Mathias Klotz</div><div class="proj-card-price">desde USD 141.000</div></div><div class="proj-card"><div class="proj-card-name">Vardø</div><div class="proj-card-sub">Punta Carretas · Dark Ark.</div><div class="proj-card-price">desde USD 146.000</div></div><div class="proj-card"><div class="proj-card-name">Risco</div><div class="proj-card-sub">Punta Carretas · Monoblock</div><div class="proj-card-price">desde USD 225.000</div></div></div></div>`
+  },
+  {
+    label: "Buscador", title: "Buscador de unidades y precios",
+    desc: "El buscador te permite ver el detalle de unidades disponibles de cada proyecto: piso, tipología, superficie y precio. También podés filtrar por cantidad de dormitorios. Esta es la información que usás para cotizarle a un cliente.",
+    tip: "Usá el buscador antes de cada reunión con un cliente para tener los precios del día.",
+    screen: `<div class="mock-topbar"><div class="mock-logo">IXOU <span>Brusco — unidades</span></div></div><div class="mock-body"><div class="search-mock"><i class="ti ti-search" style="color:#aaa;font-size:16px"></i><span class="search-placeholder">Filtrar por tipología...</span><span class="chip chip-outline" style="margin:0">1 dorm</span></div><table class="table-mock"><thead><tr><th>Piso</th><th>Tipología</th><th>Sup.</th><th>Precio</th></tr></thead><tbody><tr><td>3°</td><td>1 dorm</td><td>48 m²</td><td>USD 141.000</td></tr><tr class="row-highlight"><td>5°</td><td>1 dorm</td><td>50 m²</td><td>USD 148.000</td></tr><tr><td>7°</td><td>1 dorm</td><td>50 m²</td><td>USD 155.000</td></tr><tr class="row-highlight"><td>9°</td><td>1 dorm</td><td>52 m²</td><td>USD 162.000</td></tr></tbody></table></div>`
+  },
+  {
+    label: "Fichas y brochures", title: "Descargá materiales para tu cliente",
+    desc: "Cada proyecto tiene su ficha técnica y brochure descargable. Desde la tarjeta del proyecto podés bajar el PDF directamente para enviárselo a tu cliente por WhatsApp o email. Los materiales siempre están actualizados con la versión más reciente.",
+    tip: "No compartas versiones viejas guardadas en tu computadora — bajá siempre desde el portal para asegurar que el material sea el actual.",
+    screen: `<div class="mock-topbar"><div class="mock-logo">IXOU <span>ZIEL</span></div></div><div class="mock-body"><div style="font-size:15px;font-weight:500;margin-bottom:4px;color:#141414">ZIEL</div><div style="font-size:12px;color:#888;margin-bottom:14px">Vázquez Ledesma 3000, Punta Carretas · MVRDV</div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px"><span class="chip chip-outline">3 dorm</span><span class="chip chip-outline">4 dorm</span><span class="chip chip-dark">desde USD 690.000</span></div><div class="highlight-box"><div class="highlight-label">Materiales descargables</div><div style="display:flex;flex-direction:column;gap:8px;margin-top:4px"><div class="mock-btn-outline"><i class="ti ti-file-type-pdf" style="font-size:16px"></i>Brochure ZIEL — español</div><div class="mock-btn-outline"><i class="ti ti-file-type-pdf" style="font-size:16px"></i>One-pager comercial</div></div></div></div>`
+  },
+  {
+    label: "Novedades", title: "Novedades del canal",
+    desc: "La sección de Novedades es donde IXOU publica actualizaciones importantes: cambios de precios, avances de obra, lanzamientos, eventos y capacitaciones. Cada vez que hay una novedad nueva, el portal te avisa por email automáticamente.",
+    tip: "Revisá esta sección antes de hablar con un cliente. Puede haber información reciente que cambia la conversación.",
+    screen: `<div class="mock-topbar"><div class="mock-logo">IXOU <span>Novedades</span></div></div><div class="mock-body"><div class="novedad-item"><div class="novedad-fecha">12 jun 2026</div><div class="novedad-titulo">ZIEL — actualización de precios Junio</div><div class="novedad-desc">Ajuste en unidades de pisos altos. Ver buscador para precios vigentes.</div></div><div class="novedad-item"><div class="novedad-fecha">5 jun 2026</div><div class="novedad-titulo">Brusco — avance de obra 80%</div><div class="novedad-desc">Nuevas fotos del avance disponibles en la ficha del proyecto.</div></div><div class="novedad-item"><div class="novedad-fecha">28 may 2026</div><div class="novedad-titulo">Vardø — nuevo brochure disponible</div><div class="novedad-desc">Versión actualizada con precios y renders del proyecto.</div></div></div>`
+  },
+  {
+    label: "Listo", title: "Ya sabés usar el portal",
+    desc: "El portal es tu herramienta de trabajo con IXOU. Precios actualizados, materiales para el cliente y novedades del canal — todo en un lugar. Si necesitás acceso, completá el formulario de solicitud o escribí a ventas@ixou.la.",
+    tip: null,
+    screen: `<div class="mock-topbar"><div class="mock-logo">IXOU <span>Canal Inmobiliario</span></div></div><div class="mock-body" style="text-align:center;padding:32px 20px"><i class="ti ti-circle-check" style="font-size:36px;color:#141414;display:block;margin-bottom:12px"></i><div style="font-size:16px;font-weight:500;color:#141414;margin-bottom:8px">Tutorial completado</div><div style="font-size:13px;color:#888;margin-bottom:20px">Ingresá al portal en <a href=\"https://ixou.la/inmobiliarias\" target=\"_blank\" style=\"color:#555\">ixou.la/inmobiliarias</a></div><div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap"><div class="mock-btn">Ir al portal</div><div class="mock-btn-outline">Solicitar acceso</div></div></div>`
+  },
+  {
+    label: "Preguntas frecuentes", title: "Preguntas frecuentes",
+    desc: "Respuestas a las dudas más comunes sobre el portal. Si tu pregunta no está acá, escribí a ventas@ixou.la.",
+    tip: null,
+    faq: true,
+    screen: null
+  }
+];
+
+let current = 0;
+
+function renderProgress() {
+  const bar = document.getElementById('progress');
+  bar.innerHTML = steps.map((_, i) => {
+    let cls = 'progress-step';
+    if (i < current) cls += ' done';
+    else if (i === current) cls += ' active';
+    return '<div class="' + cls + '"></div>';
+  }).join('');
+}
+
+function buildFAQ() {
+  return '<div class="faq-wrap">' +
+    faqs.map(function(f, i) {
+      return '<div class="faq-item"><div class="faq-q" onclick="toggleFaq(' + i + ')"><span class="faq-q-text">' + f.q + '</span><i class="ti ti-plus faq-icon" id="faq-icon-' + i + '"></i></div><div class="faq-a" id="faq-a-' + i + '">' + f.a + '</div></div>';
+    }).join('') +
+  '</div>';
+}
+
+window.toggleFaq = function(i) {
+  var answer = document.getElementById('faq-a-' + i);
+  var icon = document.getElementById('faq-icon-' + i);
+  var isOpen = answer.classList.contains('open');
+  document.querySelectorAll('.faq-a').forEach(function(el) { el.classList.remove('open'); });
+  document.querySelectorAll('.faq-icon').forEach(function(el) { el.classList.remove('open'); });
+  if (!isOpen) {
+    answer.classList.add('open');
+    icon.classList.add('open');
+  }
+};
+
+function renderStep() {
+  var s = steps[current];
+  var container = document.getElementById('steps-container');
+  var isFirst = current === 0;
+  var isLast = current === steps.length - 1;
+
+  var screenHtml = s.faq ? buildFAQ() : '<div class="screen-mock">' + s.screen + '</div>';
+
+  container.innerHTML =
+    '<div class="step-label">' + s.label + ' · ' + (current + 1) + ' de ' + steps.length + '</div>' +
+    '<div class="step-title">' + s.title + '</div>' +
+    '<div class="step-desc">' + s.desc + '</div>' +
+    (s.tip ? '<div class="tip-row"><i class="ti ti-bulb tip-icon"></i><div class="tip-text">' + s.tip + '</div></div>' : '') +
+    screenHtml +
+    '<div class="nav-row">' +
+      '<button class="nav-btn" id="btn-prev"' + (isFirst ? ' style="visibility:hidden"' : '') + '><i class="ti ti-arrow-left"></i> Anterior</button>' +
+      '<span class="step-counter">' + (current + 1) + ' / ' + steps.length + '</span>' +
+      '<button class="nav-btn nav-btn-primary" id="btn-next">' + (isLast ? 'Volver al inicio' : 'Siguiente') + ' <i class="ti ti-arrow-right"></i></button>' +
+    '</div>';
+
+  document.getElementById('btn-next').addEventListener('click', function() {
+    current = isLast ? 0 : current + 1;
+    renderProgress();
+    renderStep();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+  if (!isFirst) {
+    document.getElementById('btn-prev').addEventListener('click', function() {
+      current--;
+      renderProgress();
+      renderStep();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+}
+
+renderProgress();
+renderStep();
+</script>
+</body>
+</html>
