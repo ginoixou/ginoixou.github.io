@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+<base href="/">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDIzLjEuMSwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkNhcGFfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiCgkgdmlld0JveD0iMCAwIDU4Mi4yIDQ2MyIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgNTgyLjIgNDYzOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+CjxnIGZpbGw9IiNmZmZmZmYiPgoJPHBvbHlnb24gcG9pbnRzPSIyMTYuNSwxNDUuNiAxODguOCwxNDUuNiAyMzEsMTg3LjkgMjU4LjgsMTg3LjkgCSIvPgoJPHBvbHlnb24gcG9pbnRzPSIzMTcuNCwxNDUuNiAxNDUuNiwzMTcuNCAxNzMuMywzMTcuNCAzNDUuMSwxNDUuNiAJIi8+Cgk8cG9seWdvbiBwb2ludHM9IjM2My4yLDE0NS42IDE5MS40LDMxNy40IDIxOS4xLDMxNy40IDM5MC45LDE0NS42IAkiLz4KCTxwb2x5Z29uIHBvaW50cz0iNDM2LjYsMTQ1LjYgNDA4LjksMTQ1LjYgMjM3LjEsMzE3LjQgMjY0LjgsMzE3LjQgMzE1LjEsMjY3LjIgMzY1LjMsMzE3LjQgMzkzLDMxNy40IDMyOC45LDI1My4zIAkiLz4KPC9nPgo8L3N2Zz4K">
@@ -767,6 +768,7 @@ function showPortal(u){
   loadNovedades();
   loadInfoProyectos();
   loadBuscador();
+  handleRoute();
     setTimeout(()=>{
     try{renderSlider&&renderSlider();}catch(e){console.error('slider:',e);}
     updateNotifBadge&&updateNotifBadge();
@@ -1403,8 +1405,156 @@ function openModal(id){
       <div class="modal-sec"><div class="modal-sec-title">Novedades relacionadas</div>${postsHtml}</div>
     </div>`;
   document.getElementById('modal').classList.add('open');
+  setPath('/' + projSlug(p.nombre));
+  var hd = document.querySelector('#modal-box .modal-hd > div');
+  if (hd) hd.insertAdjacentHTML('beforeend', copyLinkBtn());
 }
 window.openModal = openModal;
+
+/* ══ ENLACES DIRECTOS: /proyecto y /proyecto/unidad ══ */
+function projSlug(s) {
+  return String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
+    .replace(/ø/g, 'o').replace(/ç/g, 'c').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+}
+function unitSlug(u) {
+  return String(u || '').toLowerCase().replace(/#/g, 'n').replace(/[^a-z0-9]+/g, '');
+}
+function unitPath(r) { return '/' + projSlug(r.proyecto) + '/' + unitSlug(r.unidad); }
+function findProyecto(slug) { return PROYECTOS.find(function(p){ return projSlug(p.nombre) === slug; }); }
+function setPath(path) {
+  try { if (location.pathname !== path) history.replaceState(null, '', path + (path === '/' ? location.search : '')); } catch (e) {}
+}
+function escH(s) {
+  return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+function copyLinkBtn() {
+  return '<button onclick="copyCurrentLink(this)" style="margin-top:8px;display:inline-flex;align-items:center;gap:6px;padding:5px 12px;background:rgba(200,213,176,.10);border:1px solid rgba(200,213,176,.35);color:var(--accent);border-radius:2px;font-family:\'DM Sans\',sans-serif;font-size:10px;letter-spacing:1px;text-transform:uppercase;cursor:pointer">'
+    + '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg>'
+    + '<span>Copiar enlace</span></button>';
+}
+function copyCurrentLink(btn) {
+  var url = location.origin + location.pathname;
+  var done = function(){ var sp = btn.querySelector('span'); if (sp) { sp.textContent = '¡Enlace copiado!'; setTimeout(function(){ sp.textContent = 'Copiar enlace'; }, 2000); } };
+  if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(done, function(){ prompt('Copiá este enlace:', url); });
+  else prompt('Copiá este enlace:', url);
+}
+window.copyCurrentLink = copyCurrentLink;
+
+function handleRoute() {
+  var parts = location.pathname.split('/').filter(Boolean).map(function(x){ try { return decodeURIComponent(x); } catch (e) { return x; } });
+  if (!parts.length) return;
+  var p = findProyecto(projSlug(parts[0]));
+  if (!p) { setPath('/'); return; }
+  if (parts[1]) { openUnit(projSlug(p.nombre), unitSlug(parts[1])); return; }
+  showSec('proyectos', document.querySelectorAll('.nav-btn')[1]);
+  openModal(p.id);
+}
+window.handleRoute = handleRoute;
+
+/* Fotos y planos: los enlaces de Drive se muestran como imagen */
+function driveId(u) {
+  var m = String(u).match(/\/d\/([A-Za-z0-9_-]{10,})/) || String(u).match(/[?&]id=([A-Za-z0-9_-]{10,})/);
+  return m ? m[1] : '';
+}
+function imgSrc(u, w) {
+  var id = driveId(u);
+  return id ? 'https://drive.google.com/thumbnail?id=' + id + '&sz=w' + (w || 1600) : u;
+}
+var _tipologias = null;
+function loadTipologias(cb) {
+  if (_tipologias) { cb(_tipologias); return; }
+  window._tipCb = function(data) {
+    var s = document.getElementById('_tip_s'); if (s) s.remove();
+    if (handleSessionError(data)) return;
+    _tipologias = Array.isArray(data) ? data : [];
+    cb(_tipologias);
+  };
+  var sc = document.createElement('script');
+  sc.id = '_tip_s';
+  sc.src = apiSrc('tipologias', '_tipCb');
+  sc.onerror = function(){ this.remove(); _tipologias = []; cb(_tipologias); };
+  document.head.appendChild(sc);
+}
+function normTip(s) { return String(s || '').trim().toLowerCase().replace(/\s+/g, ' '); }
+
+var MESES = ['ENE','FEB','MAR','ABR','MAY','JUN','JUL','AGO','SEP','OCT','NOV','DIC'];
+function fmtOcup(s) {
+  var m = String(s || '').match(/^(\d{4})-(\d{2})/);
+  if (!m) return '';
+  var d = new Date(+m[1], +m[2] - 1, 28);
+  if (d < new Date()) return '';
+  return MESES[+m[2] - 1] + ' ' + m[1];
+}
+
+function openUnit(pSlug, uSlug) {
+  var p = findProyecto(pSlug);
+  if (!buLoaded) { window._pendingUnit = [pSlug, uSlug]; loadBuscador(); return; }
+  var r = buRows.find(function(x){ return projSlug(x.proyecto) === pSlug && unitSlug(x.unidad) === uSlug; });
+  var visible = r && ['DISPONIBLE','ASIGNADO','REVENTA'].indexOf(r.estadoVenta.toUpperCase()) >= 0;
+  var nombre = p ? p.nombre : (r ? r.proyecto : pSlug.toUpperCase());
+  var box = document.getElementById('modal-box');
+  var proyBtn = p ? '<button onclick="openModal(' + p.id + ')" style="padding:8px 16px;background:transparent;border:1px solid var(--gray2);color:var(--gray5);border-radius:2px;font-family:\'DM Sans\',sans-serif;font-size:10px;letter-spacing:1px;text-transform:uppercase;cursor:pointer">Ver proyecto ' + escH(nombre) + '</button>' : '';
+  if (!visible) {
+    box.innerHTML = '<div class="modal-hd"><div><div class="modal-hd-name">' + escH(nombre) + ' · ' + escH(uSlug.toUpperCase()) + '</div>'
+      + '<div class="modal-hd-sub">Unidad no disponible</div></div><button class="modal-close" onclick="closeModal()">✕</button></div>'
+      + '<div class="modal-body"><p style="font-size:13px;color:var(--gray5);line-height:1.7;margin-bottom:18px">Esta unidad ya no está disponible para la venta o el enlace no es correcto. Podés ver las unidades disponibles del proyecto.</p>' + proyBtn + '</div>';
+    document.getElementById('modal').classList.add('open');
+    setPath(p ? '/' + pSlug : '/');
+    return;
+  }
+  var row = function(l, v){ return v ? '<div class="modal-row"><span class="modal-lbl">' + l + '</span><span class="modal-val">' + v + '</span></div>' : ''; };
+  var m2 = function(v){ var n = parseFloat(v); return isNaN(n) || !n ? '' : (n % 1 === 0 ? n : n.toFixed(2)) + ' m²'; };
+  var dormTxt = r.dorm === '' ? '' : (r.dorm === '0' ? 'Monoambiente' : r.dorm + (r.dorm === '1' ? ' dormitorio' : ' dormitorios'));
+  var renta = r.rentaBruta ? (parseFloat(r.rentaBruta) * 100).toFixed(2) + '%' : '';
+  var ocup = fmtOcup(r.fechaOcup) || (p ? p.ocupacion : '');
+  box.innerHTML = '<div id="unit-media"></div>'
+    + '<div class="modal-hd"><div>'
+    + '<div class="modal-hd-name">' + escH(nombre) + ' · ' + escH(r.unidad) + '</div>'
+    + '<div class="modal-hd-sub">' + escH([r.tipo, r.tipologia].filter(Boolean).join(' · ')) + '</div>'
+    + '<div class="modal-hd-sub" style="margin-top:4px">' + estadoBadge(r.estadoVenta) + '</div>'
+    + copyLinkBtn()
+    + '</div><button class="modal-close" onclick="closeModal()">✕</button></div>'
+    + '<div class="modal-body">'
+    + '<div class="modal-sec"><div class="modal-sec-title">Precio</div>'
+    + '<div style="font-size:1.6rem;color:var(--accent);font-weight:500;padding:4px 0 8px">' + fmtUSD(r.precio) + '</div>'
+    + (p && p.gastosOcupacion ? row('Gastos de ocupación', escH(p.gastosOcupacion)) : '')
+    + (p && p.pago ? '<div class="modal-row" style="flex-direction:column;gap:3px"><span class="modal-lbl">Forma de pago</span><span style="font-size:12px;color:var(--accent2)">' + escH(p.pago) + '</span></div>' : '')
+    + '</div>'
+    + '<div class="modal-sec"><div class="modal-sec-title">Características</div>'
+    + row('Tipología', escH(r.tipologia)) + row('Dormitorios', dormTxt) + row('Torre', escH(r.torre))
+    + row('Piso', escH(r.piso)) + row('Orientación', escH(r.orientacion)) + row('Ocupación estimada', escH(ocup))
+    + (r.comentario ? row('Comentario', escH(r.comentario)) : '')
+    + '</div>'
+    + ((m2(r.m2int) || m2(r.m2tot)) ? '<div class="modal-sec"><div class="modal-sec-title">Superficies</div>'
+      + row('Interior', m2(r.m2int)) + row('Exterior cubierto', m2(r.m2extcub)) + row('Exterior descubierto', m2(r.m2extdes))
+      + row('Comunes', m2(r.m2com)) + row('Total', m2(r.m2tot)) + '</div>' : '')
+    + (r.estadoAlq || r.alqMensual ? '<div class="modal-sec"><div class="modal-sec-title">Renta</div>'
+      + row('Estado de alquiler', escH(r.estadoAlq)) + row('Alquiler mensual', fmtUSD(r.alqMensual)) + row('Renta bruta', renta) + '</div>' : '')
+    + '<div style="padding-top:6px">' + proyBtn + '</div>'
+    + '</div>';
+  document.getElementById('modal').classList.add('open');
+  setPath('/' + pSlug + '/' + uSlug);
+  if (r.tipologia) loadTipologias(function(list){
+    var t = list.find(function(x){ return projSlug(x.proyecto) === pSlug && normTip(x.tipologia) === normTip(r.tipologia); });
+    var media = document.getElementById('unit-media');
+    if (!t || !media) return;
+    var html = '';
+    var fotos = t.fotos || [], planos = t.plano || [];
+    if (fotos.length) {
+      html += '<div style="position:relative;height:260px;overflow:hidden;background:var(--black3)"><img id="unit-foto" src="' + escH(imgSrc(fotos[0])) + '" style="width:100%;height:100%;object-fit:cover"></div>';
+      if (fotos.length > 1) html += '<div style="display:flex;gap:6px;padding:8px 12px 2px;overflow-x:auto">' + fotos.map(function(f){
+        return '<img src="' + escH(imgSrc(f, 200)) + '" data-full="' + escH(imgSrc(f)) + '" onclick="document.getElementById(\'unit-foto\').src=this.dataset.full" style="width:60px;height:44px;object-fit:cover;cursor:pointer;border:1px solid var(--gray2)">';
+      }).join('') + '</div>';
+    }
+    if (planos.length) {
+      html += '<div style="padding:12px 24px 0"><div class="modal-sec-title">Plano</div>' + planos.map(function(pl){
+        return '<a href="' + escH(pl) + '" target="_blank" rel="noopener" title="Abrir plano"><img src="' + escH(imgSrc(pl)) + '" alt="Plano ' + escH(r.tipologia) + '" style="width:100%;max-height:420px;object-fit:contain;background:#fff;margin-bottom:6px"></a>';
+      }).join('') + '</div>';
+    }
+    media.innerHTML = html;
+  });
+}
+window.openUnit = openUnit;
 
 /* ══ BLOG ══ */
 
@@ -1474,6 +1624,12 @@ function mapRow(r) {
     m2extdes:    String(r['M2 Exteriores Descubiertos'] || '').trim(),
     m2com:       String(r['M2 Comunes']                 || '').trim(),
     m2tot:       String(r['M2 Totales']                 || '').trim(),
+    torre:       String(r['TORRE']                      || '').trim(),
+    piso:        String(r['PISO']                       || '').trim(),
+    tipologia:   String(r['TIPOLOGIA']                  || '').trim(),
+    orientacion: String(r['ORIENTACION']                || '').trim(),
+    fechaOcup:   String(r['Fecha estimada ocupación']   || '').trim(),
+    cuotasObra:  String(r['Cantidad de cuotas en obra'] || '').trim(),
   };
 }
 
@@ -1634,6 +1790,7 @@ function loadBuscador() {
     if (loadEl) loadEl.style.display = 'none';
     if (resEl)  resEl.style.display  = 'block';
     renderBuscador();
+    if (window._pendingUnit) { var pu = window._pendingUnit; window._pendingUnit = null; openUnit(pu[0], pu[1]); }
   };
 
   var sc = document.createElement('script');
@@ -1702,7 +1859,7 @@ function renderBuscador() {
     return '<tr style="border-bottom:1px solid var(--gray1);background:' + (i%2===0?'var(--black2)':'var(--black3)') + '">'
       + '<td style="padding:9px 12px;color:var(--gray5);white-space:nowrap">' + r.tipo + '</td>'
       + '<td style="padding:9px 12px;color:var(--white);font-weight:500;white-space:nowrap">' + r.proyecto + '</td>'
-      + '<td style="padding:9px 12px;color:var(--gray5);text-align:center">' + r.unidad + '</td>'
+      + '<td style="padding:9px 12px;text-align:center"><a href="' + unitPath(r) + '" onclick="event.preventDefault();openUnit(\'' + projSlug(r.proyecto) + '\',\'' + unitSlug(r.unidad) + '\')" title="Ver ficha de la unidad" style="color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--accent2)">' + r.unidad + '</a></td>'
       + '<td style="padding:9px 12px;color:var(--gray4);text-align:center">' + r.dorm + '</td>'
       + '<td style="padding:9px 12px;text-align:center">' + estadoBadge(r.estadoVenta) + '</td>'
       + '<td style="padding:9px 12px;color:var(--accent);text-align:right;font-weight:500;white-space:nowrap">' + fmtUSD(r.precio) + '</td>'
@@ -1948,7 +2105,7 @@ window.renderDash = renderDash;
 function obraClass(o){return OBRA_CLS[o]||'ob-proyecto'}
 function obraLabel(o){return OBRA_LBL[o]||o}
 
-function closeModal(){document.getElementById('modal').classList.remove('open')}
+function closeModal(){document.getElementById('modal').classList.remove('open');setPath('/')}
 
 /* ══ BLOG ══ */
 function renderBlog(){
