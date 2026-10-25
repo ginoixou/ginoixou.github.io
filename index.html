@@ -608,11 +608,19 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
 
 <script>
 /* ══ AUTH ══ */
-/* Lista de accesos cargada desde Sheets (mode=accesos) */
-var _accesosCache = null;
+/* API (Apps Script portal-ixou-api). El acceso se valida en el servidor:
+   login con el ID token de Google → pase de sesión firmado (t). */
+const API_URL = 'https://script.google.com/macros/s/AKfycbxPkrB_OYl6203cv_JD-5t8xnA5rLPRhaVk0hYzxNOZ4wtmNxqzUw8XNEha4MpjgDPy/exec';
+const SESSION_KEY = 'ixou_session';
+function getSession(){try{var s=JSON.parse(sessionStorage.getItem(SESSION_KEY));if(s&&s.t&&s.exp>Date.now())return s;}catch(e){}return null;}
+function sessionToken(){var s=getSession();return s?s.t:'';}
+function apiSrc(mode,cb,extra){return API_URL+'?mode='+encodeURIComponent(mode)+'&t='+encodeURIComponent(sessionToken())+(extra||'')+'&callback='+cb;}
+function apiPost(body){body=body||{};body.t=sessionToken();return fetch(API_URL,{method:'POST',body:JSON.stringify(body)}).then(function(r){return r.json();}).then(function(d){if(d&&d.error==='SESSION'){sessionExpired();throw new Error('Sesión vencida');}return d;});}
+function sessionExpired(){if(window._sessionExpiredShown)return;window._sessionExpiredShown=true;sessionStorage.removeItem(SESSION_KEY);sessionStorage.removeItem('ixou_user');alert('Tu sesión venció. Volvé a iniciar sesión.');location.reload();}
+function handleSessionError(data){if(data&&data.error==='SESSION'){sessionExpired();return true;}return false;}
+window.getSession=getSession;
 
 /* ── State variables ── */
-const SHEET_API = 'https://script.google.com/macros/s/AKfycbw-CnkRW8x1LalOyvssLhzYNxDMLf_tLw_wRMI-mYIDCB_94M1dGmmLPvRBVozscTyX/exec?key=ixou2026portal';
 let buRows    = [];
 let buLoaded  = false;
 let buSortKey = 'proyecto';
@@ -621,55 +629,33 @@ let slideIdx = 0;
 let slideTimer = null;
 const FEATURED = () => PROYECTOS.filter(p => p.destacado);
 const GOOGLE_CLIENT_ID="309421220352-pmk9r2oua7sqn84hbjogsd0s524q5a5d.apps.googleusercontent.com";
-/* ══ ADMIN ROLES ══ */
-const ADMIN_EMAILS = ["gino@ixou.la"];
-function isAdmin(email){ return ADMIN_EMAILS.includes((email||'').toLowerCase().trim()); }
+/* ══ ADMIN ROLES ══ (lo decide el servidor al iniciar sesión) */
+function isAdmin(email){ var s=getSession(); return !!(s && s.admin && (!email || s.email===String(email).toLowerCase().trim())); }
 window.isAdmin = isAdmin;
 function parseJwt(t){try{const b=t.split('.')[1].replace(/-/g,'+').replace(/_/g,'/');return JSON.parse(decodeURIComponent(atob(b).split('').map(c=>'%'+('00'+c.charCodeAt(0).toString(16)).slice(-2)).join('')))}catch(e){return null}}
 
-function checkAccessFromSheets(email, onOk, onDenied, onError) {
-  var cbName = '_accesosCb_' + Date.now();
-  var sc = document.createElement('script');
-  var apiUrl = 'https://script.google.com/macros/s/AKfycbw-CnkRW8x1LalOyvssLhzYNxDMLf_tLw_wRMI-mYIDCB_94M1dGmmLPvRBVozscTyX/exec';
-  window[cbName] = function(data) {
-    sc.remove();
-    delete window[cbName];
-    if (!data || data.error) { onError(data && data.error ? data.error : 'Error de conexión'); return; }
-    var emails = Array.isArray(data) ? data : (data.emails || []);
-    _accesosCache = emails;
-    var norm = (email||'').toLowerCase().trim();
-    if (emails.map(function(e){ return (e||'').toLowerCase().trim(); }).indexOf(norm) >= 0) {
-      onOk();
+window.handleCredentialResponse=function(r){
+  if(!r||!r.credential){showLoginError('Error al verificar la cuenta.');return}
+  var el=document.getElementById('login-error');
+  showLoginError('Verificando acceso…'); if(el) el.style.color='var(--gray4)';
+  var cbName='_loginCb_'+Date.now();
+  var sc=document.createElement('script');
+  window[cbName]=function(d){
+    sc.remove(); delete window[cbName]; if(el) el.style.color='';
+    if(d&&d.ok&&d.token){
+      var sess={t:d.token,exp:d.exp,email:d.email,name:d.name,pic:d.pic,admin:!!d.admin};
+      sessionStorage.setItem(SESSION_KEY,JSON.stringify(sess));
+      sessionStorage.setItem('ixou_user',JSON.stringify({email:d.email,name:d.name,pic:d.pic}));
+      showPortal({email:d.email,name:d.name,pic:d.pic});
+    } else if(d&&d.error==='DENIED'){
+      showLoginError('Tu cuenta ('+(d.email||'')+') no tiene acceso. Contactá a ventas@ixou.la');
     } else {
-      onDenied();
+      showLoginError('Error al verificar acceso: '+((d&&d.error)||'desconocido')+'. Intentá de nuevo.');
     }
   };
-  sc.onerror = function() { sc.remove(); delete window[cbName]; onError('Error de red al verificar accesos'); };
-  sc.src = apiUrl + '?key=ixou2026portal&mode=accesos&callback=' + cbName;
+  sc.onerror=function(){sc.remove();delete window[cbName];if(el)el.style.color='';showLoginError('Error de red al verificar el acceso. Intentá de nuevo.');};
+  sc.src=API_URL+'?mode=login&id_token='+encodeURIComponent(r.credential)+'&callback='+cbName;
   document.head.appendChild(sc);
-}
-
-window.handleCredentialResponse=function(r){
-  const p=parseJwt(r.credential);
-  if(!p){showLoginError('Error al verificar la cuenta.');return}
-  showLoginError('Verificando acceso…');
-  document.getElementById('login-error').style.color='var(--gray4)';
-  document.getElementById('login-error').style.display='block';
-  checkAccessFromSheets(
-    p.email,
-    function(){ /* onOk */
-      sessionStorage.setItem('ixou_user',JSON.stringify({email:p.email,name:p.name,pic:p.picture}));
-      showPortal({email:p.email,name:p.name,pic:p.picture});
-    },
-    function(){ /* onDenied */
-      document.getElementById('login-error').style.color='';
-      showLoginError('Tu cuenta ('+p.email+') no tiene acceso. Contactá a ventas@ixou.la');
-    },
-    function(err){ /* onError */
-      document.getElementById('login-error').style.color='';
-      showLoginError('Error al verificar acceso: '+err+'. Intentá de nuevo.');
-    }
-  );
 };
 function showLoginError(m){const el=document.getElementById('login-error');if(el){el.textContent=m;el.style.display='block'}}
 
@@ -678,6 +664,7 @@ function loadNovedades() {
   window._novedadesCb = function(data) {
     var s = document.getElementById('_nov_s');
     if (s) s.remove();
+    if (handleSessionError(data)) return;
     if (!data || data.error || !Array.isArray(data)) return;
     /* Sheets novedades take priority — add hardcoded ones not already in Sheets */
     var sheetsIds = data.map(function(p){ return String(p.id); });
@@ -729,7 +716,7 @@ function loadNovedades() {
   };
   var sc = document.createElement('script');
   sc.id  = '_nov_s';
-  sc.src = 'https://script.google.com/macros/s/AKfycbw-CnkRW8x1LalOyvssLhzYNxDMLf_tLw_wRMI-mYIDCB_94M1dGmmLPvRBVozscTyX/exec?key=ixou2026portal&mode=novedades&callback=_novedadesCb';
+  sc.src = apiSrc('novedades','_novedadesCb');
   sc.onerror = function(){ this.remove(); };
   document.head.appendChild(sc);
 }
@@ -740,6 +727,7 @@ function loadInfoProyectos() {
   window._infoProyectosCb = function(data) {
     var s = document.getElementById('_ip_s');
     if (s) s.remove();
+    if (handleSessionError(data)) return;
     if (!data || data.error) { console.error('infoProyectos:', data && data.error); return; }
     function normKey(nombre) {
       return String(nombre||'').toUpperCase()
@@ -757,7 +745,7 @@ function loadInfoProyectos() {
   };
   var sc = document.createElement('script');
   sc.id  = '_ip_s';
-  sc.src = 'https://script.google.com/macros/s/AKfycbw-CnkRW8x1LalOyvssLhzYNxDMLf_tLw_wRMI-mYIDCB_94M1dGmmLPvRBVozscTyX/exec?key=ixou2026portal&mode=infoProyectos&callback=_infoProyectosCb';
+  sc.src = apiSrc('infoProyectos','_infoProyectosCb');
   sc.onerror = function(){ this.remove(); };
   document.head.appendChild(sc);
 }
@@ -785,10 +773,11 @@ function showPortal(u){
   },300);
   }
 }
-window.logoutUser=function(){if(confirm('¿Cerrar sesión?')){sessionStorage.removeItem('ixou_user');location.reload()}};
+window.logoutUser=function(){if(confirm('¿Cerrar sesión?')){sessionStorage.removeItem(SESSION_KEY);sessionStorage.removeItem('ixou_user');location.reload()}};
 window.addEventListener('DOMContentLoaded',()=>{
-  const s=sessionStorage.getItem('ixou_user');
-  if(s){try{const u=JSON.parse(s);if(u&&u.email){showPortal(u);return}}catch(e){}sessionStorage.removeItem('ixou_user')}
+  const sess=getSession();
+  if(sess){showPortal({email:sess.email,name:sess.name,pic:sess.pic});return}
+  sessionStorage.removeItem(SESSION_KEY);sessionStorage.removeItem('ixou_user');
   window.onGoogleLibraryLoad=function(){
     google.accounts.id.initialize({client_id:GOOGLE_CLIENT_ID,callback:window.handleCredentialResponse,auto_select:false});
     google.accounts.id.renderButton(document.getElementById('google-btn-wrap'),{theme:'filled_black',size:'large',width:280,text:'continue_with',locale:'es'});
@@ -912,12 +901,11 @@ document.addEventListener('keydown', function(e) {
 window.renderGsearch = renderGsearch;
 
 /* ══ PUBLICAR NOVEDADES (ADMIN) ══ */
-const SHEET_API_NOTIFY = 'https://script.google.com/macros/s/AKfycbw-CnkRW8x1LalOyvssLhzYNxDMLf_tLw_wRMI-mYIDCB_94M1dGmmLPvRBVozscTyX/exec?key=ixou2026portal&mode=notify';
 
 function checkAdmin() {
   try {
-    var u = JSON.parse(sessionStorage.getItem('ixou_user'));
-    return u && ADMIN_EMAILS.indexOf(u.email) >= 0;
+    var s = getSession();
+    return !!(s && s.admin);
   } catch(e) { return false; }
 }
 
@@ -946,6 +934,7 @@ function openPublishModal() {
   /* Show notify checkbox */
   var nr = document.getElementById('pub-notify') ? document.getElementById('pub-notify').closest('label') : null;
   if (nr) nr.style.display = '';
+  var nchk = document.getElementById('pub-notify'); if (nchk) nchk.checked = false;
   /* Clear status */
   document.getElementById('pub-status').textContent = '';
   document.getElementById('publish-modal').style.display = 'flex';
@@ -997,9 +986,23 @@ function editPost(id) {
 }
 window.editPost = editPost;
 
+function sendTestNotification() {
+  var title   = (document.getElementById('pub-title').value   || '').trim();
+  var cat     = (document.getElementById('pub-cat').value     || '');
+  var resumen = (document.getElementById('pub-resumen').value || '').trim();
+  var status  = document.getElementById('pub-status');
+  if (!title) { status.style.color='#E87070'; status.textContent='Completá el título para enviar la prueba.'; return; }
+  status.style.color='var(--accent)'; status.textContent='Enviando prueba a tu email…';
+  apiPost({mode:'notify',test:true,title:title,categoria:cat,resumen:resumen})
+    .then(function(d){ if (d && d.ok) status.textContent='✓ Prueba enviada a tu email.'; else { status.style.color='#E87070'; status.textContent='Error: '+((d&&d.error)||'desconocido'); } })
+    .catch(function(e){ status.style.color='#E87070'; status.textContent='Error de conexión: '+e.message; });
+}
+window.sendTestNotification = sendTestNotification;
+
 function submitPost() {
   var isEdit = !!window._editingPostId;
   if (isEdit) {
+    var editId = window._editingPostId;
     /* Update existing post */
     var p = livePosts.find(function(x){ return x.id === window._editingPostId; });
     if (p) {
@@ -1016,16 +1019,16 @@ function submitPost() {
     var s = document.getElementById('pub-submit'); if (s) s.textContent = 'Publicar';
     var nr = document.getElementById('pub-notify') ? document.getElementById('pub-notify').closest('label') : null;
     if (nr) nr.style.display = '';
-    fetch('https://script.google.com/macros/s/AKfycbw-CnkRW8x1LalOyvssLhzYNxDMLf_tLw_wRMI-mYIDCB_94M1dGmmLPvRBVozscTyX/exec', {
-      method: 'POST',
-      body: JSON.stringify({key:'ixou2026portal',mode:'updateNovedad',
-        id:window._editingPostId,titulo:p.titulo,cat:p.cat,
-        resumen:p.resumen,body:p.body,imgUrl:p.imgUrl,proyecto:p.proyecto})
-    }).catch(function(e){ });
     renderBlog();
-    document.getElementById('pub-status').textContent = '✓ Novedad actualizada.';
-    document.getElementById('pub-status').style.color = 'var(--accent)';
-    setTimeout(function(){ closePublishModal(); }, 1200);
+    var est = document.getElementById('pub-status');
+    est.style.color = 'var(--accent)'; est.textContent = 'Guardando cambios…';
+    apiPost({mode:'updateNovedad',id:editId,titulo:p.titulo,cat:p.cat,
+      resumen:p.resumen,body:p.body,imgUrl:p.imgUrl,proyecto:p.proyecto})
+    .then(function(d){
+      if (d && d.ok) { est.textContent = '✓ Novedad actualizada.'; setTimeout(function(){ closePublishModal(); }, 1200); }
+      else { est.style.color='#E87070'; est.textContent = 'Error al actualizar: ' + ((d && d.error) || 'desconocido'); }
+    })
+    .catch(function(e){ est.style.color='#E87070'; est.textContent = 'Error de conexión: ' + e.message; });
     return;
   }
   /* -- NEW POST from here -- */
@@ -1062,12 +1065,8 @@ function submitPost() {
   btn.disabled = true;
   btn.style.opacity = '.5';
 
-  fetch('https://script.google.com/macros/s/AKfycbw-CnkRW8x1LalOyvssLhzYNxDMLf_tLw_wRMI-mYIDCB_94M1dGmmLPvRBVozscTyX/exec', {
-    method: 'POST',
-    body: JSON.stringify({key:'ixou2026portal',mode:'saveNovedad',
+  apiPost({mode:'saveNovedad',
       titulo:title,cat:cat,resumen:resumen,body:body,imgUrl:img,proyecto:proj})
-  })
-  .then(function(r){ return r.json(); })
   .then(function(saved) {
     if (saved.error) {
       status.style.color='#E87070';
@@ -1080,36 +1079,22 @@ function submitPost() {
     try { livePosts.unshift(newPost); renderBlog(); if(updateNotifBadge)updateNotifBadge(); }
     catch(e){ console.error('renderBlog:',e); }
     status.textContent = '✓ Guardada.';
-    /* Send email notification */
+    /* Send email notification (opcional, con confirmación) */
     if (notify) {
-    status.textContent = '✓ Publicada. Enviando notificación…';
-    var url = SHEET_API_NOTIFY
-      + '&title='    + encodeURIComponent(title)
-      + '&categoria='+ encodeURIComponent(cat)
-      + '&resumen='  + encodeURIComponent(resumen)
-      + '&postId='   + encodeURIComponent(newPost.id||'');
-
-    window._notifyCb = function(data) {
-      var s = document.getElementById('_notify_s');
-      if (s) s.remove();
-      if (data && data.ok) {
-        status.textContent = '✓ Publicada y notificación enviada a ' + data.sent + ' destinatarios.';
-      } else {
-        status.textContent = '✓ Publicada en el portal. Error al enviar email: ' + (data && data.error ? data.error : 'desconocido');
-        status.style.color = '#E8A870';
-      }
-      setTimeout(function(){ closePublishModal(); btn.disabled=false; btn.style.opacity='1'; }, 2500);
-    };
-    var sc = document.createElement('script');
-    sc.id  = '_notify_s';
-    sc.src = url + '&callback=_notifyCb';
-    sc.onerror = function() {
-      this.remove();
-      status.textContent = '✓ Publicada. No se pudo enviar la notificación.';
-      status.style.color = '#E8A870';
-      setTimeout(function(){ closePublishModal(); btn.disabled=false; btn.style.opacity='1'; }, 2500);
-    };
-    document.head.appendChild(sc);
+      var done = function(msg, warn){ status.textContent = msg; if (warn) status.style.color = '#E8A870';
+        setTimeout(function(){ closePublishModal(); btn.disabled=false; btn.style.opacity='1'; }, 2500); };
+      status.textContent = '✓ Publicada. Consultando destinatarios…';
+      apiPost({mode:'notifyCount'}).then(function(c){
+        var n = c && c.ok ? c.count : 0;
+        if (!n) { done('✓ Publicada. No hay destinatarios habilitados para notificar.', true); return; }
+        if (!confirm('¿Enviar el aviso por email a ' + n + ' personas?')) { done('✓ Publicada sin enviar email.'); return; }
+        status.textContent = '✓ Publicada. Enviando notificación a ' + n + ' personas…';
+        return apiPost({mode:'notify',title:title,categoria:cat,resumen:resumen,postId:String(newPost.id||'')})
+          .then(function(data){
+            if (data && data.ok) done('✓ Publicada y notificación enviada a ' + data.sent + ' destinatarios.');
+            else done('✓ Publicada en el portal. Error al enviar email: ' + ((data && data.error) || 'desconocido'), true);
+          });
+      }).catch(function(e){ done('✓ Publicada. No se pudo enviar la notificación: ' + e.message, true); });
     } else {
       setTimeout(function(){ closePublishModal(); btn.disabled=false; btn.style.opacity='1'; }, 1500);
     }
@@ -1203,13 +1188,14 @@ function loadAvailability() {
     window._availLoading = false;
     var s = document.getElementById('_avail_s');
     if (s) s.remove();
+    if (handleSessionError(data)) return;
     if (!data || data.error) return;
     window._availData = data;
     applyAvailability(data);
   };
   var sc = document.createElement('script');
   sc.id  = '_avail_s';
-  sc.src = 'https://script.google.com/macros/s/AKfycbw-CnkRW8x1LalOyvssLhzYNxDMLf_tLw_wRMI-mYIDCB_94M1dGmmLPvRBVozscTyX/exec?key=ixou2026portal&mode=counts&callback=_availCb';
+  sc.src = apiSrc('counts','_availCb');
   sc.onerror = function(){ window._availLoading=false; this.remove(); };
   document.head.appendChild(sc);
 }
@@ -1620,6 +1606,7 @@ function loadBuscador() {
   window._jbu = function(data) {
     const s = document.getElementById('_jbu_s');
     if (s) s.remove();
+    if (handleSessionError(data)) return;
     if (!data || data.error) {
       if (loadEl) loadEl.style.display = 'none';
       if (errEl)  { errEl.style.display = 'block'; errEl.textContent = 'Error: ' + (data && data.error ? data.error : 'Sin datos'); }
@@ -1651,7 +1638,7 @@ function loadBuscador() {
 
   var sc = document.createElement('script');
   sc.id  = '_jbu_s';
-  sc.src = SHEET_API + '&callback=_jbu';
+  sc.src = apiSrc('full','_jbu');
   sc.onerror = function() {
     this.remove();
     if (loadEl) loadEl.style.display = 'none';
@@ -2266,8 +2253,9 @@ window.nextPost = nextPost;
       </div>
 
       <label style="display:flex;align-items:center;gap:10px;padding:12px;background:var(--black3);border:1px solid var(--gray1);border-radius:2px;cursor:pointer">
-        <input type="checkbox" id="pub-notify" checked style="width:16px;height:16px;accent-color:var(--accent);cursor:pointer;flex-shrink:0">
+        <input type="checkbox" id="pub-notify" style="width:16px;height:16px;accent-color:var(--accent);cursor:pointer;flex-shrink:0">
         <span style="font-size:13px;color:var(--gray5)">Enviar notificaci&#243;n por email a las inmobiliarias autorizadas</span>
+        <a href="#" onclick="event.preventDefault();event.stopPropagation();sendTestNotification()" style="margin-left:auto;font-size:11px;color:var(--accent);white-space:nowrap">Enviar prueba a mí</a>
       </label>
 
       <div id="pub-status" style="font-size:12px;min-height:18px;text-align:center;color:var(--accent)"></div>
