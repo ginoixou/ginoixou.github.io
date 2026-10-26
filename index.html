@@ -1756,7 +1756,11 @@ function openUnit(pSlug, uSlug) {
     + '<div class="modal-hd-name">' + escH(nombre) + ' · ' + escH(r.unidad) + '</div>'
     + '<div class="modal-hd-sub">' + escH([r.tipo, r.tipologia].filter(Boolean).join(' · ')) + '</div>'
     + '<div class="modal-hd-sub" style="margin-top:4px">' + estadoBadge(r.estadoVenta) + '</div>'
-    + copyLinkBtn()
+    + '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">'
+    + copyLinkBtn().replace('margin-top:8px;', '')
+    + '<button onclick="calcOpen([\'' + buKey(r) + '\'])" style="' + 'display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:2px;font-family:\'DM Sans\',sans-serif;font-size:10px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;' + 'background:rgba(200,213,176,.10);border:1px solid rgba(200,213,176,.35);color:var(--accent)">🧮 Calcular forma de pago</button>'
+    + (p ? '<button onclick="openModal(' + p.id + ')" style="' + 'display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:2px;font-family:\'DM Sans\',sans-serif;font-size:10px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;' + 'background:transparent;border:1px solid var(--gray2);color:var(--gray5)">Ver proyecto ' + escH(nombre) + '</button>' : '')
+    + '</div>'
     + '</div><button class="modal-close" onclick="closeModal()">✕</button></div>'
     + '<div class="ficha-grid"><div id="unit-media"></div><div class="ficha-data"><div class="modal-body">'
     + '<div class="modal-sec"><div class="modal-sec-title">Precio</div>'
@@ -1774,7 +1778,6 @@ function openUnit(pSlug, uSlug) {
       + row('Comunes', m2(r.m2com)) + row('Total', m2(r.m2tot)) + '</div>' : '')
     + (r.estadoAlq || r.alqMensual ? '<div class="modal-sec"><div class="modal-sec-title">Renta</div>'
       + row('Estado de alquiler', escH(r.estadoAlq)) + row('Alquiler mensual', fmtUSD(r.alqMensual)) + row('Renta bruta', renta) + '</div>' : '')
-    + '<div style="padding-top:6px;display:flex;gap:8px;flex-wrap:wrap"><button class="bu-linkbtn" style="padding:8px 16px" onclick="calcOpen([\'' + buKey(r) + '\'])">🧮 Calcular forma de pago</button>' + proyBtn + '</div>'
     + '</div></div></div>';
   showFicha('/' + pSlug + '/' + uSlug);
   loadTipologias(function(list){
