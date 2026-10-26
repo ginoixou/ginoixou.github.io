@@ -7,7 +7,7 @@
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDIzLjEuMSwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkNhcGFfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiCgkgdmlld0JveD0iMCAwIDU4Mi4yIDQ2MyIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgNTgyLjIgNDYzOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+CjxnIGZpbGw9IiNmZmZmZmYiPgoJPHBvbHlnb24gcG9pbnRzPSIyMTYuNSwxNDUuNiAxODguOCwxNDUuNiAyMzEsMTg3LjkgMjU4LjgsMTg3LjkgCSIvPgoJPHBvbHlnb24gcG9pbnRzPSIzMTcuNCwxNDUuNiAxNDUuNiwzMTcuNCAxNzMuMywzMTcuNCAzNDUuMSwxNDUuNiAJIi8+Cgk8cG9seWdvbiBwb2ludHM9IjM2My4yLDE0NS42IDE5MS40LDMxNy40IDIxOS4xLDMxNy40IDM5MC45LDE0NS42IAkiLz4KCTxwb2x5Z29uIHBvaW50cz0iNDM2LjYsMTQ1LjYgNDA4LjksMTQ1LjYgMjM3LjEsMzE3LjQgMjY0LjgsMzE3LjQgMzE1LjEsMjY3LjIgMzY1LjMsMzE3LjQgMzkzLDMxNy40IDMyOC45LDI1My4zIAkiLz4KPC9nPgo8L3N2Zz4K">
 <title>IXOU — Portal de Inmobiliarias</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -285,6 +285,52 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
   .nav-btn{font-size:8px;padding:5px 6px}
   .hdr-logo-name{font-size:16px}
 }
+/* ══ CALCULADORA ══ */
+.calc-wrap{display:grid;grid-template-columns:minmax(260px,330px) 1fr;gap:24px;padding:20px 24px 32px;align-items:start}
+@media(max-width:860px){.calc-wrap{grid-template-columns:1fr;padding:16px}}
+.calc-form{display:flex;flex-direction:column;gap:2px}
+.cf-std{font-size:11px;color:var(--gray4);line-height:1.6;margin:2px 0 10px}
+.cf-f{display:flex;flex-direction:column;gap:4px;margin-bottom:10px}
+.cf-f span{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--gray5)}
+.cf-f em{font-style:normal;font-size:10px;color:var(--gray3)}
+.cf-f input,.cf-f select,.cf-esp-row input{background:var(--black3);border:1px solid var(--gray2);color:#fff;padding:8px 10px;font-family:'DM Sans',sans-serif;font-size:13px;border-radius:2px;width:100%;box-sizing:border-box}
+.cf-sum{font-size:12px;letter-spacing:1px;margin:2px 0 6px}
+.cf-esp-row{display:grid;grid-template-columns:1fr 1fr 32px;gap:6px;margin-bottom:6px}
+.cf-esp-row button{background:none;border:1px solid var(--gray2);color:var(--gray4);cursor:pointer}
+.cf-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.cf-errbox{margin-top:12px;padding:10px 12px;border:1px solid rgba(232,168,112,.4);background:rgba(232,168,112,.08);color:#E8A870;font-size:12px;line-height:1.6}
+.calc-out{min-width:0}
+#calc-sheet{background:#fff;color:#1a1a1a;font-family:'Space Mono',monospace;padding:32px 36px;max-width:760px;font-size:12px;box-shadow:0 2px 18px rgba(0,0,0,.35)}
+@media(max-width:600px){#calc-sheet{padding:20px 16px;font-size:11px}}
+.cs-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:22px}
+.cs-head .cs-slogan{margin-bottom:0}
+.cs-logo{max-height:56px;max-width:220px}
+.cs-pname{font-size:22px;font-weight:700;letter-spacing:2px}
+.cs-ixou{height:40px;width:auto}
+.cs-title{font-size:18px;font-weight:700}
+.cs-title span{font-weight:400;font-size:12px;color:#666}
+.cs-slogan{color:#555;margin:4px 0 18px}
+.cs-info{border-collapse:collapse;margin-bottom:20px}
+.cs-info td{padding:2px 14px 2px 0}
+.cs-info td:first-child{color:#666}
+.cs-tab{width:100%;border-collapse:collapse}
+.cs-tab th{text-align:right;font-weight:400;color:#666;border-bottom:1px solid #1a1a1a;padding:6px 4px}
+.cs-tab td{padding:7px 4px;border-bottom:1px solid #e3e3e3;text-align:right;white-space:nowrap}
+.cs-tab td:first-child{text-align:left;white-space:normal}
+.cs-tab small{color:#777;font-size:10px}
+.cs-strong td{font-weight:700}
+.cs-sep td{border-top:1px solid #1a1a1a}
+.cs-total td{font-weight:700;font-size:13px;border-bottom:2px solid #1a1a1a}
+.cs-invalid{padding:18px;border:1px dashed #c77;color:#a44;text-align:center;margin:10px 0}
+.cs-legal{margin-top:22px;font-size:10px;color:#666;line-height:1.6}
+.cs-legal p{margin:0}
+@media print{
+  html,body.printing-calc{background:#fff!important}
+  body.printing-calc *{visibility:hidden!important}
+  body.printing-calc #calc-sheet,body.printing-calc #calc-sheet *{visibility:visible!important}
+  body.printing-calc #calc-sheet{position:absolute;left:0;top:0;width:100%;max-width:none;box-shadow:none;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  @page{margin:16mm}
+}
 </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -501,6 +547,7 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
         <div id="bu-stats" style="font-size:11px;color:var(--gray4)"></div>
         <button class="bu-linkbtn" id="bu-copy-filter" onclick="copyPreciosLink(this,false)" title="Copia un enlace que abre Precios con estos filtros">🔗 Copiar enlace de esta selección</button>
         <button class="bu-linkbtn" id="bu-copy-sel" onclick="copyPreciosLink(this,true)" style="display:none">🔗 Copiar enlace de las seleccionadas</button>
+        <button class="bu-linkbtn" id="bu-calc-sel" onclick="calcFromSel()" style="display:none">🧮 Calcular forma de pago</button>
         <button class="bu-linkbtn" id="bu-clear-sel" onclick="clearBuSel()" style="display:none;background:none;border-color:var(--gray2);color:var(--gray4)">Quitar selección</button>
       </div>
       <div id="bu-export-btns" style="display:none;gap:8px;display:flex">
@@ -796,8 +843,10 @@ function loadInfoProyectos() {
       if (!info) return;
       if (typeof info.avance === 'number') p.avance = info.avance;
       if (info.brochureUrl) p.brochureUrl = info.brochureUrl;
+      if (info.cond) p.cond = info.cond;
     });
     try { renderProj(); } catch(e) { console.error('renderProj:', e); }
+    if (window._calcWaiting) { window._calcWaiting = false; showCalc(false); }
   };
   var sc = document.createElement('script');
   sc.id  = '_ip_s';
@@ -1527,6 +1576,7 @@ window.addEventListener('popstate', function() {
 function handleRoute() {
   var parts = location.pathname.split('/').filter(Boolean).map(function(x){ try { return decodeURIComponent(x); } catch (e) { return x; } });
   if (!parts.length) return;
+  if (parts[0] === 'calculadora') { if (!window._fichaPushed) window._curSec = 'buscador'; window._calcQS = location.search; showCalc(false); return; }
   if (parts[0] === 'precios') { window._pendingPrecios = location.search; showSec('buscador'); if (buLoaded) renderBuscador(); return; }
   var p = findProyecto(projSlug(parts[0]));
   if (!p) { showSec(window._curSec || 'dashboard'); return; }
@@ -1613,7 +1663,7 @@ function openUnit(pSlug, uSlug) {
       + row('Comunes', m2(r.m2com)) + row('Total', m2(r.m2tot)) + '</div>' : '')
     + (r.estadoAlq || r.alqMensual ? '<div class="modal-sec"><div class="modal-sec-title">Renta</div>'
       + row('Estado de alquiler', escH(r.estadoAlq)) + row('Alquiler mensual', fmtUSD(r.alqMensual)) + row('Renta bruta', renta) + '</div>' : '')
-    + '<div style="padding-top:6px">' + proyBtn + '</div>'
+    + '<div style="padding-top:6px;display:flex;gap:8px;flex-wrap:wrap"><button class="bu-linkbtn" style="padding:8px 16px" onclick="calcOpen([\'' + buKey(r) + '\'])">🧮 Calcular forma de pago</button>' + proyBtn + '</div>'
     + '</div></div></div>';
   showFicha('/' + pSlug + '/' + uSlug);
   loadTipologias(function(list){
@@ -1880,6 +1930,7 @@ function loadBuscador() {
     if (resEl)  resEl.style.display  = 'block';
     renderBuscador();
     if (window._pendingUnit) { var pu = window._pendingUnit; window._pendingUnit = null; openUnit(pu[0], pu[1]); }
+    if (window._pendingCalc) { window._calcQS = window._pendingCalc; window._pendingCalc = null; showCalc(false); }
   };
 
   var sc = document.createElement('script');
@@ -1971,7 +2022,19 @@ function updateSelButtons() {
   var b = document.getElementById('bu-copy-sel'), c = document.getElementById('bu-clear-sel');
   if (b) { b.style.display = n ? 'inline-flex' : 'none'; b.innerHTML = '🔗 Copiar enlace de las seleccionadas (' + n + ')'; }
   if (c) c.style.display = n ? 'inline-flex' : 'none';
+  var cb = document.getElementById('bu-calc-sel'), keys = calcSelKeys();
+  if (cb) {
+    var projs = keys.map(function(k){ return k.split(':')[0]; }).filter(function(x, i, a){ return a.indexOf(x) === i; });
+    cb.style.display = keys.length ? 'inline-flex' : 'none';
+    cb.disabled = projs.length > 1;
+    cb.style.opacity = projs.length > 1 ? '.45' : '1';
+    cb.title = projs.length > 1 ? 'Seleccioná unidades de un solo proyecto' : 'Arma la forma de pago de ' + (keys.length === 1 ? 'la unidad seleccionada' : 'las ' + keys.length + ' unidades seleccionadas');
+    cb.innerHTML = '🧮 Calcular forma de pago (' + keys.length + ')';
+  }
 }
+function calcSelKeys() { var k = Object.keys(buSel); return k.length ? k : (window._buSelMode || []).filter(function(x){ return buRows.some(function(r){ return buKey(r) === x; }); }); }
+function calcFromSel() { var k = calcSelKeys(); if (k.length) calcOpen(k); }
+window.calcFromSel = calcFromSel;
 function toggleBuSel(k, on) { if (on) buSel[k] = 1; else delete buSel[k]; updateSelButtons(); }
 window.toggleBuSel = toggleBuSel;
 function toggleBuSelAll(on) {
@@ -1987,14 +2050,277 @@ window.exitBuSelection = exitBuSelection;
 function updateBuBanner(list) {
   var bn = document.getElementById('bu-banner'); if (!bn) return;
   var sel = window._buSelMode;
-  if (!sel) { bn.style.display = 'none'; return; }
+  if (!sel) { bn.style.display = 'none'; updateSelButtons(); return; }
   var found = {}; list.forEach(function(r){ found[buKey(r)] = 1; });
   var missing = sel.filter(function(k){ return !found[k]; }).map(function(k){ var a = k.split(':'); return a[0].toUpperCase().replace(/-/g, ' ') + ' ' + a[1].toUpperCase(); });
   document.getElementById('bu-banner-txt').innerHTML = '<strong style="color:var(--accent);letter-spacing:1px;text-transform:uppercase;font-size:11px">Selección enviada por IXOU</strong> · '
     + list.length + (list.length === 1 ? ' unidad' : ' unidades')
     + (missing.length ? ' · <span style="color:#E8A870">Ya no disponible' + (missing.length > 1 ? 's' : '') + ': ' + escH(missing.join(', ')) + '</span>' : '');
   bn.style.display = 'flex';
+  updateSelButtons();
 }
+
+/* ══ CALCULADORA DE FORMA DE PAGO (/calculadora?unidades=…) ══
+   Condiciones por proyecto: Stock InfoProyectos (cond). Montos fijos en USD. */
+var MESES_L = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','setiembre','octubre','noviembre','diciembre'];
+function calcFmt(n) { return Math.round(n).toLocaleString('es-UY'); }
+function calcPct(x) { return (Math.round(x * 10000) / 100).toLocaleString('es-UY', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '%'; }
+function calcNum(v, d) { var n = parseFloat(String(v == null ? '' : v).replace(',', '.')); return isNaN(n) ? d : n; }
+function monthEnd(y, m) { return new Date(y, m + 1, 0); }           /* m: 0-11, admite desborde */
+function ymKey(d) { return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2); }
+function ymLabel(s) { var a = String(s).split('-'); return a.length > 1 ? MESES_L[+a[1] - 1] + ' ' + a[0] : s; }
+
+/* Cuota fija exacta: interés = saldo × tasa/365 × días reales entre vencimientos (fin de mes) */
+function calcFinCuota(P, n, tasa, y, m) {
+  if (!(P > 0) || !(n > 0)) return 0;
+  var sim = function(C) { var b = P; for (var k = 0; k < n; k++) { var dias = monthEnd(y, m + k).getDate(); b = b + b * tasa / 365 * dias - C; } return b; };
+  var s0 = sim(0), s1 = sim(1);
+  return s0 / (s0 - s1);
+}
+
+function calcProject(keys) {
+  var rows = keys.map(function(k){ return buRows.find(function(r){ return buKey(r) === k; }); }).filter(Boolean);
+  return rows;
+}
+
+function calcDefaults(c, nObra) {
+  var res = calcNum(c.reserva, 0.1), ccv = calcNum(c.ccv, 0), obra = calcNum(c.obra, 0), ent = calcNum(c.entrega, 0);
+  var compromiso = ccv > 0 ? ccv : res;            /* sin CCV (ALMA): la reserva es el pago al compromiso */
+  if (nObra === 0 && obra > 0) { ent += obra; obra = 0; }   /* sin cuotas de obra disponibles: va a la ocupación */
+  return {ccv: compromiso * 100, obra: obra * 100, ent: ent * 100, fin: 0, plazo: Math.min(48, calcNum(c.finPlazo, 48)), freq: 'm', esp: [], modo: 'sumar'};
+}
+
+function calcOpen(keys) {
+  var sp = new URLSearchParams(); sp.set('unidades', keys.join(','));
+  window._calcState = null;
+  window._calcQS = '?' + sp.toString().replace(/%2C/g, ',').replace(/%3A/g, ':');
+  showCalc(true);
+}
+window.calcOpen = calcOpen;
+
+function calcFromQS(qs) {
+  var sp = new URLSearchParams(qs || '');
+  var keys = (sp.get('unidades') || '').split(',').map(function(x){ var a = x.split(':'); return projSlug(a[0]) + ':' + unitSlug(a[1] || ''); }).filter(function(k){ return !/:$/.test(k); });
+  var st = {keys: keys};
+  ['ccv', 'obra', 'ent', 'fin', 'plazo'].forEach(function(k){ if (sp.has(k)) st[k] = calcNum(sp.get(k), null); });
+  if (sp.get('freq')) st.freq = sp.get('freq');
+  if (sp.get('modo')) st.modo = sp.get('modo');
+  if (sp.has('esp')) st.esp = sp.get('esp').split(';').filter(Boolean).map(function(x){ var a = x.split(':'); return {mes: a[0], monto: calcNum(a[1], 0)}; });
+  return st;
+}
+function calcToQS(st) {
+  var q = 'unidades=' + st.keys.join(',') + '&ccv=' + st.ccv + '&obra=' + st.obra + '&ent=' + st.ent + '&fin=' + st.fin
+    + (st.fin > 0 ? '&plazo=' + st.plazo : '') + '&freq=' + st.freq;
+  var esp = st.esp.filter(function(e){ return e.mes && e.monto > 0; });
+  if (esp.length) q += '&esp=' + esp.map(function(e){ return e.mes + ':' + Math.round(e.monto); }).join(';') + '&modo=' + st.modo;
+  return '?' + q;
+}
+
+function showCalc(push) {
+  if (!buLoaded) { window._pendingCalc = window._calcQS; loadBuscador(); return; }
+  var parsed = calcFromQS(window._calcQS);
+  var rows = calcProject(parsed.keys);
+  var box = fichaBox();
+  if (!rows.length) {
+    box.innerHTML = '<div class="modal-body" style="padding:2rem"><p style="color:var(--gray5)">Las unidades del enlace ya no están disponibles o el enlace no es correcto.</p></div>';
+    showFicha('/calculadora' + window._calcQS); return;
+  }
+  var pr = projSlug(rows[0].proyecto);
+  rows = rows.filter(function(r){ return projSlug(r.proyecto) === pr; });
+  var p = findProyecto(pr);
+  var c = (p && p.cond) || null;
+  if (!c) {
+    box.innerHTML = '<div class="modal-body" style="padding:2rem"><p style="color:var(--gray5)">Cargando condiciones del proyecto…</p></div>';
+    window._calcWaiting = true;
+    showFicha('/calculadora' + window._calcQS); return;
+  }
+  var nObra = Math.max(0, Math.floor(calcNum(c.cuotasObra, 0)));
+  var d = calcDefaults(c, nObra);
+  var st = {keys: rows.map(buKey), rows: rows, p: p, c: c, nObra: nObra, std: d};
+  ['ccv', 'obra', 'ent', 'fin', 'plazo', 'freq', 'modo'].forEach(function(k){ st[k] = parsed[k] != null ? parsed[k] : d[k]; });
+  st.esp = parsed.esp || [];
+  window._calcState = st;
+  calcRenderForm();
+  calcRender();
+  showFicha('/calculadora' + calcToQS(st));
+}
+
+function calcRenderForm() {
+  var st = window._calcState, c = st.c;
+  var n = st.nObra, nt = Math.floor(n / 3), ns = Math.floor(n / 6);
+  var opt = function(v, l, cnt){ return '<option value="' + v + '"' + (st.freq === v ? ' selected' : '') + (cnt ? '' : ' disabled') + '>' + l + ' (' + cnt + ')</option>'; };
+  var inp = function(id, lbl, val, help){ return '<label class="cf-f"><span>' + lbl + '</span><input id="' + id + '" type="number" step="0.5" min="0" max="100" value="' + val + '" oninput="calcInput()"><em>' + (help || '') + '</em></label>'; };
+  var finMax = calcNum(c.finMax, 0.5) * 100, finPlazo = calcNum(c.finPlazo, 48);
+  var std = st.std;
+  fichaBox().innerHTML = '<div class="calc-wrap">'
+    + '<div class="calc-form">'
+    + '<div class="modal-sec-title">Forma de pago</div>'
+    + '<p class="cf-std">Plan estándar ' + escH(st.p.nombre) + ': ' + calcPct(std.ccv / 100) + ' compromiso' + (calcNum(c.ccv, 0) > 0 ? ' (incluye ' + calcPct(calcNum(c.reserva, .1)) + ' de reserva)' : '') + ' · ' + calcPct(std.obra / 100) + ' obra · ' + calcPct(std.ent / 100) + ' ocupación'
+    + (n === 0 && calcNum(c.obra, 0) > 0 ? '<br><span style="color:#E8A870">Sin cuotas de obra disponibles: el % de obra se suma a la ocupación.</span>' : '') + '</p>'
+    + inp('cf-ccv', 'Pago al compromiso %', st.ccv, calcNum(c.ccv, 0) > 0 ? 'Mínimo 30%, incluye la reserva' : 'Incluye la reserva')
+    + inp('cf-obra', 'En obra %', st.obra, n ? n + ' meses de obra disponibles' : 'Sin cuotas de obra')
+    + '<label class="cf-f"><span>Frecuencia de cuotas en obra</span><select id="cf-freq" onchange="calcInput()">' + opt('m', 'Mensuales', n) + opt('t', 'Trimestrales', nt) + opt('s', 'Semestrales', ns) + '</select><em></em></label>'
+    + inp('cf-ent', 'A la ocupación %', st.ent, '')
+    + inp('cf-fin', 'Financiación directa IXOU %', st.fin, 'Postocupación · máx. ' + finMax + '% · ' + calcPct(calcNum(c.finTasa, .075)) + ' anual')
+    + '<label class="cf-f"><span>Plazo financiación (meses)</span><input id="cf-plazo" type="number" step="1" min="1" max="' + finPlazo + '" value="' + st.plazo + '" oninput="calcInput()"><em>Máximo ' + finPlazo + ' meses</em></label>'
+    + '<div class="cf-sum" id="cf-sum"></div>'
+    + '<div class="modal-sec-title" style="margin-top:14px">Pagos especiales en obra</div>'
+    + '<p class="cf-std">Se descuentan del monto en obra.</p>'
+    + '<div id="cf-esp"></div>'
+    + '<button class="bu-linkbtn" onclick="calcAddEsp()"' + (n ? '' : ' disabled') + '>+ Agregar pago especial</button>'
+    + '<label class="cf-f" style="margin-top:8px"><span>Las cuotas del mes del pago especial</span><select id="cf-modo" onchange="calcInput()"><option value="sumar"' + (st.modo === 'sumar' ? ' selected' : '') + '>Se mantienen (se suman)</option><option value="reemplazar"' + (st.modo === 'reemplazar' ? ' selected' : '') + '>Se reemplazan</option></select><em></em></label>'
+    + '<div class="cf-actions">'
+    + '<button class="bu-linkbtn" onclick="calcReset()" style="background:none;border-color:var(--gray2);color:var(--gray4)">Volver al plan estándar</button>'
+    + '<button class="bu-linkbtn" onclick="calcPrint()">⎙ Descargar PDF</button>'
+    + '<button class="bu-linkbtn" onclick="calcCopyLink(this)">🔗 Copiar enlace</button>'
+    + '</div>'
+    + '<div id="cf-err"></div>'
+    + '</div>'
+    + '<div class="calc-out"><div id="calc-sheet"></div></div>'
+    + '</div>';
+  calcRenderEsp();
+}
+
+function calcRenderEsp() {
+  var st = window._calcState, el = document.getElementById('cf-esp'); if (!el) return;
+  el.innerHTML = st.esp.map(function(e, i){
+    return '<div class="cf-esp-row"><input type="month" value="' + escH(e.mes) + '" onchange="calcEsp(' + i + ',\'mes\',this.value)">'
+      + '<input type="number" min="0" step="100" placeholder="USD" value="' + (e.monto || '') + '" oninput="calcEsp(' + i + ',\'monto\',this.value)">'
+      + '<button onclick="calcDelEsp(' + i + ')" title="Quitar">✕</button></div>';
+  }).join('');
+}
+function calcAddEsp() {
+  var st = window._calcState, d = new Date();
+  st.esp.push({mes: ymKey(new Date(d.getFullYear(), d.getMonth() + 2, 1)), monto: 0});
+  calcRenderEsp(); calcRender();
+}
+function calcDelEsp(i) { window._calcState.esp.splice(i, 1); calcRenderEsp(); calcRender(); calcSync(); }
+function calcEsp(i, k, v) { var e = window._calcState.esp[i]; if (!e) return; e[k] = k === 'monto' ? calcNum(v, 0) : v; calcRender(); calcSync(); }
+function calcInput() {
+  var st = window._calcState, g = function(id){ return document.getElementById(id); };
+  st.ccv = calcNum(g('cf-ccv').value, 0); st.obra = calcNum(g('cf-obra').value, 0); st.ent = calcNum(g('cf-ent').value, 0);
+  st.fin = calcNum(g('cf-fin').value, 0); st.plazo = Math.round(calcNum(g('cf-plazo').value, 0));
+  st.freq = g('cf-freq').value; st.modo = g('cf-modo').value;
+  calcRender(); calcSync();
+}
+function calcReset() {
+  var st = window._calcState, d = st.std;
+  ['ccv', 'obra', 'ent', 'fin', 'plazo', 'freq', 'modo'].forEach(function(k){ st[k] = d[k]; });
+  st.esp = []; calcRenderForm(); calcRender(); calcSync();
+}
+function calcSync() {
+  var path = '/calculadora' + calcToQS(window._calcState);
+  try { if (location.pathname + location.search !== path) history.replaceState(history.state, '', path); } catch (e) {}
+}
+function calcCopyLink(btn) {
+  calcSync();
+  var url = location.origin + '/calculadora' + calcToQS(window._calcState), orig = btn.innerHTML;
+  var done = function(){ btn.textContent = '¡Enlace copiado!'; setTimeout(function(){ btn.innerHTML = orig; }, 2000); };
+  if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(done, function(){ prompt('Copiá este enlace:', url); });
+  else prompt('Copiá este enlace:', url);
+}
+function calcPrint() {
+  if (document.querySelector('#calc-sheet .cs-invalid')) { alert('Corregí la forma de pago antes de descargar el PDF.'); return; }
+  var t = document.title; document.title = 'Propuesta ' + window._calcState.p.nombre + ' ' + window._calcState.rows.map(function(r){ return r.unidad; }).join('-');
+  document.body.classList.add('printing-calc'); window.print();
+  setTimeout(function(){ document.body.classList.remove('printing-calc'); document.title = t; }, 500);
+}
+window.calcAddEsp = calcAddEsp; window.calcDelEsp = calcDelEsp; window.calcEsp = calcEsp; window.calcInput = calcInput;
+window.calcReset = calcReset; window.calcCopyLink = calcCopyLink; window.calcPrint = calcPrint;
+
+/* Cálculo puro (también usado en pruebas) */
+function calcCompute(st, today) {
+  var c = st.c, P = st.rows.reduce(function(s, r){ return s + numVal(r.precio); }, 0);
+  var err = [], warn = [];
+  var hoy = today || new Date();
+  var sum = st.ccv + st.obra + st.ent + st.fin;
+  if (Math.abs(sum - 100) > 0.001) err.push('Los porcentajes suman ' + calcPct(sum / 100) + '; deben sumar 100%.');
+  var minC = calcNum(c.ccv, 0) > 0 ? 30 : calcNum(c.reserva, .1) * 100;
+  if (st.ccv < minC - 1e-9) err.push('El pago al compromiso debe ser al menos ' + calcPct(minC / 100) + (calcNum(c.ccv, 0) > 0 ? ' (incluye la reserva).' : ' (reserva).'));
+  var finMax = calcNum(c.finMax, .5) * 100, finPlazo = calcNum(c.finPlazo, 48);
+  if (st.fin > finMax + 1e-9) err.push('La financiación directa IXOU no puede superar el ' + calcPct(finMax / 100) + '.');
+  if (st.fin > 0 && (!(st.plazo >= 1) || st.plazo > finPlazo)) err.push('El plazo de financiación debe ser de 1 a ' + finPlazo + ' meses.');
+  if ([st.ccv, st.obra, st.ent, st.fin].some(function(x){ return x < 0; })) err.push('Los porcentajes no pueden ser negativos.');
+  /* Cuotas en obra */
+  var step = {m: 1, t: 3, s: 6}[st.freq] || 1, nCuotas = Math.floor(st.nObra / step);
+  var meses = []; for (var k = 1; k <= nCuotas; k++) meses.push(ymKey(monthEnd(hoy.getFullYear(), hoy.getMonth() + k * step)));
+  var obraUSD = P * st.obra / 100;
+  var esp = st.esp.filter(function(e){ return e.mes && e.monto > 0; });
+  var espUSD = esp.reduce(function(s, e){ return s + e.monto; }, 0);
+  var ultimo = st.nObra ? ymKey(monthEnd(hoy.getFullYear(), hoy.getMonth() + st.nObra)) : '';
+  var primero = ymKey(monthEnd(hoy.getFullYear(), hoy.getMonth() + 1));
+  esp.forEach(function(e){ if (e.mes < primero || e.mes > ultimo) err.push('El pago especial de ' + ymLabel(e.mes) + ' está fuera del período de obra' + (ultimo ? ' (' + ymLabel(primero) + ' a ' + ymLabel(ultimo) + ').' : '.')); });
+  if (espUSD > obraUSD + 0.5) err.push('Los pagos especiales (USD ' + calcFmt(espUSD) + ') superan el monto en obra (USD ' + calcFmt(obraUSD) + ').');
+  var cuotaMeses = st.modo === 'reemplazar' ? meses.filter(function(m){ return !esp.some(function(e){ return e.mes === m; }); }) : meses;
+  var resto = obraUSD - espUSD;
+  if (resto > 0.5 && !cuotaMeses.length) err.push(st.nObra ? 'Con esa frecuencia no quedan cuotas en obra; asigná ese % a la ocupación o a pagos especiales.' : 'No hay cuotas en obra disponibles para este proyecto; asigná ese % a la ocupación.');
+  var cuotaObra = cuotaMeses.length ? resto / cuotaMeses.length : 0;
+  /* Financiación: primer vencimiento a fin del mes siguiente a la ocupación (o a hoy, si ya pasó) */
+  var oc = String(c.ocupacion || '').match(/^(\d{4})-(\d{2})/);
+  var base = oc ? new Date(+oc[1], +oc[2] - 1, 1) : new Date(hoy.getFullYear(), hoy.getMonth(), 1);
+  if (base < new Date(hoy.getFullYear(), hoy.getMonth(), 1)) base = new Date(hoy.getFullYear(), hoy.getMonth(), 1);
+  var finUSD = P * st.fin / 100, tasa = calcNum(c.finTasa, .075);
+  var cuotaFin = st.fin > 0 && st.plazo > 0 ? calcFinCuota(finUSD, st.plazo, tasa, base.getFullYear(), base.getMonth() + 1) : 0;
+  var g = c.gastosOcup, gastos = typeof g === 'number' ? P * g : null;
+  return {P: P, err: err, compromisoUSD: P * st.ccv / 100, obraUSD: obraUSD, esp: esp, espUSD: espUSD, nCuotas: cuotaMeses.length,
+    cuotaObra: cuotaObra, entUSD: P * st.ent / 100, finUSD: finUSD, cuotaFin: cuotaFin, finTotal: cuotaFin * st.plazo,
+    primerFin: ymKey(monthEnd(base.getFullYear(), base.getMonth() + 1)), gastos: gastos, gastosPct: g, tasa: tasa,
+    hastaOcupar: P * (st.ccv + st.obra + st.ent) / 100};
+}
+window.calcCompute = calcCompute; window.calcFinCuota = calcFinCuota;
+
+function calcRender() {
+  var st = window._calcState; if (!st) return;
+  var R = calcCompute(st), c = st.c, p = st.p;
+  var sumEl = document.getElementById('cf-sum');
+  var sum = st.ccv + st.obra + st.ent + st.fin;
+  if (sumEl) { sumEl.textContent = 'Suma: ' + calcPct(sum / 100); sumEl.style.color = Math.abs(sum - 100) > 0.001 ? '#E8A870' : 'var(--accent)'; }
+  var errEl = document.getElementById('cf-err');
+  if (errEl) errEl.innerHTML = R.err.length ? '<div class="cf-errbox">' + R.err.map(escH).join('<br>') + '</div>' : '';
+  var hoy = new Date();
+  var oc = String(c.ocupacion || '').match(/^(\d{4})-(\d{2})/);
+  var ocTxt = oc && new Date(+oc[1], +oc[2], 0) >= new Date(hoy.getFullYear(), hoy.getMonth(), 1) ? MESES_L[+oc[2] - 1] + ', ' + oc[1] : 'Inmediata';
+  var uniq = function(a){ return a.filter(function(x, i){ return x && a.indexOf(x) === i; }).join(' · '); };
+  var tipTxt = uniq(st.rows.map(function(r){ return r.tipologia || r.tipo; }));
+  var torreTxt = uniq(st.rows.map(function(r){ return r.torre; }));
+  var row = function(lbl, cant, pct, usd, cls){ return '<tr' + (cls ? ' class="' + cls + '"' : '') + '><td>' + lbl + '</td><td>' + (cant || '') + '</td><td>' + (pct || '') + '</td><td>' + (usd == null ? '' : calcFmt(usd)) + '</td></tr>'; };
+  var freqL = {m: 'mensuales', t: 'trimestrales', s: 'semestrales'}[st.freq];
+  var gTxt = R.gastosPct === 'incluidos' ? 'incluidos' : calcPct(R.gastosPct || 0);
+  var fecha = hoy.toLocaleDateString('es-UY', {day: '2-digit', month: '2-digit', year: 'numeric'});
+  var titulo = '<div class="cs-title">' + escH(p.nombre) + ' <span>by IXOU</span></div>' + (p.concepto ? '<div class="cs-slogan">' + escH(p.concepto) + '</div>' : '');
+  /* Sin logo cargado en InfoProyectos (columna Logo): el nombre ocupa el lugar del logo */
+  var h = '<div class="cs-head">' + (c.logo ? '<img src="' + escH(imgSrc(c.logo, 400)) + '" alt="' + escH(p.nombre) + '" class="cs-logo">' : '<div>' + titulo + '</div>')
+    + '<img src="imgs/logo-ixou.png" alt="IXOU" class="cs-ixou"></div>'
+    + (c.logo ? titulo : '')
+    + '<table class="cs-info"><tr><td>Ocupación estimada:</td><td>' + escH(ocTxt) + '</td></tr>'
+    + '<tr><td>' + (st.rows.length > 1 ? 'Unidades:' : 'Unidad:') + '</td><td>' + escH(st.rows.map(function(r){ return r.unidad; }).join(' · ')) + '</td></tr>'
+    + (tipTxt ? '<tr><td>Tipología:</td><td>' + escH(tipTxt) + '</td></tr>' : '')
+    + (torreTxt ? '<tr><td>Torre:</td><td>' + escH(torreTxt) + '</td></tr>' : '') + '</table>';
+  if (R.err.length) {
+    h += '<div class="cs-invalid">La forma de pago tiene errores. Corregilos para ver la propuesta.</div>';
+  } else {
+    h += '<table class="cs-tab"><thead><tr><th></th><th>Cantidad</th><th>%</th><th>USD</th></tr></thead><tbody>'
+      + row('Precio de venta', '', '100,00%', R.P, 'cs-strong')
+      + row('Pago al compromiso' + (calcNum(c.ccv, 0) > 0 ? ' <small>(incluye ' + calcPct(calcNum(c.reserva, .1)) + ' de reserva)</small>' : ' <small>(reserva)</small>'), '', calcPct(st.ccv / 100), R.compromisoUSD)
+      + R.esp.map(function(e){ return row('Pago especial ' + escH(ymLabel(e.mes)), 1, calcPct(e.monto / R.P), e.monto); }).join('')
+      + (R.nCuotas && R.cuotaObra > 0.5 ? row('Cuotas ' + freqL + ' en obra <small>(cada una)</small>', R.nCuotas, calcPct(R.cuotaObra * R.nCuotas / R.P), R.cuotaObra) : '')
+      + (st.ent > 0 ? row(ocTxt === 'Inmediata' ? 'Pago a la escrituración' : 'Pago a la ocupación', '', calcPct(st.ent / 100), R.entUSD) : '')
+      + row('Total hasta ocupar', '', calcPct((st.ccv + st.obra + st.ent) / 100), R.hastaOcupar, 'cs-strong')
+      + (st.fin > 0 ? row('Saldo postocupación (directo IXOU)', '', calcPct(st.fin / 100), R.finUSD)
+        + row('Cuotas financiación directa <small>(' + calcPct(R.tasa) + ' anual · desde ' + escH(ymLabel(R.primerFin)) + ')</small>', st.plazo, '', R.cuotaFin)
+        + row('Total financiación con intereses', '', '', R.finTotal) : '')
+      + row('Gastos de Ocupación', '', gTxt, R.gastos, 'cs-sep')
+      + row('TOTAL con gastos', '', '', R.P + (R.gastos || 0), 'cs-total')
+      + '</tbody></table>';
+  }
+  h += '<div class="cs-legal">'
+    + '<p>Sujeto a disponibilidad. Precios en dólares americanos. Cuotas fijas en USD.</p>'
+    + '<p>Propuesta generada el ' + fecha + '. Validez: 7 días.</p>'
+    + '<p>' + (R.gastosPct === 'incluidos' ? 'Gastos de ocupación incluidos. No incluye comisión inmobiliaria.' : 'No incluye gastos de ocupación (' + gTxt + ') ni comisión inmobiliaria.') + '</p>'
+    + '<p>Ejemplo orientativo.</p></div>';
+  var sh = document.getElementById('calc-sheet'); if (sh) sh.innerHTML = h;
+}
+window.calcRender = calcRender;
 
 function renderBuscador() {
   if (!buLoaded) { loadBuscador(); return; }
