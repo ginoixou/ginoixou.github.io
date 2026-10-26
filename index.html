@@ -198,6 +198,19 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
   .ficha-grid > #unit-media{border-right:none;border-bottom:1px solid var(--gray1);width:100%}
   #unit-foto-wrap{height:260px}
 }
+/* ── PRECIOS: multiselección, selección de filas y enlaces ── */
+.ms{position:relative}
+.ms > summary{list-style:none;cursor:pointer;user-select:none;min-width:140px;max-width:220px;position:relative;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:#fff;color:#111;border:1px solid #767676;border-radius:3px;padding:3px 26px 3px 8px;font-size:13px;line-height:1.35;height:100%;box-sizing:border-box;display:flex;align-items:center}
+.ms > summary::-webkit-details-marker{display:none}
+.ms > summary::after{content:'▾';position:absolute;right:8px;top:50%;transform:translateY(-50%);color:#333;font-size:11px}
+.ms-list{position:absolute;z-index:30;top:calc(100% + 4px);left:0;min-width:200px;max-height:280px;overflow:auto;background:var(--black2);border:1px solid var(--gray2);padding:6px 0;box-shadow:0 8px 24px rgba(0,0,0,.5)}
+.ms-list label{display:flex;align-items:center;gap:8px;padding:6px 12px;font-size:12px;color:var(--gray5);cursor:pointer;white-space:nowrap}
+.ms-list label:hover{background:var(--black3);color:var(--white)}
+.ms-list input{accent-color:var(--accent);width:14px;height:14px}
+.bu-chk{accent-color:var(--accent);width:14px;height:14px;cursor:pointer}
+.bu-linkbtn{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:rgba(200,213,176,.10);border:1px solid rgba(200,213,176,.35);color:var(--accent);border-radius:2px;font-family:'DM Sans',sans-serif;font-size:10px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;white-space:nowrap}
+.bu-linkbtn:hover{background:rgba(200,213,176,.2)}
+#bu-banner{display:none;margin-bottom:1rem;padding:12px 16px;border:1px solid rgba(200,213,176,.35);background:rgba(200,213,176,.07);font-size:12px;color:var(--gray5);align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
 /* CAT COLORS */
 .cc-launch{color:#E8C870}.cc-avance{color:#6B9EE8}.cc-comer{color:var(--accent)}.cc-legal{color:#C888D8}.cc-general{color:var(--gray4)}
 /* SLIDER */
@@ -475,8 +488,8 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:1rem;padding-bottom:1rem;border-bottom:1px solid var(--gray1)">
       <input class="ctrl-in" id="bu-q" placeholder="Buscar…" oninput="renderBuscador()" style="flex:2;min-width:180px">
       <select class="ctrl-sel" id="bu-proj"    onchange="renderBuscador()"><option value="">Todos los proyectos</option></select>
-      <select class="ctrl-sel" id="bu-tipo"    onchange="renderBuscador()"><option value="">Todos los tipos</option></select>
-      <select class="ctrl-sel" id="bu-dorm"    onchange="renderBuscador()"><option value="">Todos los dormitorios</option></select>
+      <details class="ms" id="bu-tipo-ms"><summary id="bu-tipo-sum">Todos los tipos</summary><div class="ms-list" id="bu-tipo"></div></details>
+      <details class="ms" id="bu-dorm-ms"><summary id="bu-dorm-sum">Todos los dormitorios</summary><div class="ms-list" id="bu-dorm"></div></details>
 
       <input class="ctrl-in" id="bu-min" placeholder="Precio mín" type="number" oninput="renderBuscador()" style="width:120px;flex:none">
       <input class="ctrl-in" id="bu-max" placeholder="Precio máx" type="number" oninput="renderBuscador()" style="width:120px;flex:none">
@@ -484,7 +497,12 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
     </div>
 
     <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:1rem;min-height:28px">
-      <div id="bu-stats" style="font-size:11px;color:var(--gray4)"></div>
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <div id="bu-stats" style="font-size:11px;color:var(--gray4)"></div>
+        <button class="bu-linkbtn" id="bu-copy-filter" onclick="copyPreciosLink(this,false)" title="Copia un enlace que abre Precios con estos filtros">🔗 Copiar enlace de esta selección</button>
+        <button class="bu-linkbtn" id="bu-copy-sel" onclick="copyPreciosLink(this,true)" style="display:none">🔗 Copiar enlace de las seleccionadas</button>
+        <button class="bu-linkbtn" id="bu-clear-sel" onclick="clearBuSel()" style="display:none;background:none;border-color:var(--gray2);color:var(--gray4)">Quitar selección</button>
+      </div>
       <div id="bu-export-btns" style="display:none;gap:8px;display:flex">
         <button onclick="exportBuscadorExcel()" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:rgba(34,139,34,.12);border:1px solid rgba(34,139,34,.35);color:#6abf6a;border-radius:2px;font-family:'DM Sans',sans-serif;font-size:10px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:all .2s" onmouseover="this.style.background='rgba(34,139,34,.22)'" onmouseout="this.style.background='rgba(34,139,34,.12)'">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="12" y2="18"/><line x1="15" y1="15" x2="12" y2="18"/></svg>
@@ -496,6 +514,8 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
         </button>
       </div>
     </div>
+
+    <div id="bu-banner"><span id="bu-banner-txt"></span><button class="bu-linkbtn" onclick="exitBuSelection()">Ver todas las unidades</button></div>
 
     <!-- LOADING -->
     <div id="bu-loading" style="text-align:center;padding:3rem;color:var(--gray3)">
@@ -510,6 +530,7 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
       <table id="bu-table" style="width:100%;border-collapse:collapse;font-size:12px;min-width:900px">
         <thead>
           <tr style="background:var(--black2);border-bottom:2px solid var(--gray1)">
+            <th class="bu-th" style="width:28px;cursor:default" title="Marcá unidades para copiar un enlace con esa selección"><input type="checkbox" class="bu-chk" id="bu-chk-all" onclick="toggleBuSelAll(this.checked)"></th>
             <th onclick="sortBuscador('tipo')"       class="bu-th">Tipo ↕</th>
             <th onclick="sortBuscador('proyecto')"   class="bu-th">Proyecto ↕</th>
             <th onclick="sortBuscador('unidad')"     class="bu-th" style="text-align:center">Unidad ↕</th>
@@ -1506,6 +1527,7 @@ window.addEventListener('popstate', function() {
 function handleRoute() {
   var parts = location.pathname.split('/').filter(Boolean).map(function(x){ try { return decodeURIComponent(x); } catch (e) { return x; } });
   if (!parts.length) return;
+  if (parts[0] === 'precios') { window._pendingPrecios = location.search; showSec('buscador'); if (buLoaded) renderBuscador(); return; }
   var p = findProyecto(projSlug(parts[0]));
   if (!p) { showSec(window._curSec || 'dashboard'); return; }
   if (parts[1]) { if (!window._fichaPushed) window._curSec = 'buscador'; openUnit(projSlug(p.nombre), unitSlug(parts[1])); return; }
@@ -1816,6 +1838,8 @@ window.updatePriceChips = updatePriceChips;
 
 function loadBuscador() {
   if (buLoaded) { renderBuscador(); return; }
+  if (window._buLoading) return;
+  window._buLoading = true;
   const loadEl = document.getElementById('bu-loading');
   const errEl  = document.getElementById('bu-error');
   const resEl  = document.getElementById('bu-results');
@@ -1826,6 +1850,7 @@ function loadBuscador() {
   window._jbu = function(data) {
     const s = document.getElementById('_jbu_s');
     if (s) s.remove();
+    window._buLoading = false;
     if (handleSessionError(data)) return;
     if (!data || data.error) {
       if (loadEl) loadEl.style.display = 'none';
@@ -1847,10 +1872,10 @@ function loadBuscador() {
     if (ps) ps.innerHTML = '<option value="">Todos los proyectos</option>' + projs.map(function(p){ return '<option value="' + p + '">' + p + '</option>'; }).join('');
     var tipos = Array.from(new Set(buRows.map(function(r){ return r.tipo; }).filter(Boolean))).sort();
     var ts = document.getElementById('bu-tipo');
-    if (ts) ts.innerHTML = '<option value="">Todos los tipos</option>' + tipos.map(function(t){ return '<option value="' + t + '">' + t + '</option>'; }).join('');
+    if (ts) ts.innerHTML = tipos.map(function(t){ return '<label><input type="checkbox" value="' + escH(t) + '" onchange="onMsChange(\'bu-tipo\')"> ' + escH(t) + '</label>'; }).join('');
     var dorms = Array.from(new Set(buRows.map(function(r){ return r.dorm; }).filter(function(d){ return d !== '' && d !== undefined; }))).sort(function(a,b){ return parseFloat(a)-parseFloat(b); });
     var ds = document.getElementById('bu-dorm');
-    if (ds) ds.innerHTML = '<option value="">Todos los dormitorios</option>' + dorms.map(function(d){ return '<option value="' + d + '">' + (d==='0'?'Studio/Flex':d+' dorm.') + '</option>'; }).join('');
+    if (ds) ds.innerHTML = dorms.map(function(d){ return '<label><input type="checkbox" value="' + escH(d) + '" onchange="onMsChange(\'bu-dorm\')"> ' + (d==='0'?'Studio/Flex':d+' dorm.') + '</label>'; }).join('');
     if (loadEl) loadEl.style.display = 'none';
     if (resEl)  resEl.style.display  = 'block';
     renderBuscador();
@@ -1862,6 +1887,7 @@ function loadBuscador() {
   sc.src = apiSrc('full','_jbu');
   sc.onerror = function() {
     this.remove();
+    window._buLoading = false;
     if (loadEl) loadEl.style.display = 'none';
     if (errEl)  { errEl.style.display = 'block'; errEl.textContent = 'Error de conexión con la API.'; }
   };
@@ -1869,27 +1895,133 @@ function loadBuscador() {
 }
 window.loadBuscador = loadBuscador;
 
+
+/* ══ PRECIOS: filtros múltiples, enlaces y selección de unidades ══ */
+var buSel = {};
+function buKey(r) { return projSlug(r.proyecto) + ':' + unitSlug(r.unidad); }
+function msValues(id) { var el = document.getElementById(id); if (!el) return []; return [].slice.call(el.querySelectorAll('input:checked')).map(function(c){ return c.value; }); }
+function msSet(id, vals) {
+  var el = document.getElementById(id); if (!el) return;
+  var low = vals.map(function(v){ return String(v).toLowerCase(); });
+  [].forEach.call(el.querySelectorAll('input'), function(c){ c.checked = low.indexOf(c.value.toLowerCase()) >= 0; });
+  msSummary(id);
+}
+function msSummary(id) {
+  var sum = document.getElementById(id + '-sum'); if (!sum) return;
+  var labels = [].slice.call(document.getElementById(id).querySelectorAll('input:checked')).map(function(c){ return c.parentNode.textContent.trim(); });
+  sum.textContent = labels.length ? labels.join(', ') : (id === 'bu-tipo' ? 'Todos los tipos' : 'Todos los dormitorios');
+}
+function onMsChange(id) { msSummary(id); window._buSelMode = null; renderBuscador(); }
+window.onMsChange = onMsChange;
+document.addEventListener('click', function(e){
+  ['bu-tipo-ms','bu-dorm-ms'].forEach(function(id){ var d = document.getElementById(id); if (d && d.open && !d.contains(e.target)) d.open = false; });
+});
+
+/* Lee los filtros de la URL (/precios?proyecto=…&tipo=…&dorm=…&min=…&max=…&q=… o ?unidades=proy:unidad,…) */
+function applyPreciosParams(search) {
+  var sp = new URLSearchParams(search || '');
+  var uni = sp.get('unidades');
+  if (uni) {
+    window._buSelMode = uni.split(',').map(function(x){ var a = x.split(':'); return projSlug(a[0]) + ':' + unitSlug(a[1] || ''); }).filter(function(k){ return !/:$/.test(k); });
+    return;
+  }
+  window._buSelMode = null;
+  var proj = sp.get('proyecto') || '';
+  var ps = document.getElementById('bu-proj');
+  if (ps) { ps.value = ''; [].forEach.call(ps.options, function(o){ if (o.value && projSlug(o.value) === projSlug(proj)) ps.value = o.value; }); }
+  msSet('bu-tipo', (sp.get('tipo') || '').split(',').filter(Boolean));
+  msSet('bu-dorm', (sp.get('dorm') || '').split(',').filter(Boolean));
+  var set = function(id, v){ var el = document.getElementById(id); if (el) el.value = v || ''; };
+  set('bu-min', sp.get('min')); set('bu-max', sp.get('max')); set('bu-q', sp.get('q'));
+}
+function preciosQuery(useSel) {
+  var sp = new URLSearchParams();
+  if (useSel) {
+    var keys = window._buSelMode && !Object.keys(buSel).length ? window._buSelMode : Object.keys(buSel);
+    if (keys.length) sp.set('unidades', keys.join(','));
+  } else if (window._buSelMode) {
+    sp.set('unidades', window._buSelMode.join(','));
+  } else {
+    var proj = (document.getElementById('bu-proj') || {}).value; if (proj) sp.set('proyecto', projSlug(proj));
+    var t = msValues('bu-tipo').map(function(x){ return x.toLowerCase(); }); if (t.length) sp.set('tipo', t.join(','));
+    var d = msValues('bu-dorm'); if (d.length) sp.set('dorm', d.join(','));
+    var mn = (document.getElementById('bu-min') || {}).value; if (mn) sp.set('min', mn);
+    var mx = (document.getElementById('bu-max') || {}).value; if (mx) sp.set('max', mx);
+    var q = (document.getElementById('bu-q') || {}).value; if (q) sp.set('q', q);
+  }
+  var qs = sp.toString().replace(/%2C/g, ',').replace(/%3A/g, ':');
+  return '/precios' + (qs ? '?' + qs : '');
+}
+function syncPreciosUrl() {
+  var sec = document.getElementById('sec-buscador');
+  if (!sec || sec.style.display === 'none') return;
+  var path = preciosQuery(false);
+  try { if (location.pathname + location.search !== path) history.replaceState(null, '', path); } catch (e) {}
+}
+function copyPreciosLink(btn, useSel) {
+  var url = location.origin + preciosQuery(useSel);
+  var orig = btn.innerHTML;
+  var done = function(){ btn.textContent = '¡Enlace copiado!'; setTimeout(function(){ btn.innerHTML = orig; }, 2000); };
+  if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(done, function(){ prompt('Copiá este enlace:', url); });
+  else prompt('Copiá este enlace:', url);
+}
+window.copyPreciosLink = copyPreciosLink;
+function updateSelButtons() {
+  var n = Object.keys(buSel).length;
+  var b = document.getElementById('bu-copy-sel'), c = document.getElementById('bu-clear-sel');
+  if (b) { b.style.display = n ? 'inline-flex' : 'none'; b.innerHTML = '🔗 Copiar enlace de las seleccionadas (' + n + ')'; }
+  if (c) c.style.display = n ? 'inline-flex' : 'none';
+}
+function toggleBuSel(k, on) { if (on) buSel[k] = 1; else delete buSel[k]; updateSelButtons(); }
+window.toggleBuSel = toggleBuSel;
+function toggleBuSelAll(on) {
+  (window._buExportList || []).forEach(function(r){ var k = buKey(r); if (on) buSel[k] = 1; else delete buSel[k]; });
+  [].forEach.call(document.querySelectorAll('#bu-tbody .bu-chk'), function(c){ c.checked = on; });
+  updateSelButtons();
+}
+window.toggleBuSelAll = toggleBuSelAll;
+function clearBuSel() { buSel = {}; var a = document.getElementById('bu-chk-all'); if (a) a.checked = false; updateSelButtons(); renderBuscador(); }
+window.clearBuSel = clearBuSel;
+function exitBuSelection() { window._buSelMode = null; renderBuscador(); }
+window.exitBuSelection = exitBuSelection;
+function updateBuBanner(list) {
+  var bn = document.getElementById('bu-banner'); if (!bn) return;
+  var sel = window._buSelMode;
+  if (!sel) { bn.style.display = 'none'; return; }
+  var found = {}; list.forEach(function(r){ found[buKey(r)] = 1; });
+  var missing = sel.filter(function(k){ return !found[k]; }).map(function(k){ var a = k.split(':'); return a[0].toUpperCase().replace(/-/g, ' ') + ' ' + a[1].toUpperCase(); });
+  document.getElementById('bu-banner-txt').innerHTML = '<strong style="color:var(--accent);letter-spacing:1px;text-transform:uppercase;font-size:11px">Selección enviada por IXOU</strong> · '
+    + list.length + (list.length === 1 ? ' unidad' : ' unidades')
+    + (missing.length ? ' · <span style="color:#E8A870">Ya no disponible' + (missing.length > 1 ? 's' : '') + ': ' + escH(missing.join(', ')) + '</span>' : '');
+  bn.style.display = 'flex';
+}
+
 function renderBuscador() {
   if (!buLoaded) { loadBuscador(); return; }
+  if (window._pendingPrecios != null) { var _pp = window._pendingPrecios; window._pendingPrecios = null; applyPreciosParams(_pp); }
   var q       = (document.getElementById('bu-q') ? document.getElementById('bu-q').value : '').toLowerCase();
   var proj    = document.getElementById('bu-proj')   ? document.getElementById('bu-proj').value   : '';
-  var tipo    = document.getElementById('bu-tipo')   ? document.getElementById('bu-tipo').value   : '';
-  var dorm    = document.getElementById('bu-dorm')   ? document.getElementById('bu-dorm').value   : '';
+  var tipos   = msValues('bu-tipo').map(function(t){ return t.toLowerCase(); });
+  var dorms   = msValues('bu-dorm');
   var minP    = numVal(document.getElementById('bu-min') ? document.getElementById('bu-min').value : '');
   var maxP    = numVal(document.getElementById('bu-max') ? document.getElementById('bu-max').value : '') || Infinity;
 
   var ESTADOS_VISIBLES = ['DISPONIBLE','ASIGNADO','REVENTA'];
+  var sel = window._buSelMode;
   var list = buRows.filter(function(r) {
     var p = numVal(r.precio);
     var ev = r.estadoVenta.toUpperCase();
-    return ESTADOS_VISIBLES.indexOf(ev) >= 0
-        && (!q      || Object.values(r).join(' ').toLowerCase().indexOf(q) >= 0)
+    if (ESTADOS_VISIBLES.indexOf(ev) < 0) return false;
+    if (sel) return sel.indexOf(buKey(r)) >= 0;
+    return (!q      || Object.values(r).join(' ').toLowerCase().indexOf(q) >= 0)
         && (!proj   || r.proyecto === proj)
-        && (!tipo   || r.tipo === tipo)
-        && (!dorm   || r.dorm === dorm)
+        && (!tipos.length || tipos.indexOf(r.tipo.toLowerCase()) >= 0)
+        && (!dorms.length || r.dorm === '' || dorms.indexOf(r.dorm) >= 0)
         && (!minP   || p >= minP)
         && (maxP === Infinity || !maxP || p <= maxP);
   });
+  updateBuBanner(list);
+  syncPreciosUrl();
 
   list.sort(function(a, b) {
     var va = a[buSortKey] || '', vb = b[buSortKey] || '';
@@ -1920,7 +2052,9 @@ function renderBuscador() {
   if (empty) empty.style.display = 'none';
 
   tbody.innerHTML = list.map(function(r, i) {
+    var _k = buKey(r);
     return '<tr style="border-bottom:1px solid var(--gray1);background:' + (i%2===0?'var(--black2)':'var(--black3)') + '">'
+      + '<td style="padding:9px 8px 9px 12px"><input type="checkbox" class="bu-chk" ' + (buSel[_k] ? 'checked' : '') + ' onchange="toggleBuSel(\'' + _k + '\',this.checked)"></td>'
       + '<td style="padding:9px 12px;color:var(--gray5);white-space:nowrap">' + r.tipo + '</td>'
       + '<td style="padding:9px 12px;color:var(--white);font-weight:500;white-space:nowrap">' + r.proyecto + '</td>'
       + '<td style="padding:9px 12px;text-align:center"><a href="' + unitPath(r) + '" onclick="event.preventDefault();openUnit(\'' + projSlug(r.proyecto) + '\',\'' + unitSlug(r.unidad) + '\')" title="Ver ficha de la unidad" style="color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--accent2)">' + r.unidad + '</a></td>'
@@ -1948,7 +2082,9 @@ function sortBuscador(key) {
 
 function resetBuscador() {
   ['bu-q','bu-min','bu-max'].forEach(function(id){ var el=document.getElementById(id); if(el) el.value=''; });
-  ['bu-proj','bu-tipo'].forEach(function(id){ var el=document.getElementById(id); if(el) el.selectedIndex=0; });
+  ['bu-proj'].forEach(function(id){ var el=document.getElementById(id); if(el) el.selectedIndex=0; });
+  ['bu-tipo','bu-dorm'].forEach(function(id){ msSet(id, []); });
+  window._buSelMode = null;
   renderBuscador();
 }
 
