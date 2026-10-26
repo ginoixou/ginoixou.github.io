@@ -172,6 +172,32 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
 .modal-row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--gray1);font-size:12px}
 .modal-row:last-child{border-bottom:none}
 .modal-lbl{color:var(--gray4)}.modal-val{color:var(--white);font-weight:500;text-align:right;max-width:65%}
+/* ── FICHA COMO PÁGINA (proyecto / unidad) ── */
+.ficha-wrap{max-width:1180px;margin:0 auto;padding:1.5rem 2rem 4rem}
+.ficha-back{display:inline-flex;align-items:center;gap:6px;background:none;border:none;color:var(--gray4);font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;padding:6px 0;margin-bottom:14px}
+.ficha-back:hover{color:var(--accent)}
+.ficha-page{background:var(--black2);border:1px solid var(--gray2)}
+.ficha-page .modal-close{display:none}
+.ficha-page .modal-hd{position:static;padding:1.6rem 2rem}
+.ficha-page .modal-hd-name{font-size:3rem}
+.ficha-page .modal-gallery{margin:0;border-bottom:1px solid var(--gray1)}
+.ficha-page .modal-gallery > div:first-child{height:460px !important}
+.ficha-page .modal-body{padding:1.8rem 2rem;display:grid;grid-template-columns:1fr 1fr;gap:0 40px;align-items:start}
+.ficha-grid{display:flex;gap:0;align-items:flex-start}
+.ficha-grid > #unit-media{flex:1.25;min-width:0;border-right:1px solid var(--gray1)}
+.ficha-grid > #unit-media:empty{display:none}
+.ficha-grid > .ficha-data{flex:1;min-width:0}
+.ficha-grid .modal-body{display:block}
+#unit-foto-wrap{height:420px}
+@media(max-width:860px){
+  .ficha-wrap{padding:1rem 1rem 3rem}
+  .ficha-page .modal-hd-name{font-size:2.2rem}
+  .ficha-page .modal-gallery > div:first-child{height:260px !important}
+  .ficha-page .modal-body{grid-template-columns:1fr;padding:1.4rem}
+  .ficha-grid{flex-direction:column;align-items:stretch}
+  .ficha-grid > #unit-media{border-right:none;border-bottom:1px solid var(--gray1);width:100%}
+  #unit-foto-wrap{height:260px}
+}
 /* CAT COLORS */
 .cc-launch{color:#E8C870}.cc-avance{color:#6B9EE8}.cc-comer{color:var(--accent)}.cc-legal{color:#C888D8}.cc-general{color:var(--gray4)}
 /* SLIDER */
@@ -601,6 +627,14 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
 
   </div>
 </section>
+
+<!-- FICHA (proyecto o unidad) -->
+<section id="sec-ficha" style="display:none">
+  <div class="ficha-wrap">
+    <button class="ficha-back" id="ficha-back" onclick="fichaBack()">← Volver</button>
+    <div id="ficha-box" class="ficha-page"></div>
+  </div>
+</section>
 </div><!-- /portal-screen -->
 
 <div class="modal-bg" id="modal" onclick="if(event.target===this)closeModal()">
@@ -768,7 +802,7 @@ function showPortal(u){
   loadNovedades();
   loadInfoProyectos();
   loadBuscador();
-  handleRoute();
+  window._routing = true; try { handleRoute(); } finally { window._routing = false; }
     setTimeout(()=>{
     try{renderSlider&&renderSlider();}catch(e){console.error('slider:',e);}
     updateNotifBadge&&updateNotifBadge();
@@ -1114,7 +1148,9 @@ window.closePublishModal = closePublishModal;
 window.submitPost        = submitPost;
 
 function showSec(n,btn){
-  ['dashboard','proyectos','blog','buscador','sobre'].forEach(s=>document.getElementById('sec-'+s).style.display='none');
+  ['dashboard','proyectos','blog','buscador','sobre','ficha'].forEach(s=>document.getElementById('sec-'+s).style.display='none');
+  if(n!=='ficha'){ window._curSec=n; if(location.pathname!=='/') setPath('/'); }
+  if(!btn && n!=='ficha'){ var _ix={dashboard:0,proyectos:1,blog:2,sobre:3,buscador:4}[n]; if(_ix!==undefined) btn=document.querySelectorAll('.nav-btn')[_ix]; }
   document.getElementById('sec-'+n).style.display='block';
   if(n==='dashboard'){setTimeout(function(){try{renderSlider();}catch(e){}},100);}
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
@@ -1370,7 +1406,7 @@ function openModal(id){
       +(_gal.length>1?'<div style="display:flex;gap:6px;padding:8px 0 2px;overflow-x:auto">'+_thumbs+'</div>':'')
       +'</div>';
   }
-  document.getElementById('modal-box').innerHTML=_gh+`
+  fichaBox().innerHTML=_gh+`
     <div class="modal-hd">
       <div>
         <div class="modal-hd-name">${p.nombre}${p.destacado?'&nbsp;<span style="display:inline-block;vertical-align:middle"><svg viewBox="0 0 24 24" width="14" height="14" fill="#C8D5B0" style="filter:drop-shadow(0 0 3px rgba(200,213,176,.5))"><polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9"/></svg></span>':''}</div>
@@ -1404,9 +1440,8 @@ function openModal(id){
       </div>
       <div class="modal-sec"><div class="modal-sec-title">Novedades relacionadas</div>${postsHtml}</div>
     </div>`;
-  document.getElementById('modal').classList.add('open');
-  setPath('/' + projSlug(p.nombre));
-  var hd = document.querySelector('#modal-box .modal-hd > div');
+  showFicha('/' + projSlug(p.nombre));
+  var hd = document.querySelector('#ficha-box .modal-hd > div');
   if (hd) hd.insertAdjacentHTML('beforeend', copyLinkBtn());
 }
 window.openModal = openModal;
@@ -1440,12 +1475,40 @@ function copyCurrentLink(btn) {
 }
 window.copyCurrentLink = copyCurrentLink;
 
+function fichaBox() { return document.getElementById('ficha-box'); }
+var SEC_LBL = {dashboard:'Volver al inicio', proyectos:'Volver a Proyectos', blog:'Volver a Novedades', buscador:'Volver a Precios', sobre:'Volver'};
+function showFicha(path) {
+  ['dashboard','proyectos','blog','buscador','sobre'].forEach(function(s){ document.getElementById('sec-'+s).style.display='none'; });
+  document.getElementById('sec-ficha').style.display = 'block';
+  var b = document.getElementById('ficha-back'); if (b) b.textContent = '← ' + (SEC_LBL[window._curSec] || 'Volver');
+  var _ix = {dashboard:0, proyectos:1, blog:2, sobre:3, buscador:4}[window._curSec];
+  document.querySelectorAll('.nav-btn').forEach(function(x, i){ x.classList.toggle('active', i === _ix); });
+  if (location.pathname !== path) {
+    try {
+      if (window._routing) history.replaceState({ficha:1}, '', path);
+      else { history.pushState({ficha:1}, '', path); window._fichaPushed = (window._fichaPushed || 0) + 1; }
+    } catch (e) {}
+  }
+  window.scrollTo(0, 0);
+}
+function fichaBack() {
+  if (window._fichaPushed > 0 && history.state && history.state.ficha) { history.back(); return; }
+  showSec(window._curSec || 'proyectos');
+}
+window.fichaBack = fichaBack;
+window.addEventListener('popstate', function() {
+  if (!document.getElementById('portal-screen') || document.getElementById('portal-screen').style.display === 'none') return;
+  if (window._fichaPushed > 0) window._fichaPushed--;
+  if (location.pathname === '/' || location.pathname === '') { showSec(window._curSec || 'dashboard'); return; }
+  window._routing = true; try { handleRoute(); } finally { window._routing = false; }
+});
+
 function handleRoute() {
   var parts = location.pathname.split('/').filter(Boolean).map(function(x){ try { return decodeURIComponent(x); } catch (e) { return x; } });
   if (!parts.length) return;
   var p = findProyecto(projSlug(parts[0]));
-  if (!p) { setPath('/'); return; }
-  if (parts[1]) { openUnit(projSlug(p.nombre), unitSlug(parts[1])); return; }
+  if (!p) { showSec(window._curSec || 'dashboard'); return; }
+  if (parts[1]) { if (!window._fichaPushed) window._curSec = 'buscador'; openUnit(projSlug(p.nombre), unitSlug(parts[1])); return; }
   showSec('proyectos', document.querySelectorAll('.nav-btn')[1]);
   openModal(p.id);
 }
@@ -1492,14 +1555,13 @@ function openUnit(pSlug, uSlug) {
   var r = buRows.find(function(x){ return projSlug(x.proyecto) === pSlug && unitSlug(x.unidad) === uSlug; });
   var visible = r && ['DISPONIBLE','ASIGNADO','REVENTA'].indexOf(r.estadoVenta.toUpperCase()) >= 0;
   var nombre = p ? p.nombre : (r ? r.proyecto : pSlug.toUpperCase());
-  var box = document.getElementById('modal-box');
+  var box = fichaBox();
   var proyBtn = p ? '<button onclick="openModal(' + p.id + ')" style="padding:8px 16px;background:transparent;border:1px solid var(--gray2);color:var(--gray5);border-radius:2px;font-family:\'DM Sans\',sans-serif;font-size:10px;letter-spacing:1px;text-transform:uppercase;cursor:pointer">Ver proyecto ' + escH(nombre) + '</button>' : '';
   if (!visible) {
     box.innerHTML = '<div class="modal-hd"><div><div class="modal-hd-name">' + escH(nombre) + ' · ' + escH(uSlug.toUpperCase()) + '</div>'
       + '<div class="modal-hd-sub">Unidad no disponible</div></div><button class="modal-close" onclick="closeModal()">✕</button></div>'
       + '<div class="modal-body"><p style="font-size:13px;color:var(--gray5);line-height:1.7;margin-bottom:18px">Esta unidad ya no está disponible para la venta o el enlace no es correcto. Podés ver las unidades disponibles del proyecto.</p>' + proyBtn + '</div>';
-    document.getElementById('modal').classList.add('open');
-    setPath(p ? '/' + pSlug : '/');
+    showFicha('/' + pSlug + '/' + uSlug);
     return;
   }
   var row = function(l, v){ return v ? '<div class="modal-row"><span class="modal-lbl">' + l + '</span><span class="modal-val">' + v + '</span></div>' : ''; };
@@ -1507,14 +1569,13 @@ function openUnit(pSlug, uSlug) {
   var dormTxt = r.dorm === '' ? '' : (r.dorm === '0' ? 'Monoambiente' : r.dorm + (r.dorm === '1' ? ' dormitorio' : ' dormitorios'));
   var renta = r.rentaBruta ? (parseFloat(r.rentaBruta) * 100).toFixed(2) + '%' : '';
   var ocup = fmtOcup(r.fechaOcup) || (p ? p.ocupacion : '');
-  box.innerHTML = '<div id="unit-media"></div>'
-    + '<div class="modal-hd"><div>'
+  box.innerHTML = '<div class="modal-hd"><div>'
     + '<div class="modal-hd-name">' + escH(nombre) + ' · ' + escH(r.unidad) + '</div>'
     + '<div class="modal-hd-sub">' + escH([r.tipo, r.tipologia].filter(Boolean).join(' · ')) + '</div>'
     + '<div class="modal-hd-sub" style="margin-top:4px">' + estadoBadge(r.estadoVenta) + '</div>'
     + copyLinkBtn()
     + '</div><button class="modal-close" onclick="closeModal()">✕</button></div>'
-    + '<div class="modal-body">'
+    + '<div class="ficha-grid"><div id="unit-media"></div><div class="ficha-data"><div class="modal-body">'
     + '<div class="modal-sec"><div class="modal-sec-title">Precio</div>'
     + '<div style="font-size:1.6rem;color:var(--accent);font-weight:500;padding:4px 0 8px">' + fmtUSD(r.precio) + '</div>'
     + (p && p.gastosOcupacion ? row('Gastos de ocupación', escH(p.gastosOcupacion)) : '')
@@ -1531,9 +1592,8 @@ function openUnit(pSlug, uSlug) {
     + (r.estadoAlq || r.alqMensual ? '<div class="modal-sec"><div class="modal-sec-title">Renta</div>'
       + row('Estado de alquiler', escH(r.estadoAlq)) + row('Alquiler mensual', fmtUSD(r.alqMensual)) + row('Renta bruta', renta) + '</div>' : '')
     + '<div style="padding-top:6px">' + proyBtn + '</div>'
-    + '</div>';
-  document.getElementById('modal').classList.add('open');
-  setPath('/' + pSlug + '/' + uSlug);
+    + '</div></div></div>';
+  showFicha('/' + pSlug + '/' + uSlug);
   loadTipologias(function(list){
     /* Primero la fila de la unidad (pestaña "Planos por unidad"); si le falta plano o fotos, se completa con su tipología */
     var tu = list.find(function(x){ return x.unidad && projSlug(x.proyecto) === pSlug && unitSlug(x.unidad) === uSlug; }) || {};
@@ -1545,7 +1605,7 @@ function openUnit(pSlug, uSlug) {
     var planos = (tu.plano && tu.plano.length) ? tu.plano : (tt.plano || []);
     if (!fotos.length && !planos.length) return;
     if (fotos.length) {
-      html += '<div style="position:relative;height:260px;overflow:hidden;background:var(--black3)"><img id="unit-foto" src="' + escH(imgSrc(fotos[0])) + '" style="width:100%;height:100%;object-fit:cover"></div>';
+      html += '<div id="unit-foto-wrap" style="position:relative;overflow:hidden;background:var(--black3)"><img id="unit-foto" src="' + escH(imgSrc(fotos[0])) + '" style="width:100%;height:100%;object-fit:cover"></div>';
       if (fotos.length > 1) html += '<div style="display:flex;gap:6px;padding:8px 12px 2px;overflow-x:auto">' + fotos.map(function(f){
         return '<img src="' + escH(imgSrc(f, 200)) + '" data-full="' + escH(imgSrc(f)) + '" onclick="document.getElementById(\'unit-foto\').src=this.dataset.full" style="width:60px;height:44px;object-fit:cover;cursor:pointer;border:1px solid var(--gray2)">';
       }).join('') + '</div>';
@@ -2109,7 +2169,7 @@ window.renderDash = renderDash;
 function obraClass(o){return OBRA_CLS[o]||'ob-proyecto'}
 function obraLabel(o){return OBRA_LBL[o]||o}
 
-function closeModal(){document.getElementById('modal').classList.remove('open');setPath('/')}
+function closeModal(){document.getElementById('modal').classList.remove('open');fichaBack()}
 
 /* ══ BLOG ══ */
 function renderBlog(){
