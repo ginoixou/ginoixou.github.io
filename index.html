@@ -1534,12 +1534,16 @@ function openUnit(pSlug, uSlug) {
     + '</div>';
   document.getElementById('modal').classList.add('open');
   setPath('/' + pSlug + '/' + uSlug);
-  if (r.tipologia) loadTipologias(function(list){
-    var t = list.find(function(x){ return projSlug(x.proyecto) === pSlug && normTip(x.tipologia) === normTip(r.tipologia); });
+  loadTipologias(function(list){
+    /* Primero la fila de la unidad (pestaña "Planos por unidad"); si le falta plano o fotos, se completa con su tipología */
+    var tu = list.find(function(x){ return x.unidad && projSlug(x.proyecto) === pSlug && unitSlug(x.unidad) === uSlug; }) || {};
+    var tt = r.tipologia ? (list.find(function(x){ return !x.unidad && projSlug(x.proyecto) === pSlug && normTip(x.tipologia) === normTip(r.tipologia); }) || {}) : {};
     var media = document.getElementById('unit-media');
-    if (!t || !media) return;
+    if (!media) return;
     var html = '';
-    var fotos = t.fotos || [], planos = t.plano || [];
+    var fotos = (tu.fotos && tu.fotos.length) ? tu.fotos : (tt.fotos || []);
+    var planos = (tu.plano && tu.plano.length) ? tu.plano : (tt.plano || []);
+    if (!fotos.length && !planos.length) return;
     if (fotos.length) {
       html += '<div style="position:relative;height:260px;overflow:hidden;background:var(--black3)"><img id="unit-foto" src="' + escH(imgSrc(fotos[0])) + '" style="width:100%;height:100%;object-fit:cover"></div>';
       if (fotos.length > 1) html += '<div style="display:flex;gap:6px;padding:8px 12px 2px;overflow-x:auto">' + fotos.map(function(f){
