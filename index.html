@@ -7,7 +7,7 @@
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDIzLjEuMSwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkNhcGFfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiCgkgdmlld0JveD0iMCAwIDU4Mi4yIDQ2MyIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgNTgyLjIgNDYzOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+CjxnIGZpbGw9IiNmZmZmZmYiPgoJPHBvbHlnb24gcG9pbnRzPSIyMTYuNSwxNDUuNiAxODguOCwxNDUuNiAyMzEsMTg3LjkgMjU4LjgsMTg3LjkgCSIvPgoJPHBvbHlnb24gcG9pbnRzPSIzMTcuNCwxNDUuNiAxNDUuNiwzMTcuNCAxNzMuMywzMTcuNCAzNDUuMSwxNDUuNiAJIi8+Cgk8cG9seWdvbiBwb2ludHM9IjM2My4yLDE0NS42IDE5MS40LDMxNy40IDIxOS4xLDMxNy40IDM5MC45LDE0NS42IAkiLz4KCTxwb2x5Z29uIHBvaW50cz0iNDM2LjYsMTQ1LjYgNDA4LjksMTQ1LjYgMjM3LjEsMzE3LjQgMjY0LjgsMzE3LjQgMzE1LjEsMjY3LjIgMzY1LjMsMzE3LjQgMzkzLDMxNy40IDMyOC45LDI1My4zIAkiLz4KPC9nPgo8L3N2Zz4K">
 <title>IXOU — Portal de Inmobiliarias</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -285,6 +285,54 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
   .nav-btn{font-size:10.5px;padding:8px 7px}
   .hdr-logo-name{font-size:16px}
 }
+/* ══ SOBRE IXOU ══ */
+.sb-hero{min-height:440px;background-size:cover;background-position:center 40%;display:flex;align-items:flex-end}
+.sb-hero-in{max-width:1100px;width:100%;margin:0 auto;padding:3rem 2rem 2.5rem}
+.sb-kicker{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:.8rem}
+.sb-hero h2{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(2.4rem,5.5vw,4.4rem);letter-spacing:.04em;line-height:1;color:#fff;margin-bottom:1rem}
+.sb-hero p{max-width:620px;font-size:16px;line-height:1.7;color:#E6E6E0}
+.sb-stats{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--gray1);border-bottom:1px solid var(--gray1)}
+.sb-stats div{padding:1.6rem 2rem;border-right:1px solid var(--gray1)}.sb-stats div:last-child{border-right:none}
+.sb-stats b{display:block;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:2.4rem;letter-spacing:.03em;color:#fff;line-height:1.1}
+.sb-stats span{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gray4)}
+.sb-wrap{max-width:1100px;margin:0 auto;padding:3rem 2rem}
+.sb-block{margin-bottom:3.5rem;padding-bottom:3rem;border-bottom:1px solid var(--gray1)}
+.sb-title{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:.04em;color:#fff;line-height:1.1;margin-bottom:1.2rem}
+.sb-subtitle{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin:2rem 0 1rem}
+.sb-block p{font-size:15px;line-height:1.8;color:var(--gray5);margin-bottom:1rem;max-width:760px}
+.sb-lead{font-size:17px!important;color:var(--white)!important}
+.sb-lead em{color:var(--accent);font-style:normal}
+.sb-quote{font-family:'Bebas Neue',sans-serif;font-size:1.6rem!important;letter-spacing:.04em;color:var(--accent)!important;margin-top:1.5rem}
+.sb-split{display:grid;grid-template-columns:1.25fr 1fr;gap:3rem;align-items:center}
+.sb-img-tall{width:100%;max-height:560px;object-fit:cover}
+.sb-imgs2{display:grid;grid-template-columns:1fr;gap:12px}.sb-imgs2 img{width:100%;height:220px;object-fit:cover}
+.sb-grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--gray1);border:1px solid var(--gray1)}
+.sb-grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--gray1);border:1px solid var(--gray1);margin-top:1.5rem}
+.sb-card{background:var(--black2);padding:1.5rem}
+.sb-card b{display:block;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;color:#fff;margin-bottom:.6rem}
+.sb-card p{font-size:13.5px!important;line-height:1.65!important;margin:0!important}
+.sb-num{display:block;font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--accent);line-height:1;margin-bottom:.6rem}
+.sb-founders{display:flex;gap:2rem;flex-wrap:wrap;margin-top:1.5rem}
+.sb-founders div{display:grid;grid-template-columns:72px auto;grid-template-rows:auto auto;column-gap:14px;align-items:center}
+.sb-founders img{grid-row:1/3;width:72px;height:72px;object-fit:cover;border-radius:50%;background:var(--black3)}
+.sb-founders b{font-size:14px;color:#fff;align-self:end}.sb-founders span{font-size:12px;color:var(--gray4);align-self:start}
+.sb-arqs{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem}
+.sb-arq img{width:100%;aspect-ratio:4/5;object-fit:cover;filter:grayscale(1);background:var(--black3);margin-bottom:.8rem;transition:filter .3s}
+.sb-arq:hover img{filter:none}
+.sb-arq b{display:block;font-size:14px;color:#fff}.sb-arq span{display:block;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin:2px 0 .5rem}
+.sb-arq p{font-size:13px!important;line-height:1.6!important;margin:0!important}
+.sb-tax{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--gray1);border:1px solid var(--gray1)}
+.sb-tax div{background:var(--black2);padding:1.2rem}
+.sb-tax b{display:block;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:1.9rem;color:#fff;line-height:1.1;margin-bottom:.4rem}
+.sb-tax span{font-size:12.5px;color:var(--gray5);line-height:1.5}
+.sb-note{font-size:12px!important;color:var(--gray4)!important;margin-top:1rem!important}
+.sb-btn{display:inline-flex;align-items:center;padding:12px 24px;background:rgba(200,213,176,.15);border:1px solid rgba(200,213,176,.4);color:var(--accent);font-size:12px;letter-spacing:1.5px;text-transform:uppercase;text-decoration:none}
+.sb-btn-2{background:transparent;border-color:var(--gray2);color:var(--gray5)}
+.sb-contact{padding:1.5rem;background:var(--black2);border:1px solid var(--gray1);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+@media(max-width:900px){.sb-split{grid-template-columns:1fr}.sb-grid4,.sb-arqs{grid-template-columns:repeat(2,1fr)}.sb-grid3{grid-template-columns:1fr 1fr}.sb-tax{grid-template-columns:1fr 1fr}.sb-stats{grid-template-columns:1fr 1fr}.sb-stats div:nth-child(2){border-right:none}.sb-stats div:nth-child(-n+2){border-bottom:1px solid var(--gray1)}}
+@media(max-width:560px){.sb-hero{min-height:360px}.sb-hero-in,.sb-wrap{padding-left:1rem;padding-right:1rem}.sb-grid3,.sb-tax{grid-template-columns:1fr}.sb-stats div{padding:1.2rem 1rem}.sb-stats b{font-size:1.9rem}}
+/* ══ CIFRAS ALINEADAS (dígitos de ancho fijo) ══ */
+.num{font-family:'DM Mono',monospace;font-variant-numeric:tabular-nums;letter-spacing:-.2px}
 /* ══ LEGIBILIDAD: tabla de Precios con encabezados fijos ══ */
 #bu-results{overflow:auto;max-height:calc(100vh - 70px);border:1px solid var(--gray1)}
 #bu-table thead th{position:sticky;top:0;z-index:2;background:#151515;box-shadow:inset 0 -2px 0 var(--gray2)}
@@ -372,7 +420,7 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
 <!-- PORTAL -->
 <div id="portal-screen">
 <header id="header">
-  <div class="hdr-logo" onclick="showSec('dashboard',document.querySelectorAll('.nav-btn')[0])" style="cursor:pointer">
+  <div class="hdr-logo" onclick="showSec('dashboard',navBtn('dashboard'))" style="cursor:pointer">
     <img src="imgs/logo-ixou.png" 
          alt="IXOU" style="height:28px;width:auto;object-fit:contain;filter:brightness(0) invert(1)"
          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
@@ -381,11 +429,11 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
     <span class="hdr-logo-tag" style="align-self:center">Ciudad Consciente</span>
   </div>
   <nav class="hdr-nav">
-    <button class="nav-btn active" onclick="showSec('dashboard',this)">Inicio</button>
-    <button class="nav-btn" onclick="showSec('proyectos',this)">Proyectos</button>
-    <button class="nav-btn" onclick="showSec('blog',this)">Novedades</button>
-    <button class="nav-btn" onclick="showSec('sobre',this)">Sobre IXOU</button>
-    <button class="nav-btn" onclick="showSec('buscador',this)">Precios</button>
+    <button class="nav-btn active" data-sec="dashboard" onclick="showSec('dashboard',this)">Inicio</button>
+    <button class="nav-btn" data-sec="proyectos" onclick="showSec('proyectos',this)">Proyectos</button>
+    <button class="nav-btn" data-sec="buscador" onclick="showSec('buscador',this)">Precios</button>
+    <button class="nav-btn" data-sec="blog" onclick="showSec('blog',this)">Novedades</button>
+    <button class="nav-btn" data-sec="sobre" onclick="showSec('sobre',this)">Sobre IXOU</button>
   </nav>
   <!-- GLOBAL SEARCH -->
   <div style="position:relative;margin-left:auto;margin-right:8px;flex-shrink:0" id="gsearch-wrap">
@@ -441,7 +489,7 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
 
   <!-- SLIDER -->
   <div style="max-width:1200px;margin:0 auto;padding:2rem 2rem 0">
-    <div class="section-head">Proyectos destacados <a onclick="showSec('proyectos',document.querySelectorAll('.nav-btn')[1])">Ver todos →</a></div>
+    <div class="section-head">Proyectos destacados <a onclick="showSec('proyectos',navBtn('proyectos'))">Ver todos →</a></div>
     <div class="slider-wrap" id="slider-wrap">
       <div class="slider-track" id="slider-track"></div>
       <button class="slider-nav slider-prev" onclick="slideMove(-1)">‹</button>
@@ -460,7 +508,7 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
 
   <!-- NOVEDADES sidebar (full width single col below map) -->
   <div style="max-width:1200px;margin:0 auto;padding:0 2rem 2rem">
-    <div class="section-head">Últimas novedades <a onclick="showSec('blog',document.querySelectorAll('.nav-btn')[2])">Ver todas →</a></div>
+    <div class="section-head">Últimas novedades <a onclick="showSec('blog',navBtn('blog'))">Ver todas →</a></div>
     <div id="dash-news" style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--gray1);border:1px solid var(--gray1)"></div>
   </div>
   <div style="height:1rem"></div>
@@ -632,83 +680,121 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
 
 <!-- SOBRE IXOU -->
 <section id="sec-sobre" style="display:none">
-  <div class="sec-hero" style="display:flex;align-items:center;justify-content:space-between">
-    <div><h2>SOBRE IXOU</h2><p>&#9671; Ciudad Consciente &middot; 13 a&ntilde;os transformando Montevideo</p></div>
-    <img src="imgs/logo-ixou.png" alt="IXOU" style="height:clamp(2.5rem,5vw,4.5rem);width:auto;filter:brightness(0) invert(1);opacity:.7;flex-shrink:0">
+  <div class="sb-hero" style="background-image:linear-gradient(180deg,rgba(10,10,10,.15) 0%,rgba(10,10,10,.55) 55%,rgba(10,10,10,.96) 100%),url('imgs/sobre-hero.webp')">
+    <div class="sb-hero-in">
+      <div class="sb-kicker">Sobre IXOU &middot; Ciudad Consciente</div>
+      <h2>Nuestra visión para construir ciudad</h2>
+      <p>Desarrollamos proyectos inmobiliarios donde arquitectura, contexto y visión urbana se encuentran para crear espacios con una identidad propia.</p>
+    </div>
   </div>
-  <div style="max-width:900px;margin:0 auto;padding:3rem 2rem">
 
-    <div style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid var(--gray1)">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:.06em;color:var(--white);margin-bottom:1rem">Ciudad Consciente</div>
-      <p style="font-size:14px;color:var(--gray4);line-height:1.8;margin-bottom:1rem">IXOU es una desarrolladora l&iacute;der en Uruguay de edificios exclusivos y sustentables, con dise&ntilde;os vanguardistas realizados por estudios de arquitectura internacionales de primer nivel. Nos encargamos del dise&ntilde;o, construcci&oacute;n y comercializaci&oacute;n de cada proyecto, llevado a cabo por un equipo multidisciplinario formado por personas de distintos pa&iacute;ses.</p>
-      <p style="font-size:14px;color:var(--gray4);line-height:1.8">Con m&aacute;s de 13 a&ntilde;os en el mercado y 16 obras entre terminadas, en construcci&oacute;n y proyectadas en Uruguay, nos preocupamos por un futuro sustentable trabajando con certificaciones de construcci&oacute;n sostenible y eficiente tales como <strong style="color:var(--accent)">LEED</strong> (Leadership in Energy and Environmental Design) y <strong style="color:var(--accent)">EDGE</strong> (Excellence in Design for Greater Efficiencies).</p>
-    </div>
+  <div class="sb-stats">
+    <div><b>150.000 m²</b><span>construidos</span></div>
+    <div><b>16</b><span>proyectos</span></div>
+    <div><b>USD 230 M</b><span>de inversión total</span></div>
+    <div><b>12</b><span>estudios de arquitectura</span></div>
+  </div>
 
-    <div style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid var(--gray1)">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:.06em;color:var(--white);margin-bottom:1.5rem">Nuestra visi&oacute;n</div>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--gray1);border:1px solid var(--gray1)">
-        <div style="background:var(--black2);padding:1.5rem">
-          
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:2px;color:var(--white);margin-bottom:6px">Dise&ntilde;o internacional</div>
-          <p style="font-size:12px;color:var(--gray4);line-height:1.6">Trabajamos con los estudios de arquitectura m&aacute;s reconocidos del mundo &mdash; Carlos Ott, MVRDV, Elemental, Architecture Studio, Monoblock y m&aacute;s.</p>
-        </div>
-        <div style="background:var(--black2);padding:1.5rem">
-          
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:2px;color:var(--white);margin-bottom:6px">Sustentabilidad</div>
-          <p style="font-size:12px;color:var(--gray4);line-height:1.6">L&iacute;deres en certificaciones LEED y EDGE en Uruguay. ALMA ET y BRUSCO son los primeros edificios certificados LEED Platino del pa&iacute;s.</p>
-        </div>
-        <div style="background:var(--black2);padding:1.5rem">
-          
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:2px;color:var(--white);margin-bottom:6px">Ciudad Consciente</div>
-          <p style="font-size:12px;color:var(--gray4);line-height:1.6">Cada proyecto regenera el espacio urbano, integrando arquitectura de calidad con amenities &uacute;nicos que transforman la experiencia de vida en Montevideo.</p>
-        </div>
-      </div>
-    </div>
+  <div class="sb-wrap">
 
-    <div style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid var(--gray1)">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:.06em;color:var(--white);margin-bottom:1.5rem">Hitos</div>
-      <div><div style="display:grid;grid-template-columns:80px 1fr;gap:1.5rem;padding:1rem 0;border-bottom:1px solid var(--gray1);align-items:start">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--accent);letter-spacing:.04em">2012</div>
-          <div style="font-size:13px;color:var(--gray4);line-height:1.6">Fundación de IXOU. Inicio del desarrollo de los primeros proyectos en Barrio Sur, Montevideo.</div>
-        </div><div style="display:grid;grid-template-columns:80px 1fr;gap:1.5rem;padding:1rem 0;border-bottom:1px solid var(--gray1);align-items:start">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--accent);letter-spacing:.04em">2016</div>
-          <div style="font-size:13px;color:var(--gray4);line-height:1.6">Entrega de ALMA SUR — primer proyecto de la serie ALMA, con arquitectura de Carlos Ott y HOA.</div>
-        </div><div style="display:grid;grid-template-columns:80px 1fr;gap:1.5rem;padding:1rem 0;border-bottom:1px solid var(--gray1);align-items:start">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--accent);letter-spacing:.04em">2018</div>
-          <div style="font-size:13px;color:var(--gray4);line-height:1.6">Entrega de ALMA BRAVA y ALMA CORSO. Premio SCA-CPAU de Arquitectura Argentina para ALMA BRAVA.</div>
-        </div><div style="display:grid;grid-template-columns:80px 1fr;gap:1.5rem;padding:1rem 0;border-bottom:1px solid var(--gray1);align-items:start">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--accent);letter-spacing:.04em">2020</div>
-          <div style="font-size:13px;color:var(--gray4);line-height:1.6">Inicio de obra de ALMA DUÇ en Ciudad Vieja con el arquitecto español Carlos Ferrater.</div>
-        </div><div style="display:grid;grid-template-columns:80px 1fr;gap:1.5rem;padding:1rem 0;border-bottom:1px solid var(--gray1);align-items:start">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--accent);letter-spacing:.04em">2022</div>
-          <div style="font-size:13px;color:var(--gray4);line-height:1.6">ALMA ET certifica LEED Platino — primer edificio de oficinas en Uruguay con esa distinción.</div>
-        </div><div style="display:grid;grid-template-columns:80px 1fr;gap:1.5rem;padding:1rem 0;border-bottom:1px solid var(--gray1);align-items:start">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--accent);letter-spacing:.04em">2023</div>
-          <div style="font-size:13px;color:var(--gray4);line-height:1.6">BRUSCO certifica LEED Platino. Lanzamiento de ÂME, RISCO, ZIEL y CUMBRE.</div>
-        </div><div style="display:grid;grid-template-columns:80px 1fr;gap:1.5rem;padding:1rem 0;border-bottom:1px solid var(--gray1);align-items:start">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--accent);letter-spacing:.04em">2024</div>
-          <div style="font-size:13px;color:var(--gray4);line-height:1.6">Lanzamiento de MIRLO, VARDØ, CÉFIRO y HALO. 16 proyectos en cartera.</div>
-        </div><div style="display:grid;grid-template-columns:80px 1fr;gap:1.5rem;padding:1rem 0;border-bottom:1px solid var(--gray1);align-items:start">
-          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--accent);letter-spacing:.04em">2025</div>
-          <div style="font-size:13px;color:var(--gray4);line-height:1.6">Publicación de la Memoria Anual 2025. IXOU consolida su posición como desarrolladora líder en Uruguay.</div>
-        </div></div>
-    </div>
-
-    <div style="margin-bottom:2rem">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:.06em;color:var(--white);margin-bottom:1rem">Memoria Anual 2025</div>
-      <p style="font-size:13px;color:var(--gray4);line-height:1.7;margin-bottom:1.5rem">La Memoria Anual 2025 recopila el desempe&ntilde;o, los proyectos y los hitos m&aacute;s importantes del a&ntilde;o. Disponible para descarga exclusiva para agentes autorizados.</p>
-      <div style="display:flex;gap:12px;flex-wrap:wrap">
-        <a href="https://drive.google.com/file/d/1UGhpaxtFn7V9XMAyY5mbAJYfi0UH0mjz/view?usp=drive_link" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:12px 24px;background:rgba(200,213,176,.15);border:1px solid rgba(200,213,176,.35);color:var(--accent);border-radius:2px;font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:1px;text-transform:uppercase;text-decoration:none" onmouseover="this.style.background='rgba(200,213,176,.25)'" onmouseout="this.style.background='rgba(200,213,176,.15)'">&#128065; Ver en Drive</a>
-        <a href="https://drive.google.com/uc?export=download&id=1UGhpaxtFn7V9XMAyY5mbAJYfi0UH0mjz" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:12px 24px;background:transparent;border:1px solid var(--gray2);color:var(--gray4);border-radius:2px;font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:1px;text-transform:uppercase;text-decoration:none" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--gray2)';this.style.color='var(--gray4)'">&#8659; Descargar PDF</a>
-      </div>
-    </div>
-
-    <div style="padding:1.5rem;background:var(--black2);border:1px solid var(--gray1);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem">
+    <div class="sb-block sb-split">
       <div>
-        <div style="font-size:12px;color:var(--gray4);letter-spacing:.5px;margin-bottom:4px">&iquest;Quer&eacute;s saber m&aacute;s?</div>
-        <div style="font-size:13px;color:var(--white)">ventas@ixou.la &nbsp;&middot;&nbsp; <a href="https://ixou.la" target="_blank" style="color:var(--accent);text-decoration:none">ixou.la</a></div>
+        <div class="sb-title">Una filosofía que se construye en movimiento</div>
+        <p class="sb-lead">El nombre IXOU proviene del lenguaje charrúa y significa <em>visión</em>. Refleja nuestra manera de entender el desarrollo: trabajar con una mirada de largo plazo, pensando no solo en los edificios, sino también en la ciudad que ayudan a construir.</p>
+        <p>Cada decisión parte de una misma convicción: contribuir al desarrollo de una Ciudad Consciente. Entendemos que todo edificio deja una huella. Por eso concebimos nuestros proyectos desde una mirada integral, donde arquitectura, urbanismo, naturaleza y calidad de vida se relacionan desde el inicio.</p>
+        <p>Colaboramos con estudios de referencia nacionales e internacionales para crear desarrollos que dialoguen con su entorno y aporten valor más allá de sus propios límites.</p>
+        <p class="sb-quote">Desarrollar no es solo construir edificios. Es construir ciudad.</p>
       </div>
-      <a href="https://wa.me/59894647581" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:#25D366;color:white;border-radius:2px;font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:1px;text-transform:uppercase;text-decoration:none">&#128172; WhatsApp</a>
+      <img src="imgs/sobre-bailarina.webp" alt="Bailarina frente a la arquitectura de IXOU" loading="lazy" class="sb-img-tall">
+    </div>
+
+    <div class="sb-block">
+      <div class="sb-title">Nuestras máximas</div>
+      <div class="sb-grid4">
+        <div class="sb-card"><span class="sb-num">01</span><b>Arquitectura</b><p>Colaboramos con estudios locales e internacionales para desarrollar edificios con una identidad clara y una propuesta relevante para la ciudad.</p></div>
+        <div class="sb-card"><span class="sb-num">02</span><b>Contexto</b><p>Cada proyecto comienza con una lectura profunda del lugar: su paisaje, su historia, sus dinámicas y su potencial de transformación.</p></div>
+        <div class="sb-card"><span class="sb-num">03</span><b>Desarrollo</b><p>Integramos visión, diseño y ejecución para que las decisiones arquitectónicas puedan mantenerse durante todo el proceso.</p></div>
+        <div class="sb-card"><span class="sb-num">04</span><b>Permanencia</b><p>Buscamos crear proyectos capaces de conservar su valor, su calidad y su vigencia más allá de las tendencias del momento.</p></div>
+      </div>
+    </div>
+
+    <div class="sb-block">
+      <div class="sb-title">Nuestra historia</div>
+      <p>En el año 2013, Nicolás Zuchowicki y Ariel Dayan dieron origen a IXOU a partir de una idea que se convertiría en el punto de partida de todo lo que vendría después: desarrollar una ciudad consciente. Alma Sur, diseñado por el arquitecto Carlos Ott, fue el primer proyecto y la primera oportunidad de llevar esa visión a la realidad.</p>
+      <p>Luego siguieron los demás edificios de la serie Almas —Alma Brava, Alma Corso, Alma Duç y Alma ET—, que contribuyeron a la transformación de Barrio Sur. A ellos se suman nuevas propuestas destinadas a convertirse en íconos del paisaje montevideano, entre ellas Ziel, la primera torre de Montevideo con sky gardens, y Brusco, el proyecto de mayor escala hasta la fecha, que legará a la ciudad un paseo de acceso público en el centro de Montevideo.</p>
+      <div class="sb-founders">
+        <div><img src="imgs/fundador-zuchowicki.webp" alt="Nicolás Zuchowicki" loading="lazy"><b>Nicolás Zuchowicki</b><span>Cofundador y director</span></div>
+        <div><img src="imgs/fundador-dayan.webp" alt="Ariel Dayan" loading="lazy"><b>Ariel Dayan</b><span>Cofundador y director</span></div>
+      </div>
+    </div>
+
+    <div class="sb-block">
+      <div class="sb-title">Diseñados por arquitectos referentes a nivel mundial</div>
+      <div class="sb-arqs">
+        <div class="sb-arq"><img src="imgs/arq-mvrdv.webp" alt="MVRDV" loading="lazy"><b>MVRDV</b><span>Países Bajos</span><p>Autores de obras como Markthal, Valley y el Depot Boijmans Van Beuningen, han convertido la experimentación arquitectónica en algunos de los edificios más reconocibles de las últimas décadas.</p></div>
+        <div class="sb-arq"><img src="imgs/arq-architecturestudio.webp" alt="ArchitectureStudio" loading="lazy"><b>ArchitectureStudio</b><span>Francia</span><p>Más de cincuenta años y proyectos en cuatro continentes, desde el Parlamento Europeo hasta importantes teatros y museos.</p></div>
+        <div class="sb-arq"><img src="imgs/arq-carlos-ott.webp" alt="Carlos Ott" loading="lazy"><b>Carlos Ott</b><span>Uruguay</span><p>Autor de la Ópera de la Bastilla de París y una de las figuras uruguayas de mayor proyección internacional.</p></div>
+        <div class="sb-arq"><img src="imgs/arq-elemental.webp" alt="ELEMENTAL" loading="lazy"><b>ELEMENTAL</b><span>Chile</span><p>Liderado por el Premio Pritzker Alejandro Aravena, redefinió el alcance social de la arquitectura.</p></div>
+        <div class="sb-arq"><img src="imgs/arq-mathias-klotz.webp" alt="Mathias Klotz" loading="lazy"><b>Mathias Klotz</b><span>Chile</span><p>Más de cuatro décadas de trayectoria; uno de los grandes referentes de la arquitectura chilena contemporánea y de toda Latinoamérica.</p></div>
+        <div class="sb-arq"><img src="imgs/arq-carlos-ferrater.webp" alt="Carlos Ferrater" loading="lazy"><b>Carlos Ferrater</b><span>España</span><p>Premio Nacional de Arquitectura de España; una arquitectura de enorme precisión entre geometría, luz y paisaje.</p></div>
+        <div class="sb-arq"><img src="imgs/arq-monoblock.webp" alt="Monoblock" loading="lazy"><b>Monoblock</b><span>Argentina</span><p>Autores del Museo MAR de Mar del Plata y ganadores de importantes concursos públicos.</p></div>
+        <div class="sb-arq"><img src="imgs/arq-estudio-seis.webp" alt="Estudio Seis" loading="lazy"><b>Estudio Seis</b><span>Uruguay</span><p>Uno de los nombres con mayor presencia en la nueva arquitectura residencial de Montevideo.</p></div>
+        <div class="sb-arq"><img src="imgs/arq-saraiva-associados.webp" alt="Saraiva + Associados" loading="lazy"><b>Saraiva + Associados</b><span>Portugal</span><p>Más de 150 profesionales; proyectos como el Campus de Justicia de Lisboa, hospitales y aeropuertos.</p></div>
+        <div class="sb-arq"><img src="imgs/arq-dark-arkitekter.webp" alt="Dark Arkitekter" loading="lazy"><b>Dark Arkitekter</b><span>Noruega</span><p>Responsables del plan urbano y de varios edificios de Barcode, que transformó el frente costero de Oslo.</p></div>
+        <div class="sb-arq"><img src="imgs/arq-german-hauser.webp" alt="Germán Hauser" loading="lazy"><b>Germán Hauser</b><span>Argentina</span><p>Obras como el Polo Científico Tecnológico de Buenos Aires y presencia en bienales internacionales.</p></div>
+        <div class="sb-arq"><img src="imgs/arq-edgardo-minond.webp" alt="Edgardo Minond" loading="lazy"><b>Edgardo Minond</b><span>Argentina</span><p>Premio a la Trayectoria 2025, autor del Centro de Convenciones de Buenos Aires y colaborador de Foster + Partners.</p></div>
+      </div>
+    </div>
+
+    <div class="sb-block sb-split">
+      <div>
+        <div class="sb-title">La sostenibilidad es parte de nuestra identidad</div>
+        <p>Diseñamos nuestros edificios siguiendo los criterios del sistema LEED (Leadership in Energy &amp; Environmental Design), un estándar internacional que promueve la eficiencia energética, el uso responsable de los recursos, la selección de materiales y una gestión más sostenible del agua.</p>
+        <p>Integramos criterios ambientales desde el diseño de cada proyecto: soluciones que mejoran la eficiencia energética, optimizan el uso del agua, favorecen la movilidad eléctrica y promueven una mejor relación entre la arquitectura, la vegetación y el clima.</p>
+      </div>
+      <div class="sb-imgs2">
+        <img src="imgs/sostenibilidad-1.webp" alt="Proyecto IXOU" loading="lazy">
+        <img src="imgs/sostenibilidad-2.webp" alt="Proyecto IXOU" loading="lazy">
+      </div>
+    </div>
+
+    <div class="sb-block">
+      <div class="sb-title">Para tus clientes del exterior: por qué Uruguay</div>
+      <p>Uruguay es uno de los destinos más atractivos de América Latina para compradores internacionales que buscan seguridad, estabilidad y calidad de vida.</p>
+      <div class="sb-grid3">
+        <div class="sb-card"><b>Estabilidad política</b><p>Una democracia estable, con instituciones sólidas y políticas públicas previsibles.</p></div>
+        <div class="sb-card"><b>Seguridad jurídica</b><p>Igualdad en los derechos de propiedad y un marco legal confiable para el inversor extranjero.</p></div>
+        <div class="sb-card"><b>Estabilidad económica</b><p>Una economía previsible, con un entorno favorable a la inversión.</p></div>
+        <div class="sb-card"><b>Calidad de vida</b><p>Un estilo de vida seguro y tranquilo, con buena conexión internacional.</p></div>
+        <div class="sb-card"><b>Sin restricciones para extranjeros</b><p>Los extranjeros pueden comprar propiedades en las mismas condiciones que los uruguayos.</p></div>
+        <div class="sb-card"><b>Residencia fiscal</b><p>La inversión inmobiliaria es una vía para obtener la residencia fiscal y beneficios tributarios para nuevos residentes.</p></div>
+      </div>
+      <div class="sb-subtitle">Vías de residencia fiscal</div>
+      <div class="sb-tax">
+        <div><b>USD ~500K</b><span>Inversión inmobiliaria + 60 días al año en Uruguay</span></div>
+        <div><b>USD ~2,2M</b><span>Inversión inmobiliaria, sin permanencia mínima</span></div>
+        <div><b>183+ días</b><span>Presencia física: otra vía de residencia fiscal</span></div>
+        <div><b>10 años</b><span>De exoneración sobre rentas de inversiones del exterior que califiquen</span></div>
+        <div><b>7%</b><span>Tasa alternativa sobre rentas de inversiones del exterior que califiquen</span></div>
+      </div>
+      <p class="sb-note">Fuente: uruguay.ixou.la. Información general; cada caso debe consultarse con un asesor fiscal.</p>
+    </div>
+
+    <div class="sb-block">
+      <div class="sb-title">Memoria Institucional 2025</div>
+      <p>Recopila el desempeño, los proyectos y los hitos más importantes del año. Disponible para agentes autorizados.</p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:1rem">
+        <a class="sb-btn" href="https://drive.google.com/file/d/1UGhpaxtFn7V9XMAyY5mbAJYfi0UH0mjz/view?usp=drive_link" target="_blank" rel="noopener">Ver memoria</a>
+        <a class="sb-btn sb-btn-2" href="https://drive.google.com/uc?export=download&amp;id=1UGhpaxtFn7V9XMAyY5mbAJYfi0UH0mjz" target="_blank" rel="noopener">Descargar PDF</a>
+      </div>
+    </div>
+
+    <div class="sb-contact">
+      <div>
+        <div style="font-size:12px;color:var(--gray4);letter-spacing:.5px;margin-bottom:4px">¿Querés saber más?</div>
+        <div style="font-size:14px;color:var(--white)">ventas@ixou.la &nbsp;&middot;&nbsp; <a href="https://www.ixou.la/nosotros" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none">ixou.la</a> &nbsp;&middot;&nbsp; Ciudadela 1278, Montevideo</div>
+      </div>
+      <a href="https://wa.me/59894647581" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:#25D366;color:white;border-radius:2px;font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:1px;text-transform:uppercase;text-decoration:none">WhatsApp</a>
     </div>
 
   </div>
@@ -812,6 +898,7 @@ function loadNovedades() {
     livePosts = data.concat(hardcoded).sort(function(a,b){
       return Number(String(b.id).substring(0,13)) - Number(String(a.id).substring(0,13));
     });
+    updateHdrCount();
     
     renderBlog();
     /* Refresh dash news grid */
@@ -831,7 +918,7 @@ function loadNovedades() {
       var postId = params.get('post');
       if (postId) {
         var p = livePosts.find(function(x){ return String(x.id)===String(postId); });
-        if (p) { showSec('blog',document.querySelectorAll('.nav-btn')[2]); window.openPost(p.id); }
+        if (p) { showSec('blog',navBtn('blog')); window.openPost(p.id); }
       }
     }
   };
@@ -874,6 +961,10 @@ function loadInfoProyectos() {
 }
 window.loadInfoProyectos = loadInfoProyectos;
 
+function updateHdrCount(){
+  var el=document.getElementById('hdr-right'); if(!el) return;
+  el.textContent=PROYECTOS.length+' PROYECTOS · '+livePosts.length+' NOVEDADES';
+}
 function showPortal(u){
   document.getElementById('login-screen').style.display='none';
   document.getElementById('portal-screen').style.display='flex';
@@ -883,7 +974,7 @@ function showPortal(u){
   var adminBtn = document.getElementById('admin-pub-btn');
   if (adminBtn && checkAdmin()) adminBtn.style.display = 'inline';
   if(!window._pi){window._pi=true;
-    document.getElementById('hdr-right').textContent=PROYECTOS.length+' PROYECTOS · '+livePosts.length+' NOVEDADES';
+    updateHdrCount();
     renderDash();
   loadAvailability();
   renderProj();renderBlog();
@@ -973,7 +1064,7 @@ function renderGsearch() {
   if (pm.length) {
     html += '<div class="gsearch-section"><div class="gsearch-label">Proyectos</div>';
     pm.forEach(function(p) {
-      var act = "showSec('proyectos',document.querySelectorAll('.nav-btn')[1]);setTimeout(function(){openModal("+p.id+")},150)";
+      var act = "showSec('proyectos',navBtn('proyectos'));setTimeout(function(){openModal("+p.id+")},150)";
       html += gsItem(['var(--accent)','<rect x="3" y="3" width="18" height="18" rx="2"/>'], p.nombre, p.barrio, act);
     });
     html += '</div>';
@@ -986,7 +1077,7 @@ function renderGsearch() {
   if (bm.length) {
     html += '<div class="gsearch-section"><div class="gsearch-label">Novedades</div>';
     bm.forEach(function(p) {
-      var act = "showSec('blog',document.querySelectorAll('.nav-btn')[2]);setTimeout(function(){window.openPost("+p.id+")},150)";
+      var act = "showSec('blog',navBtn('blog'));setTimeout(function(){window.openPost("+p.id+")},150)";
       html += gsItem(['var(--gray4)','<path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/>'], p.title, p.categoria||'', act);
     });
     html += '</div>';
@@ -1002,13 +1093,13 @@ function renderGsearch() {
       html += '<div class="gsearch-section"><div class="gsearch-label">Unidades disponibles</div>';
       um.forEach(function(r) {
         var precio = r.precio ? 'USD '+Math.round(parseFloat(r.precio)).toLocaleString('es-UY') : '';
-        var act = "showSec('buscador',document.querySelectorAll('.nav-btn')[4]);setTimeout(function(){var el=document.getElementById('bu-q');if(el){el.value='"+r.unidad+"';renderBuscador();}},250)";
+        var act = "showSec('buscador',navBtn('buscador'));setTimeout(function(){var el=document.getElementById('bu-q');if(el){el.value='"+r.unidad+"';renderBuscador();}},250)";
         html += gsItem(['var(--gray4)','<path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>'], r.proyecto+' · '+r.unidad, r.dorm+' dorm · '+precio, act);
       });
       html += '</div>';
     }
   } else {
-    var act2 = "showSec('buscador',document.querySelectorAll('.nav-btn')[4])";
+    var act2 = "showSec('buscador',navBtn('buscador'))";
     html += '<div class="gsearch-section">'+gsItem(['var(--gray3)','<circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>'], 'Buscar en unidades → abrir Buscador', '', act2)+'</div>';
   }
 
@@ -1235,10 +1326,12 @@ window.openPublishModal  = openPublishModal;
 window.closePublishModal = closePublishModal;
 window.submitPost        = submitPost;
 
+function navBtn(sec){ return document.querySelector('.nav-btn[data-sec="'+sec+'"]'); }
+window.navBtn = navBtn;
 function showSec(n,btn){
   ['dashboard','proyectos','blog','buscador','sobre','ficha'].forEach(s=>document.getElementById('sec-'+s).style.display='none');
   if(n!=='ficha'){ window._curSec=n; if(location.pathname!=='/') setPath('/'); }
-  if(!btn && n!=='ficha'){ var _ix={dashboard:0,proyectos:1,blog:2,sobre:3,buscador:4}[n]; if(_ix!==undefined) btn=document.querySelectorAll('.nav-btn')[_ix]; }
+  if(!btn && n!=='ficha'){ btn=navBtn(n); }
   document.getElementById('sec-'+n).style.display='block';
   if(n==='dashboard'){setTimeout(function(){try{renderSlider();}catch(e){}},100);}
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
@@ -1569,8 +1662,7 @@ function showFicha(path) {
   ['dashboard','proyectos','blog','buscador','sobre'].forEach(function(s){ document.getElementById('sec-'+s).style.display='none'; });
   document.getElementById('sec-ficha').style.display = 'block';
   var b = document.getElementById('ficha-back'); if (b) b.textContent = '← ' + (SEC_LBL[window._curSec] || 'Volver');
-  var _ix = {dashboard:0, proyectos:1, blog:2, sobre:3, buscador:4}[window._curSec];
-  document.querySelectorAll('.nav-btn').forEach(function(x, i){ x.classList.toggle('active', i === _ix); });
+  document.querySelectorAll('.nav-btn').forEach(function(x){ x.classList.toggle('active', x.dataset.sec === window._curSec); });
   if (location.pathname !== path) {
     try {
       if (window._routing) history.replaceState({ficha:1}, '', path);
@@ -1599,7 +1691,7 @@ function handleRoute() {
   var p = findProyecto(projSlug(parts[0]));
   if (!p) { showSec(window._curSec || 'dashboard'); return; }
   if (parts[1]) { if (!window._fichaPushed) window._curSec = 'buscador'; openUnit(projSlug(p.nombre), unitSlug(parts[1])); return; }
-  showSec('proyectos', document.querySelectorAll('.nav-btn')[1]);
+  showSec('proyectos', navBtn('proyectos'));
   openModal(p.id);
 }
 window.handleRoute = handleRoute;
@@ -2405,16 +2497,16 @@ function renderBuscador() {
       + '<td style="padding:11px 12px;text-align:center"><a href="' + unitPath(r) + '" onclick="event.preventDefault();openUnit(\'' + projSlug(r.proyecto) + '\',\'' + unitSlug(r.unidad) + '\')" title="Ver ficha de la unidad" style="color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--accent2)">' + r.unidad + '</a></td>'
       + '<td style="padding:11px 12px;color:var(--white);text-align:center">' + r.dorm + '</td>'
       + '<td style="padding:11px 12px;text-align:center">' + estadoBadge(r.estadoVenta) + '</td>'
-      + '<td style="padding:11px 12px;color:#fff;text-align:right;font-weight:600;font-size:14px;white-space:nowrap">' + fmtUSD(r.precio) + '</td>'
+      + '<td class="num" style="padding:11px 12px;color:#fff;text-align:right;font-weight:500;font-size:14px;white-space:nowrap">' + fmtUSD(r.precio) + '</td>'
       + '<td style="padding:11px 12px;color:var(--gray5);font-size:12.5px;min-width:180px;max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + r.comentario + '">' + r.comentario + '</td>'
       + '<td style="padding:11px 8px;text-align:center">' + estadoBadge(r.estadoAlq) + '</td>'
-      + '<td style="padding:11px 8px;color:var(--gray5);text-align:right;white-space:nowrap">' + fmtUSD(r.alqMensual) + '</td>'
-      + '<td style="padding:11px 8px;color:var(--gray5);text-align:right">' + (r.rentaBruta ? (parseFloat(r.rentaBruta)*100).toFixed(2)+'%' : '') + '</td>'
-      + '<td style="padding:11px 12px;color:var(--gray5);text-align:right">' + fmtNum(r.m2int) + '</td>'
-      + '<td style="padding:11px 12px;color:var(--gray5);text-align:right">' + fmtNum(r.m2extcub) + '</td>'
-      + '<td style="padding:11px 12px;color:var(--gray5);text-align:right">' + fmtNum(r.m2extdes) + '</td>'
-      + '<td style="padding:11px 12px;color:var(--gray5);text-align:right">' + fmtNum(r.m2com) + '</td>'
-      + '<td style="padding:11px 12px;color:var(--gray5);text-align:right">' + fmtNum(r.m2tot) + '</td>'
+      + '<td class="num" style="padding:11px 8px;color:var(--gray5);text-align:right;white-space:nowrap">' + fmtUSD(r.alqMensual) + '</td>'
+      + '<td class="num" style="padding:11px 8px;color:var(--gray5);text-align:right">' + (r.rentaBruta ? (parseFloat(r.rentaBruta)*100).toFixed(2)+'%' : '') + '</td>'
+      + '<td class="num" style="padding:11px 12px;color:var(--gray5);text-align:right">' + fmtNum(r.m2int) + '</td>'
+      + '<td class="num" style="padding:11px 12px;color:var(--gray5);text-align:right">' + fmtNum(r.m2extcub) + '</td>'
+      + '<td class="num" style="padding:11px 12px;color:var(--gray5);text-align:right">' + fmtNum(r.m2extdes) + '</td>'
+      + '<td class="num" style="padding:11px 12px;color:var(--gray5);text-align:right">' + fmtNum(r.m2com) + '</td>'
+      + '<td class="num" style="padding:11px 12px;color:var(--gray5);text-align:right">' + fmtNum(r.m2tot) + '</td>'
       + '</tr>';
   }).join('');
 }
@@ -2614,23 +2706,23 @@ function renderDash(){
       <div class="stat-n">+13</div><div class="stat-l">Años en el mercado</div>
       <div style="font-size:9px;color:var(--accent);letter-spacing:1px;margin-top:4px">+ info</div>
     </div>
-    <div class="stat-cell" style="cursor:pointer" onclick="showSec('proyectos',document.querySelectorAll('.nav-btn')[1]);document.getElementById('ctrl-obra').value='';renderProj()">
+    <div class="stat-cell" style="cursor:pointer" onclick="showSec('proyectos',navBtn('proyectos'));document.getElementById('ctrl-obra').value='';renderProj()">
       <div class="stat-n">${PROYECTOS.length}</div><div class="stat-l">Proyectos</div>
       <div style="font-size:9px;color:var(--accent);letter-spacing:1px;margin-top:4px">Ver todos ↗</div>
     </div>
-    <div class="stat-cell" style="cursor:pointer" onclick="showSec('proyectos',document.querySelectorAll('.nav-btn')[1]);document.getElementById('ctrl-obra').value='Terminado';renderProj()">
+    <div class="stat-cell" style="cursor:pointer" onclick="showSec('proyectos',navBtn('proyectos'));document.getElementById('ctrl-obra').value='Terminado';renderProj()">
       <div class="stat-n">${et}</div><div class="stat-l">Terminados</div>
       <div style="font-size:9px;color:var(--accent);letter-spacing:1px;margin-top:4px">+info ↗</div>
     </div>
-    <div class="stat-cell" style="cursor:pointer" onclick="showSec('proyectos',document.querySelectorAll('.nav-btn')[1]);document.getElementById('ctrl-obra').value='obra';renderProj()">
+    <div class="stat-cell" style="cursor:pointer" onclick="showSec('proyectos',navBtn('proyectos'));document.getElementById('ctrl-obra').value='obra';renderProj()">
       <div class="stat-n">${eo}</div><div class="stat-l">En obra</div>
       <div style="font-size:9px;color:var(--accent);letter-spacing:1px;margin-top:4px">+info ↗</div>
     </div>
-    <div class="stat-cell" style="cursor:pointer" onclick="showSec('proyectos',document.querySelectorAll('.nav-btn')[1]);document.getElementById('ctrl-obra').value='Pozo';renderProj()">
+    <div class="stat-cell" style="cursor:pointer" onclick="showSec('proyectos',navBtn('proyectos'));document.getElementById('ctrl-obra').value='Pozo';renderProj()">
       <div class="stat-n">${ep}</div><div class="stat-l">En pozo</div>
       <div style="font-size:9px;color:var(--accent);letter-spacing:1px;margin-top:4px">+info ↗</div>
     </div>
-    <div class="stat-cell" style="cursor:pointer" onclick="showSec('proyectos',document.querySelectorAll('.nav-btn')[1]);document.getElementById('ctrl-obra').value='Proyecto';renderProj()">
+    <div class="stat-cell" style="cursor:pointer" onclick="showSec('proyectos',navBtn('proyectos'));document.getElementById('ctrl-obra').value='Proyecto';renderProj()">
       <div class="stat-n">${epr}</div><div class="stat-l">En proyecto</div>
       <div style="font-size:9px;color:var(--accent);letter-spacing:1px;margin-top:4px">+info ↗</div>
     </div>`;
@@ -2674,7 +2766,7 @@ function renderBlog(){
   const counts={};livePosts.forEach(p=>counts[p.cat]=(counts[p.cat]||0)+1);
   document.getElementById('blog-cats').innerHTML=Object.entries(CAT).map(([k,v])=>`<div class="cat-stat-row"><span class="cat-stat-lbl ${v.cls}">${v.lbl}</span><span class="cat-stat-n">${counts[k]||0}</span></div>`).join('');
   const projs=[...new Set(livePosts.map(p=>p.proyecto).filter(Boolean))];
-  document.getElementById('blog-projs').innerHTML=projs.map(n=>`<div class="cat-stat-row" style="cursor:pointer" onclick="showSec('proyectos',document.querySelectorAll('.nav-btn')[1])"><span class="cat-stat-lbl">${n}</span><span style="font-size:10px;color:var(--gray3)">→</span></div>`).join('');
+  document.getElementById('blog-projs').innerHTML=projs.map(n=>`<div class="cat-stat-row" style="cursor:pointer" onclick="showSec('proyectos',navBtn('proyectos'))"><span class="cat-stat-lbl">${n}</span><span style="font-size:10px;color:var(--gray3)">→</span></div>`).join('');
 }
 window.renderBlog = renderBlog;
 function filterBlog(cat,btn){bFilter=cat;document.querySelectorAll('.cat-btn2').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderBlog()}
@@ -2797,7 +2889,7 @@ function clickNotif(id){
   if(!readIds.includes(id)){readIds.push(id);localStorage.setItem(getReadKey(),JSON.stringify(readIds));}
   updateNotifBadge();
   document.getElementById('notif-panel').style.display='none';
-  showSec('blog',document.querySelectorAll('.nav-btn')[2]);
+  showSec('blog',navBtn('blog'));
 }
 
 function markAllRead(){
