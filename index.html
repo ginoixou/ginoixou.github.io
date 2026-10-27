@@ -886,6 +886,8 @@ function loadNovedades() {
     };
     data.forEach(function(p) {
       if (p.cat && catLabelToKey[p.cat]) p.cat = catLabelToKey[p.cat];
+      /* Imágenes alojadas en sitios anteriores → carpeta imgs/ del portal */
+      if (p.imgUrl) p.imgUrl = String(p.imgUrl).trim().replace(/^https?:\/\/(www\.)?ixou\.la\/inmobiliarias\/imgs\//, '/imgs/').replace(/^https?:\/\/ginoixou\.github\.io\/imgs\//, '/imgs/');
     });
     /* Normalize fecha from Sheets long format to dd/mm/yyyy */
     data.forEach(function(p) {
@@ -906,7 +908,7 @@ function loadNovedades() {
     var dn = document.getElementById('dash-news');
     if (dn) dn.innerHTML = livePosts.slice(0,8).map(function(p){
       return '<div style="padding:14px;background:var(--black2);cursor:pointer;transition:background .15s" onmouseover="this.style.background=\'var(--black3)\'" onmouseout="this.style.background=\'var(--black2)\'" onclick="window.openPost('+String(p.id)+')">'
-        +(p.imgUrl&&p.imgUrl.length>4?'<img src="'+p.imgUrl+'" style="width:100%;height:90px;object-fit:cover;margin-bottom:8px;opacity:.85">':'')
+        +(p.imgUrl&&p.imgUrl.length>4?'<img src="'+p.imgUrl+'" style="width:100%;height:90px;object-fit:cover;margin-bottom:8px;opacity:.85" onerror="this.style.display=\'none\'">':'')
         +'<div style="font-size:11px;font-weight:500;color:var(--white);line-height:1.4;margin-bottom:4px">'+p.titulo+'</div>'
         +'<div style="font-size:10px;color:var(--gray4)">'+p.fecha+'</div>'
         +'</div>';
@@ -2687,7 +2689,7 @@ function renderDashNews() {
     <div style="padding:14px;background:var(--black2);cursor:pointer;transition:background .15s"
          onmouseover="this.style.background='var(--black3)'" onmouseout="this.style.background='var(--black2)'"
          onclick="window.openPost(${p.id})">
-      ${p.imgUrl?`<img src="${p.imgUrl}" style="width:100%;height:90px;object-fit:cover;margin-bottom:8px;opacity:.85">`:''} 
+      ${p.imgUrl?`<img src="${p.imgUrl}" style="width:100%;height:90px;object-fit:cover;margin-bottom:8px;opacity:.85" onerror="this.style.display='none'">`:''} 
       <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
         <span class="${CAT[p.cat].cls}" style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase">${CAT[p.cat].lbl}</span>
         <span style="font-size:10px;color:var(--gray4)">${p.fecha}</span>
@@ -2953,7 +2955,7 @@ function openPost(id) {
       </div>
     </div>
     <div class="modal-body">
-      ${p.imgUrl&&p.imgUrl.length>4 ? `<img src="${p.imgUrl}" alt="" style="width:100%;height:220px;object-fit:cover;margin-bottom:1.5rem;display:block">` : ''}
+      ${p.imgUrl&&p.imgUrl.length>4 ? `<img src="${p.imgUrl}" alt="" style="width:100%;height:220px;object-fit:cover;margin-bottom:1.5rem;display:block" onerror="this.style.display='none'">` : ''}
       ${p.logos ? `<div style="display:flex;gap:12px;align-items:center;margin-bottom:16px;flex-wrap:wrap">
         ${p.logos.map(src=>`<img src="${src}" style="height:52px;width:auto;background:#fff;padding:4px 8px;border-radius:2px">`).join('')}
       </div>` : ''}
@@ -3040,7 +3042,7 @@ window.nextPost = nextPost;
 
       <div>
         <label style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray4);display:block;margin-bottom:6px">URL de imagen (opcional)</label>
-        <input id="pub-img" class="ctrl-in" placeholder="https://ginoixou.github.io/imgs/..." style="width:100%;box-sizing:border-box">
+        <input id="pub-img" class="ctrl-in" placeholder="https://www.ixouinmobiliarias.com.uy/imgs/..." style="width:100%;box-sizing:border-box">
       </div>
 
       <div>
