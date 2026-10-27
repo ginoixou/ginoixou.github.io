@@ -888,6 +888,8 @@ function loadNovedades() {
       if (p.cat && catLabelToKey[p.cat]) p.cat = catLabelToKey[p.cat];
       /* Imágenes alojadas en sitios anteriores → carpeta imgs/ del portal */
       if (p.imgUrl) p.imgUrl = String(p.imgUrl).trim().replace(/^https?:\/\/(www\.)?ixou\.la\/inmobiliarias\/imgs\//, '/imgs/').replace(/^https?:\/\/ginoixou\.github\.io\/imgs\//, '/imgs/');
+      /* Versión en la dirección: evita que el navegador reutilice una respuesta vieja guardada en caché */
+      if (p.imgUrl && /\/imgs\//.test(p.imgUrl) && p.imgUrl.indexOf('?') < 0) p.imgUrl += '?v=2';
     });
     /* Normalize fecha from Sheets long format to dd/mm/yyyy */
     data.forEach(function(p) {
