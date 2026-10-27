@@ -2253,7 +2253,9 @@ function calcProject(keys) {
   return rows;
 }
 
-function calcDefaults(c, nObra) {
+function calcDefaults(c, nObra, terminado) {
+  /* Edificios terminados (y BRUSCO, que se vende con condiciones de terminado): 100% a la entrega */
+  if (terminado) return {ccv: 0, obra: 0, ent: 100, fin: 0, plazo: Math.min(48, calcNum(c.finPlazo, 48)), freq: 'm', esp: [], modo: 'sumar'};
   var res = calcNum(c.reserva, 0.1), ccv = calcNum(c.ccv, 0), obra = calcNum(c.obra, 0), ent = calcNum(c.entrega, 0);
   var compromiso = ccv > 0 ? ccv : res;            /* sin CCV (ALMA): la reserva es el pago al compromiso */
   if (nObra === 0 && obra > 0) { ent += obra; obra = 0; }   /* sin cuotas de obra disponibles: va a la ocupación */
@@ -2305,8 +2307,9 @@ function showCalc(push) {
     showFicha('/calculadora' + window._calcQS); return;
   }
   var nObra = Math.max(0, Math.floor(calcNum(c.cuotasObra, 0)));
-  var d = calcDefaults(c, nObra);
-  var st = {keys: rows.map(buKey), rows: rows, p: p, c: c, nObra: nObra, std: d};
+  var terminado = String(p.obra || '').toLowerCase() === 'terminado';
+  var d = calcDefaults(c, terminado ? 0 : nObra, terminado);
+  var st = {keys: rows.map(buKey), rows: rows, p: p, c: c, nObra: terminado ? 0 : nObra, std: d, terminado: terminado};
   ['ccv', 'obra', 'ent', 'fin', 'plazo', 'freq', 'modo'].forEach(function(k){ st[k] = parsed[k] != null ? parsed[k] : d[k]; });
   st.esp = parsed.esp || [];
   window._calcState = st;
@@ -2325,12 +2328,12 @@ function calcRenderForm() {
   fichaBox().innerHTML = '<div class="calc-wrap">'
     + '<div class="calc-form">'
     + '<div class="modal-sec-title">Forma de pago</div>'
-    + '<p class="cf-std">Plan estándar ' + escH(st.p.nombre) + ': ' + calcPct(std.ccv / 100) + ' compromiso' + (calcNum(c.ccv, 0) > 0 ? ' (incluye ' + calcPct(calcNum(c.reserva, .1)) + ' de reserva)' : '') + ' · ' + calcPct(std.obra / 100) + ' obra · ' + calcPct(std.ent / 100) + ' ocupación'
+    + '<p class="cf-std">Plan estándar ' + escH(st.p.nombre) + (st.terminado ? ' (edificio terminado): 100,00% a la entrega' : ': ' + calcPct(std.ccv / 100) + ' compromiso' + (calcNum(c.ccv, 0) > 0 ? ' (incluye ' + calcPct(calcNum(c.reserva, .1)) + ' de reserva)' : '') + ' · ' + calcPct(std.obra / 100) + ' obra · ' + calcPct(std.ent / 100) + ' ocupación')
     + (n === 0 && calcNum(c.obra, 0) > 0 ? '<br><span style="color:#E8A870">Sin cuotas de obra disponibles: el % de obra se suma a la ocupación.</span>' : '') + '</p>'
-    + inp('cf-ccv', 'Pago al compromiso %', st.ccv, calcNum(c.ccv, 0) > 0 ? 'Mínimo 30%, incluye la reserva' : 'Incluye la reserva')
+    + inp('cf-ccv', 'Pago al compromiso %', st.ccv, st.terminado ? 'Opcional' : (calcNum(c.ccv, 0) > 0 ? 'Mínimo 30%, incluye la reserva' : 'Incluye la reserva'))
     + inp('cf-obra', 'En obra %', st.obra, n ? n + ' meses de obra disponibles' : 'Sin cuotas de obra')
     + '<label class="cf-f"><span>Frecuencia de cuotas en obra</span><select id="cf-freq" onchange="calcInput()">' + opt('m', 'Mensuales', n) + opt('t', 'Trimestrales', nt) + opt('s', 'Semestrales', ns) + '</select><em></em></label>'
-    + inp('cf-ent', 'A la ocupación %', st.ent, '')
+    + inp('cf-ent', st.terminado ? 'A la entrega %' : 'A la ocupación %', st.ent, '')
     + inp('cf-fin', 'Financiación directa IXOU %', st.fin, 'Postocupación · máx. ' + finMax + '% · ' + calcPct(calcNum(c.finTasa, .075)) + ' anual')
     + '<label class="cf-f"><span>Plazo financiación (meses)</span><input id="cf-plazo" type="number" step="1" min="1" max="' + finPlazo + '" value="' + st.plazo + '" oninput="calcInput()"><em>Máximo ' + finPlazo + ' meses</em></label>'
     + '<div class="cf-sum" id="cf-sum"></div>'
@@ -2405,7 +2408,7 @@ function calcCompute(st, today) {
   var hoy = today || new Date();
   var sum = st.ccv + st.obra + st.ent + st.fin;
   if (Math.abs(sum - 100) > 0.001) err.push('Los porcentajes suman ' + calcPct(sum / 100) + '; deben sumar 100%.');
-  var minC = calcNum(c.ccv, 0) > 0 ? 30 : calcNum(c.reserva, .1) * 100;
+  var minC = st.terminado ? 0 : (calcNum(c.ccv, 0) > 0 ? 30 : calcNum(c.reserva, .1) * 100);
   if (st.ccv < minC - 1e-9) err.push('El pago al compromiso debe ser al menos ' + calcPct(minC / 100) + (calcNum(c.ccv, 0) > 0 ? ' (incluye la reserva).' : ' (reserva).'));
   var finMax = calcNum(c.finMax, .5) * 100, finPlazo = calcNum(c.finPlazo, 48);
   if (st.fin > finMax + 1e-9) err.push('La financiación directa IXOU no puede superar el ' + calcPct(finMax / 100) + '.');
@@ -2471,12 +2474,12 @@ function calcRender() {
   } else {
     h += '<table class="cs-tab"><thead><tr><th></th><th>Cantidad</th><th>%</th><th>USD</th></tr></thead><tbody>'
       + row('Precio de venta', '', '100,00%', R.P, 'cs-strong')
-      + row('Pago al compromiso' + (calcNum(c.ccv, 0) > 0 ? ' <small>(incluye ' + calcPct(calcNum(c.reserva, .1)) + ' de reserva)</small>' : ' <small>(reserva)</small>'), '', calcPct(st.ccv / 100), R.compromisoUSD)
+      + (st.terminado && !(st.ccv > 0) ? '' : row('Pago al compromiso' + (st.terminado ? '' : calcNum(c.ccv, 0) > 0 ? ' <small>(incluye ' + calcPct(calcNum(c.reserva, .1)) + ' de reserva)</small>' : ' <small>(reserva)</small>'), '', calcPct(st.ccv / 100), R.compromisoUSD))
       + R.esp.map(function(e){ return row('Pago especial ' + escH(ymLabel(e.mes)), 1, calcPct(e.monto / R.P), e.monto); }).join('')
       + (R.nCuotas && R.cuotaObra > 0.5 ? row('Cuotas ' + freqL + ' en obra <small>(cada una)</small>', R.nCuotas, calcPct(R.cuotaObra * R.nCuotas / R.P), R.cuotaObra) : '')
-      + (st.ent > 0 ? row(ocTxt === 'Inmediata' ? 'Pago a la escrituración' : 'Pago a la ocupación', '', calcPct(st.ent / 100), R.entUSD) : '')
-      + row('Total hasta ocupar', '', calcPct((st.ccv + st.obra + st.ent) / 100), R.hastaOcupar, 'cs-strong')
-      + (st.fin > 0 ? row('Saldo postocupación (directo IXOU)', '', calcPct(st.fin / 100), R.finUSD)
+      + (st.ent > 0 ? row(st.terminado ? 'Pago a la entrega' : ocTxt === 'Inmediata' ? 'Pago a la escrituración' : 'Pago a la ocupación', '', calcPct(st.ent / 100), R.entUSD) : '')
+      + row(st.terminado ? 'Total a la entrega' : 'Total hasta ocupar', '', calcPct((st.ccv + st.obra + st.ent) / 100), R.hastaOcupar, 'cs-strong')
+      + (st.fin > 0 ? row(st.terminado ? 'Saldo financiado (directo IXOU)' : 'Saldo postocupación (directo IXOU)', '', calcPct(st.fin / 100), R.finUSD)
         + row('Cuotas financiación directa <small>(' + calcPct(R.tasa) + ' anual · desde ' + escH(ymLabel(R.primerFin)) + ')</small>', st.plazo, '', R.cuotaFin)
         + row('Total financiación con intereses', '', '', R.finTotal) : '')
       + row('Gastos de Ocupación', '', gTxt, R.gastos, 'cs-sep')
