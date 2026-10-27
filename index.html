@@ -285,6 +285,9 @@ html,body{margin:0;padding:0;background:var(--black);color:var(--white);font-fam
   .nav-btn{font-size:10.5px;padding:8px 7px}
   .hdr-logo-name{font-size:16px}
 }
+/* ══ PUBLICAR: adjuntar imagen ══ */
+.pub-drop{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:12px;border:1px dashed var(--gray2);background:var(--black3);font-size:12px;color:var(--gray4)}
+.pub-drop.over{border-color:var(--accent);background:rgba(200,213,176,.08)}
 /* ══ SOBRE IXOU ══ */
 .sb-hero{min-height:540px;background-size:cover;background-position:52% 16%;display:flex;align-items:flex-end}
 .sb-hero-in{max-width:1100px;width:100%;margin:0 auto;padding:3rem 2rem 2.5rem}
@@ -1137,6 +1140,7 @@ function openPublishModal() {
   var s = document.getElementById('pub-submit'); if (s) { s.textContent = 'Publicar'; s.disabled = false; s.style.opacity = '1'; }
   /* Clear all fields */
   ['pub-title','pub-img'].forEach(function(id){ var el=document.getElementById(id); if(el) el.value=''; });
+  pubImgPreview(); var _st = document.getElementById('pub-img-status'); if (_st) _st.textContent = '';
   ['pub-resumen','pub-body'].forEach(function(id){ var el=document.getElementById(id); if(el) el.value=''; });
   var cat = document.getElementById('pub-cat'); if (cat) cat.selectedIndex = 0;
   /* Populate project selector */
@@ -1160,6 +1164,52 @@ function openPublishModal() {
   document.getElementById('publish-modal').style.display = 'flex';
 }
 
+/* ── Adjuntar imagen: se achica en el navegador y se guarda en Drive (servidor) ── */
+function pubImgPreview() {
+  var u = (document.getElementById('pub-img') || {}).value || '', box = document.getElementById('pub-img-prev');
+  if (!box) return;
+  u = u.trim();
+  if (!/^(https?:\/\/|\/imgs\/)/.test(u)) { box.style.display = 'none'; return; }
+  box.querySelector('img').src = u; box.style.display = 'block';
+}
+function pubImgClear() { var i = document.getElementById('pub-img'); if (i) i.value = ''; pubImgPreview(); var st = document.getElementById('pub-img-status'); if (st) st.textContent = ''; }
+function pubImgFile(file) {
+  var st = document.getElementById('pub-img-status'), btn = document.getElementById('pub-submit');
+  if (!file) return;
+  if (!/^image\/(jpeg|png|webp)$/.test(file.type)) { st.style.color = '#E8A870'; st.textContent = 'Formato no admitido: usá JPG, PNG o WEBP.'; return; }
+  st.style.color = 'var(--gray4)'; st.textContent = 'Preparando imagen…';
+  if (btn) { btn.disabled = true; btn.style.opacity = '.5'; }
+  var done = function(msg, ok) {
+    st.style.color = ok ? 'var(--accent)' : '#E8A870'; st.textContent = msg;
+    if (btn) { btn.disabled = false; btn.style.opacity = '1'; }
+  };
+  createImageBitmap(file).then(function(bmp) {
+    var MAX = 1600, sc = Math.min(1, MAX / Math.max(bmp.width, bmp.height));
+    var keepPng = file.type === 'image/png' && file.size < 1500000;   /* PNG chicos (logos, QR) se mantienen nítidos */
+    if (sc === 1 && (keepPng || (file.type !== 'image/png' && file.size < 900000))) return file;
+    var c = document.createElement('canvas'); c.width = Math.round(bmp.width * sc); c.height = Math.round(bmp.height * sc);
+    var ctx = c.getContext('2d');
+    if (!keepPng) { ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, c.width, c.height); }
+    ctx.drawImage(bmp, 0, 0, c.width, c.height);
+    return new Promise(function(res) { c.toBlob(res, keepPng ? 'image/png' : 'image/jpeg', .85); });
+  }).then(function(blob) {
+    return new Promise(function(res, rej) { var r = new FileReader(); r.onload = function(){ res([blob, String(r.result).split(',')[1]]); }; r.onerror = rej; r.readAsDataURL(blob); });
+  }).then(function(a) {
+    st.textContent = 'Subiendo imagen (' + Math.round(a[0].size / 1024) + ' KB)…';
+    return apiPost({mode: 'uploadImagen', name: file.name || 'imagen', mime: a[0].type, data: a[1]});
+  }).then(function(d) {
+    if (!d || !d.ok) { done('No se pudo subir la imagen' + (d && d.error ? ': ' + d.error : '.'), false); return; }
+    document.getElementById('pub-img').value = d.url; pubImgPreview();
+    done('✓ Imagen subida y guardada en Drive.', true);
+  }).catch(function(e) { done('No se pudo subir la imagen: ' + (e && e.message || e), false); });
+}
+document.addEventListener('paste', function(e) {
+  var m = document.getElementById('publish-modal');
+  if (!m || m.style.display === 'none' || !e.clipboardData) return;
+  var it = [].slice.call(e.clipboardData.items || []).find(function(x){ return x.kind === 'file' && /^image\//.test(x.type); });
+  if (it) { e.preventDefault(); pubImgFile(it.getAsFile()); }
+});
+window.pubImgFile = pubImgFile; window.pubImgPreview = pubImgPreview; window.pubImgClear = pubImgClear;
 function closePublishModal() {
   document.getElementById('publish-modal').style.display = 'none';
 }
@@ -1179,7 +1229,8 @@ function editPost(id) {
   document.getElementById('pub-title').value   = p.titulo  || '';
   document.getElementById('pub-resumen').value = p.resumen || '';
   document.getElementById('pub-body').value    = p.body    || p.resumen || '';
-  document.getElementById('pub-img').value     = p.imgUrl  || '';
+  document.getElementById('pub-img').value     = String(p.imgUrl || '').replace(/\?v=2$/, '');
+  pubImgPreview();
   /* Set category */
   var catEl = document.getElementById('pub-cat');
   if (catEl && p.cat) {
@@ -3043,8 +3094,15 @@ window.nextPost = nextPost;
       </div>
 
       <div>
-        <label style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray4);display:block;margin-bottom:6px">URL de imagen (opcional)</label>
-        <input id="pub-img" class="ctrl-in" placeholder="https://www.ixouinmobiliarias.com.uy/imgs/..." style="width:100%;box-sizing:border-box">
+        <label style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray4);display:block;margin-bottom:6px">Imagen (opcional)</label>
+        <div id="pub-img-drop" class="pub-drop" ondragover="event.preventDefault();this.classList.add('over')" ondragleave="this.classList.remove('over')" ondrop="event.preventDefault();this.classList.remove('over');pubImgFile(event.dataTransfer.files[0])">
+          <input type="file" id="pub-img-file" accept="image/jpeg,image/png,image/webp" style="display:none" onchange="pubImgFile(this.files[0]);this.value=''">
+          <button type="button" class="bu-linkbtn" onclick="document.getElementById('pub-img-file').click()">📎 Adjuntar imagen</button>
+          <span>o arrastrala acá, o pegala con Cmd+V / Ctrl+V</span>
+        </div>
+        <div id="pub-img-status" style="font-size:11px;color:var(--gray4);min-height:16px;margin:6px 0 4px"></div>
+        <input id="pub-img" class="ctrl-in" placeholder="…o pegá el enlace de una imagen" oninput="pubImgPreview()" style="width:100%;box-sizing:border-box">
+        <div id="pub-img-prev" style="display:none;margin-top:8px;position:relative;background:var(--black3);text-align:center"><img alt="" style="display:block;margin:0 auto;max-width:100%;max-height:220px" onerror="this.parentElement.style.display='none'"><button type="button" onclick="pubImgClear()" title="Quitar imagen" style="position:absolute;top:6px;right:6px;background:rgba(0,0,0,.7);border:1px solid var(--gray2);color:#fff;width:26px;height:26px;cursor:pointer">✕</button></div>
       </div>
 
       <div>
