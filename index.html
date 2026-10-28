@@ -2307,7 +2307,8 @@ function showCalc(push) {
     showFicha('/calculadora' + window._calcQS); return;
   }
   var nObra = Math.max(0, Math.floor(calcNum(c.cuotasObra, 0)));
-  var terminado = String(p.obra || '').toLowerCase() === 'terminado';
+  /* Terminados, BRUSCO y proyectos sin plazo para cuotas de obra: 100% a la entrega */
+  var terminado = String(p.obra || '').toLowerCase() === 'terminado' || nObra === 0;
   var d = calcDefaults(c, terminado ? 0 : nObra, terminado);
   var st = {keys: rows.map(buKey), rows: rows, p: p, c: c, nObra: terminado ? 0 : nObra, std: d, terminado: terminado};
   ['ccv', 'obra', 'ent', 'fin', 'plazo', 'freq', 'modo'].forEach(function(k){ st[k] = parsed[k] != null ? parsed[k] : d[k]; });
@@ -2328,7 +2329,7 @@ function calcRenderForm() {
   fichaBox().innerHTML = '<div class="calc-wrap">'
     + '<div class="calc-form">'
     + '<div class="modal-sec-title">Forma de pago</div>'
-    + '<p class="cf-std">Plan estándar ' + escH(st.p.nombre) + (st.terminado ? ' (edificio terminado): 100,00% a la entrega' : ': ' + calcPct(std.ccv / 100) + ' compromiso' + (calcNum(c.ccv, 0) > 0 ? ' (incluye ' + calcPct(calcNum(c.reserva, .1)) + ' de reserva)' : '') + ' · ' + calcPct(std.obra / 100) + ' obra · ' + calcPct(std.ent / 100) + ' ocupación')
+    + '<p class="cf-std">Plan estándar ' + escH(st.p.nombre) + (st.terminado ? (String(st.p.obra || '').toLowerCase() === 'terminado' ? ' (edificio terminado)' : ' (sin plazo para cuotas de obra)') + ': 100,00% a la entrega' : ': ' + calcPct(std.ccv / 100) + ' compromiso' + (calcNum(c.ccv, 0) > 0 ? ' (incluye ' + calcPct(calcNum(c.reserva, .1)) + ' de reserva)' : '') + ' · ' + calcPct(std.obra / 100) + ' obra · ' + calcPct(std.ent / 100) + ' ocupación')
     + (n === 0 && calcNum(c.obra, 0) > 0 ? '<br><span style="color:#E8A870">Sin cuotas de obra disponibles: el % de obra se suma a la ocupación.</span>' : '') + '</p>'
     + inp('cf-ccv', 'Pago al compromiso %', st.ccv, st.terminado ? 'Opcional' : (calcNum(c.ccv, 0) > 0 ? 'Mínimo 30%, incluye la reserva' : 'Incluye la reserva'))
     + inp('cf-obra', 'En obra %', st.obra, n ? n + ' meses de obra disponibles' : 'Sin cuotas de obra')
