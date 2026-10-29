@@ -2345,7 +2345,8 @@ function calcRenderForm() {
     + '<label class="cf-f" style="margin-top:8px"><span>Las cuotas del mes del pago especial</span><select id="cf-modo" onchange="calcInput()"><option value="sumar"' + (st.modo === 'sumar' ? ' selected' : '') + '>Se mantienen (se suman)</option><option value="reemplazar"' + (st.modo === 'reemplazar' ? ' selected' : '') + '>Se reemplazan</option></select><em></em></label>'
     + '<div class="cf-actions">'
     + '<button class="bu-linkbtn" onclick="calcReset()" style="background:none;border-color:var(--gray2);color:var(--gray4)">Volver al plan estándar</button>'
-    + '<button class="bu-linkbtn" onclick="calcPrint()">⎙ Descargar PDF</button>'
+    + '<button class="bu-linkbtn" id="cf-pdf" onclick="calcPdf(this)">⬇ Descargar PDF</button>'
+    + '<button class="bu-linkbtn" onclick="calcPrint()" style="background:none;border-color:var(--gray2);color:var(--gray4)">⎙ Imprimir</button>'
     + '<button class="bu-linkbtn" onclick="calcCopyLink(this)">🔗 Copiar enlace</button>'
     + '</div>'
     + '<div id="cf-err"></div>'
@@ -2393,6 +2394,47 @@ function calcCopyLink(btn) {
   if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(done, function(){ prompt('Copiá este enlace:', url); });
   else prompt('Copiá este enlace:', url);
 }
+/* Descarga directa del PDF: la propuesta se dibuja como imagen (html2canvas) en una hoja A4 (jsPDF) */
+var _h2cPromise = null;
+function loadHtml2canvas() {
+  if (window.html2canvas) return Promise.resolve();
+  if (!_h2cPromise) _h2cPromise = new Promise(function(res, rej) {
+    var sc = document.createElement('script');
+    sc.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+    sc.onload = res; sc.onerror = function(){ _h2cPromise = null; rej(new Error('No se pudo cargar html2canvas')); };
+    document.head.appendChild(sc);
+  });
+  return _h2cPromise;
+}
+function calcPdf(btn) {
+  var sheet = document.getElementById('calc-sheet');
+  if (!sheet || sheet.querySelector('.cs-invalid')) { alert('Corregí la forma de pago antes de descargar el PDF.'); return; }
+  var st = window._calcState;
+  var nombre = ('Propuesta ' + st.p.nombre + ' ' + st.rows.map(function(r){ return r.unidad; }).join('-')).replace(/[\\/:*?"<>|]+/g, '-') + '.pdf';
+  var orig = btn ? btn.innerHTML : '';
+  if (btn) { btn.disabled = true; btn.textContent = 'Generando PDF…'; }
+  /* Copia fuera de pantalla con ancho fijo, para que el PDF salga igual desde el celular */
+  var wrap = document.createElement('div');
+  wrap.style.cssText = 'position:fixed;left:-10000px;top:0;width:760px;background:#fff';
+  var clone = sheet.cloneNode(true); clone.removeAttribute('id');
+  clone.style.cssText = 'background:#fff;color:#1a1a1a;font-family:\'Space Mono\',monospace;padding:36px 40px;width:760px;box-sizing:border-box;font-size:12px;box-shadow:none;max-width:none';
+  wrap.appendChild(clone); document.body.appendChild(wrap);
+  var fin = function(){ wrap.remove(); if (btn) { btn.disabled = false; btn.innerHTML = orig; } };
+  Promise.all([loadHtml2canvas(), document.fonts ? document.fonts.ready : null]).then(function() {
+    return html2canvas(clone, {scale: 2, backgroundColor: '#ffffff', useCORS: true, logging: false});
+  }).then(function(canvas) {
+    var pdf = new jspdf.jsPDF({orientation: 'portrait', unit: 'mm', format: 'a4'});
+    var pw = 210, ph = 297, m = 12, w = pw - 2 * m, h = canvas.height * w / canvas.width;
+    if (h > ph - 2 * m) { h = ph - 2 * m; w = canvas.width * h / canvas.height; }
+    pdf.addImage(canvas.toDataURL('image/jpeg', 0.92), 'JPEG', (pw - w) / 2, m, w, h);
+    pdf.save(nombre);
+    fin();
+  }).catch(function(e) {
+    fin();
+    if (confirm('No se pudo generar el PDF (' + (e && e.message || e) + '). ¿Abrir la impresión del navegador para guardarlo como PDF?')) calcPrint();
+  });
+}
+window.calcPdf = calcPdf;
 function calcPrint() {
   if (document.querySelector('#calc-sheet .cs-invalid')) { alert('Corregí la forma de pago antes de descargar el PDF.'); return; }
   var t = document.title; document.title = 'Propuesta ' + window._calcState.p.nombre + ' ' + window._calcState.rows.map(function(r){ return r.unidad; }).join('-');
