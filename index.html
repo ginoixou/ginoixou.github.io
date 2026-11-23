@@ -1749,6 +1749,17 @@ window.addEventListener('popstate', function() {
 function handleRoute() {
   var parts = location.pathname.split('/').filter(Boolean).map(function(x){ try { return decodeURIComponent(x); } catch (e) { return x; } });
   if (!parts.length) return;
+  if (parts[0] === 'novedades') {
+    /* /novedades abre la pestaña Novedades; /novedades/ID abre además esa publicación (equivale a /?post=ID) */
+    var postId = parts[1] || '';
+    if (postId) { try { history.replaceState(null, '', '/?post=' + encodeURIComponent(postId)); } catch (e) {} }
+    showSec('blog', navBtn('blog'));
+    if (postId && window._postFromUrlHandled && typeof livePosts !== 'undefined') {
+      var pp = livePosts.find(function(x){ return String(x.id) === String(postId); });
+      if (pp) window.openPost(pp.id);
+    }
+    return;
+  }
   if (parts[0] === 'calculadora') { if (!window._fichaPushed) window._curSec = 'buscador'; window._calcQS = location.search; showCalc(false); return; }
   if (parts[0] === 'precios') { window._pendingPrecios = location.search; showSec('buscador'); if (buLoaded) renderBuscador(); return; }
   var p = findProyecto(projSlug(parts[0]));
